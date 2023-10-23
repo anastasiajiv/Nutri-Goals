@@ -11,7 +11,9 @@ Christine was recently told by her doctor that she is iron deficient. She wants 
 Proposed (Main) Entities for the Domain:
 User
 (Attributes): UserID, email, password, dietary restrictions
+
 MealPlan
 (Attributes): MealplanID, Recipes, UserID
+
 Recipe
 (Attributes):RecipeID, name, ingredients, calories
