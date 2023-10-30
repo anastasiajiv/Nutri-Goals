@@ -8,7 +8,7 @@ public interface User {
 
     String getPassword();
 
-    LocalDateTime getCreationTime();
+    LocalDateTime getCreationTime(); // Optional to add
 
     double getUserHeight();
 
