@@ -6,6 +6,12 @@ package src.app;
 //import view.LoginView;
 //import view.SignupView;
 //import view.ViewManager;
+//import interface_adapter.LoginViewModel;
+//import interface_adapter.SignupViewModel;
+//import interface_adapter.ViewManagerModel;
+//import view.LoginView;
+//import view.SignupView;
+//import view.ViewManager;
 
 
 import src.entity.CommonUser;
@@ -16,8 +22,8 @@ import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) {
-        //System.out.println("hello world");
-        CommonUser user = new CommonUser(1, "Aarya Bhardawaj", "dario", LocalDateTime.now(),
+        System.out.println("hello world");
+        CommonUser user = new CommonUser("Aarya Bhardawaj", "dario", LocalDateTime.now(),
                 175, 63.5, 19, 3,
                 new HashMap<>());
         System.out.println(user.getName());
@@ -28,10 +34,7 @@ public class Main {
         System.out.println(user.getUserExcerciseLevel());
         System.out.println(user.getPassword());
         System.out.println(user.getCreationTime());
-        System.out.println(user.getUserId);
         System.out.println(user); // -> data access save to csv
-
 
     }
 }
-
