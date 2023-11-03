@@ -1,6 +1,7 @@
 package src.entity;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 public interface User {
 
@@ -8,7 +9,7 @@ public interface User {
 
     String getPassword();
 
-    LocalDateTime getCreationTime();
+    LocalDateTime getCreationTime(); // Optional to add
 
     double getUserHeight();
 
@@ -19,6 +20,8 @@ public interface User {
     int getUserExcerciseLevel(); // Excersice level will be in a range from 1 - 5 --> Specify each levels
                                 // logistics in the ReadMe file
 
-    String getUserRestriction(); // Restriction type will be stored as a hashmap <String(Restriction Type),
+    HashMap<String, Boolean> getUserRestriction(); // Restriction type will be stored as a hashmap <String(Restriction Type),
                                 // Boolean(Weather user clicked this option or not)>
+
+
 }
