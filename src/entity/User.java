@@ -5,8 +5,6 @@ import java.util.HashMap;
 
 public interface User {
 
-    int getUserId();
-
     String getName();
 
     String getPassword();
