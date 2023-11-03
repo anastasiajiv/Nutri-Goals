@@ -1,2 +1,5 @@
-package src.use_case.nutrients;public interface NutrientsInputBoundary {
+package src.use_case.nutrients;
+
+public interface NutrientsInputBoundary {
+
 }
