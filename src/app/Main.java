@@ -38,17 +38,25 @@ public class Main {
         HashMap<String, Double> recipeIngredients = new HashMap<>();
         recipeIngredients.put("Eggs", 4.0);
         recipeIngredients.put("Bread", 2.0);
-        HashMap<Integer, HashMap<String, ArrayList<String>>> savedRecipes = new HashMap<>();
+
+        HashMap<String, Boolean> recipeType = new HashMap<>();
+        recipeType.put("Breakfeast", Boolean.TRUE);
+        recipeType.put("Lunch", Boolean.FALSE);
+        recipeType.put("Dinner", Boolean.FALSE);
+
+
 
 
         CommonRecipe recipe = new CommonRecipe(1234,"Omlette",
-                recipeIngredients, "Insert instuctions", savedRecipes);
+                recipeIngredients, "Insert instuctions", recipeType);
 
 
         System.out.println(recipe.getRecipeId());
         System.out.println(recipe.getRecipeName());
         System.out.println(recipe.getRecipeIngredients());
         System.out.println(recipe.getRecipeInstructions());
+        System.out.println(recipe.getRecipeType());
+
 
 
     }
