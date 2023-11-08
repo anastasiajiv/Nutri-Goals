@@ -1,7 +1,9 @@
 package src.entity;
 
-import java.util.ArrayList;
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommonRecipe implements Recipe {
 
@@ -13,14 +15,18 @@ public class CommonRecipe implements Recipe {
 
     private final String recipeInstructions;
 
-    private final HashMap<Integer, HashMap<String, ArrayList<String>>> savedRecipes;
+    private final HashMap<String, Boolean> recipeType;
 
-    public CommonRecipe(int recipeId, String recipeName, HashMap<String, Double> recipeIngredients, String recipeInstructions, HashMap<Integer, HashMap<String, ArrayList<String>>> savedRecipes) {
+
+    public CommonRecipe(int recipeId, String recipeName, HashMap<String, Double> recipeIngredients,
+                        String recipeInstructions, HashMap<String, Boolean> recipeType) {
         this.recipeId = recipeId;
         this.recipeName = recipeName;
         this.recipeIngredients = recipeIngredients;
         this.recipeInstructions = recipeInstructions;
-        this.savedRecipes = savedRecipes;
+
+        this.recipeType = recipeType;
+
     }
 
 
@@ -45,7 +51,23 @@ public class CommonRecipe implements Recipe {
     }
 
     @Override
-    public HashMap<Integer, HashMap<String, ArrayList<String>>> savedRecipes() {
-        return savedRecipes;
+    public HashMap<String, Boolean> recipeType() {
+        return recipeType;
     }
+
+    @Override
+    public String getRecipeType() {
+        for (Map.Entry<String, Boolean> entry : recipeType.entrySet()) {
+            if (entry.getValue() == Boolean.TRUE) {
+                return entry.getKey();
+            }
+        }
+        return "Did not find a type";
+    }
+
+
+//    @Override
+//    public HashMap<Integer, HashMap<String, ArrayList<String>>> savedRecipes() {
+//        return savedRecipes;
+//    }
 }
