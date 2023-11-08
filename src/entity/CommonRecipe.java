@@ -1,5 +1,6 @@
 package src.entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CommonRecipe implements Recipe {
@@ -12,11 +13,14 @@ public class CommonRecipe implements Recipe {
 
     private final String recipeInstructions;
 
-    public CommonRecipe(int recipeId, String recipeName, HashMap<String, Double> recipeIngredients, String recipeInstructions) {
+    private final HashMap<Integer, HashMap<String, ArrayList<String>>> savedRecipes;
+
+    public CommonRecipe(int recipeId, String recipeName, HashMap<String, Double> recipeIngredients, String recipeInstructions, HashMap<Integer, HashMap<String, ArrayList<String>>> savedRecipes) {
         this.recipeId = recipeId;
         this.recipeName = recipeName;
         this.recipeIngredients = recipeIngredients;
         this.recipeInstructions = recipeInstructions;
+        this.savedRecipes = savedRecipes;
     }
 
 
@@ -38,5 +42,10 @@ public class CommonRecipe implements Recipe {
     @Override
     public String getRecipeInstructions() {
         return recipeInstructions;
+    }
+
+    @Override
+    public HashMap<Integer, HashMap<String, ArrayList<String>>> savedRecipes() {
+        return savedRecipes;
     }
 }
