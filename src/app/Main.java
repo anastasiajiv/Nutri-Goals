@@ -10,9 +10,9 @@ package src.app;
 
 import src.entity.CommonRecipe;
 import src.entity.CommonUser;
-import src.entity.UserFactory;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Main {
@@ -38,9 +38,11 @@ public class Main {
         HashMap<String, Double> recipeIngredients = new HashMap<>();
         recipeIngredients.put("Eggs", 4.0);
         recipeIngredients.put("Bread", 2.0);
+        HashMap<Integer, HashMap<String, ArrayList<String>>> savedRecipes = new HashMap<>();
+
 
         CommonRecipe recipe = new CommonRecipe(1234,"Omlette",
-                recipeIngredients, "Insert instuctions" );
+                recipeIngredients, "Insert instuctions", savedRecipes);
 
 
         System.out.println(recipe.getRecipeId());
