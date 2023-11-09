@@ -14,11 +14,13 @@ import src.use_case.signup.SignupUserDataAccessInterface;
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface {
 
 
-    private final File csvFile;
+    File csvFile;
 
     private final Map<String, Integer> headers = new LinkedHashMap<>();
 
-    private final Map<Integer, User> accounts = new HashMap<>();
+    //private final Map<Integer, User> accounts = new HashMap<>();
+
+    public Map<Integer, User> accounts = new HashMap<>();
 
     private UserFactory userFactory;
 
@@ -112,7 +114,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface {
 
     }
 
-    private void setHeaders() {
+    public void setHeaders() {
         BufferedWriter writer;
         try {
             writer = new BufferedWriter(new FileWriter(csvFile));
@@ -120,7 +122,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface {
             writer.newLine();
 
             for (User user: accounts.values()) {
-                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
                         user.getUserId(),
                         user.getName(),
                         user.getPassword(),
@@ -138,10 +140,37 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface {
                 writer.newLine();
             }
 
+            writer.close();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void saveNewUser(User user) {
+        if (accounts.containsKey(user.getUserId()) == Boolean.FALSE) { // Dont add user if they already exist
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile, true))) {
+                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+                        user.getUserId(),
+                        user.getName(),
+                        user.getPassword(),
+                        user.getCreationTime(),
+                        user.getUserHeight(),
+                        user.getUserWeight(),
+                        user.getUserAge(),
+                        user.getUserExcerciseLevel(),
+                        user.getUserRestriction(),
+                        user.getMaintainTypeValue(),
+                        user.getLoseTypeValue(),
+                        user.getGainTypeValue());
+                writer.write(line);
+                writer.newLine();
+            } catch (IOException e) {
+                System.out.println("CSV file did not update");
+            }
+        }
+        else System.out.println("This user already exists");
     }
 
 
