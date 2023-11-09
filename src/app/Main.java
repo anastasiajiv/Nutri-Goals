@@ -12,15 +12,22 @@ import src.entity.CommonRecipe;
 import src.entity.CommonUser;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) {
         //User Entity Test
+
+        HashMap<String, Boolean> weightGoalType = new HashMap<>();
+        weightGoalType.put("Maintain", null);
+        weightGoalType.put("Gain", null);
+        weightGoalType.put("Lose", null);
+
+
+
         CommonUser user = new CommonUser(1, "Aarya Bhardawaj", "dario", LocalDateTime.now(),
                 175, 63.5, 19, 3,
-                new HashMap<>());
+                new HashMap<>(),weightGoalType);
         System.out.println(user.getUserId());
         System.out.println(user.getName());
         System.out.println(user.getUserRestriction());
@@ -30,6 +37,7 @@ public class Main {
         System.out.println(user.getUserExcerciseLevel());
         System.out.println(user.getPassword());
         System.out.println(user.getCreationTime());
+        System.out.println(user.getWeightGoalType());
         System.out.println(user); // -> data access save to csv
 
 
@@ -45,8 +53,6 @@ public class Main {
         recipeType.put("Dinner", Boolean.FALSE);
 
 
-
-
         CommonRecipe recipe = new CommonRecipe(1234,"Omlette",
                 recipeIngredients, "Insert instuctions", recipeType);
 
@@ -55,6 +61,7 @@ public class Main {
         System.out.println(recipe.getRecipeName());
         System.out.println(recipe.getRecipeIngredients());
         System.out.println(recipe.getRecipeInstructions());
+        System.out.println(recipe.recipeType());
         System.out.println(recipe.getRecipeType());
 
 
