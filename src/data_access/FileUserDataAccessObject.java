@@ -10,8 +10,9 @@ import java.util.Map;
 import src.entity.User;
 import src.entity.UserFactory;
 import src.use_case.signup.SignupUserDataAccessInterface;
+import src.use_case.weightgoal.WeightGoalUserDataInterface;
 
-public class FileUserDataAccessObject implements SignupUserDataAccessInterface {
+public class FileUserDataAccessObject implements SignupUserDataAccessInterface, WeightGoalUserDataInterface {
 
 
     File csvFile;
@@ -182,5 +183,15 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface {
     @Override
     public void save(User user) {
         accounts.put(user.getUserId(), user);
+    }
+
+    @Override
+    public void saveWeightGoalData(User user) {
+
+    }
+
+    @Override
+    public String getUserWeightGoalData(int userId) {
+        return null;
     }
 }
