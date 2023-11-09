@@ -111,14 +111,23 @@ public class CommonUser implements User{
     }
 
     public String getMaintainTypeValue() {
-        return String.valueOf(weightGoalType.get("maintainWeight"));
+        if (weightGoalType.get("maintainWeight") != null){
+            return String.valueOf(weightGoalType.get("maintainWeight"));
+        }
+        else return String.valueOf(Boolean.FALSE);
     }
 
     public String getLoseTypeValue() {
-        return String.valueOf(weightGoalType.get("loseWeight"));
+        if (weightGoalType.get("loseWeight") != null) {
+            return String.valueOf(weightGoalType.get("loseWeight"));
+        }
+        else return String.valueOf(Boolean.FALSE);
     }
 
     public String getGainTypeValue() {
-        return String.valueOf(weightGoalType.get("gainWeight"));
+        if (weightGoalType.get("gainWeight") != null) {
+            return String.valueOf(weightGoalType.get("gainWeight"));
+        }
+        else return String.valueOf(Boolean.FALSE);
     }
 }
