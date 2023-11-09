@@ -28,5 +28,10 @@ public interface User {
 
     String getWeightGoalType();
 
+    String getMaintainTypeValue();
+
+    String getLoseTypeValue();
+
+    String getGainTypeValue();
 
 }
