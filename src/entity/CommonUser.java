@@ -26,8 +26,16 @@ public class CommonUser implements User{
     private final HashMap<String, Boolean> weightGoalType;
 
 
-    public CommonUser(int userId, String name, String password, LocalDateTime creationTime, double userHeight, double userWeight,
-                      int userAge, int userExcerciseLevel, HashMap<String, Boolean> restrictions, HashMap<String, Boolean> weightGoalType) {
+    public CommonUser(int userId,
+                      String name,
+                      String password,
+                      LocalDateTime creationTime,
+                      double userHeight,
+                      double userWeight,
+                      int userAge,
+                      int userExcerciseLevel,
+                      HashMap<String, Boolean> restrictions,
+                      HashMap<String, Boolean> weightGoalType) {
         this.userId = userId;
         this.name = name;
         this.password = password;
