@@ -26,6 +26,8 @@ public class CommonUser implements User{
     private final HashMap<String, Boolean> weightGoalType;
 
 
+
+
     public CommonUser(int userId,
                       String name,
                       String password,
@@ -130,4 +132,5 @@ public class CommonUser implements User{
         }
         else return String.valueOf(Boolean.FALSE);
     }
+
 }
