@@ -5,6 +5,11 @@ import src.entity.User;
 public interface WeightGoalUserDataInterface {
     void saveWeightGoalData(User user);
 
-    String getUserWeightGoalData(int userId);
-    }
+    User getUserWeightGoalData(int userId);
+
+    Boolean existByUserId(int userId);
+
+    String getWeightGoalType(int userId);
+
+}
 

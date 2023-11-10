@@ -1,5 +1,7 @@
 package src.use_case.weightgoal;
 
+import java.util.HashMap;
+
 public class WeightGoalInputData {
 
     private final int userId;
@@ -10,6 +12,10 @@ public class WeightGoalInputData {
     private final int userAge;
 
     private final int exerciseLevel;
+
+    private HashMap<String, Boolean> restrictions;
+
+    private HashMap<String, Boolean> weightGoalType;
 
 
 
@@ -41,5 +47,7 @@ public class WeightGoalInputData {
     int getExerciseLevel(){
         return exerciseLevel;
     }
+
+
 
 }
