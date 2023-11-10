@@ -34,4 +34,5 @@ public interface User {
 
     String getGainTypeValue();
 
+
 }
