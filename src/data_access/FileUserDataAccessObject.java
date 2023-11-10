@@ -21,7 +21,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
     //private final Map<Integer, User> accounts = new HashMap<>();
 
-    public Map<Integer, User> accounts = new HashMap<>();
+    public Map<Integer, User> accounts = new HashMap<>(); // Testing purposes
 
     private UserFactory userFactory;
 
@@ -149,7 +149,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     }
 
     public void saveNewUser(User user) {
-        if (accounts.containsKey(user.getUserId()) == Boolean.FALSE) { // Dont add user if they already exist
+        if (accounts.containsKey(user.getUserId()) == Boolean.FALSE) { // Don't add user if they already exist
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile, true))) {
                 String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
@@ -186,12 +186,22 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     }
 
     @Override
-    public void saveWeightGoalData(User user) {
+    public void saveWeightGoalData(User user) { // Should only be called for existing
 
     }
 
     @Override
-    public String getUserWeightGoalData(int userId) {
-        return null;
+    public User getUserWeightGoalData(int userId) {
+        return accounts.get(userId);
+    }
+
+    @Override
+    public Boolean existByUserId(int userId) {
+        return accounts.containsKey(userId);
+    }
+
+    @Override
+    public String getWeightGoalType(int userId) {
+        return accounts.get(userId).getWeightGoalType(); // returns the weight goal type for this user
     }
 }
