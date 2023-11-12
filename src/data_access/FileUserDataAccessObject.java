@@ -21,7 +21,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
     //private final Map<Integer, User> accounts = new HashMap<>();
 
-    public Map<Integer, User> accounts = new HashMap<>(); // Testing purposes
+    public Map<Integer, User> accounts = new HashMap<>(); // Testing purposes in MAIN
 
     private UserFactory userFactory;
 
@@ -33,14 +33,17 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         headers.put("username", 1);
         headers.put("password", 2);
         headers.put("creationTime", 3);
-        headers.put("height", 4);
-        headers.put("weight", 5);
-        headers.put("age", 6);
-        headers.put("exerciseLvl", 7);
-        headers.put("dietaryRestriction1", 8);
-        headers.put("maintainWeight", 9);
-        headers.put("loseWeight", 10);
-        headers.put("gainWeight", 11);
+        headers.put("male", 4);
+        headers.put("female", 5);
+        headers.put("height", 6);
+        headers.put("weight", 7);
+        headers.put("age", 8);
+        headers.put("exerciseLvl", 9);
+        headers.put("dietaryRestriction1", 10);
+        headers.put("maintainWeight", 11);
+        headers.put("loseWeight", 12);
+        headers.put("gainWeight", 13);
+        headers.put("requiredCalories", 14);
 
         if (csvFile.length() == 0) {
             setHeaders();
@@ -53,6 +56,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         "username," +
                         "password," +
                         "creationTime," +
+                        "male" +
+                        "female" +
                         "height," +
                         "weight," +
                         "age," +
@@ -60,7 +65,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         "dietaryRestriction1," +
                         "maintainWeight," +
                         "loseWeight," +
-                        "gainWeight");
+                        "gainWeight," +
+                        "requiredCalories");
 
                 String row;
                 while ((row = reader.readLine()) != null) {
@@ -71,6 +77,15 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                     String creationTimeText = String.valueOf(col[headers.get("creationTime")]);
 
                     LocalDateTime ldt = LocalDateTime.parse(creationTimeText);
+
+                    String genderKey1 = "male";
+                    String genderKey2 = "female";
+                    Boolean genderValue1 = Boolean.valueOf(col[headers.get("male")]);
+                    Boolean genderValue2 = Boolean.valueOf(col[headers.get("female")]);
+
+                    HashMap<String, Boolean> gender = new HashMap<>();
+                    gender.put(genderKey1, genderValue1);
+                    gender.put(genderKey2, genderValue2);
 
                     double height = Double.parseDouble(col[headers.get("height")]);
                     double weight = Double.parseDouble(col[headers.get("weight")]);
@@ -95,16 +110,20 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                     weightGoal.put(weightGoalKey2, weightGoalValue2);
                     weightGoal.put(weightGoalKey3, weightGoalValue3);
 
+                    int requiredCalories = Integer.parseInt(col[headers.get("requiredCalories")]);
+
                     User user = userFactory.create(userId,
                             username,
                             password,
                             ldt,
+                            gender,
                             height,
                             weight,
                             age,
                             exerciseLvl,
                             restrictions,
-                            weightGoal);
+                            weightGoal,
+                            requiredCalories);
                             accounts.put(userId, user);
 
                 }
@@ -123,11 +142,13 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
             writer.newLine();
 
             for (User user: accounts.values()) {
-                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
                         user.getUserId(),
                         user.getName(),
                         user.getPassword(),
                         user.getCreationTime(),
+                        user.isMale(),
+                        user.isFemale(),
                         user.getUserHeight(),
                         user.getUserWeight(),
                         user.getUserAge(),
@@ -135,7 +156,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         user.getUserRestriction(),
                         user.getMaintainTypeValue(),
                         user.getLoseTypeValue(),
-                        user.getGainTypeValue());
+                        user.getGainTypeValue(),
+                        user.getRequiredCalories());
 
                 writer.write(line);
                 writer.newLine();
@@ -152,11 +174,13 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         if (accounts.containsKey(user.getUserId()) == Boolean.FALSE) { // Don't add user if they already exist
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile, true))) {
-                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
                         user.getUserId(),
                         user.getName(),
                         user.getPassword(),
                         user.getCreationTime(),
+                        user.isMale(),
+                        user.isFemale(),
                         user.getUserHeight(),
                         user.getUserWeight(),
                         user.getUserAge(),
@@ -164,7 +188,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         user.getUserRestriction(),
                         user.getMaintainTypeValue(),
                         user.getLoseTypeValue(),
-                        user.getGainTypeValue());
+                        user.getGainTypeValue(),
+                        user.getRequiredCalories());
                 writer.write(line);
                 writer.newLine();
             } catch (IOException e) {
@@ -180,13 +205,69 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         return accounts.containsKey(userId);
     }
 
+    public User getAccountByUserId(int userId) {
+        return accounts.get(userId);
+    }
+
     @Override
     public void save(User user) {
         accounts.put(user.getUserId(), user);
     }
 
     @Override
-    public void saveWeightGoalData(User user) { // Should only be called for existing
+    public void saveWeightGoalData(User updatedUser) { // Should only be called for existing
+        assert accounts.containsKey(updatedUser.getUserId());
+
+        int userId = updatedUser.getUserId();
+        if (existById(userId)) {
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(csvFile));
+                StringBuilder updatedCsvContent = new StringBuilder();
+
+                // Read the header and append it to the updated content
+                String header = reader.readLine();
+                updatedCsvContent.append(header).append("\n");
+
+                // Read each line, update the line for the specified user, and append it to the updated content
+                String row;
+                while ((row = reader.readLine()) != null) {
+                    String[] col = row.split(",");
+                    int currentUserId = Integer.parseInt(col[headers.get("userId")]);
+
+                    if (currentUserId == userId) {
+                        // Update the line for the specified user
+                        String updatedLine = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+                                updatedUser.getUserId(),
+                                updatedUser.getName(),
+                                updatedUser.getPassword(),
+                                updatedUser.getCreationTime(),
+                                updatedUser.isMale(),
+                                updatedUser.isFemale(),
+                                updatedUser.getUserHeight(),
+                                updatedUser.getUserWeight(),
+                                updatedUser.getUserAge(),
+                                updatedUser.getUserExcerciseLevel(),
+                                updatedUser.getUserRestriction(),
+                                updatedUser.getMaintainTypeValue(),
+                                updatedUser.getLoseTypeValue(),
+                                updatedUser.getGainTypeValue(),
+                                updatedUser.getRequiredCalories());
+
+                        updatedCsvContent.append(updatedLine).append("\n");
+                    } else {
+                        // Append the unchanged line
+                        updatedCsvContent.append(row).append("\n");
+                    }
+                }
+
+                // Write the updated content back to the CSV file
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile))) {
+                    writer.write(updatedCsvContent.toString());
+                }
+            } catch (IOException e) {
+                throw new RuntimeException("Error updating user data in CSV file", e);
+            }
+        }
 
     }
 
@@ -204,4 +285,70 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     public String getWeightGoalType(int userId) {
         return accounts.get(userId).getWeightGoalType(); // returns the weight goal type for this user
     }
+
+    //Weight Goal Methods to get calories user needs
+
+    public double getRequiredCalories(int userId) throws Exception {
+        User user = getAccountByUserId(userId);
+
+        if (user.getWeightGoalType().equals("maintainWeight")) {
+            double reqCalories = getBMR(userId);
+            return reqCalories;
+        }
+        else if (user.getWeightGoalType().equals("loseWeight")) {
+            double reqCalories = getBMR(userId);
+            // Check
+        }
+        else if (user.getWeightGoalType().equals("gainWeight")) {
+            return 0;
+        }
+        else throw new Exception("User has not established weight goal type");
+    }
+    public double getBMR(int userId) {
+        // Men: BMR = 88.63 + (13.397 * weight in kg) + (4.799 * height in cm) - (5.677 * age in years)
+        // Miffin - St Jeor Equation -> BMR = 10 * weight + 6.25 * height - 5 * age + 5
+        // Women: BMR = 447.593 + (9.247 x weight in kg) + (3.098 x height in cm) – (4.330 x age in years)
+        // Miffin - St Jeor Equation -> BMR = 10 * weight + 6.25 * height - 5 * age - 161
+
+
+        // Harris - Benedict -> Men -> BMR = 66 + (13.7 x wt in kg) + (5 x ht in cm) - (6.8 x age in years)
+        // Harris - Benedict -> Men -> BMR =  655 + (9.6 x wt in kg) + (1.8 x ht in cm) - (4.7 x age in years)
+        assert existById(userId);
+        double userBMR = 0;
+
+
+        User user = accounts.get(userId);
+        //Get BMR
+        if (Boolean.valueOf(user.isMale())) {
+            userBMR = (10 * user.getUserWeight()) + (6.25 * user.getUserHeight()) - (5 * user.getUserAge()) + 5;
+        }
+        else if (Boolean.valueOf(user.isFemale())) {
+            userBMR = (10 * user.getUserWeight()) + (6.25 * user.getUserHeight()) - (5 * user.getUserAge()) - 161;
+        }
+        return getBMRAfterActivityMultiplier(userId, userBMR);
+    }
+    public double getBMRAfterActivityMultiplier(int userId, double userBMR) {
+        User user = accounts.get(userId);
+        double newUserBMR = userBMR;
+
+        assert user.getUserExcerciseLevel() >= 1 && user.getUserExcerciseLevel() <=5; // Must be in the range 1-5.
+
+        if (user.getUserExcerciseLevel() ==1) {
+            newUserBMR = newUserBMR * 1.2;
+        }
+        else if (user.getUserExcerciseLevel() == 2) {
+            newUserBMR = newUserBMR * 1.375;
+        }
+        else if (user.getUserExcerciseLevel() == 3) {
+            newUserBMR = newUserBMR * 1.55;
+        }
+        else if (user.getUserExcerciseLevel() == 4) {
+            newUserBMR = newUserBMR * 1.725;
+        }
+        else if (user.getUserExcerciseLevel() == 5) {
+            newUserBMR = newUserBMR * 1.9;
+        }
+        return newUserBMR;
+    }
+
 }
