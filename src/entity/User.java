@@ -12,6 +12,12 @@ public interface User {
 
     LocalDateTime getCreationTime(); // Optional to add
 
+    HashMap<String, Boolean> getGender();
+
+    String isFemale();
+
+    String isMale();
+
     double getUserHeight();
 
     double getUserWeight();
@@ -33,6 +39,11 @@ public interface User {
     String getLoseTypeValue();
 
     String getGainTypeValue();
+
+
+
+    int getRequiredCalories(); // Should default to 0
+
 
 
 }
