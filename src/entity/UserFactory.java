@@ -8,10 +8,12 @@ public interface UserFactory {
                  String name,
                  String password,
                  LocalDateTime creationTime,
+                 HashMap<String, Boolean> gender,
                  double userHeight,
                  double userWeight,
                  int userAge,
                  int userExerciseLevel,
                  HashMap<String, Boolean> userRestriction,
-                 HashMap<String, Boolean> weightGoal);
+                 HashMap<String, Boolean> weightGoal,
+                 int requiredCalories);
 }
