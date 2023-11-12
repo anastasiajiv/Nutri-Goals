@@ -302,7 +302,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         else if (user.getWeightGoalType().equals("gainWeight")) {
             return 0;
         }
-        else throw new Exception("User has not established weight goal type");
+        return 0;
     }
     public double getBMR(int userId) {
         // Men: BMR = 88.63 + (13.397 * weight in kg) + (4.799 * height in cm) - (5.677 * age in years)
