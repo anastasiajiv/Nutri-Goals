@@ -1,2 +1,4 @@
-package src.entity;public interface Recipe {
+package src.entity;
+
+public interface Recipe {
 }
