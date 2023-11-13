@@ -5,11 +5,18 @@ import java.util.HashMap;
 
 public interface User {
 
+    int getUserId();
     String getName();
 
     String getPassword();
 
     LocalDateTime getCreationTime(); // Optional to add
+
+    HashMap<String, Boolean> getGender();
+
+    String isFemale();
+
+    String isMale();
 
     double getUserHeight();
 
@@ -22,6 +29,21 @@ public interface User {
 
     HashMap<String, Boolean> getUserRestriction(); // Restriction type will be stored as a hashmap <String(Restriction Type),
                                 // Boolean(Weather user clicked this option or not)>
+
+    HashMap<String, Boolean> WeightGoalType(); // String -> Maintain, Gain, Lose
+
+    String getWeightGoalType();
+
+    String getMaintainTypeValue();
+
+    String getLoseTypeValue();
+
+    String getGainTypeValue();
+
+
+
+    int getRequiredCalories(); // Should default to 0
+
 
 
 }
