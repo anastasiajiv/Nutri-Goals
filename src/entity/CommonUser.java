@@ -3,11 +3,13 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommonUser implements User{
+public class CommonUser implements User {
 
     private final int userId;
 
     private HashMap<String, Boolean> restrictions = new HashMap<>();
+
+    private HashMap<String, Float> nutrients = new HashMap<>();
 
     private final String name;
 
@@ -23,7 +25,7 @@ public class CommonUser implements User{
 
     private final int userAge;
 
-    private final int userExcerciseLevel;
+    private final int userExerciseLevel;
 
     private final HashMap<String, Boolean> weightGoalType;
 
@@ -40,8 +42,9 @@ public class CommonUser implements User{
                       double userHeight,
                       double userWeight,
                       int userAge,
-                      int userExcerciseLevel,
+                      int userExerciseLevel,
                       HashMap<String, Boolean> restrictions,
+                      HashMap<String, Float> nutrients,
                       HashMap<String, Boolean> weightGoalType,
                       int requiredCalories) {
         this.userId = userId;
@@ -52,8 +55,9 @@ public class CommonUser implements User{
         this.userHeight  = userHeight;
         this.userWeight = userWeight;
         this.userAge = userAge;
-        this.userExcerciseLevel = userExcerciseLevel;
+        this.userExerciseLevel = userExerciseLevel;
         this.restrictions = restrictions;
+        this.nutrients = nutrients;
         this.weightGoalType = weightGoalType;
         this.requiredCalories = requiredCalories;
 
@@ -121,12 +125,17 @@ public class CommonUser implements User{
 
     @Override
     public int getUserExerciseLevel() {
-        return userExcerciseLevel;
+        return userExerciseLevel;
     }
 
     @Override
     public HashMap<String, Boolean> getUserRestriction() {
         return restrictions; // Change to return keys with True values.
+    }
+
+    @Override
+    public HashMap<String, Float> getNutrients() {
+        return nutrients;
     }
 
     @Override
