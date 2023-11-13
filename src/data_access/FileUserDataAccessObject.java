@@ -141,8 +141,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                             age,
                             exerciseLvl,
                             restrictions,
-                            weightGoal,
                             nutrients,
+                            weightGoal,
                             requiredCalories);
                             accounts.put(userId, user);
 
@@ -161,8 +161,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
             writer.write(String.join(",", headers.keySet()));
             writer.newLine();
 
-            for (User user: accounts.values()) {
-                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+            for (User user: accounts.values()) { // added nutrients
+                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
                         user.getUserId(),
                         user.getName(),
                         user.getPassword(),
@@ -178,7 +178,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         user.getMaintainTypeValue(),
                         user.getLoseTypeValue(),
                         user.getGainTypeValue(),
-                        user.getRequiredCalories());
+                        user.getRequiredCalories(),
+                        user.getNutrients());
 
                 writer.write(line);
                 writer.newLine();
@@ -195,7 +196,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         if (accounts.containsKey(user.getUserId()) == Boolean.FALSE) { // Don't add user if they already exist
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile, true))) {
-                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
                         user.getUserId(),
                         user.getName(),
                         user.getPassword(),
@@ -210,7 +211,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         user.getMaintainTypeValue(),
                         user.getLoseTypeValue(),
                         user.getGainTypeValue(),
-                        user.getRequiredCalories());
+                        user.getRequiredCalories(),
+                        user.getNutrients());
                 writer.write(line);
                 writer.newLine();
             } catch (IOException e) {
@@ -255,9 +257,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                     String[] col = row.split(",");
                     int currentUserId = Integer.parseInt(col[headers.get("userId")]);
 
-                    if (currentUserId == userId) {
+                    if (currentUserId == userId) {  // added nutrients
                         // Update the line for the specified user
-                        String updatedLine = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+                        String updatedLine = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
                                 updatedUser.getUserId(),
                                 updatedUser.getName(),
                                 updatedUser.getPassword(),
@@ -272,7 +274,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                                 updatedUser.getMaintainTypeValue(),
                                 updatedUser.getLoseTypeValue(),
                                 updatedUser.getGainTypeValue(),
-                                updatedUser.getRequiredCalories());
+                                updatedUser.getRequiredCalories(),
+                                updatedUser.getNutrients());
 
                         updatedCsvContent.append(updatedLine).append("\n");
                     } else {
@@ -291,6 +294,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         }
 
     }
+
+    // note: need a getNutrients method to return the nutrients that want to be tracked?
 
     @Override
     public User getUserWeightGoalData(int userId) {
