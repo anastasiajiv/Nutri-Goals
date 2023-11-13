@@ -28,7 +28,9 @@ public interface User {
                                 // logistics in the ReadMe file
 
     HashMap<String, Boolean> getUserRestriction(); // Restriction type will be stored as a hashmap <String(Restriction Type),
-                                // Boolean(Weather user clicked this option or not)>
+                                // Boolean(Whether user clicked this option or not)>
+
+    HashMap<String, Float> getNutrients(); // <Nutrient name, current value being tracked>
 
     HashMap<String, Boolean> WeightGoalType(); // String -> Maintain, Gain, Lose
 
