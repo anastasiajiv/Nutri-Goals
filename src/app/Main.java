@@ -1,6 +1,5 @@
 package src.app;
 
-import src.entity.CommonRecipe;
 import src.entity.CommonUser;
 
 import java.time.LocalDateTime;
