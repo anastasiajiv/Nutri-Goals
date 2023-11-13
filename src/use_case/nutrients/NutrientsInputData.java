@@ -8,27 +8,21 @@ import java.util.Map;
 
 public class NutrientsInputData {
     private final int userID;
-    private HashMap<String, Boolean> nutrients;
+    private HashMap<String, Float> nutrients;  // <nutrient name, value accumulated/tracked>
 
-    public NutrientsInputData(int userID, HashMap<String, Boolean> nutrients) {
+    public NutrientsInputData(int userID, HashMap<String, Float> nutrients) {
         this.userID = userID;
         this.nutrients = nutrients;
     }
 
-    // returns Strings of the nutrients wanted to be tracked
-    ArrayList<String> getNutrients() {  // returning ArrayList, can later change
-        ArrayList<String> nutrientsList = new ArrayList<>();
+    // returns Strings of the nutrients wanted to be tracked; only names, *no values*
+    ArrayList<String> getNutrientsTracked() {  // returning ArrayList, can later change
+        // returns arraylist of all keys in nutrients (nutrient names)
+        return new ArrayList<String>(this.nutrients.keySet());
+    }
 
-        // loop through each key and value in nutrients
-        for(Map.Entry<String, Boolean> entry : this.nutrients.entrySet()) {
-            String key = entry.getKey();
-            Boolean value = entry.getValue();
-            // if this is a nutrient that is tracked, add to the return list
-            if (value) {
-                nutrientsList.add(key);  // adds the string representation of the nutrient
-            }
-        }
-        return nutrientsList;
+    HashMap<String, Float> getNutrients() {
+        return this.nutrients;
     }
 
     int getUserID() {
