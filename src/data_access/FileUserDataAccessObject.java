@@ -45,6 +45,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         headers.put("loseWeight", 12);
         headers.put("gainWeight", 13);
         headers.put("requiredCalories", 14);
+        headers.put("nutrients", 15); // added nutrients header; holds the nutrients the user wants to track
 
         if (csvFile.length() == 0) {
             setHeaders();
@@ -67,7 +68,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         "maintainWeight," +
                         "loseWeight," +
                         "gainWeight," +
-                        "requiredCalories");
+                        "requiredCalories," + // added nutrients header
+                        "nutrients");
 
                 String row;
                 while ((row = reader.readLine()) != null) {
@@ -113,6 +115,22 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
                     int requiredCalories = Integer.parseInt(col[headers.get("requiredCalories")]);
 
+
+
+                    /* logistics of implementation: nutrients attribute only holds key-value pairs for those
+                    that want to be tracked, if headers must be made by default, should it be changed?
+
+                    Or: should nutrients that don't want to be tracked be initialized as 0 and just never
+                    be updated? Might not be efficient.
+                    */
+
+                    // added nutrients
+                    String nutrientsKey1 = "nutrient1"; // replace with each type of nutrient tracked
+                    // ...
+                    HashMap<String, Float> nutrients = new HashMap<>();
+                    // ... I don't know what this chunk of code is doing, so I will leave the rest...
+
+
                     User user = userFactory.create(userId,
                             username,
                             password,
@@ -124,6 +142,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                             exerciseLvl,
                             restrictions,
                             weightGoal,
+                            nutrients,
                             requiredCalories);
                             accounts.put(userId, user);
 
@@ -155,6 +174,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         user.getUserAge(),
                         user.getUserExerciseLevel(),
                         user.getUserRestriction(),
+                        user.getNutrients(),
                         user.getMaintainTypeValue(),
                         user.getLoseTypeValue(),
                         user.getGainTypeValue(),
