@@ -153,7 +153,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         user.getUserHeight(),
                         user.getUserWeight(),
                         user.getUserAge(),
-                        user.getUserExcerciseLevel(),
+                        user.getUserExerciseLevel(),
                         user.getUserRestriction(),
                         user.getMaintainTypeValue(),
                         user.getLoseTypeValue(),
@@ -185,7 +185,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         user.getUserHeight(),
                         user.getUserWeight(),
                         user.getUserAge(),
-                        user.getUserExcerciseLevel(),
+                        user.getUserExerciseLevel(),
                         user.getUserRestriction(),
                         user.getMaintainTypeValue(),
                         user.getLoseTypeValue(),
@@ -247,7 +247,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                                 updatedUser.getUserHeight(),
                                 updatedUser.getUserWeight(),
                                 updatedUser.getUserAge(),
-                                updatedUser.getUserExcerciseLevel(),
+                                updatedUser.getUserExerciseLevel(),
                                 updatedUser.getUserRestriction(),
                                 updatedUser.getMaintainTypeValue(),
                                 updatedUser.getLoseTypeValue(),
@@ -332,21 +332,21 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         User user = accounts.get(userId);
         double newUserBMR = userBMR;
 
-        assert user.getUserExcerciseLevel() >= 1 && user.getUserExcerciseLevel() <=5; // Must be in the range 1-5.
+        assert user.getUserExerciseLevel() >= 1 && user.getUserExerciseLevel() <=5; // Must be in the range 1-5.
 
-        if (user.getUserExcerciseLevel() ==1) {
+        if (user.getUserExerciseLevel() ==1) {
             newUserBMR = newUserBMR * 1.2;
         }
-        else if (user.getUserExcerciseLevel() == 2) {
+        else if (user.getUserExerciseLevel() == 2) {
             newUserBMR = newUserBMR * 1.375;
         }
-        else if (user.getUserExcerciseLevel() == 3) {
+        else if (user.getUserExerciseLevel() == 3) {
             newUserBMR = newUserBMR * 1.55;
         }
-        else if (user.getUserExcerciseLevel() == 4) {
+        else if (user.getUserExerciseLevel() == 4) {
             newUserBMR = newUserBMR * 1.725;
         }
-        else if (user.getUserExcerciseLevel() == 5) {
+        else if (user.getUserExerciseLevel() == 5) {
             newUserBMR = newUserBMR * 1.9;
         }
         return newUserBMR;

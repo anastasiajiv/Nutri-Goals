@@ -120,7 +120,7 @@ public class CommonUser implements User{
     }
 
     @Override
-    public int getUserExcerciseLevel() {
+    public int getUserExerciseLevel() {
         return userExcerciseLevel;
     }
 

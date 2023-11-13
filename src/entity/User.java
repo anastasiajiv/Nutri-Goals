@@ -24,7 +24,7 @@ public interface User {
 
     int getUserAge();
 
-    int getUserExcerciseLevel(); // Excersice level will be in a range from 1 - 5 --> Specify each levels
+    int getUserExerciseLevel(); // Exercise level will be in a range from 1 to 5 --> Specify each levels
                                 // logistics in the ReadMe file
 
     HashMap<String, Boolean> getUserRestriction(); // Restriction type will be stored as a hashmap <String(Restriction Type),
