@@ -1,2 +1,4 @@
-package src.use_case.nutrients;public class NutrientsOutputData {
+package src.use_case.nutrients;
+
+public class NutrientsOutputData {
 }
