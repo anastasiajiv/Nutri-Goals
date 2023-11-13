@@ -8,6 +8,8 @@ import java.util.Map;
 
 public class NutrientsInputData {
     private final int userID;
+
+    // depending on implementation of headers, might need to adjust attribute type of nutrients
     private HashMap<String, Float> nutrients;  // <nutrient name, value accumulated/tracked>
 
     public NutrientsInputData(int userID, HashMap<String, Float> nutrients) {
