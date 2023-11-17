@@ -15,5 +15,6 @@ public interface UserFactory {
                  int userExerciseLevel,
                  HashMap<String, Boolean> userRestriction,
                  HashMap<String, Boolean> weightGoal,
+                 String paceType,
                  int requiredCalories);
 }

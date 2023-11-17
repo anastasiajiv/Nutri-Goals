@@ -32,6 +32,8 @@ public interface User {
 
     HashMap<String, Boolean> WeightGoalType(); // String -> Maintain, Gain, Lose
 
+    //HashMap<String, Double> weightPace();
+
     String getWeightGoalType();
 
     String getMaintainTypeValue();
@@ -40,7 +42,12 @@ public interface User {
 
     String getGainTypeValue();
 
+    String getPaceType();
 
+//    HashMap<String, HashMap<String, Boolean>> weightPaceType();
+//    // {loseWeight : {typical : False, moderate: True, extreme: False}
+//
+//    HashMap<String, String> getPaceType();
 
     int getRequiredCalories(); // Should default to 0
 
