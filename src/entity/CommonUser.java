@@ -9,7 +9,7 @@ public class CommonUser implements User {
 
     private HashMap<String, Boolean> restrictions = new HashMap<>();
 
-    private HashMap<String, Float> nutrients = new HashMap<>();
+    private HashMap<String, Float> trackedNutrients = new HashMap<>();
 
     private final String name;
 
@@ -44,7 +44,7 @@ public class CommonUser implements User {
                       int userAge,
                       int userExerciseLevel,
                       HashMap<String, Boolean> restrictions,
-                      HashMap<String, Float> nutrients,
+                      HashMap<String, Float> trackedNutrients,
                       HashMap<String, Boolean> weightGoalType,
                       int requiredCalories) {
         this.userId = userId;
@@ -57,7 +57,7 @@ public class CommonUser implements User {
         this.userAge = userAge;
         this.userExerciseLevel = userExerciseLevel;
         this.restrictions = restrictions;
-        this.nutrients = nutrients;
+        this.trackedNutrients = trackedNutrients;
         this.weightGoalType = weightGoalType;
         this.requiredCalories = requiredCalories;
 
@@ -134,8 +134,8 @@ public class CommonUser implements User {
     }
 
     @Override
-    public HashMap<String, Float> getNutrients() {
-        return nutrients;
+    public HashMap<String, Float> getTrackedNutrients() {
+        return trackedNutrients;
     }
 
     @Override

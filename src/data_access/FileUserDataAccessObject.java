@@ -45,7 +45,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         headers.put("loseWeight", 12);
         headers.put("gainWeight", 13);
         headers.put("requiredCalories", 14);
-        headers.put("nutrients", 15); // added nutrients header; holds the nutrients the user wants to track
+        headers.put("trackedNutrients", 15); // added trackedNutrients header; holds nutrients the user wants to track
 
         if (csvFile.length() == 0) {
             setHeaders();
@@ -68,8 +68,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         "maintainWeight," +
                         "loseWeight," +
                         "gainWeight," +
-                        "requiredCalories," + // added nutrients header
-                        "nutrients");
+                        "requiredCalories," +
+                        "trackedNutrients"); // added trackedNnutrients header
 
                 String row;
                 while ((row = reader.readLine()) != null) {
@@ -117,17 +117,17 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
 
 
-                    /* logistics of implementation: nutrients attribute only holds key-value pairs for those
+                    /* logistics of implementation: trackedNutrients attribute only holds key-value pairs for those
                     that want to be tracked, if headers must be made by default, should it be changed?
 
-                    Or: should nutrients that don't want to be tracked be initialized as 0 and just never
+                    Or: should trackedNutrients that don't want to be tracked be initialized as 0 and just never
                     be updated? Might not be efficient.
                     */
 
-                    // added nutrients
-                    String nutrientsKey1 = "nutrient1"; // replace with each type of nutrient tracked
+                    // added trackedNutrients
+                    String trackedNutrientsKey1 = "nutrient1"; // replace with each type of nutrient tracked
                     // ...
-                    HashMap<String, Float> nutrients = new HashMap<>();
+                    HashMap<String, Float> trackedNutrients = new HashMap<>();
                     // ... I don't know what this chunk of code is doing, so I will leave the rest...
 
 
@@ -141,7 +141,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                             age,
                             exerciseLvl,
                             restrictions,
-                            nutrients,
+                            trackedNutrients,
                             weightGoal,
                             requiredCalories);
                             accounts.put(userId, user);
@@ -174,12 +174,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         user.getUserAge(),
                         user.getUserExerciseLevel(),
                         user.getUserRestriction(),
-                        user.getNutrients(),
+                        user.getTrackedNutrients(),
                         user.getMaintainTypeValue(),
                         user.getLoseTypeValue(),
                         user.getGainTypeValue(),
-                        user.getRequiredCalories(),
-                        user.getNutrients());
+                        user.getRequiredCalories());
 
                 writer.write(line);
                 writer.newLine();
@@ -208,11 +207,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         user.getUserAge(),
                         user.getUserExerciseLevel(),
                         user.getUserRestriction(),
+                        user.getTrackedNutrients(),
                         user.getMaintainTypeValue(),
                         user.getLoseTypeValue(),
                         user.getGainTypeValue(),
-                        user.getRequiredCalories(),
-                        user.getNutrients());
+                        user.getRequiredCalories());
                 writer.write(line);
                 writer.newLine();
             } catch (IOException e) {
@@ -257,7 +256,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                     String[] col = row.split(",");
                     int currentUserId = Integer.parseInt(col[headers.get("userId")]);
 
-                    if (currentUserId == userId) {  // added nutrients
+                    if (currentUserId == userId) {  // added trackedNutrients
                         // Update the line for the specified user
                         String updatedLine = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
                                 updatedUser.getUserId(),
@@ -271,11 +270,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                                 updatedUser.getUserAge(),
                                 updatedUser.getUserExerciseLevel(),
                                 updatedUser.getUserRestriction(),
+                                updatedUser.getTrackedNutrients(),
                                 updatedUser.getMaintainTypeValue(),
                                 updatedUser.getLoseTypeValue(),
                                 updatedUser.getGainTypeValue(),
-                                updatedUser.getRequiredCalories(),
-                                updatedUser.getNutrients());
+                                updatedUser.getRequiredCalories());
 
                         updatedCsvContent.append(updatedLine).append("\n");
                     } else {

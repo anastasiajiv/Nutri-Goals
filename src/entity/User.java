@@ -30,7 +30,7 @@ public interface User {
     HashMap<String, Boolean> getUserRestriction(); // Restriction type will be stored as a hashmap <String(Restriction Type),
                                 // Boolean(Whether user clicked this option or not)>
 
-    HashMap<String, Float> getNutrients(); // <Nutrient name, current value being tracked>
+    HashMap<String, Float> getTrackedNutrients(); // <Nutrient name, current value being tracked>
 
     HashMap<String, Boolean> WeightGoalType(); // String -> Maintain, Gain, Lose
 
