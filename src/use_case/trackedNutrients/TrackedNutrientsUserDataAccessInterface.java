@@ -1,8 +1,8 @@
-package src.use_case.nutrients;
+package src.use_case.trackedNutrients;
 
 import src.entity.User;
 
-public interface NutrientsUserDataAccessInterface {
+public interface TrackedNutrientsUserDataAccessInterface {
     void saveNutrientsData(User user);
 
     User getUserNutrientsData(int userID);

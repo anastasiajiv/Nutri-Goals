@@ -1,18 +1,16 @@
-package src.use_case.nutrients;
+package src.use_case.trackedNutrients;
 
 import java.util.HashMap;
 
-import src.entity.User;
 import java.util.ArrayList;
-import java.util.Map;
 
-public class NutrientsInputData {
+public class TrackedNutrientsInputData {
     private final int userID;
 
     // depending on implementation of headers, might need to adjust attribute type of nutrients
     private HashMap<String, Float> nutrients;  // <nutrient name, value accumulated/tracked>
 
-    public NutrientsInputData(int userID, HashMap<String, Float> nutrients) {
+    public TrackedNutrientsInputData(int userID, HashMap<String, Float> nutrients) {
         this.userID = userID;
         this.nutrients = nutrients;
     }

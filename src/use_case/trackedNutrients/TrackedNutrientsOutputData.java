@@ -1,10 +1,10 @@
-package src.use_case.nutrients;
+package src.use_case.trackedNutrients;
 
-public class NutrientsOutputData {
+public class TrackedNutrientsOutputData {
     private final int userID;
     private boolean useCaseFailed;
 
-    public NutrientsOutputData(int userID, boolean useCaseFailed) {
+    public TrackedNutrientsOutputData(int userID, boolean useCaseFailed) {
         this.userID = userID;
         this.useCaseFailed = useCaseFailed;
     }
