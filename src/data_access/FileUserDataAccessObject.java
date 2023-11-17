@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.Map;
 
+import src.entity.*;
 import src.entity.User;
 import src.entity.UserFactory;
 import src.use_case.signup.SignupUserDataAccessInterface;
@@ -43,7 +44,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         headers.put("maintainWeight", 11);
         headers.put("loseWeight", 12);
         headers.put("gainWeight", 13);
-        headers.put("requiredCalories", 14);
+        headers.put("weightPaceType", 14);
+        headers.put("requiredCalories", 15);
 
         if (csvFile.length() == 0) {
             setHeaders();
@@ -66,6 +68,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         "maintainWeight," +
                         "loseWeight," +
                         "gainWeight," +
+                        "weightPaceType" +
                         "requiredCalories");
 
                 String row;
@@ -110,6 +113,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                     weightGoal.put(weightGoalKey2, weightGoalValue2);
                     weightGoal.put(weightGoalKey3, weightGoalValue3);
 
+                    String paceType = String.valueOf(col[headers.get("weightPaceType")]);
+
                     int requiredCalories = Integer.parseInt(col[headers.get("requiredCalories")]);
 
                     User user = userFactory.create(userId,
@@ -123,6 +128,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                             exerciseLvl,
                             restrictions,
                             weightGoal,
+                            paceType,
                             requiredCalories);
                             accounts.put(userId, user);
 
@@ -142,7 +148,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
             writer.newLine();
 
             for (User user: accounts.values()) {
-                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
                         user.getUserId(),
                         user.getName(),
                         user.getPassword(),
@@ -157,6 +163,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         user.getMaintainTypeValue(),
                         user.getLoseTypeValue(),
                         user.getGainTypeValue(),
+                        user.getPaceType(),
                         user.getRequiredCalories());
 
                 writer.write(line);
@@ -174,7 +181,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         if (accounts.containsKey(user.getUserId()) == Boolean.FALSE) { // Don't add user if they already exist
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile, true))) {
-                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
                         user.getUserId(),
                         user.getName(),
                         user.getPassword(),
@@ -189,6 +196,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         user.getMaintainTypeValue(),
                         user.getLoseTypeValue(),
                         user.getGainTypeValue(),
+                        user.getPaceType(),
                         user.getRequiredCalories());
                 writer.write(line);
                 writer.newLine();
@@ -236,7 +244,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
                     if (currentUserId == userId) {
                         // Update the line for the specified user
-                        String updatedLine = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+                        String updatedLine = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
                                 updatedUser.getUserId(),
                                 updatedUser.getName(),
                                 updatedUser.getPassword(),
@@ -251,6 +259,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                                 updatedUser.getMaintainTypeValue(),
                                 updatedUser.getLoseTypeValue(),
                                 updatedUser.getGainTypeValue(),
+                                updatedUser.getPaceType(),
                                 updatedUser.getRequiredCalories());
 
                         updatedCsvContent.append(updatedLine).append("\n");
@@ -282,7 +291,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     }
 
     @Override
-    public String getWeightGoalType(int userId) {
+    public String getWeightGoalType(int userId) { // For testing
         return accounts.get(userId).getWeightGoalType(); // returns the weight goal type for this user
     }
 
@@ -290,19 +299,39 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
     public double getRequiredCalories(int userId) throws Exception {
         User user = getAccountByUserId(userId);
+        double reqCalories = getBMR(userId);
 
         if (user.getWeightGoalType().equals("maintainWeight")) {
-            double reqCalories = getBMR(userId);
-            return reqCalories;
-        }
+            reqCalories = reqCalories;
+            }
+
         else if (user.getWeightGoalType().equals("loseWeight")) {
-            double reqCalories = getBMR(userId);
-            // Check
+            String paceType = user.getPaceType();
+            if (paceType.equals("normal")) {
+                reqCalories = reqCalories + (3500 * 0.10); // 3500 calories is about 1 lb
+            }
+            else if (paceType.equals("fast")) {
+                reqCalories = reqCalories + (3500 * 0.15);
+            }
+            else if (paceType.equals("extreme")) {
+                reqCalories = reqCalories + (3500 * 0.20);
+            }
+
         }
         else if (user.getWeightGoalType().equals("gainWeight")) {
-            return 0;
+            String paceType = user.getPaceType();
+
+            if (paceType.equals("normal")) {
+                reqCalories = reqCalories - (3500 * 0.10); // 3500 calories is about 1 lb
+            }
+            else if (paceType.equals("fast")) {
+                reqCalories = reqCalories - (3500 * 0.15);
+            }
+            else if (paceType.equals("extreme")) {
+                reqCalories = reqCalories - (3500 * 0.20);
+            }
         }
-        return 0;
+        return reqCalories;
     }
     public double getBMR(int userId) {
         // Men: BMR = 88.63 + (13.397 * weight in kg) + (4.799 * height in cm) - (5.677 * age in years)
