@@ -54,4 +54,25 @@ public interface User {
     // setters
     void setPassword(String password);
 
+    void setCreationTime(LocalDateTime creationTime);
+
+    void setGender(HashMap<String, Boolean> gender);
+
+    void setUserHeight(double userHeight);
+
+    void setUserWeight(double userWeight);
+
+    void setUserAge(int userAge);
+
+    void setUserExerciseLvl(int userExerciseLvl);
+
+    void setWeightGoalType(HashMap<String, Boolean> weightGoalType);
+
+    void setRestrictions(HashMap<String, Boolean> restrictions);
+
+    void setPaceType(String paceType);
+
+
+    void setRequiredCalories(int requiredCalories);
+
 }

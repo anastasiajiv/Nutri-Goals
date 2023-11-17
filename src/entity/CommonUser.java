@@ -13,23 +13,24 @@ public class CommonUser implements User{
 
     private String password;
 
-    private final LocalDateTime creationTime;
+    private LocalDateTime creationTime;
 
-    final HashMap<String, Boolean> gender;
+    HashMap<String, Boolean> gender; // remove final since they are subject to change.
+    //Not sure if this is a good design decision
 
-    private final double userHeight;
+    private double userHeight;
 
-    private final double userWeight;
+    private double userWeight;
 
-    private final int userAge;
+    private int userAge;
 
-    private final int userExcerciseLevel;
+    private int userExcerciseLevel;
 
-    private final HashMap<String, Boolean> weightGoalType;
+    private HashMap<String, Boolean> weightGoalType;
 
-    private final  String paceType;
+    private String paceType;
 
-    private final int requiredCalories;
+    private int requiredCalories;
 
 
 
@@ -214,6 +215,54 @@ public class CommonUser implements User{
     @Override
     public void setPassword(String password) {
         this.password = password;
+    }
+    @Override
+    public void setCreationTime(LocalDateTime creationTime) {
+        this.creationTime = creationTime;
+    }
+
+
+    @Override
+    public void setGender(HashMap<String, Boolean> gender) {
+        this.gender = gender;
+    }
+    @Override
+    public void setUserHeight(double userheight) {
+        this.userHeight = userheight;
+    }
+
+    @Override
+    public void setUserWeight(double userWeight) {
+        this.userWeight = userWeight;
+    }
+
+    @Override
+    public void setUserAge(int userAge) {
+        this.userAge = userAge;
+    }
+    @Override
+    public void setUserExerciseLvl(int userExerciseLvl) {
+        this.userExcerciseLevel = userExerciseLvl;
+    }
+
+    @Override
+    public void setWeightGoalType(HashMap<String, Boolean> weightGoalType) {
+        this.weightGoalType = weightGoalType;
+    }
+
+    @Override
+    public void setRestrictions(HashMap<String, Boolean> restrictions) {
+        this.restrictions = restrictions;
+    }
+
+    @Override
+    public void setPaceType(String paceType) {
+        this.paceType = paceType;
+    }
+
+    @Override
+    public void setRequiredCalories(int requiredCalories) {
+        this.requiredCalories = requiredCalories;
     }
 
 }
