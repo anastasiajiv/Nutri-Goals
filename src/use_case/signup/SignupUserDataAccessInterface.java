@@ -7,6 +7,8 @@ public interface SignupUserDataAccessInterface {
 
     void save (User user);
 
+    Boolean existByUserId(int userId);
+
 }
 
 

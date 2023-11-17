@@ -18,4 +18,9 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     public void save(User user) {
         users.put(user.getUserId(), user);
     }
+
+    @Override
+    public Boolean existByUserId(int userId) {
+        return null;
+    }
 }
