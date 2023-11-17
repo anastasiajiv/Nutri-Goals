@@ -70,7 +70,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface{
             // Don't add user if they already exist
             accounts.put(user.getUserId(), user);
             // Save the updated data to the CSV file
-            csvBuilder.buildCsv(accounts);
+            csvBuilder.buildCsv(user);
         } else {
             System.out.println("This user already exists");
         }
