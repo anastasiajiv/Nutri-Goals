@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 public class TrackedNutrientsInputData {
     private final int userID;
-
     private ArrayList<String> trackedNutrients;
 
     public TrackedNutrientsInputData(int userID, ArrayList<String> trackedNutrients) {

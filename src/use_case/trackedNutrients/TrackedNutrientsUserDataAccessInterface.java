@@ -8,4 +8,5 @@ public interface TrackedNutrientsUserDataAccessInterface {
     User getUserTrackedNutrientsData(int userID);
 
     Boolean existByUserID(int userID);
+
 }

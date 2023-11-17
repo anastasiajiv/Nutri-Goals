@@ -12,9 +12,10 @@ import java.util.Map;
 import src.entity.User;
 import src.entity.UserFactory;
 import src.use_case.signup.SignupUserDataAccessInterface;
+import src.use_case.trackedNutrients.TrackedNutrientsUserDataAccessInterface;
 import src.use_case.weightgoal.WeightGoalUserDataInterface;
 
-public class FileUserDataAccessObject implements SignupUserDataAccessInterface, WeightGoalUserDataInterface {
+public class FileUserDataAccessObject implements SignupUserDataAccessInterface, WeightGoalUserDataInterface, TrackedNutrientsUserDataAccessInterface {
 
 
     File csvFile;
