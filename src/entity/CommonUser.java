@@ -11,7 +11,7 @@ public class CommonUser implements User{
 
     private final String name;
 
-    private final String password;
+    private String password;
 
     private final LocalDateTime creationTime;
 
@@ -63,16 +63,17 @@ public class CommonUser implements User{
 
     }
 
-//    public CommonUser2(int userId, String name) {
+//
+//    public CommonUser(int userId, String name) {
 //        this();  // Call the default constructor to set default values
 //        this.userId = userId;
 //        this.name = name;
 //    }
 //
 //    // Constructor with full attribute set
-//    public CommonUser2(int userId, String name, String password, LocalDateTime creationTime,
+//    public CommonUser(int userId, String name, String password, LocalDateTime creationTime,
 //                      HashMap<String, Boolean> gender, double userHeight, double userWeight,
-//                      int userAge, int userExerciseLevel, HashMap<String, Boolean> restrictions,
+//                      int userAge, int userExcerciseLevel, HashMap<String, Boolean> restrictions,
 //                      HashMap<String, Boolean> weightGoalType, int requiredCalories) {
 //        this.userId = userId;
 //        this.name = name;
@@ -82,14 +83,13 @@ public class CommonUser implements User{
 //        this.userHeight = userHeight;
 //        this.userWeight = userWeight;
 //        this.userAge = userAge;
-//        this.userExerciseLevel = userExerciseLevel;
+//        this.userExcerciseLevel = userExerciseLevel;
 //        this.restrictions = restrictions;
 //        this.weightGoalType = weightGoalType;
 //        this.requiredCalories = requiredCalories;
-
-    // User user =
+//
 //   }
-
+//
 
 
     @Override
@@ -207,6 +207,13 @@ public class CommonUser implements User{
 
     public int getRequiredCalories() {
         return requiredCalories;
+    }
+
+
+    //SETTERS -> These will allow us to update user information after creating a default user.
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }

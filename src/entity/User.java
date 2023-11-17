@@ -51,6 +51,7 @@ public interface User {
 
     int getRequiredCalories(); // Should default to 0
 
-
+    // setters
+    void setPassword(String password);
 
 }
