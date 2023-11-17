@@ -27,6 +27,8 @@ public class CommonUser implements User{
 
     private final HashMap<String, Boolean> weightGoalType;
 
+    private final  String paceType;
+
     private final int requiredCalories;
 
 
@@ -43,6 +45,7 @@ public class CommonUser implements User{
                       int userExcerciseLevel,
                       HashMap<String, Boolean> restrictions,
                       HashMap<String, Boolean> weightGoalType,
+                      String paceType,
                       int requiredCalories) {
         this.userId = userId;
         this.name = name;
@@ -55,9 +58,39 @@ public class CommonUser implements User{
         this.userExcerciseLevel = userExcerciseLevel;
         this.restrictions = restrictions;
         this.weightGoalType = weightGoalType;
+        this.paceType = paceType;
         this.requiredCalories = requiredCalories;
 
     }
+
+//    public CommonUser2(int userId, String name) {
+//        this();  // Call the default constructor to set default values
+//        this.userId = userId;
+//        this.name = name;
+//    }
+//
+//    // Constructor with full attribute set
+//    public CommonUser2(int userId, String name, String password, LocalDateTime creationTime,
+//                      HashMap<String, Boolean> gender, double userHeight, double userWeight,
+//                      int userAge, int userExerciseLevel, HashMap<String, Boolean> restrictions,
+//                      HashMap<String, Boolean> weightGoalType, int requiredCalories) {
+//        this.userId = userId;
+//        this.name = name;
+//        this.password = password;
+//        this.creationTime = creationTime;
+//        this.gender = gender;
+//        this.userHeight = userHeight;
+//        this.userWeight = userWeight;
+//        this.userAge = userAge;
+//        this.userExerciseLevel = userExerciseLevel;
+//        this.restrictions = restrictions;
+//        this.weightGoalType = weightGoalType;
+//        this.requiredCalories = requiredCalories;
+
+    // User user =
+//   }
+
+
 
     @Override
     public int getUserId() {
@@ -165,6 +198,13 @@ public class CommonUser implements User{
         }
         else return String.valueOf(Boolean.FALSE);
     }
+    @Override
+    public String getPaceType() {
+        return paceType;
+    }
+
+
+
     public int getRequiredCalories() {
         return requiredCalories;
     }
