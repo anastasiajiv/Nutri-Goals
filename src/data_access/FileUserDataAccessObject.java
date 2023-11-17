@@ -4,6 +4,7 @@ package src.data_access;
 import java.io.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.Map;
@@ -127,7 +128,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                     // added trackedNutrients
                     String trackedNutrientsKey1 = "nutrient1"; // replace with each type of nutrient tracked
                     // ...
-                    HashMap<String, Float> trackedNutrients = new HashMap<>();
+                    ArrayList<String> trackedNutrients = new ArrayList<>();
                     // ... I don't know what this chunk of code is doing, so I will leave the rest...
 
 
