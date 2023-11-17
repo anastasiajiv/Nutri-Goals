@@ -1,6 +1,7 @@
 package src.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CommonUserFactory implements UserFactory {
@@ -17,7 +18,7 @@ public class CommonUserFactory implements UserFactory {
                        int userAge,
                        int userExerciseLevel,
                        HashMap<String, Boolean> userRestriction,
-                       HashMap<String, Float> trackedNutrients,
+                       ArrayList<String> trackedNutrients,
                        HashMap<String, Boolean> weightGoal,
                        int requiredCalories) {
 

@@ -1,5 +1,6 @@
 package src.entity;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,7 +10,7 @@ public class CommonUser implements User {
 
     private HashMap<String, Boolean> restrictions = new HashMap<>();
 
-    private HashMap<String, Float> trackedNutrients = new HashMap<>();
+    private ArrayList<String> trackedNutrients = new ArrayList<>();
 
     private final String name;
 
@@ -44,7 +45,7 @@ public class CommonUser implements User {
                       int userAge,
                       int userExerciseLevel,
                       HashMap<String, Boolean> restrictions,
-                      HashMap<String, Float> trackedNutrients,
+                      ArrayList<String> trackedNutrients,
                       HashMap<String, Boolean> weightGoalType,
                       int requiredCalories) {
         this.userId = userId;
@@ -134,7 +135,7 @@ public class CommonUser implements User {
     }
 
     @Override
-    public HashMap<String, Float> getTrackedNutrients() {
+    public ArrayList<String> getTrackedNutrients() {
         return trackedNutrients;
     }
 

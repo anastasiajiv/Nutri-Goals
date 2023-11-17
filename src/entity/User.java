@@ -1,6 +1,7 @@
 package src.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface User {
@@ -30,7 +31,7 @@ public interface User {
     HashMap<String, Boolean> getUserRestriction(); // Restriction type will be stored as a hashmap <String(Restriction Type),
                                 // Boolean(Whether user clicked this option or not)>
 
-    HashMap<String, Float> getTrackedNutrients(); // <Nutrient name, current value being tracked>
+    ArrayList<String> getTrackedNutrients(); // <Nutrient name, current value being tracked>
 
     HashMap<String, Boolean> WeightGoalType(); // String -> Maintain, Gain, Lose
 
