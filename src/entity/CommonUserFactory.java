@@ -18,6 +18,7 @@ public class CommonUserFactory implements UserFactory {
                        int userExerciseLevel,
                        HashMap<String, Boolean> userRestriction,
                        HashMap<String, Boolean> weightGoal,
+                       String paceType,
                        int requiredCalories) {
 
         return new CommonUser
@@ -32,6 +33,7 @@ public class CommonUserFactory implements UserFactory {
                 userExerciseLevel,
                 userRestriction,
                 weightGoal,
+                        paceType,
                         requiredCalories);
     }
 }

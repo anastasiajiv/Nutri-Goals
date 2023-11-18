@@ -11,23 +11,26 @@ public class CommonUser implements User{
 
     private final String name;
 
-    private final String password;
+    private String password;
 
-    private final LocalDateTime creationTime;
+    private LocalDateTime creationTime;
 
-    final HashMap<String, Boolean> gender;
+    HashMap<String, Boolean> gender; // remove final since they are subject to change.
+    //Not sure if this is a good design decision
 
-    private final double userHeight;
+    private double userHeight;
 
-    private final double userWeight;
+    private double userWeight;
 
-    private final int userAge;
+    private int userAge;
 
-    private final int userExcerciseLevel;
+    private int userExcerciseLevel;
 
-    private final HashMap<String, Boolean> weightGoalType;
+    private HashMap<String, Boolean> weightGoalType;
 
-    private final int requiredCalories;
+    private String paceType;
+
+    private int requiredCalories;
 
 
 
@@ -43,6 +46,7 @@ public class CommonUser implements User{
                       int userExcerciseLevel,
                       HashMap<String, Boolean> restrictions,
                       HashMap<String, Boolean> weightGoalType,
+                      String paceType,
                       int requiredCalories) {
         this.userId = userId;
         this.name = name;
@@ -55,9 +59,39 @@ public class CommonUser implements User{
         this.userExcerciseLevel = userExcerciseLevel;
         this.restrictions = restrictions;
         this.weightGoalType = weightGoalType;
+        this.paceType = paceType;
         this.requiredCalories = requiredCalories;
 
     }
+
+//
+//    public CommonUser(int userId, String name) {
+//        this();  // Call the default constructor to set default values
+//        this.userId = userId;
+//        this.name = name;
+//    }
+//
+//    // Constructor with full attribute set
+//    public CommonUser(int userId, String name, String password, LocalDateTime creationTime,
+//                      HashMap<String, Boolean> gender, double userHeight, double userWeight,
+//                      int userAge, int userExcerciseLevel, HashMap<String, Boolean> restrictions,
+//                      HashMap<String, Boolean> weightGoalType, int requiredCalories) {
+//        this.userId = userId;
+//        this.name = name;
+//        this.password = password;
+//        this.creationTime = creationTime;
+//        this.gender = gender;
+//        this.userHeight = userHeight;
+//        this.userWeight = userWeight;
+//        this.userAge = userAge;
+//        this.userExcerciseLevel = userExerciseLevel;
+//        this.restrictions = restrictions;
+//        this.weightGoalType = weightGoalType;
+//        this.requiredCalories = requiredCalories;
+//
+//   }
+//
+
 
     @Override
     public int getUserId() {
@@ -165,8 +199,70 @@ public class CommonUser implements User{
         }
         else return String.valueOf(Boolean.FALSE);
     }
+    @Override
+    public String getPaceType() {
+        return paceType;
+    }
+
+
+
     public int getRequiredCalories() {
         return requiredCalories;
+    }
+
+
+    //SETTERS -> These will allow us to update user information after creating a default user.
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    @Override
+    public void setCreationTime(LocalDateTime creationTime) {
+        this.creationTime = creationTime;
+    }
+
+
+    @Override
+    public void setGender(HashMap<String, Boolean> gender) {
+        this.gender = gender;
+    }
+    @Override
+    public void setUserHeight(double userheight) {
+        this.userHeight = userheight;
+    }
+
+    @Override
+    public void setUserWeight(double userWeight) {
+        this.userWeight = userWeight;
+    }
+
+    @Override
+    public void setUserAge(int userAge) {
+        this.userAge = userAge;
+    }
+    @Override
+    public void setUserExerciseLvl(int userExerciseLvl) {
+        this.userExcerciseLevel = userExerciseLvl;
+    }
+
+    @Override
+    public void setWeightGoalType(HashMap<String, Boolean> weightGoalType) {
+        this.weightGoalType = weightGoalType;
+    }
+
+    @Override
+    public void setRestrictions(HashMap<String, Boolean> restrictions) {
+        this.restrictions = restrictions;
+    }
+
+    @Override
+    public void setPaceType(String paceType) {
+        this.paceType = paceType;
+    }
+
+    @Override
+    public void setRequiredCalories(int requiredCalories) {
+        this.requiredCalories = requiredCalories;
     }
 
 }
