@@ -172,6 +172,9 @@ public class CommonUser implements User{
     //public HashMap<String, Boolean> getUserRestriction() {
     //    return restrictions; // Change to return keys with True values.
     //}
+    public void setDietary(HashMap<String, Boolean> dietary){
+        this.dietary = dietary;
+    }
     @Override
     public String getDietary() {
         String user_diet = new String();
@@ -185,6 +188,10 @@ public class CommonUser implements User{
         return user_diet;
     }
 
+    public void setAllergies(HashMap<String, Boolean> allergies){
+        this.allergies = allergies;
+    }
+
     @Override
     public List<String> getAllergies(){
         List<String> user_allergies = new ArrayList<>();
@@ -196,6 +203,9 @@ public class CommonUser implements User{
             }
         }
         return user_allergies;
+    }
+    public void setConditions(HashMap<String, String> conditions){
+        this.conditions = conditions;
     }
     @Override
     public HashMap<String, Double> getConditions(){
