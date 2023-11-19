@@ -12,8 +12,9 @@ import src.entity.User;
 import src.entity.UserFactory;
 import src.use_case.signup.SignupUserDataAccessInterface;
 import src.use_case.weightgoal.WeightGoalUserDataInterface;
+import src.use_case.preferences.PreferencesUserDataAccessInterface;
 
-public class FileUserDataAccessObject implements SignupUserDataAccessInterface, WeightGoalUserDataInterface {
+public class FileUserDataAccessObject implements SignupUserDataAccessInterface, WeightGoalUserDataInterface, PreferencesUserDataAccessInterface {
 
 
     File csvFile;
@@ -41,11 +42,13 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         headers.put("age", 8);
         headers.put("exerciseLvl", 9);
         headers.put("dietaryRestriction1", 10);
-        headers.put("maintainWeight", 11);
-        headers.put("loseWeight", 12);
-        headers.put("gainWeight", 13);
-        headers.put("weightPaceType", 14);
-        headers.put("requiredCalories", 15);
+        headers.put("allergiesRestriction1", 11);
+        headers.put("conditionsRestriction1", 12);
+        headers.put("maintainWeight", 13);
+        headers.put("loseWeight", 14);
+        headers.put("gainWeight", 15);
+        headers.put("weightPaceType", 16);
+        headers.put("requiredCalories", 17);
 
         if (csvFile.length() == 0) {
             setHeaders();
@@ -64,7 +67,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         "weight," +
                         "age," +
                         "exerciseLvl," +
-                        "dietaryRestriction1," +
+                        "dietaryRestriction1," + // instead of just preferences
+                        "allergiesRestriction1" +
+                        "conditionsRestriction1" +
                         "maintainWeight," +
                         "loseWeight," +
                         "gainWeight," +
@@ -95,11 +100,23 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                     int age = Integer.parseInt(col[headers.get("age")]);
                     int exerciseLvl = Integer.parseInt(col[headers.get("exerciseLvl")]);
 
-                    String restrictionKey1 = "dietaryRestriction1"; // Replace with each type of restriction
-                    Boolean restrictionValue1 = Boolean.valueOf(col[headers.get("dietaryRestriction1")]);
+                    String dietaryKey1 = "dietaryRestriction1"; // Replace with each type of restriction
+                    Boolean dietaryValue1 = Boolean.valueOf(col[headers.get("dietaryRestriction1")]);
 
-                    HashMap<String, Boolean> restrictions = new HashMap<>();
-                    restrictions.put(restrictionKey1, restrictionValue1);
+                    HashMap<String, Boolean> dietaryRestrictions = new HashMap<>();
+                    dietaryRestrictions.put(dietaryKey1, dietaryValue1);
+
+                    String allergyKey1 = "allergiesRestriction1";
+                    Boolean allergyValue1 = Boolean.valueOf(col[headers.get("allergiesRestriction1")]);
+
+                    HashMap<String, Boolean> allergiesRestrictions = new HashMap<>();
+                    allergiesRestrictions.put(allergyKey1, allergyValue1);
+
+                    String conditionsKey1 = "conditionsRestriction1";
+                    String conditionsValue1 = String.valueOf(col[headers.get("conditionsRestriction1")]);
+
+                    HashMap<String, String> conditionsRestrictions = new HashMap<>();
+                    conditionsRestrictions.put(conditionsKey1, conditionsValue1);
 
                     String weightGoalKey1 = "maintainWeight";
                     Boolean weightGoalValue1 = Boolean.valueOf(col[headers.get(weightGoalKey1)]);
