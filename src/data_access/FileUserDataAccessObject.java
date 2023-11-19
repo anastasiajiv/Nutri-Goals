@@ -404,5 +404,35 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         }
         return newUserBMR;
     }
+    @Override
+    public void saveDietary(HashMap<Integer, HashMap<String, Boolean>> dietary){
+        // element 8
+        BufferedReader reader;
+        BufferedWriter writer;
+        try {
+            reader = new BufferedReader(new FileReader(csvFile));
+            writer = new BufferedWriter(new FileWriter(csvFile, false));
+            reader.readLine();
+            String row;
+            for(Map.Entry<Integer, HashMap<String, Boolean>> entry: dietary.entrySet()){
+                Integer key = entry.getKey();
+                HashMap<String, Boolean> value = entry.getValue();
+                while((row = reader.readLine()) != null){
+                    String[] col = row.split(",");
+                    if (col[0].equals(String.valueOf(key))) {
+                        col[10] = String.valueOf(value);
+                        String updated_dietary = String.join(",", col);
+                        writer.write(updated_dietary);
+                    }
+                }
+            }
+            writer.close();
+        } catch (IOException e){
+            System.out.println("Error, could not save dietary properly.");
+        }
+
+    }
+
+
 
 }
