@@ -7,7 +7,8 @@ public class CommonUser implements User{
 
     private final int userId;
 
-    private HashMap<String, Boolean> restrictions = new HashMap<>();
+    //private HashMap<String, Boolean> restrictions = new HashMap<>();
+    private HashMap<String, Boolean> dietary = new HashMap<>();
 
     private final String name;
 
