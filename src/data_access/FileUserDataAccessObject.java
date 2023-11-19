@@ -433,6 +433,63 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
     }
 
+    @Override
+    public void saveAllergies(HashMap<Integer, HashMap<String, Boolean>> allergies){
+        //element 10
+        BufferedReader reader;
+        BufferedWriter writer;
+        try {
+            reader = new BufferedReader(new FileReader(csvFile));
+            writer = new BufferedWriter(new FileWriter(csvFile));
+            reader.readLine();
+            String row;
+            for(Map.Entry<Integer, HashMap<String, Boolean>> entry: allergies.entrySet()){
+                Integer key = entry.getKey();
+                HashMap<String, Boolean> value = entry.getValue();
+                while((row = reader.readLine()) != null){
+                    String[] col = row.split(",");
+                    if (col[0].equals(String.valueOf(key))){
+                        col[11] = String.valueOf(value);// or col[10]
+                        String updated_allergies = String.join(",", col);
+                        writer.write(updated_allergies);
+                    }
+                }
+            }
+            writer.close();
+        } catch (IOException e){
+            System.out.println("Error, could not save allergies properly.");
+        }
+
+    }
+
+    @Override
+    public void saveConditions(HashMap<Integer, HashMap<String, String>> conditions){
+        BufferedReader reader;
+        BufferedWriter writer;
+        try {
+            reader = new BufferedReader(new FileReader(csvFile));
+            writer = new BufferedWriter(new FileWriter(csvFile));
+            reader.readLine();
+            String row;
+            for(Map.Entry<Integer, HashMap<String, String>> entry: conditions.entrySet()){
+                Integer key = entry.getKey();
+                HashMap<String, String> value = entry.getValue();
+                while((row = reader.readLine()) != null){
+                    String[] col = row.split(",");
+                    if (col[0].equals(String.valueOf(key))){
+                        col[12] = String.valueOf(value);
+                        String updated_conditions = String.join(",", col);
+                        writer.write(updated_conditions);
+                    }
+                }
+            }
+            writer.close();
+        } catch (IOException e){
+            System.out.println("Error, could not save conditions properly.");
+        }
+    }
+
+
 
 
 }
