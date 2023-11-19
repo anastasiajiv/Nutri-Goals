@@ -30,9 +30,13 @@ public interface User {
 
     //HashMap<String, Boolean> getUserRestriction(); // Restriction type will be stored as a hashmap <String(Restriction Type),
                                 // Boolean(Weather user clicked this option or not)>
+    void setDietary();
     String getDietary();
 
+    void setAllergies();
     List<String> getAllergies();
+
+    void setConditions();
 
     HashMap<String, Double> getConditions();
 
@@ -90,7 +94,7 @@ public interface User {
 
     void setWeightGoalType(HashMap<String, Boolean> weightGoalType);
 
-    void setRestrictions(HashMap<String, Boolean> restrictions);
+    //void setRestrictions(HashMap<String, Boolean> restrictions);
 
     void setPaceType(String paceType);
 

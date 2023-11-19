@@ -197,6 +197,18 @@ public class CommonUser implements User{
         }
         return user_allergies;
     }
+    @Override
+    public HashMap<String, Double> getConditions(){
+        HashMap<String, Double> user_conditions = new HashMap<>();
+        user_conditions.put("Calcium", getCalciumValue());
+        user_conditions.put("Potassium", getPotassiumValue());
+        user_conditions.put("Vitamin C", getVitaminCValue());
+        user_conditions.put("Vitamin D", getVitaminDValue());
+        user_conditions.put("Iron", getIronValue());
+        user_conditions.put("Magnesium", getMagnesiumValue());
+        user_conditions.put("Sugar", getSugarValue());
+        return user_conditions;
+    }
 
     @Override
     public Double getCalciumValue(){
@@ -413,7 +425,6 @@ public class CommonUser implements User{
         return weightGoalType;
     }
 
-
     @Override
     public String getWeightGoalType() {
         for (Map.Entry<String, Boolean> entry: weightGoalType.entrySet()) {
@@ -495,10 +506,10 @@ public class CommonUser implements User{
         this.weightGoalType = weightGoalType;
     }
 
-    @Override
-    public void setRestrictions(HashMap<String, Boolean> restrictions) {
-        this.restrictions = restrictions;
-    }
+    //@Override
+    //public void setRestrictions(HashMap<String, Boolean> restrictions) {
+    //    this.restrictions = restrictions;
+    //}
 
     @Override
     public void setPaceType(String paceType) {
