@@ -22,4 +22,16 @@ public class PreferencesInputData {
         return map;
     }
 
+    HashMap<Integer, HashMap<String, String>> getConditions(){
+        HashMap<Integer, HashMap<String, String>> map = new HashMap<>();
+        map.put(this.userId, this.conditions);
+        return map;
+    }
+    HashMap<Integer, HashMap<String, Boolean>> getAllergies(){
+        HashMap<Integer, HashMap<String, Boolean>> map = new HashMap<>();
+        map.put(userId, this.allergies);
+        return map;
+    }
+
+    int getUserId(){ return this.userId; }
 }
