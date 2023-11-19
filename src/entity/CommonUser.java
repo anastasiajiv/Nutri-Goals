@@ -12,6 +12,7 @@ public class CommonUser implements User{
 
     private HashMap<String, Boolean> allergies = new HashMap<>();
 
+    private HashMap<String, String> conditions = new HashMap<>();
     private final String name;
 
     private String password;
