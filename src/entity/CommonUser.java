@@ -48,7 +48,9 @@ public class CommonUser implements User{
                       double userWeight,
                       int userAge,
                       int userExcerciseLevel,
-                      HashMap<String, Boolean> restrictions,
+                      HashMap<String, Boolean> dietary,
+                      HashMap<String, Boolean> allergies,
+                      HashMap<String, String> conditions,
                       HashMap<String, Boolean> weightGoalType,
                       String paceType,
                       int requiredCalories) {
@@ -61,7 +63,9 @@ public class CommonUser implements User{
         this.userWeight = userWeight;
         this.userAge = userAge;
         this.userExcerciseLevel = userExcerciseLevel;
-        this.restrictions = restrictions;
+        this.dietary = dietary;
+        this.allergies = allergies;
+        this.conditions = conditions;
         this.weightGoalType = weightGoalType;
         this.paceType = paceType;
         this.requiredCalories = requiredCalories;
