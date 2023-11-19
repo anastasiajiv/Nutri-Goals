@@ -1,6 +1,8 @@
 package src.entity;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CommonUser implements User{
@@ -166,9 +168,34 @@ public class CommonUser implements User{
         return userExcerciseLevel;
     }
 
+    //@Override
+    //public HashMap<String, Boolean> getUserRestriction() {
+    //    return restrictions; // Change to return keys with True values.
+    //}
     @Override
-    public HashMap<String, Boolean> getUserRestriction() {
-        return restrictions; // Change to return keys with True values.
+    public String getDietary() {
+        String user_diet = new String();
+        for (Map.Entry<String, Boolean> map : dietary.entrySet()) {
+            String key = map.getKey();
+            Boolean value = map.getValue();
+            if (value == Boolean.TRUE) {
+                user_diet = key;
+            }
+        }
+        return user_diet;
+    }
+
+    @Override
+    public List<String> getAllergies(){
+        List<String> user_allergies = new ArrayList<>();
+        for (Map.Entry<String, Boolean> map: allergies.entrySet()){
+            String key = map.getKey();
+            Boolean value = map.getValue();
+            if (value == Boolean.TRUE){
+                user_allergies.add(key);
+            }
+        }
+        return user_allergies;
     }
 
     @Override
