@@ -12,8 +12,9 @@ import src.entity.User;
 import src.entity.UserFactory;
 import src.use_case.signup.SignupUserDataAccessInterface;
 import src.use_case.weightgoal.WeightGoalUserDataInterface;
+import src.use_case.preferences.PreferencesUserDataAccessInterface;
 
-public class FileUserDataAccessObject implements SignupUserDataAccessInterface, WeightGoalUserDataInterface {
+public class FileUserDataAccessObject implements SignupUserDataAccessInterface, WeightGoalUserDataInterface, PreferencesUserDataAccessInterface {
 
 
     File csvFile;
@@ -41,11 +42,13 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         headers.put("age", 8);
         headers.put("exerciseLvl", 9);
         headers.put("dietaryRestriction1", 10);
-        headers.put("maintainWeight", 11);
-        headers.put("loseWeight", 12);
-        headers.put("gainWeight", 13);
-        headers.put("weightPaceType", 14);
-        headers.put("requiredCalories", 15);
+        headers.put("allergiesRestriction1", 11);
+        headers.put("conditionsRestriction1", 12);
+        headers.put("maintainWeight", 13);
+        headers.put("loseWeight", 14);
+        headers.put("gainWeight", 15);
+        headers.put("weightPaceType", 16);
+        headers.put("requiredCalories", 17);
 
         if (csvFile.length() == 0) {
             setHeaders();
@@ -64,7 +67,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         "weight," +
                         "age," +
                         "exerciseLvl," +
-                        "dietaryRestriction1," +
+                        "dietaryRestriction1," + // instead of just preferences
+                        "allergiesRestriction1" +
+                        "conditionsRestriction1" +
                         "maintainWeight," +
                         "loseWeight," +
                         "gainWeight," +
@@ -95,11 +100,23 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                     int age = Integer.parseInt(col[headers.get("age")]);
                     int exerciseLvl = Integer.parseInt(col[headers.get("exerciseLvl")]);
 
-                    String restrictionKey1 = "dietaryRestriction1"; // Replace with each type of restriction
-                    Boolean restrictionValue1 = Boolean.valueOf(col[headers.get("dietaryRestriction1")]);
+                    String dietaryKey1 = "dietaryRestriction1"; // Replace with each type of restriction
+                    Boolean dietaryValue1 = Boolean.valueOf(col[headers.get("dietaryRestriction1")]);
 
-                    HashMap<String, Boolean> restrictions = new HashMap<>();
-                    restrictions.put(restrictionKey1, restrictionValue1);
+                    HashMap<String, Boolean> dietaryRestrictions = new HashMap<>();
+                    dietaryRestrictions.put(dietaryKey1, dietaryValue1);
+
+                    String allergyKey1 = "allergiesRestriction1";
+                    Boolean allergyValue1 = Boolean.valueOf(col[headers.get("allergiesRestriction1")]);
+
+                    HashMap<String, Boolean> allergiesRestrictions = new HashMap<>();
+                    allergiesRestrictions.put(allergyKey1, allergyValue1);
+
+                    String conditionsKey1 = "conditionsRestriction1";
+                    String conditionsValue1 = String.valueOf(col[headers.get("conditionsRestriction1")]);
+
+                    HashMap<String, String> conditionsRestrictions = new HashMap<>();
+                    conditionsRestrictions.put(conditionsKey1, conditionsValue1);
 
                     String weightGoalKey1 = "maintainWeight";
                     Boolean weightGoalValue1 = Boolean.valueOf(col[headers.get(weightGoalKey1)]);
@@ -126,7 +143,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                             weight,
                             age,
                             exerciseLvl,
-                            restrictions,
+                            dietaryRestrictions,
+                            allergiesRestrictions,
+                            conditionsRestrictions,
                             weightGoal,
                             paceType,
                             requiredCalories);
@@ -148,7 +167,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
             writer.newLine();
 
             for (User user: accounts.values()) {
-                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s","%s","%s",
                         user.getUserId(),
                         user.getName(),
                         user.getPassword(),
@@ -159,7 +178,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         user.getUserWeight(),
                         user.getUserAge(),
                         user.getUserExcerciseLevel(),
-                        user.getUserRestriction(),
+                        "Dietary", // since get returns only those that are true
+                        "Allergies",
+                        "Conditions",
                         user.getMaintainTypeValue(),
                         user.getLoseTypeValue(),
                         user.getGainTypeValue(),
@@ -192,7 +213,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         user.getUserWeight(),
                         user.getUserAge(),
                         user.getUserExcerciseLevel(),
-                        user.getUserRestriction(),
+                        user.getDietary(),
+                        user.getAllergies(),
+                        user.getConditions(),
                         user.getMaintainTypeValue(),
                         user.getLoseTypeValue(),
                         user.getGainTypeValue(),
@@ -255,7 +278,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                                 updatedUser.getUserWeight(),
                                 updatedUser.getUserAge(),
                                 updatedUser.getUserExcerciseLevel(),
-                                updatedUser.getUserRestriction(),
+                                updatedUser.getDietary(),
+                                updatedUser.getAllergies(),
+                                updatedUser.getConditions(),
                                 updatedUser.getMaintainTypeValue(),
                                 updatedUser.getLoseTypeValue(),
                                 updatedUser.getGainTypeValue(),
@@ -379,5 +404,92 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         }
         return newUserBMR;
     }
+    @Override
+    public void saveDietary(HashMap<Integer, HashMap<String, Boolean>> dietary){
+        // element 8
+        BufferedReader reader;
+        BufferedWriter writer;
+        try {
+            reader = new BufferedReader(new FileReader(csvFile));
+            writer = new BufferedWriter(new FileWriter(csvFile, false));
+            reader.readLine();
+            String row;
+            for(Map.Entry<Integer, HashMap<String, Boolean>> entry: dietary.entrySet()){
+                Integer key = entry.getKey();
+                HashMap<String, Boolean> value = entry.getValue();
+                while((row = reader.readLine()) != null){
+                    String[] col = row.split(",");
+                    if (col[0].equals(String.valueOf(key))) {
+                        col[10] = String.valueOf(value);
+                        String updated_dietary = String.join(",", col);
+                        writer.write(updated_dietary);
+                    }
+                }
+            }
+            writer.close();
+        } catch (IOException e){
+            System.out.println("Error, could not save dietary properly.");
+        }
+
+    }
+
+    @Override
+    public void saveAllergies(HashMap<Integer, HashMap<String, Boolean>> allergies){
+        //element 10
+        BufferedReader reader;
+        BufferedWriter writer;
+        try {
+            reader = new BufferedReader(new FileReader(csvFile));
+            writer = new BufferedWriter(new FileWriter(csvFile));
+            reader.readLine();
+            String row;
+            for(Map.Entry<Integer, HashMap<String, Boolean>> entry: allergies.entrySet()){
+                Integer key = entry.getKey();
+                HashMap<String, Boolean> value = entry.getValue();
+                while((row = reader.readLine()) != null){
+                    String[] col = row.split(",");
+                    if (col[0].equals(String.valueOf(key))){
+                        col[11] = String.valueOf(value);// or col[10]
+                        String updated_allergies = String.join(",", col);
+                        writer.write(updated_allergies);
+                    }
+                }
+            }
+            writer.close();
+        } catch (IOException e){
+            System.out.println("Error, could not save allergies properly.");
+        }
+
+    }
+
+    @Override
+    public void saveConditions(HashMap<Integer, HashMap<String, String>> conditions){
+        BufferedReader reader;
+        BufferedWriter writer;
+        try {
+            reader = new BufferedReader(new FileReader(csvFile));
+            writer = new BufferedWriter(new FileWriter(csvFile));
+            reader.readLine();
+            String row;
+            for(Map.Entry<Integer, HashMap<String, String>> entry: conditions.entrySet()){
+                Integer key = entry.getKey();
+                HashMap<String, String> value = entry.getValue();
+                while((row = reader.readLine()) != null){
+                    String[] col = row.split(",");
+                    if (col[0].equals(String.valueOf(key))){
+                        col[12] = String.valueOf(value);
+                        String updated_conditions = String.join(",", col);
+                        writer.write(updated_conditions);
+                    }
+                }
+            }
+            writer.close();
+        } catch (IOException e){
+            System.out.println("Error, could not save conditions properly.");
+        }
+    }
+
+
+
 
 }
