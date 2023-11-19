@@ -10,6 +10,8 @@ public class CommonUser implements User{
     //private HashMap<String, Boolean> restrictions = new HashMap<>();
     private HashMap<String, Boolean> dietary = new HashMap<>();
 
+    private HashMap<String, Boolean> allergies = new HashMap<>();
+
     private final String name;
 
     private String password;
