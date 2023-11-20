@@ -139,13 +139,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
                     int requiredCalories = Integer.parseInt(col[headers.get("requiredCalories")]);
 
-
-                    // added trackedNutrients
-                    String trackedNutrientsKey1 = "nutrient1"; // replace with each type of nutrient tracked
-                    // ...
-                    ArrayList<String> trackedNutrients = new ArrayList<>();
-                    // ... I don't know what this chunk of code is doing, so I will leave the rest...
-
+                    // not sure if this is the way to fetch the information correctly
+                    ArrayList<String> trackedNutrients = col[headers.get("trackedNutrients")];
 
                     User user = userFactory.create(userId,
                             username,
@@ -483,7 +478,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     }
 
     @Override
-    public void saveConditions(HashMap<Integer, HashMap<String, String>> conditions){
+    public void saveConditions(HashMap<Integer, HashMap<String, String>> conditions) {
         BufferedReader reader;
         BufferedWriter writer;
         try {
@@ -506,6 +501,28 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
             writer.close();
         } catch (IOException e){
             System.out.println("Error, could not save conditions properly.");
+        }
+    }
+
+    @Override
+    public void saveTrackedNutrientsData(ArrayList<String> trackedNutrients, int userID) {
+
+        if (existById(userID)) {
+            try {
+                reader = new BufferedReader(new FileReader(csvFile));
+                writer = new BufferedWriter(new FileWriter(csvFile));
+
+                reader.readLine();
+                String row;
+
+                for (Map.Entry<Integer, HashMap<String, String>> entry: )
+
+
+                    // implementation depends on how interacter is implemented
+                    // can send an entire updated user to here to record the line again
+                    // like saveWeightGoals
+                    // or search through and edit that one column
+            }
         }
     }
 }
