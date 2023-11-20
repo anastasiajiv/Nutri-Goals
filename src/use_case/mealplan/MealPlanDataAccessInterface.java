@@ -12,4 +12,6 @@ public interface MealPlanDataAccessInterface {
 
 
     ArrayList<String> MealPlan(ArrayList<String> breakfast, ArrayList<String> lunch, ArrayList<String> dinner);
+
+
 }
