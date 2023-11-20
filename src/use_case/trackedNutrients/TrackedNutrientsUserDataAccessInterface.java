@@ -2,10 +2,12 @@ package src.use_case.trackedNutrients;
 
 import src.entity.User;
 
+import java.util.ArrayList;
+
 public interface TrackedNutrientsUserDataAccessInterface {
-    void saveTrackedNutrientsData(ArrayList<String>, int userID);
+    Boolean saveTrackedNutrientsData(ArrayList<String> trackedNutrients, int userID);
 
-    User getUserTrackedNutrientsData(int userID);  // may remove
+    ArrayList<String> getUserTrackedNutrientsData(int userID);  // may remove
 
-    boolean existByUserID(int userID);
+    Boolean existByUserID(int userID);
 }

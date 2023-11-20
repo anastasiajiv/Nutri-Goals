@@ -3,7 +3,7 @@ import src.entity.User;
 
 import java.util.HashMap;
 public interface SignupUserDataAccessInterface {
-    boolean existById(int userId);
+    Boolean existByUserID(int userID);
 
     void save (User user);
 

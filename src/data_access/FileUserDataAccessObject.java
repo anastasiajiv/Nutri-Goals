@@ -19,7 +19,6 @@ import src.use_case.preferences.PreferencesUserDataAccessInterface;
 
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface, WeightGoalUserDataInterface, PreferencesUserDataAccessInterface, TrackedNutrientsUserDataAccessInterface {
 
-
     File csvFile;
 
     private final Map<String, Integer> headers = new LinkedHashMap<>();
@@ -139,8 +138,12 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
                     int requiredCalories = Integer.parseInt(col[headers.get("requiredCalories")]);
 
+
+                    // waiting for next pull to properly implement
+
                     // not sure if this is the way to fetch the information correctly
-                    ArrayList<String> trackedNutrients = col[headers.get("trackedNutrients")];
+                    ArrayList<String> trackedNutrients = new ArrayList<>();
+                    // ArrayList<String> trackedNutrients = col[headers.get("trackedNutrients")];
 
                     User user = userFactory.create(userId,
                             username,
@@ -176,7 +179,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
             writer.newLine();
 
             for (User user: accounts.values()) {
-                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,
+                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
                         user.getUserId(),
                         user.getName(),
                         user.getPassword(),
@@ -186,7 +189,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         user.getUserHeight(),
                         user.getUserWeight(),
                         user.getUserAge(),
-                        user.getUserExcerciseLevel(),
+                        user.getUserExerciseLevel(),
                         "Dietary", // since get returns only those that are true
                         "Allergies",
                         "Conditions",
@@ -222,7 +225,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         user.getUserHeight(),
                         user.getUserWeight(),
                         user.getUserAge(),
-                        user.getUserExcerciseLevel(),
+                        user.getUserExerciseLevel(),
                         user.getDietary(),
                         user.getAllergies(),
                         user.getConditions(),
@@ -241,27 +244,25 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         else System.out.println("This user already exists");
     }
 
-
-    @Override
-    public boolean existById(int userId) {
-        return accounts.containsKey(userId);
-    }
-
-    public User getAccountByUserId(int userId) {
-        return accounts.get(userId);
-    }
-
     @Override
     public void save(User user) {
         accounts.put(user.getUserId(), user);
     }
 
     @Override
+    public Boolean existByUserID(int userID) {
+        return accounts.containsKey(userID);
+    }
+    public User getAccountByUserID(int userID) {
+        return accounts.get(userID);
+    }
+
+    @Override
     public void saveWeightGoalData(User updatedUser) { // Should only be called for existing
         assert accounts.containsKey(updatedUser.getUserId());
 
-        int userId = updatedUser.getUserId();
-        if (existById(userId)) {
+        int userID = updatedUser.getUserId();
+        if (existByUserID(userID)) {
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(csvFile));
                 StringBuilder updatedCsvContent = new StringBuilder();
@@ -276,7 +277,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                     String[] col = row.split(",");
                     int currentUserId = Integer.parseInt(col[headers.get("userId")]);
 
-                    if (currentUserId == userId) {  // added trackedNutrients
+                    if (currentUserId == userID) {  // added trackedNutrients
                         // Update the line for the specified user
                         String updatedLine = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
                                 updatedUser.getUserId(),
@@ -288,7 +289,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                                 updatedUser.getUserHeight(),
                                 updatedUser.getUserWeight(),
                                 updatedUser.getUserAge(),
-                                updatedUser.getUserExcerciseLevel(),
+                                updatedUser.getUserExerciseLevel(),
                                 updatedUser.getDietary(),
                                 updatedUser.getAllergies(),
                                 updatedUser.getConditions(),
@@ -317,28 +318,21 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
     }
 
-    // note: need a getNutrients method to return the nutrients that want to be tracked?
-
     @Override
     public User getUserWeightGoalData(int userId) {
         return accounts.get(userId);
     }
 
     @Override
-    public Boolean existByUserId(int userId) {
-        return accounts.containsKey(userId);
-    }
-
-    @Override
-    public String getWeightGoalType(int userId) { // For testing
-        return accounts.get(userId).getWeightGoalType(); // returns the weight goal type for this user
+    public String getWeightGoalType(int userID) { // For testing
+        return accounts.get(userID).getWeightGoalType(); // returns the weight goal type for this user
     }
 
     //Weight Goal Methods to get calories user needs
 
-    public double getRequiredCalories(int userId) throws Exception {
-        User user = getAccountByUserId(userId);
-        double reqCalories = getBMR(userId);
+    public double getRequiredCalories(int userID) throws Exception {
+        User user = getAccountByUserID(userID);
+        double reqCalories = getBMR(userID);
 
         if (user.getWeightGoalType().equals("maintainWeight")) {
             reqCalories = reqCalories;
@@ -372,7 +366,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         }
         return reqCalories;
     }
-    public double getBMR(int userId) {
+
+    public double getBMR(int userID) {
         // Men: BMR = 88.63 + (13.397 * weight in kg) + (4.799 * height in cm) - (5.677 * age in years)
         // Miffin - St Jeor Equation -> BMR = 10 * weight + 6.25 * height - 5 * age + 5
         // Women: BMR = 447.593 + (9.247 x weight in kg) + (3.098 x height in cm) – (4.330 x age in years)
@@ -381,11 +376,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
         // Harris - Benedict -> Men -> BMR = 66 + (13.7 x wt in kg) + (5 x ht in cm) - (6.8 x age in years)
         // Harris - Benedict -> Men -> BMR =  655 + (9.6 x wt in kg) + (1.8 x ht in cm) - (4.7 x age in years)
-        assert existById(userId);
+        assert existByUserID(userID);
         double userBMR = 0;
 
 
-        User user = accounts.get(userId);
+        User user = accounts.get(userID);
         //Get BMR
         if (Boolean.valueOf(user.isMale())) {
             userBMR = (10 * user.getUserWeight()) + (6.25 * user.getUserHeight()) - (5 * user.getUserAge()) + 5;
@@ -393,10 +388,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         else if (Boolean.valueOf(user.isFemale())) {
             userBMR = (10 * user.getUserWeight()) + (6.25 * user.getUserHeight()) - (5 * user.getUserAge()) - 161;
         }
-        return getBMRAfterActivityMultiplier(userId, userBMR);
+        return getBMRAfterActivityMultiplier(userID, userBMR);
     }
-    public double getBMRAfterActivityMultiplier(int userId, double userBMR) {
-        User user = accounts.get(userId);
+
+    public double getBMRAfterActivityMultiplier(int userID, double userBMR) {
+        User user = accounts.get(userID);
         double newUserBMR = userBMR;
 
         assert user.getUserExerciseLevel() >= 1 && user.getUserExerciseLevel() <=5; // Must be in the range 1-5.
@@ -504,15 +500,14 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         }
     }
 
-    // save the nutrients that the user would like to track and save to csv
     @Override
-    public boolean saveTrackedNutrientsData(ArrayList<String> trackedNutrients, int userID) {
+    public Boolean saveTrackedNutrientsData(ArrayList<String> trackedNutrients, int userID) {
         // userID is already checked for validity in trackedNutrients interactor
 
         try {
             // initialize a reader and writer to edit the csv file
-            reader = new BufferedReader(new FileReader(csvFile));
-            writer = new BufferedWriter(new FileWriter(csvFile));
+            BufferedReader reader = new BufferedReader(new FileReader(csvFile));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile));
 
             // skip the first line and initialize the row variable
             reader.readLine();
@@ -543,11 +538,16 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
         } catch (IOException e) {  // if there is an issue accessing the csv
 
-            // dsplay an error message to the same convention as other save methods
+            // display an error message to the same convention as other save methods
             System.out.println("Error, could not save trackedNutrients properly.");
-            // error has occured, return false
+            // error has occurred, return false
             return false;
 
         }
+    }
+
+    @Override
+    public ArrayList<String> getUserTrackedNutrientsData(int userID) {
+        return accounts.get(userID).getTrackedNutrients();
     }
 }

@@ -15,7 +15,7 @@ public class InMemoryWeightGoalAccessObject implements WeightGoalUserDataInterfa
     }
 
     @Override
-    public Boolean existByUserId(int userId) {
+    public Boolean existByUserID(int userId) {
         return null;
     }
 
