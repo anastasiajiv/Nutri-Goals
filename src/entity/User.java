@@ -3,6 +3,7 @@ package src.entity;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public interface User {
 
@@ -28,12 +29,39 @@ public interface User {
     int getUserExerciseLevel(); // Exercise level will be in a range from 1 to 5 --> Specify each levels
                                 // logistics in the ReadMe file
 
-    HashMap<String, Boolean> getUserRestriction(); // Restriction type will be stored as a hashmap <String(Restriction Type),
-                                // Boolean(Whether user clicked this option or not)>
+    //HashMap<String, Boolean> getUserRestriction(); // Restriction type will be stored as a hashmap <String(Restriction Type),
+                                // Boolean(Weather user clicked this option or not)>
+    void setDietary();
+    String getDietary();
+
+    void setAllergies();
+    List<String> getAllergies();
 
     ArrayList<String> getTrackedNutrients(); // <Nutrient name, current value being tracked>
 
+    void setConditions();
+
+    HashMap<String, Double> getConditions();
+
+    //HashMap<String, Boolean> getUserRestriction(); // Restriction type will be stored as a hashmap <String(Restriction Type),
+    // Boolean(Weather user clicked this option or not)>
+
+    Double getCalciumValue();
+
+    Double getPotassiumValue();
+
+    Double getVitaminCValue();
+    Double getVitaminDValue();
+
+    Double getIronValue();
+
+    Double getMagnesiumValue();
+
+    Double getSugarValue();
+
     HashMap<String, Boolean> WeightGoalType(); // String -> Maintain, Gain, Lose
+
+    //HashMap<String, Double> weightPace();
 
     String getWeightGoalType();
 
@@ -43,10 +71,37 @@ public interface User {
 
     String getGainTypeValue();
 
+    String getPaceType();
 
+//    HashMap<String, HashMap<String, Boolean>> weightPaceType();
+//    // {loseWeight : {typical : False, moderate: True, extreme: False}
+//
+//    HashMap<String, String> getPaceType();
 
     int getRequiredCalories(); // Should default to 0
 
+    // setters
+    void setPassword(String password);
 
+    void setCreationTime(LocalDateTime creationTime);
+
+    void setGender(HashMap<String, Boolean> gender);
+
+    void setUserHeight(double userHeight);
+
+    void setUserWeight(double userWeight);
+
+    void setUserAge(int userAge);
+
+    void setUserExerciseLvl(int userExerciseLvl);
+
+    void setWeightGoalType(HashMap<String, Boolean> weightGoalType);
+
+    //void setRestrictions(HashMap<String, Boolean> restrictions);
+
+    void setPaceType(String paceType);
+
+
+    void setRequiredCalories(int requiredCalories);
 
 }

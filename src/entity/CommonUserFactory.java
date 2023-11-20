@@ -17,9 +17,12 @@ public class CommonUserFactory implements UserFactory {
                        double userWeight,
                        int userAge,
                        int userExerciseLevel,
-                       HashMap<String, Boolean> userRestriction,
+                       HashMap<String, Boolean> dietary,
+                       HashMap<String, Boolean> allergies,
+                       HashMap<String, String> conditions,
                        ArrayList<String> trackedNutrients,
                        HashMap<String, Boolean> weightGoal,
+                       String paceType,
                        int requiredCalories) {
 
         return new CommonUser
@@ -32,9 +35,12 @@ public class CommonUserFactory implements UserFactory {
                 userWeight,
                 userAge,
                 userExerciseLevel,
-                userRestriction,
+                dietary,
+                allergies,
+                conditions,
                 trackedNutrients,
                 weightGoal,
+                        paceType,
                         requiredCalories);
     }
 }
