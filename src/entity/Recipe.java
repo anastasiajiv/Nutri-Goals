@@ -15,6 +15,8 @@ public interface Recipe {
     HashMap<String, Boolean> recipeType();
     String getRecipeType();
 
+    HashMap<String, Float> getNutritionalInfo();
+
 
 //    String getBreakfeast();
 //

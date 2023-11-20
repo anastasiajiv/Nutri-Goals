@@ -3,10 +3,9 @@ package src.use_case.trackedNutrients;
 import src.entity.User;
 
 public interface TrackedNutrientsUserDataAccessInterface {
-    void saveTrackedNutrientsData(User user);
+    void saveTrackedNutrientsData(ArrayList<String>);
 
-    User getUserTrackedNutrientsData(int userID);
+    User getUserTrackedNutrientsData(int userID);  // may remove
 
-    Boolean existByUserID(int userID);
-
+    boolean existByUserID(int userID);
 }
