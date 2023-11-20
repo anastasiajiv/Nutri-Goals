@@ -30,22 +30,24 @@ public class FileCsvBuilder {
 
     private void setHeaders(File csvFile) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile));
-        writer.write("userId," +
-                "username," +
-                "password," +
-                "creationTime," +
-                "male," +
-                "female," +
-                "height," +
-                "weight," +
-                "age," +
-                "exerciseLvl," +
-                "dietaryRestriction1," +
-                "maintainWeight," +
-                "loseWeight," +
-                "gainWeight," +
-                "weightPaceType," +
-                "requiredCalories");
+        writer.write("userId," + // 0
+                "username," +//1
+                "password," +//2
+                "creationTime," +//3
+                "male," +//4
+                "female," +//5
+                "height," +//6
+                "weight," +//7
+                "age," +//8
+                "exerciseLvl," +//9
+                "dietaryRestriction1," +//10
+                "allergiesRestriction1," +//11
+                "conditionsRestrictions1," +//12
+                "maintainWeight," + //13
+                "loseWeight," + //14
+                "gainWeight," +// 15
+                "weightPaceType," +// 16
+                "requiredCalories"); //17
         writer.newLine();
         writer.close();
     }

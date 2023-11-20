@@ -19,7 +19,7 @@ public class CommonUserFactory implements UserFactory {
                        HashMap<String, Boolean> userRestriction,
                        HashMap<String, Boolean> weightGoal,
                        String paceType,
-                       int requiredCalories) {
+                       double requiredCalories) {
 
         return new CommonUser
                 (userId,

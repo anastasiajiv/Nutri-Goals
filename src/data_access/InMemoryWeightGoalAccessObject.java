@@ -6,23 +6,23 @@ public class InMemoryWeightGoalAccessObject implements WeightGoalUserDataInterfa
 
 
     @Override
-    public void saveWeightGoalData(User user) {
+    public void saveWeightGoalData(int userId) {
 
     }
-    @Override
-    public User getUserWeightGoalData(int userId) {
-        return null;
-    }
-
-    @Override
-    public Boolean existByUserId(int userId) {
-        return null;
-    }
-
-    @Override
-    public String getWeightGoalType(int userId) {
-        return null;
-    }
+//    @Override
+//    public User getUserWeightGoalData(int userId) {
+//        return null;
+//    }
+//
+//    @Override
+//    public Boolean existByUserId(int userId) {
+//        return null;
+//    }
+//
+//    @Override
+//    public String getWeightGoalType(int userId) {
+//        return null;
+//    }
 
 
 }

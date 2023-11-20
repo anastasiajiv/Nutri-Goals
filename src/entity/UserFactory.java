@@ -16,7 +16,7 @@ public interface UserFactory {
                  HashMap<String, Boolean> userRestriction,
                  HashMap<String, Boolean> weightGoal,
                  String paceType,
-                 int requiredCalories);
+                 double requiredCalories);
 
      default User createdDefaultUser(int userId, String name) {
           return create(userId,
@@ -30,8 +30,8 @@ public interface UserFactory {
                   0, //default exercise level to 0 (NOTE: must be in range 1-5)
                   new HashMap<>(), // default restrictions to empty map
                   new HashMap<>(), // default weightgoal to empty map
-                  null, // default weight gain/lose type to null
-                  0 // default req calories to 0
+                  "", // default weight gain/lose type to null
+                  0.0 // default req calories to 0
                   );
 
      }

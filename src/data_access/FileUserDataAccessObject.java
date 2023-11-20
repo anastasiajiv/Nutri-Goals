@@ -12,7 +12,7 @@ import src.entity.UserFactory;
 import src.use_case.signup.SignupUserDataAccessInterface;
 import src.use_case.weightgoal.WeightGoalUserDataInterface;
 
-public class FileUserDataAccessObject implements SignupUserDataAccessInterface{
+public class FileUserDataAccessObject implements SignupUserDataAccessInterface, WeightGoalUserDataInterface{
 
 
     private final String csvFilePath;
@@ -31,7 +31,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface{
         loadUserDataFromCsv();
     }
 
-    private void loadUserDataFromCsv() {
+    private void loadUserDataFromCsv() { // saves initial user
         try {
             File csvFile = new File(csvFilePath);
 
@@ -65,6 +65,76 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface{
         }
     }
 
+    public void saveWeightGoalData(int userId) {
+        // this method updates the gender, height, weight, age, exercise lvl, weightGoal, paceType, and
+        // reqCalories attributes
+        try {
+            File csvFile = new File(csvFilePath);
+
+            if (!csvFile.exists()) {
+                // If the CSV file does not exist -> do nothing
+                return;
+            }
+
+            try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+                String header = reader.readLine(); // Read and ignore header
+
+                String row;
+                while ((row = reader.readLine()) != null) {
+                    User curr_account = getAccountByUserId(userId); // Get the account of the user we want to update the attributes of
+                    String[] col = row.split(",");
+
+
+                    HashMap<String, Boolean> gender = new HashMap<>();
+
+                    gender.put("male", Boolean.valueOf(col[4]));
+                    gender.put("female", Boolean.valueOf(col[5]));
+
+                    double height = Double.parseDouble(col[6]);
+                    double weight = Double.parseDouble(col[7]);
+                    int age = Integer.parseInt(col[8]);
+                    int exerciseLvl = Integer.parseInt(col[9]);
+
+                    HashMap<String, Boolean> weightGoal = new HashMap<>();
+                    weightGoal.put("maintainWeight", Boolean.parseBoolean(col[13]));
+                    weightGoal.put("loseWeight", Boolean.parseBoolean(col[14]));
+                    weightGoal.put("gainWeight", Boolean.parseBoolean(col[15]));
+
+                    String paceType = col[16];
+                    double reqCalories = Double.parseDouble(col[17]);
+
+                    // Update Attributes
+                    curr_account.setGender(gender);
+                    curr_account.setUserHeight(height);
+                    curr_account.setUserWeight(weight);
+                    curr_account.setUserAge(age);
+                    curr_account.setUserExerciseLvl(exerciseLvl);
+                    curr_account.setWeightGoalType(weightGoal);
+
+
+
+//                    String[] col = row.split(",");
+//                    // Parse data from csv into accounts map - > only edited information so far, everything else stays default values
+//                    int userId = Integer.parseInt(col[0]);
+//                    String username = col[1];
+//                    String password = col[2];
+//
+//                    LocalDateTime ldt = LocalDateTime.parse(col[3]);
+//
+//                    // Create a User object and add it to the accounts map
+//                    User user =  userFactory.createdDefaultUser(userId, username);
+//                    user.setPassword(password);
+//                    user.setCreationTime(ldt);
+//                    accounts.put(userId, user);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error loading user data from CSV", e);
+        }
+    }
+
+
+
     public void saveNewUser(User user) {
         if (!accounts.containsKey(user.getUserId())) {
             // Don't add user if they already exist
@@ -75,6 +145,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface{
             System.out.println("This user already exists");
         }
     }
+
+
 
 //    public FileUserDataAccessObject(String csvPath, UserFactory userFactory) throws IOException{
 //        this.userFactory = userFactory;
