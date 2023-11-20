@@ -3,25 +3,29 @@ package src.entity;
 import java.util.ArrayList;
 
 public class CommonMealPlan implements MealPlan{
-    public ArrayList<String> breakfast;
+    public Recipe breakfast;
 
-    public ArrayList<String> lunch;
+    public Recipe lunch;
 
-    public ArrayList<String> dinner;
+    public Recipe dinner;
 
-
+    public CommonMealPlan(Recipe breakfast, Recipe lunch, Recipe dinner){
+        this.breakfast = breakfast;
+        this.lunch = lunch;
+        this.dinner = dinner;
+    }
     @Override
-    public ArrayList<String> getBreakfast() {
+    public Recipe getBreakfast() {
         return this.breakfast;
     }
 
     @Override
-    public ArrayList<String> getLunch() {
+    public Recipe getLunch() {
         return this.lunch;
     }
 
     @Override
-    public ArrayList<String> getDinner() {
+    public Recipe getDinner() {
         return this.dinner;
     }
 }

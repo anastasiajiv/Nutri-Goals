@@ -29,6 +29,8 @@ public class CommonUser implements User{
 
     private final int requiredCalories;
 
+    private final CommonMealPlan mealplan;
+
 
 
 
@@ -43,7 +45,7 @@ public class CommonUser implements User{
                       int userExcerciseLevel,
                       HashMap<String, Boolean> restrictions,
                       HashMap<String, Boolean> weightGoalType,
-                      int requiredCalories) {
+                      int requiredCalories, CommonMealPlan mealplan) {
         this.userId = userId;
         this.name = name;
         this.password = password;
@@ -56,6 +58,7 @@ public class CommonUser implements User{
         this.restrictions = restrictions;
         this.weightGoalType = weightGoalType;
         this.requiredCalories = requiredCalories;
+        this.mealplan = mealplan;
 
     }
 
@@ -167,6 +170,10 @@ public class CommonUser implements User{
     }
     public int getRequiredCalories() {
         return requiredCalories;
+    }
+
+    public CommonMealPlan getmealplan(){
+        return this.mealplan;
     }
 
 }

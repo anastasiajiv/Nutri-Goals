@@ -3,9 +3,9 @@ package src.entity;
 import java.util.ArrayList;
 
 public interface MealPlan {
-    ArrayList<String> getBreakfast();
+    Recipe getBreakfast();
 
-    ArrayList<String> getLunch();
+    Recipe getLunch();
 
-    ArrayList<String> getDinner();
+    Recipe getDinner();
 }
