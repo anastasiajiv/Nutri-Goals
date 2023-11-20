@@ -504,24 +504,48 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         }
     }
 
+    // save the nutrients that the user would like to track and save to csv
     @Override
     public void saveTrackedNutrientsData(ArrayList<String> trackedNutrients, int userID) {
 
+        // if the user exists
         if (existById(userID)) {
+
             try {
+                // initialize a reader and writer to edit the csv file
                 reader = new BufferedReader(new FileReader(csvFile));
                 writer = new BufferedWriter(new FileWriter(csvFile));
 
+                // skip the first line and initialize the row variable
                 reader.readLine();
                 String row;
 
-                for (Map.Entry<Integer, HashMap<String, String>> entry: )
+                // iterate through the csv
+                while ((row = reader.readLine()) != null) {
 
+                    // split each row in the csv into their corresponding columns
+                    String[] col = row.split(",");
 
-                    // implementation depends on how interacter is implemented
-                    // can send an entire updated user to here to record the line again
-                    // like saveWeightGoals
-                    // or search through and edit that one column
+                    // if the ID is a match, set the user's trackedNutrients
+                    if (col[0].equals(String.valueOf(userID))) {
+
+                        // column 18 is set to store trackedNutrients
+                        col[18] = String.valueOf(trackedNutrients);
+                        // turn the String[] back into a String to write back
+                        String updated_line = String.join(",", col);
+                        // use the buffered writer to add the line back into the csv
+                        writer.write(updated_line);
+                    }
+
+                }
+
+                // close the writer after the line has/has not been edited
+                writer.close();
+
+            } catch (IOException e) {  // if there is an issue accessing the csv
+
+                // dsplay an error message to the same convention as other save methods
+                System.out.println("Error, could not save trackedNutrients properly.");
             }
         }
     }
