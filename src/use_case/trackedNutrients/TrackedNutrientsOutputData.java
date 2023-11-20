@@ -1,6 +1,7 @@
 package src.use_case.trackedNutrients;
 
 public class TrackedNutrientsOutputData {
+    
     private final int userID;
     private boolean useCaseFailed;
 
