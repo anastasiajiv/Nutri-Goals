@@ -33,7 +33,7 @@ public class CommonUser implements User {
 
     private int userAge;
 
-    private int userExcerciseLevel;
+    private int userExerciseLevel;
 
     private HashMap<String, Boolean> weightGoalType;
 
@@ -89,7 +89,7 @@ public class CommonUser implements User {
 //    // Constructor with full attribute set
 //    public CommonUser(int userId, String name, String password, LocalDateTime creationTime,
 //                      HashMap<String, Boolean> gender, double userHeight, double userWeight,
-//                      int userAge, int userExcerciseLevel, HashMap<String, Boolean> restrictions,
+//                      int userAge, int userExerciseLevel, HashMap<String, Boolean> restrictions,
 //                      HashMap<String, Boolean> weightGoalType, int requiredCalories) {
 //        this.userId = userId;
 //        this.name = name;
@@ -518,7 +518,7 @@ public class CommonUser implements User {
     }
     @Override
     public void setUserExerciseLvl(int userExerciseLvl) {
-        this.userExcerciseLevel = userExerciseLvl;
+        this.userExerciseLevel = userExerciseLvl;
     }
 
     @Override
@@ -541,4 +541,8 @@ public class CommonUser implements User {
         this.requiredCalories = requiredCalories;
     }
 
+    @Override
+    public void setDietary() {
+        // please implement, specified in the User interface
+    }
 }
