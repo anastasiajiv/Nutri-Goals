@@ -29,17 +29,11 @@ public interface User {
     int getUserExerciseLevel(); // Exercise level will be in a range from 1 to 5 --> Specify each levels
                                 // logistics in the ReadMe file
 
-    //HashMap<String, Boolean> getUserRestriction(); // Restriction type will be stored as a hashmap <String(Restriction Type),
-                                // Boolean(Weather user clicked this option or not)>
-    void setDietary();
     String getDietary();
 
-    void setAllergies();
     List<String> getAllergies();
 
     ArrayList<String> getTrackedNutrients(); // <Nutrient name, current value being tracked>
-
-    void setConditions();
 
     HashMap<String, Double> getConditions();
 
@@ -59,10 +53,6 @@ public interface User {
 
     Double getSugarValue();
 
-    HashMap<String, Boolean> WeightGoalType(); // String -> Maintain, Gain, Lose
-
-    //HashMap<String, Double> weightPace();
-
     String getWeightGoalType();
 
     String getMaintainTypeValue();
@@ -72,11 +62,6 @@ public interface User {
     String getGainTypeValue();
 
     String getPaceType();
-
-//    HashMap<String, HashMap<String, Boolean>> weightPaceType();
-//    // {loseWeight : {typical : False, moderate: True, extreme: False}
-//
-//    HashMap<String, String> getPaceType();
 
     int getRequiredCalories(); // Should default to 0
 
@@ -97,10 +82,15 @@ public interface User {
 
     void setWeightGoalType(HashMap<String, Boolean> weightGoalType);
 
-    //void setRestrictions(HashMap<String, Boolean> restrictions);
+    void setTrackedNutrients(ArrayList<String> trackedNutrients);
+
+    void setDietary(HashMap<String, Boolean> dietary);
+
+    void setConditions(HashMap<String, String> conditions);
+
+    void setAllergies(HashMap<String, Boolean> allergies);
 
     void setPaceType(String paceType);
-
 
     void setRequiredCalories(int requiredCalories);
 

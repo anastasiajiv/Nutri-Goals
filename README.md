@@ -17,9 +17,9 @@ user to access as they please.
     4. Conditions: any conditions the user may have that will affect the recipes they would like to be suggested
     5. Weight Goal: a user's specified (or unspecified) weight goal (ex: lose, gain, maintain)
 
-# Note: Some nutrients that the user can choose to track with relation to the meal plans they create:
+# Note: The nutrients that the user can choose to track with relation to the meal plans they create:
     a) Macronutrients: calories, carbohydrates, proteins, fats
-    b) Micronutrients: calcium, iron, vitamin C, vitamin B2, magnesium
+    b) Micronutrients: calcium, potassium, vitamin C, vitamin D, iron, magnesium, sugar
     
 ## Proposed Entities
     1. User
