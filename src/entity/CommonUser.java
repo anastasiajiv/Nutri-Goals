@@ -175,6 +175,7 @@ public class CommonUser implements User{
     public void setDietary(HashMap<String, Boolean> dietary){
         this.dietary = dietary;
     }
+
     @Override
     public String getDietary() {
         String user_diet = new String();
