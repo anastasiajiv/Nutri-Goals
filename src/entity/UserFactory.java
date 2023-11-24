@@ -1,6 +1,7 @@
 package src.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface UserFactory {
@@ -16,6 +17,7 @@ public interface UserFactory {
                  HashMap<String, Boolean> dietary,
                  HashMap<String, Boolean> allergies,
                  HashMap<String, String> conditions,
+                 ArrayList<String> trackedNutrients,
                  HashMap<String, Boolean> weightGoal,
                  String paceType,
                  int requiredCalories);

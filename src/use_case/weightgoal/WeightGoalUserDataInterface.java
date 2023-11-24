@@ -7,7 +7,7 @@ public interface WeightGoalUserDataInterface {
 
     User getUserWeightGoalData(int userId);
 
-    Boolean existByUserId(int userId);
+    Boolean existByUserID(int userID);
 
     String getWeightGoalType(int userId);
 

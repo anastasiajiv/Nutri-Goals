@@ -10,8 +10,8 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
 
     private final Map<Integer, User> users = new HashMap<>();
     @Override
-    public boolean existById(int userId) {
-        return users.containsKey(userId);
+    public Boolean existByUserID(int userID) {
+        return users.containsKey(userID);
     }
 
     @Override

@@ -7,5 +7,5 @@ public interface PreferencesUserDataAccessInterface {
 
     void saveAllergies(HashMap<Integer, HashMap<String, Boolean>> user_allergies);
 
-    boolean existsByID(int id);
+    Boolean existByUserID(int userID);
 }
