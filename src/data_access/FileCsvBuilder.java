@@ -66,7 +66,7 @@ public class FileCsvBuilder {
                         user.getUserWeight(),
                         user.getUserAge(),
                         user.getUserExcerciseLevel(),
-                        user.getUserRestriction(),
+                        user.getDietary(),
                         user.getMaintainTypeValue(),
                         user.getLoseTypeValue(),
                         user.getGainTypeValue(),

@@ -13,7 +13,9 @@ public interface UserFactory {
                  double userWeight,
                  int userAge,
                  int userExerciseLevel,
-                 HashMap<String, Boolean> userRestriction,
+                 HashMap<String, Boolean> dietary,
+                 HashMap<String, Boolean> allergies,
+                 HashMap<String, String> conditions,
                  HashMap<String, Boolean> weightGoal,
                  String paceType,
                  double requiredCalories);
@@ -28,7 +30,9 @@ public interface UserFactory {
                   0.0, //default weight to 0.p
                   0, //default age to 0
                   0, //default exercise level to 0 (NOTE: must be in range 1-5)
-                  new HashMap<>(), // default restrictions to empty map
+                  new HashMap<>(),// default restrictions to empty map
+                  new HashMap<>(),
+                  new HashMap<>(),
                   new HashMap<>(), // default weightgoal to empty map
                   "", // default weight gain/lose type to null
                   0.0 // default req calories to 0

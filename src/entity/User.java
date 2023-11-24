@@ -2,6 +2,7 @@ package src.entity;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 
 public interface User {
 
@@ -27,8 +28,33 @@ public interface User {
     int getUserExcerciseLevel(); // Excersice level will be in a range from 1 - 5 --> Specify each levels
                                 // logistics in the ReadMe file
 
-    HashMap<String, Boolean> getUserRestriction(); // Restriction type will be stored as a hashmap <String(Restriction Type),
+    //HashMap<String, Boolean> getUserRestriction(); // Restriction type will be stored as a hashmap <String(Restriction Type),
                                 // Boolean(Weather user clicked this option or not)>
+    void setDietary();
+    String getDietary();
+
+    void setAllergies();
+    List<String> getAllergies();
+
+    void setConditions();
+
+    HashMap<String, Double> getConditions();
+
+    //HashMap<String, Boolean> getUserRestriction(); // Restriction type will be stored as a hashmap <String(Restriction Type),
+    // Boolean(Weather user clicked this option or not)>
+
+    Double getCalciumValue();
+
+    Double getPotassiumValue();
+
+    Double getVitaminCValue();
+    Double getVitaminDValue();
+
+    Double getIronValue();
+
+    Double getMagnesiumValue();
+
+    Double getSugarValue();
 
     HashMap<String, Boolean> WeightGoalType(); // String -> Maintain, Gain, Lose
 
@@ -68,7 +94,7 @@ public interface User {
 
     void setWeightGoalType(HashMap<String, Boolean> weightGoalType);
 
-    void setRestrictions(HashMap<String, Boolean> restrictions);
+    //void setRestrictions(HashMap<String, Boolean> restrictions);
 
     void setPaceType(String paceType);
 
