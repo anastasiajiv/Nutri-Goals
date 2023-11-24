@@ -159,6 +159,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
     }
 
+    // no longer a thing
     public void setHeaders() {
         BufferedWriter writer;
         try {
@@ -432,7 +433,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         }
 
     }
-
+    // changes need to be made about the implementation of the three preference save methods, should add preferences to
+    // accounts map and access builder to rewrite in the csv, not directly
     @Override
     public void saveAllergies(HashMap<Integer, HashMap<String, Boolean>> allergies){
         //element 10
