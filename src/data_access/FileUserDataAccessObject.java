@@ -3,6 +3,7 @@ package src.data_access;
 import java.io.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,11 +11,12 @@ import java.util.Map;
 import src.entity.*;
 import src.entity.User;
 import src.entity.UserFactory;
+import src.use_case.mealplan.MealPlanDataAccessInterface;
 import src.use_case.signup.SignupUserDataAccessInterface;
 import src.use_case.weightgoal.WeightGoalUserDataInterface;
 import src.use_case.preferences.PreferencesUserDataAccessInterface;
 
-public class FileUserDataAccessObject implements SignupUserDataAccessInterface, WeightGoalUserDataInterface, PreferencesUserDataAccessInterface {
+public class FileUserDataAccessObject implements SignupUserDataAccessInterface, WeightGoalUserDataInterface, PreferencesUserDataAccessInterface, MealPlanDataAccessInterface {
 
 
     File csvFile;
@@ -494,6 +496,41 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         }
     }
 
+
+    @Override
+    public Recipe Breakfast(int identifier) {
+        User user = getAccountByUserId(identifier);
+        int daily_cal = user.getRequiredCalories();
+        // int breakfast_cals = Math.round((daily_cal/3)/5);
+        // API call for if user.WeightGoalType() == ""
+        //              maxCalories(breakfast_cals) or minCalories(breakfast_cals)
+        // ArrayList preferences = user.getPreferences()
+        // API call for preference
+        // ArrayList<String> allergies = user.getAllergies();
+        // String dietary = user.getDietary();
+        // HashMap conditions = user.getConditions();
+        //
+        // iterate through list of preferences w api calls
+        // for (
+        // list of valid recipes:
+        // pick one and add it to
+        return null;
+    }
+
+    @Override
+    public Recipe Lunch(int identifier) {
+        return null;
+    }
+
+    @Override
+    public Recipe Dinner(int identifier) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> MealPlan(ArrayList<String> breakfast, ArrayList<String> lunch, ArrayList<String> dinner) {
+        return null;
+    }
 
 
 
