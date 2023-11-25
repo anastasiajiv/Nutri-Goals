@@ -56,7 +56,7 @@ public class CommonUser implements User{
                       HashMap<String, Boolean> allergies,
                       HashMap<String, String> conditions,
                       HashMap<String, Boolean> weightGoalType,
-                      int requiredCalories, CommonMealPlan mealplan) {
+                      int requiredCalories, CommonMealPlan mealplan, String paceType) {
         this.userId = userId;
         this.name = name;
         this.password = password;

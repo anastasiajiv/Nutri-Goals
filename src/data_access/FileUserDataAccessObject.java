@@ -463,6 +463,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     }
 
     @Override
+    public boolean existsByID(int id) {
+        return false;
+    }
+
+    @Override
     public void saveConditions(HashMap<Integer, HashMap<String, String>> conditions){
         BufferedReader reader;
         BufferedWriter writer;
