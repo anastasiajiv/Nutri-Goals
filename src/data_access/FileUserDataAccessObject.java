@@ -511,14 +511,21 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         // diet and calories and allergies filtering
 
 
-        if (user.WeightGoalType().equals("loseWeight")){
-            StringBuilder recipes = new StringBuilder();
-            for (Map.Entry<String, Double> entry : conditions.entrySet()){
-                String condition = entry.getKey();
-                Double amount = entry.getValue();
+                StringBuilder conditionsaccum = new StringBuilder();
+                for (Map.Entry<String, Double> entry : conditions.entrySet()){
+                    String condition = entry.getKey();
+                    Double amount = entry.getValue();
+                    conditionsaccum.append("max" + condition + "=" + amount + "&");
+                }
+
+                String calorietype = "max";
+                    if (user.WeightGoalType().equals("gainWeight")) {
+                        calorietype = "min";}
+
+
                 HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=breakfast&number=100&" +
-                                "maxCalories=" + breakfast_cals +"&diet="+ dietary +"&intolerances="+ allergies +"&max"+condition+"="+ amount))
+                        .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=breakfast&number=1&" +
+                                calorietype + "Calories=" + breakfast_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergies))
                         .header("X-RapidAPI-Host", "https://api.spoonacular.com")
                         .header("X-RapidAPI-Key", "0702028f1e12446ca891a3eb2f36fd0e")
                         .method("GET", HttpRequest.BodyPublishers.noBody())
@@ -531,32 +538,13 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                recipes.append(response.body());
-            }
+                String recipe = response.body();
 
 
-
-
-        }
-        else if (user.WeightGoalType().equals("gainWeight")){
-
-        }
-        else {
-
-        }
-
-
-
-
-
-        // API call for if user.WeightGoalType() == ""
-        //              maxCalories(breakfast_cals) or minCalories(breakfast_cals)
-        // ArrayList preferences = user.getPreferences()
-        // API call for preference
 
             Recipe breakfast = new CommonRecipe();
 
-        return null;
+        return breakfast;
     }
 
     @Override
@@ -572,8 +560,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     @Override
     public ArrayList<String> MealPlan(ArrayList<String> breakfast, ArrayList<String> lunch, ArrayList<String> dinner) {
         return null;
-    }
+    }}
 
 
 
-}
