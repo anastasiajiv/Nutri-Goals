@@ -17,6 +17,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpClient;
 import java.io.IOException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface, WeightGoalUserDataInterface, PreferencesUserDataAccessInterface, MealPlanDataAccessInterface {
 
@@ -499,8 +502,10 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     }
 
 
+
     @Override
     public Recipe Breakfast(int identifier) {
+        //find all necessary sorting attributes and do calculations
         User user = getAccountByUserId(identifier);
         int daily_cal = user.getRequiredCalories();
         String breakfast_cals = String.valueOf(Math.round((daily_cal/3)/5));
@@ -508,52 +513,106 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         List<String> allergies = user.getAllergies();
         HashMap<String, Double> conditions = user.getConditions();
 
-        // diet and calories and allergies filtering
 
 
+                //conditions made to be called
                 StringBuilder conditionsaccum = new StringBuilder();
                 for (Map.Entry<String, Double> entry : conditions.entrySet()){
                     String condition = entry.getKey();
                     Double amount = entry.getValue();
                     conditionsaccum.append("max" + condition + "=" + amount + "&");
                 }
+                //calories depending on what weight goal
 
                 String calorietype = "max";
                     if (user.WeightGoalType().equals("gainWeight")) {
                         calorietype = "min";}
 
 
-                HttpRequest request = HttpRequest.newBuilder()
+
+        // diet and calories and allergies and conditions filtering through API call
+                    HttpRequest request = HttpRequest.newBuilder()
                         .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=breakfast&number=1&" +
                                 calorietype + "Calories=" + breakfast_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergies))
                         .header("X-RapidAPI-Host", "https://api.spoonacular.com")
                         .header("X-RapidAPI-Key", "0702028f1e12446ca891a3eb2f36fd0e")
                         .method("GET", HttpRequest.BodyPublishers.noBody())
                         .build();
-                HttpResponse<String> response = null;
-                try {
-                    response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    HttpResponse<String> response = null;
+                    try {
+                        response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+                    } catch (IOException e) {
+                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 String recipe = response.body();
 
+                // Find recipe id
+                String jsonstring = recipe;
+                JSONObject json = new JSONObject(jsonstring);
+                JSONArray recipearray = json.getJSONArray("results");
+                JSONObject firstresult = recipearray.getJSONObject(0);
+                int recipeid = firstresult.getInt("id");
+                String recipeID = String.valueOf(firstresult.getInt("id"));
+
+                // Use recipe id to get recipe information
+
+                HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("https://api.spoonacular.com/recipes/{" + recipeID + "}/information"))
+                .header("X-RapidAPI-Host", "https://api.spoonacular.com")
+                .header("X-RapidAPI-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+                HttpResponse<String> response1 = null;
+                try {
+                response1 = HttpClient.newHttpClient().send(request1, HttpResponse.BodyHandlers.ofString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                String recipeinfo = response1.body();
 
 
-            Recipe breakfast = new CommonRecipe();
+                // Sort recipe info from api call into recipe entity
+
+
+
+
+
+
+
+
+
+
+
+            Recipe breakfast = new CommonRecipe(recipeid, );
 
         return breakfast;
     }
 
     @Override
     public Recipe Lunch(int identifier) {
+        User user = getAccountByUserId(identifier);
+        int daily_cal = user.getRequiredCalories();
+        String lunch_cals = String.valueOf((2*(Math.round((daily_cal/3)/5))));
+        String dietary = user.getDietary();
+        List<String> allergies = user.getAllergies();
+        HashMap<String, Double> conditions = user.getConditions();
+
         return null;
     }
 
     @Override
     public Recipe Dinner(int identifier) {
+        User user = getAccountByUserId(identifier);
+        int daily_cal = user.getRequiredCalories();
+        String dinner_cals = String.valueOf((2*(Math.round((daily_cal/3)/5))));
+        String dietary = user.getDietary();
+        List<String> allergies = user.getAllergies();
+        HashMap<String, Double> conditions = user.getConditions();
+
         return null;
     }
 
