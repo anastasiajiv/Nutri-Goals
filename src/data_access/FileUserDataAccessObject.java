@@ -2,11 +2,9 @@ package src.data_access;
 
 import java.io.*;
 
+import java.net.URI;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import src.entity.*;
 import src.entity.User;
@@ -15,6 +13,10 @@ import src.use_case.mealplan.MealPlanDataAccessInterface;
 import src.use_case.signup.SignupUserDataAccessInterface;
 import src.use_case.weightgoal.WeightGoalUserDataInterface;
 import src.use_case.preferences.PreferencesUserDataAccessInterface;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpClient;
+import java.io.IOException;
 
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface, WeightGoalUserDataInterface, PreferencesUserDataAccessInterface, MealPlanDataAccessInterface {
 
@@ -501,19 +503,59 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     public Recipe Breakfast(int identifier) {
         User user = getAccountByUserId(identifier);
         int daily_cal = user.getRequiredCalories();
-        // int breakfast_cals = Math.round((daily_cal/3)/5);
+        String breakfast_cals = String.valueOf(Math.round((daily_cal/3)/5));
+        String dietary = user.getDietary();
+        List<String> allergies = user.getAllergies();
+        HashMap<String, Double> conditions = user.getConditions();
+
+        // diet and calories and allergies filtering
+
+
+        if (user.WeightGoalType().equals("loseWeight")){
+            StringBuilder recipes = new StringBuilder();
+            for (Map.Entry<String, Double> entry : conditions.entrySet()){
+                String condition = entry.getKey();
+                Double amount = entry.getValue();
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=breakfast&number=100&" +
+                                "maxCalories=" + breakfast_cals +"&diet="+ dietary +"&intolerances="+ allergies +"&max"+condition+"="+ amount))
+                        .header("X-RapidAPI-Host", "https://api.spoonacular.com")
+                        .header("X-RapidAPI-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                        .method("GET", HttpRequest.BodyPublishers.noBody())
+                        .build();
+                HttpResponse<String> response = null;
+                try {
+                    response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                recipes.append(response.body());
+            }
+
+
+
+
+        }
+        else if (user.WeightGoalType().equals("gainWeight")){
+
+        }
+        else {
+
+        }
+
+
+
+
+
         // API call for if user.WeightGoalType() == ""
         //              maxCalories(breakfast_cals) or minCalories(breakfast_cals)
         // ArrayList preferences = user.getPreferences()
         // API call for preference
-        // ArrayList<String> allergies = user.getAllergies();
-        // String dietary = user.getDietary();
-        // HashMap conditions = user.getConditions();
-        //
-        // iterate through list of preferences w api calls
-        // for (
-        // list of valid recipes:
-        // pick one and add it to
+
+            Recipe breakfast = new CommonRecipe();
+
         return null;
     }
 
