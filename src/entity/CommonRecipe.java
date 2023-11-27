@@ -3,6 +3,7 @@ package src.entity;
 import org.w3c.dom.ls.LSOutput;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CommonRecipe implements Recipe {
@@ -11,14 +12,14 @@ public class CommonRecipe implements Recipe {
 
     private final String recipeName;
 
-    private final HashMap<String, Double> recipeIngredients;
+    private final List<Ingredient> recipeIngredients;
 
     private final String recipeInstructions;
 
     private final HashMap<String, Boolean> recipeType;
 
 
-    public CommonRecipe(int recipeId, String recipeName, HashMap<String, Double> recipeIngredients,
+    public CommonRecipe(int recipeId, String recipeName, List<Ingredient> recipeIngredients,
                         String recipeInstructions, HashMap<String, Boolean> recipeType) {
         this.recipeId = recipeId;
         this.recipeName = recipeName;
@@ -41,7 +42,7 @@ public class CommonRecipe implements Recipe {
     }
 
     @Override
-    public HashMap<String, Double> getRecipeIngredients() {
+    public List<Ingredient> getRecipeIngredients() {
         return recipeIngredients;
     }
 
