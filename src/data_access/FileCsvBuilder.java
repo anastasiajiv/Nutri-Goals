@@ -52,7 +52,7 @@ public class FileCsvBuilder {
         writer.close();
     }
 
-    private void saveUsersToCsv(User user, File csvFile) throws IOException {
+    private void saveUsersToCsv(User user, File csvFile) throws IOException { // make common method
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile, true))) {
                 String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",

@@ -15,7 +15,6 @@ import src.use_case.weightgoal.WeightGoalUserDataInterface;
 
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface, WeightGoalUserDataInterface, PreferencesUserDataAccessInterface {
 
-
     private final String csvFilePath;
     private final FileCsvBuilder csvBuilder;
     private final Map<Integer, User> accounts;
@@ -66,73 +65,41 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         }
     }
 
-    public void saveWeightGoalData(int userId) {
-        // this method updates the gender, height, weight, age, exercise lvl, weightGoal, paceType, and
-        // reqCalories attributes
-        try {
-            File csvFile = new File(csvFilePath);
 
-            if (!csvFile.exists()) {
-                // If the CSV file does not exist -> do nothing
-                return;
-            }
+    @Override
+    public void saveWeightGoalData(int userId,
+                                   HashMap<String, Boolean> gender,
+                                   double height,
+                                   double weight,
+                                   int age,
+                                   int exerciseLvl,
+                                   String paceType,
+                                   HashMap<String, Boolean> weightGoal) {
 
-            try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
-                String header = reader.readLine(); // Read and ignore header
+        // This save method saves the input data to the accounts map and then calls Builder to save the updated user
+        // information into the csv file
 
-                String row;
-                while ((row = reader.readLine()) != null) {
-                    User curr_account = getAccountByUserId(userId); // Get the account of the user we want to update the attributes of
-                    String[] col = row.split(",");
+        //First get the current userId
+        User curr_user = getAccountByUserId(userId);
+        curr_user.setGender(gender);
+        curr_user.setUserHeight(height);
+        curr_user.setUserWeight(weight);
+        curr_user.setUserAge(age);
+        curr_user.setUserExerciseLvl(exerciseLvl);
+        curr_user.setPaceType(paceType);
+        curr_user.setWeightGoalType(weightGoal);
 
+        accounts.put(userId, curr_user);
 
-                    HashMap<String, Boolean> gender = new HashMap<>();
+        //Now compute req calories
+        double requiredCalories = computedRequiredCalories(userId);
 
-                    gender.put("male", Boolean.valueOf(col[4]));
-                    gender.put("female", Boolean.valueOf(col[5]));
-
-                    double height = Double.parseDouble(col[6]);
-                    double weight = Double.parseDouble(col[7]);
-                    int age = Integer.parseInt(col[8]);
-                    int exerciseLvl = Integer.parseInt(col[9]);
-
-                    HashMap<String, Boolean> weightGoal = new HashMap<>();
-                    weightGoal.put("maintainWeight", Boolean.parseBoolean(col[13]));
-                    weightGoal.put("loseWeight", Boolean.parseBoolean(col[14]));
-                    weightGoal.put("gainWeight", Boolean.parseBoolean(col[15]));
-
-                    String paceType = col[16];
-                    double reqCalories = Double.parseDouble(col[17]);
-
-                    // Update Attributes
-                    curr_account.setGender(gender);
-                    curr_account.setUserHeight(height);
-                    curr_account.setUserWeight(weight);
-                    curr_account.setUserAge(age);
-                    curr_account.setUserExerciseLvl(exerciseLvl);
-                    curr_account.setWeightGoalType(weightGoal);
+        // Save updated user values into the Csv file
+        csvBuilder.buildCsv(curr_user);
 
 
-
-//                    String[] col = row.split(",");
-//                    // Parse data from csv into accounts map - > only edited information so far, everything else stays default values
-//                    int userId = Integer.parseInt(col[0]);
-//                    String username = col[1];
-//                    String password = col[2];
-//
-//                    LocalDateTime ldt = LocalDateTime.parse(col[3]);
-//
-//                    // Create a User object and add it to the accounts map
-//                    User user =  userFactory.createdDefaultUser(userId, username);
-//                    user.setPassword(password);
-//                    user.setCreationTime(ldt);
-//                    accounts.put(userId, user);
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("Error loading user data from CSV", e);
-        }
     }
+
 
 
 
@@ -421,88 +388,89 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 //
 //    //Weight Goal Methods to get calories user needs
 //
-//    public double getRequiredCalories(int userId) throws Exception {
-//        User user = getAccountByUserId(userId);
-//        double reqCalories = getBMR(userId);
-//
-//        if (user.getWeightGoalType().equals("maintainWeight")) {
-//            reqCalories = reqCalories;
-//            }
-//
-//        else if (user.getWeightGoalType().equals("loseWeight")) {
-//            String paceType = user.getPaceType();
-//            if (paceType.equals("normal")) {
-//                reqCalories = reqCalories + (3500 * 0.10); // 3500 calories is about 1 lb
-//            }
-//            else if (paceType.equals("fast")) {
-//                reqCalories = reqCalories + (3500 * 0.15);
-//            }
-//            else if (paceType.equals("extreme")) {
-//                reqCalories = reqCalories + (3500 * 0.20);
-//            }
-//
-//        }
-//        else if (user.getWeightGoalType().equals("gainWeight")) {
-//            String paceType = user.getPaceType();
-//
-//            if (paceType.equals("normal")) {
-//                reqCalories = reqCalories - (3500 * 0.10); // 3500 calories is about 1 lb
-//            }
-//            else if (paceType.equals("fast")) {
-//                reqCalories = reqCalories - (3500 * 0.15);
-//            }
-//            else if (paceType.equals("extreme")) {
-//                reqCalories = reqCalories - (3500 * 0.20);
-//            }
-//        }
-//        return reqCalories;
-//    }
-//    public double getBMR(int userId) {
-//        // Men: BMR = 88.63 + (13.397 * weight in kg) + (4.799 * height in cm) - (5.677 * age in years)
-//        // Miffin - St Jeor Equation -> BMR = 10 * weight + 6.25 * height - 5 * age + 5
-//        // Women: BMR = 447.593 + (9.247 x weight in kg) + (3.098 x height in cm) – (4.330 x age in years)
-//        // Miffin - St Jeor Equation -> BMR = 10 * weight + 6.25 * height - 5 * age - 161
-//
-//
-//        // Harris - Benedict -> Men -> BMR = 66 + (13.7 x wt in kg) + (5 x ht in cm) - (6.8 x age in years)
-//        // Harris - Benedict -> Men -> BMR =  655 + (9.6 x wt in kg) + (1.8 x ht in cm) - (4.7 x age in years)
-//        assert existById(userId);
-//        double userBMR = 0;
-//
-//
-//        User user = accounts.get(userId);
-//        //Get BMR
-//        if (Boolean.valueOf(user.isMale())) {
-//            userBMR = (10 * user.getUserWeight()) + (6.25 * user.getUserHeight()) - (5 * user.getUserAge()) + 5;
-//        }
-//        else if (Boolean.valueOf(user.isFemale())) {
-//            userBMR = (10 * user.getUserWeight()) + (6.25 * user.getUserHeight()) - (5 * user.getUserAge()) - 161;
-//        }
-//        return getBMRAfterActivityMultiplier(userId, userBMR);
-//    }
-//    public double getBMRAfterActivityMultiplier(int userId, double userBMR) {
-//        User user = accounts.get(userId);
-//        double newUserBMR = userBMR;
-//
-//        assert user.getUserExcerciseLevel() >= 1 && user.getUserExcerciseLevel() <=5; // Must be in the range 1-5.
-//
-//        if (user.getUserExcerciseLevel() ==1) {
-//            newUserBMR = newUserBMR * 1.2;
-//        }
-//        else if (user.getUserExcerciseLevel() == 2) {
-//            newUserBMR = newUserBMR * 1.375;
-//        }
-//        else if (user.getUserExcerciseLevel() == 3) {
-//            newUserBMR = newUserBMR * 1.55;
-//        }
-//        else if (user.getUserExcerciseLevel() == 4) {
-//            newUserBMR = newUserBMR * 1.725;
-//        }
-//        else if (user.getUserExcerciseLevel() == 5) {
-//            newUserBMR = newUserBMR * 1.9;
-//        }
-//        return newUserBMR;
-//    }
+    @Override
+    public double computedRequiredCalories(int userId) {
+        User user = getAccountByUserId(userId);
+        double reqCalories = getBMR(userId);
+
+        if (user.getWeightGoalType().equals("maintainWeight")) {
+            reqCalories = reqCalories;
+            }
+
+        else if (user.getWeightGoalType().equals("loseWeight")) {
+            String paceType = user.getPaceType();
+            if (paceType.equals("normal")) {
+                reqCalories = reqCalories + (3500 * 0.10); // 3500 calories is about 1 lb
+            }
+            else if (paceType.equals("fast")) {
+                reqCalories = reqCalories + (3500 * 0.15);
+            }
+            else if (paceType.equals("extreme")) {
+                reqCalories = reqCalories + (3500 * 0.20);
+            }
+
+        }
+        else if (user.getWeightGoalType().equals("gainWeight")) {
+            String paceType = user.getPaceType();
+
+            if (paceType.equals("normal")) {
+                reqCalories = reqCalories - (3500 * 0.10); // 3500 calories is about 1 lb
+            }
+            else if (paceType.equals("fast")) {
+                reqCalories = reqCalories - (3500 * 0.15);
+            }
+            else if (paceType.equals("extreme")) {
+                reqCalories = reqCalories - (3500 * 0.20);
+            }
+        }
+        return reqCalories;
+    }
+    public double getBMR(int userId) {
+        // Men: BMR = 88.63 + (13.397 * weight in kg) + (4.799 * height in cm) - (5.677 * age in years)
+        // Miffin - St Jeor Equation -> BMR = 10 * weight + 6.25 * height - 5 * age + 5
+        // Women: BMR = 447.593 + (9.247 x weight in kg) + (3.098 x height in cm) – (4.330 x age in years)
+        // Miffin - St Jeor Equation -> BMR = 10 * weight + 6.25 * height - 5 * age - 161
+
+
+        // Harris - Benedict -> Men -> BMR = 66 + (13.7 x wt in kg) + (5 x ht in cm) - (6.8 x age in years)
+        // Harris - Benedict -> Men -> BMR =  655 + (9.6 x wt in kg) + (1.8 x ht in cm) - (4.7 x age in years)
+        assert existById(userId);
+        double userBMR = 0;
+
+
+        User user = accounts.get(userId);
+        //Get BMR
+        if (Boolean.valueOf(user.isMale())) {
+            userBMR = (10 * user.getUserWeight()) + (6.25 * user.getUserHeight()) - (5 * user.getUserAge()) + 5;
+        }
+        else if (Boolean.valueOf(user.isFemale())) {
+            userBMR = (10 * user.getUserWeight()) + (6.25 * user.getUserHeight()) - (5 * user.getUserAge()) - 161;
+        }
+        return getBMRAfterActivityMultiplier(userId, userBMR);
+    }
+    public double getBMRAfterActivityMultiplier(int userId, double userBMR) {
+        User user = accounts.get(userId);
+        double newUserBMR = userBMR;
+
+        assert user.getUserExcerciseLevel() >= 1 && user.getUserExcerciseLevel() <=5; // Must be in the range 1-5.
+
+        if (user.getUserExcerciseLevel() ==1) {
+            newUserBMR = newUserBMR * 1.2;
+        }
+        else if (user.getUserExcerciseLevel() == 2) {
+            newUserBMR = newUserBMR * 1.375;
+        }
+        else if (user.getUserExcerciseLevel() == 3) {
+            newUserBMR = newUserBMR * 1.55;
+        }
+        else if (user.getUserExcerciseLevel() == 4) {
+            newUserBMR = newUserBMR * 1.725;
+        }
+        else if (user.getUserExcerciseLevel() == 5) {
+            newUserBMR = newUserBMR * 1.9;
+        }
+        return newUserBMR;
+    }
 
 
 @Override
@@ -597,4 +565,6 @@ public void saveDietary(HashMap<Integer, HashMap<String, Boolean>> dietary){
             System.out.println("Error, could not save conditions properly.");
         }
     }
+
+
 }

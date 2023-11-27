@@ -75,7 +75,7 @@ public interface User {
 //
 //    HashMap<String, String> getPaceType();
 
-    double getRequiredCalories(); // Should default to 0
+    int getRequiredCalories(); // Should default to 0
 
     // setters
     void setPassword(String password);
@@ -99,6 +99,6 @@ public interface User {
     void setPaceType(String paceType);
 
 
-    void setRequiredCalories(double requiredCalories);
+    void setRequiredCalories(int requiredCalories);
 
 }

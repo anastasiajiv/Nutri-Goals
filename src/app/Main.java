@@ -41,7 +41,7 @@ public class Main {
         int age = 19;
         int exerciseLvl = 3;
         String paceType = "typical";
-        double reqCalories = 2300.45;
+        int reqCalories = 2300;
 
         HashMap<String, Boolean> weightGoal = new HashMap<>();
         weightGoal.put("maintainWeight", Boolean.FALSE);
@@ -60,7 +60,7 @@ public class Main {
         testSave.setPaceType(paceType);
         testSave.setRequiredCalories(reqCalories);
 
-        userDAO.saveWeightGoalData(testSave.getUserId());
+
 
 
 

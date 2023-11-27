@@ -18,7 +18,7 @@ public interface UserFactory {
                  HashMap<String, String> conditions,
                  HashMap<String, Boolean> weightGoal,
                  String paceType,
-                 double requiredCalories);
+                 int requiredCalories);
 
      default User createdDefaultUser(int userId, String name) {
           return create(userId,
@@ -35,7 +35,7 @@ public interface UserFactory {
                   new HashMap<>(),
                   new HashMap<>(), // default weightgoal to empty map
                   "", // default weight gain/lose type to null
-                  0.0 // default req calories to 0
+                  0 // default req calories to 0
                   );
 
      }
