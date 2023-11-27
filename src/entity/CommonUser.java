@@ -36,7 +36,7 @@ public class CommonUser implements User{
 
     private String paceType;
 
-    private int requiredCalories;
+    private double requiredCalories;
 
 
 
@@ -55,7 +55,7 @@ public class CommonUser implements User{
                       HashMap<String, String> conditions,
                       HashMap<String, Boolean> weightGoalType,
                       String paceType,
-                      int requiredCalories) {
+                      double requiredCalories) {
         this.userId = userId;
         this.name = name;
         this.password = password;
@@ -488,7 +488,7 @@ public class CommonUser implements User{
 
 
 
-    public int getRequiredCalories() {
+    public double getRequiredCalories() {
         return requiredCalories;
     }
 
@@ -543,7 +543,7 @@ public class CommonUser implements User{
     }
 
     @Override
-    public void setRequiredCalories(int requiredCalories) {
+    public void setRequiredCalories(double requiredCalories) {
         this.requiredCalories = requiredCalories;
     }
 

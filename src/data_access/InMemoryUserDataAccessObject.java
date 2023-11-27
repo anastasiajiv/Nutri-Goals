@@ -3,6 +3,7 @@ package src.data_access;
 import src.entity.User;
 import src.use_case.signup.SignupUserDataAccessInterface;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,5 +23,10 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     @Override
     public Boolean existByUserId(int userId) {
         return null;
+    }
+
+    @Override
+    public void saveUserSignUpData(int userId, String username, String password, LocalDateTime creationTime) {
+
     }
 }

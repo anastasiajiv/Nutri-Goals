@@ -1,6 +1,7 @@
 package src.use_case.signup;
 import src.entity.User;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 public interface SignupUserDataAccessInterface {
     boolean existById(int userId);
@@ -8,6 +9,12 @@ public interface SignupUserDataAccessInterface {
     void save (User user);
 
     Boolean existByUserId(int userId);
+
+    void saveUserSignUpData(int userId,
+                            String username,
+                            String password,
+                            LocalDateTime creationTime);
+
 
 }
 

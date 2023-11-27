@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.Map;
 
+import src.entity.CommonUserFactory;
 import src.entity.User;
 import src.entity.UserFactory;
 import src.use_case.preferences.PreferencesUserDataAccessInterface;
@@ -64,6 +65,21 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
             throw new RuntimeException("Error loading user data from CSV", e);
         }
     }
+    @Override
+    public void saveUserSignUpData(int userId,
+                                   String username,
+                                   String password,
+                                   LocalDateTime creationTime) {
+
+        UserFactory userFactory = new CommonUserFactory();
+        User newUser = userFactory.createdDefaultUser(userId, username);
+        newUser.setPassword(password);
+        newUser.setCreationTime(creationTime);
+
+        accounts.put(userId, newUser);
+
+    }
+
 
 
     @Override
@@ -80,7 +96,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         // information into the csv file
 
         //First get the current userId
-        User curr_user = getAccountByUserId(userId);
+        User curr_user = getAccountByUserId(userId); //change to update from setter
         curr_user.setGender(gender);
         curr_user.setUserHeight(height);
         curr_user.setUserWeight(weight);
@@ -91,8 +107,13 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
         accounts.put(userId, curr_user);
 
-        //Now compute req calories
+        // Now compute req calories
         double requiredCalories = computedRequiredCalories(userId);
+        // Save this new data
+        curr_user.setRequiredCalories(requiredCalories);
+        // Update user into accounts map to account for newly updated req calories
+
+        accounts.put(userId, curr_user);
 
         // Save updated user values into the Csv file
         csvBuilder.buildCsv(curr_user);
@@ -372,6 +393,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     public Boolean existByUserId(int userId) {
         return accounts.containsKey(userId);
     }
+
+
 
     //Weight Goal Methods to get calories user needs
 
