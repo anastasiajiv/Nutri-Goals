@@ -186,16 +186,8 @@ public class CommonUser implements User{
     }
 
     @Override
-    public List<String> getAllergies(){
-        List<String> user_allergies = new ArrayList<>();
-        for (Map.Entry<String, Boolean> map: allergies.entrySet()){
-            String key = map.getKey();
-            Boolean value = map.getValue();
-            if (value == Boolean.TRUE){
-                user_allergies.add(key);
-            }
-        }
-        return user_allergies;
+    public HashMap<String, Boolean> getAllergies(){
+        return this.allergies;
     }
     public void setConditions(HashMap<String, String> conditions){
         this.conditions = conditions;
