@@ -31,14 +31,14 @@ public interface User {
     //HashMap<String, Boolean> getUserRestriction(); // Restriction type will be stored as a hashmap <String(Restriction Type),
                                 // Boolean(Weather user clicked this option or not)>
     void setDietary(HashMap<String, Boolean> dietary);
-    String getDietary();
+    HashMap<String, Boolean> getDietary();
 
     void setAllergies(HashMap<String, Boolean> allergies);
-    List<String> getAllergies();
+    HashMap<String, Boolean> getAllergies();
 
     void setConditions(HashMap<String, String> conditions);
 
-    HashMap<String, Double> getConditions();
+    HashMap<String, String> getConditions();
 
     //HashMap<String, Boolean> getUserRestriction(); // Restriction type will be stored as a hashmap <String(Restriction Type),
     // Boolean(Weather user clicked this option or not)>
