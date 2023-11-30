@@ -10,18 +10,18 @@ based on their individual goals (i.e, calories will not be displayed unless expl
 accessible towards users of all intents and conditions. Meal plans and tracked nutritional information is stored for the
 user to access as they please.
 
-# A user will set various preferences besides basic personal information when they first create their account:
+### A user will set various preferences besides basic personal information when they first create their account:
     1. Diet: a user's specified diet (ex: vegetarian, vegan, pescatarian, none)
     2. Tracked Nutrients: the nutritional information the user would like to track (ex: macro/micronutrients)
     3. Allergies: any allergens the user would like to avoid
     4. Conditions: any conditions the user may have that will affect the recipes they would like to be suggested
     5. Weight Goal: a user's specified (or unspecified) weight goal (ex: lose, gain, maintain)
 
-# Note: The nutrients that the user can choose to track with relation to the meal plans they create:
+#### Note: The nutrients that the user can choose to track with relation to the meal plans they create:
     a) Macronutrients: calories, carbohydrates, proteins, fats
     b) Micronutrients: calcium, potassium, vitamin C, vitamin D, iron, magnesium, sugar
     
-## Proposed Entities
+### Proposed Entities
     1. User
         Attributes: UserID, name, password, creationTime, gender, height, weight, age, exerciseLevel
                     diet, trackedNutrients, allergies, conditions, weightGoal
@@ -30,7 +30,7 @@ user to access as they please.
     3. MealPlan  // please populate this, whoever is implementing this entity
         Attributes: ...
 
-## User Stories
+### User Stories
     1. Alex hears about an app that is able to offer recipes/meal ideas based on the user’s unique goals and 
         preferences. He makes an account using his email and creates a password. After he makes an account, he is met 
         with a list of different goals he can have, which range from iron, calcium, and protein intake as well as 
