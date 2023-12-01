@@ -18,13 +18,13 @@ public class CommonRecipe implements Recipe {
 
     private final String recipeType;
 
-    private final HashMap<String, Float> nutritionalInfo;
+    private final HashMap<String, Double> nutritionalInfo;
 
     private final String recipeLink;
 
 
     public CommonRecipe(int recipeID, String recipeName, List<Ingredient> recipeIngredients,
-                        String recipeInstructions, String recipeType, HashMap<String, Float> nutritionalInfo,
+                        String recipeInstructions, String recipeType, HashMap<String, Double> nutritionalInfo,
                         String recipeLink) {
         this.recipeID = recipeID;
         this.recipeName = recipeName;
@@ -62,7 +62,7 @@ public class CommonRecipe implements Recipe {
     }
 
     @Override
-    public HashMap<String, Float> getNutritionalInfo() {
+    public HashMap<String, Double> getNutritionalInfo() {
         return nutritionalInfo;
     }
 

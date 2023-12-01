@@ -9,9 +9,9 @@ public class CommonMealPlan implements MealPlan {
     public Recipe lunch;
 
     public Recipe dinner;
-    public HashMap<String, Float> cumulativeNutritionalInfo;
+    public HashMap<String, Double> cumulativeNutritionalInfo;
 
-    public CommonMealPlan(Recipe breakfast, Recipe lunch, Recipe dinner, HashMap<String, Float> nutritionalInfo){
+    public CommonMealPlan(Recipe breakfast, Recipe lunch, Recipe dinner, HashMap<String, Double> nutritionalInfo){
         this.breakfast = breakfast;
         this.lunch = lunch;
         this.dinner = dinner;
@@ -34,7 +34,7 @@ public class CommonMealPlan implements MealPlan {
     }
 
     @Override
-    public HashMap<String, Float> getCumulativeNutritionalInfo() {
+    public HashMap<String, Double> getCumulativeNutritionalInfo() {
         return this.cumulativeNutritionalInfo;
     }
 }

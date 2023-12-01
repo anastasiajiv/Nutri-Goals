@@ -5,9 +5,12 @@ import src.entity.MealPlan;
 import src.entity.Recipe;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public interface MealPlanDataAccessInterface {
+    HashMap<String, Double> getRecipeNutritionalInfo(String recipeID);  // temporary for testing
+
     String breakfast(int identifier);
 
     List<Ingredient> createIngredients(String identifier);

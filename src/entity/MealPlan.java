@@ -10,5 +10,5 @@ public interface MealPlan {
 
     Recipe getDinner();
 
-    HashMap<String, Float> getCumulativeNutritionalInfo();
+    HashMap<String, Double> getCumulativeNutritionalInfo();
 }

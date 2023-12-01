@@ -9,22 +9,21 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import src.entity.*;
 import src.entity.User;
 import src.entity.UserFactory;
+import src.use_case.mealPlan.MealPlanDataAccessInterface;
 import src.use_case.signup.SignupUserDataAccessInterface;
 import src.use_case.trackedNutrients.TrackedNutrientsUserDataAccessInterface;
 import src.use_case.weightgoal.WeightGoalUserDataInterface;
 import src.use_case.preferences.PreferencesUserDataAccessInterface;
 
-public class FileUserDataAccessObject implements SignupUserDataAccessInterface, WeightGoalUserDataInterface, PreferencesUserDataAccessInterface, TrackedNutrientsUserDataAccessInterface {
+public class FileUserDataAccessObject implements SignupUserDataAccessInterface, WeightGoalUserDataInterface,
+        PreferencesUserDataAccessInterface, TrackedNutrientsUserDataAccessInterface, MealPlanDataAccessInterface {
 
     File csvFile;
 
@@ -83,8 +82,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         "maintainWeight," +
                         "loseWeight," +
                         "gainWeight," +
-                        "weightPaceType" +
-                        "requiredCalories" +
+                        "weightPaceType," +
+                        "requiredCalories," +
                         "trackedNutrients");
 
                 String row;
@@ -558,12 +557,12 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         return accounts.get(userID).getTrackedNutrients();
     }
 
-    private HashMap<String, Float> getRecipeNutritionalInfo(String recipeID) {
+    public HashMap<String, Double> getRecipeNutritionalInfo(String recipeID) {
         // format the API request
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spoonacular.com/recipes/"+ recipeID +"/information?includeNutrition=true"))
-                .header("X-RapidAPI-Host", "https://api.spoonacular.com")
-                .header("X-RapidAPI-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                .header("x-api-host", "https://api.spoonacular.com")
+                .header("x-api-key", "7fbb8c718e724bb491e1e9a89c746713 ")
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
 
@@ -579,22 +578,61 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
         // find the nutritional info
         JSONObject json = new JSONObject(recipe);
-        JSONArray recipeArray = json.getJSONArray("nutrients");  // get an array of nutrients
+        JSONObject recipeOuter = json.getJSONObject("nutrition");  // get an array of nutrients
+        JSONArray recipeArray = recipeOuter.getJSONArray("nutrients");
 
         // initialize a storage hashmap for the nutrients
-        HashMap<String, Float> recipeNutritionalInfo = new HashMap<>();
+        HashMap<String, Double> recipeNutritionalInfo = new HashMap<>();
 
         for (int i = 0; i < recipeArray.length(); i++) {
             // each nutrient is in its own array
-            JSONArray nutrientArray = recipeArray.getJSONArray(i);
-            String nutrientName = nutrientArray.getString(1);
-            double nutrient = nutrientArray.getDouble(2);
-
-            Float nutrientValue = BigDecimal.valueOf(nutrient).floatValue();
+            JSONObject nutrientArray = recipeArray.getJSONObject(i);
+            String nutrientName = nutrientArray.getString("name");
+            double nutrientValue = nutrientArray.getDouble("amount");
 
             // place into the hashmap
             recipeNutritionalInfo.put(nutrientName, nutrientValue);
         }
         return recipeNutritionalInfo;
+    }
+
+    @Override
+    public String breakfast(int identifier) {
+        return null;
+    }
+
+    @Override
+    public List<Ingredient> createIngredients(String identifier) {
+        return null;
+    }
+
+    @Override
+    public Recipe createRecipeBreakfast(List<Ingredient> ingredients, String recipe) {
+        return null;
+    }
+
+    @Override
+    public String lunch(int identifier) {
+        return null;
+    }
+
+    @Override
+    public Recipe createRecipeLunch(List<Ingredient> ingredients, String recipe) {
+        return null;
+    }
+
+    @Override
+    public String dinner(int identifier) {
+        return null;
+    }
+
+    @Override
+    public Recipe createRecipeDinner(List<Ingredient> ingredients, String recipe) {
+        return null;
+    }
+
+    @Override
+    public MealPlan getMealPlan(int id) {
+        return null;
     }
 }
