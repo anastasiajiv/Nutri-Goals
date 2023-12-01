@@ -1,6 +1,7 @@
 package src.use_case.mealplan;
 
 import src.entity.Ingredient;
+import src.entity.MealPlan;
 import src.entity.Recipe;
 
 import java.util.ArrayList;
@@ -34,8 +35,10 @@ public interface MealPlanDataAccessInterface {
     Recipe CreateRecipeDinner(List<Ingredient> ingredients, String recipe);
 
 
+    MealPlan getMealPlan(int id);
 
-    ArrayList<String> MealPlan(ArrayList<String> breakfast, ArrayList<String> lunch, ArrayList<String> dinner);
+
+
 
 
 }
