@@ -9,7 +9,6 @@ package src.app;
 
 
 import src.data_access.FileUserDataAccessObject;
-import src.entity.CommonUser;
 import src.entity.*;
 import src.entity.UserFactory;
 
@@ -23,42 +22,61 @@ public class Main {
         UserFactory userFactory = new CommonUserFactory();
         UserFactory userFactory1 = new CommonUserFactory();
 
-        FileUserDataAccessObject userDAO = new FileUserDataAccessObject("new.csv", userFactory);
+        FileUserDataAccessObject userDAO = new FileUserDataAccessObject("new2.csv", "mealPlan.csv", userFactory);
 
-//        User newUser = userFactory.createdDefaultUser(2387, "Aarya");
-//        newUser.setPassword("Dario");
-//        newUser.setCreationTime(LocalDateTime.now());
-//
-//        userDAO.saveNewUser(newUser);
+        FileUserDataAccessObject fileUserDataAccessObject = new FileUserDataAccessObject("example.csv", "mealPlan.csv", new CommonUserFactory());
 
-        User testSave = userDAO.getAccountByUserId(2387);
+        User newUser = userFactory.createdDefaultUser(2387, "Aarya");
+        newUser.setPassword("Dario");
+        newUser.setCreationTime(LocalDateTime.now());
+
+        System.out.println(userDAO.saveUserSignUpData(newUser.getUserId(),
+                newUser.getName(),
+                newUser.getPassword(),
+                newUser.getCreationTime()));
+
+
+
+        
         HashMap<String, Boolean> gender = new HashMap<>();
         gender.put("female", Boolean.FALSE);
         gender.put("male", Boolean.TRUE);
 
         double height = 175.5;
-        double weight = 165.5;
+        double weight = 65.5;
         int age = 19;
-        int exerciseLvl = 3;
-        String paceType = "typical";
-        int reqCalories = 2300;
+        int exerciseLvl = 1;
+        String paceType = "fast";
+
 
         HashMap<String, Boolean> weightGoal = new HashMap<>();
-        weightGoal.put("maintainWeight", Boolean.FALSE);
-        weightGoal.put("gainWeight", Boolean.TRUE);
+        weightGoal.put("maintainWeight", Boolean.TRUE);
+        weightGoal.put("gainWeight", Boolean.FALSE);
         weightGoal.put("loseWeight", Boolean.FALSE);
 
 
 
 
-        testSave.setWeightGoalType(weightGoal);
-        testSave.setGender(gender);
-        testSave.setUserHeight(height);
-        testSave.setUserWeight(weight);
-        testSave.setUserAge(age);
-        testSave.setUserExerciseLvl(exerciseLvl);
-        testSave.setPaceType(paceType);
-        testSave.setRequiredCalories(reqCalories);
+
+        newUser.setWeightGoalType(weightGoal);
+        newUser.setGender(gender);
+        newUser.setUserHeight(height);
+        newUser.setUserWeight(weight);
+        newUser.setUserAge(age);
+        newUser.setUserExerciseLvl(exerciseLvl);
+        newUser.setPaceType(paceType);
+
+
+        System.out.println(userDAO.saveWeightGoalData(newUser.getUserId(),
+                newUser.getGender(),
+                newUser.getUserHeight(),
+                newUser.getUserWeight(),
+                newUser.getUserAge(),
+                newUser.getUserExcerciseLevel(),
+                newUser.getPaceType(),
+                weightGoal));
+
+        System.out.println(userDAO.createUserID());
 
 
 
