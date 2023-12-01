@@ -17,7 +17,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpClient;
 import java.io.IOException;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
+import org.json.JSONArray;
 
 
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface, WeightGoalUserDataInterface, PreferencesUserDataAccessInterface, TrackedNutrientsUserDataAccessInterface {
@@ -585,8 +586,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         for (int i = 0; i < recipeArray.length(); i++) {
             // each nutrient is in its own array
             JSONArray nutrientArray = recipeArray.getJSONArray(i);
-            String nutrientName = nutrientArray.getString("name");
-            double nutrient = nutrientArray.getDouble("amount");
+            String nutrientName = nutrientArray.getString(1);
+            double nutrient = nutrientArray.getDouble(2);
 
             Float nutrientValue = BigDecimal.valueOf(nutrient).floatValue();
 
