@@ -41,7 +41,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
 
     @Override
-    public void saveUserSignUpData(int userId,
+    public Boolean saveUserSignUpData(int userId,
                                    String username,
                                    String password,
                                    LocalDateTime creationTime) {
@@ -53,14 +53,14 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
         accounts.put(userId, newUser);
 
-        csvBuilder.buildCsv(newUser, 0);
+        return csvBuilder.buildCsv(newUser, 0);
 
     }
 
 
 
     @Override
-    public void saveWeightGoalData(int userId,
+    public Boolean saveWeightGoalData(int userId,
                                    HashMap<String, Boolean> gender,
                                    double height,
                                    double weight,
@@ -82,7 +82,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         curr_user.setPaceType(paceType);
         curr_user.setWeightGoalType(weightGoal);
 
-        accounts.put(userId, curr_user);
+        accounts.put(userId, curr_user);// TODO: Discuss weather this should this go in interactor?
 
         // Now compute req calories
         double requiredCalories = computedRequiredCalories(userId);
@@ -93,7 +93,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         accounts.put(userId, curr_user);
 
         // Save updated user values into the Csv file
-        csvBuilder.buildCsv(curr_user, 1);
+        return csvBuilder.buildCsv(curr_user, 1);
 
 
 
@@ -174,6 +174,12 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         }
         return reqCalories;
     }
+
+    @Override
+    public Boolean existByUserID(int userID) {
+        return accounts.containsKey(userID);
+    }
+
     public double getBMR(int userId) {
         // Men: BMR = 88.63 + (13.397 * weight in kg) + (4.799 * height in cm) - (5.677 * age in years)
         // Miffin - St Jeor Equation -> BMR = 10 * weight + 6.25 * height - 5 * age + 5

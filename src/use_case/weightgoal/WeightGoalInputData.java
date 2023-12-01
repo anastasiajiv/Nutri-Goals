@@ -12,6 +12,8 @@ public class WeightGoalInputData {
 
     private double height;
 
+    private double weight;
+
     private int age;
 
     private int exerciseLvl;
@@ -20,7 +22,7 @@ public class WeightGoalInputData {
 
 
 
-    private HashMap<String, Boolean> weightGoal; // Hashmap<maintainWeight, False>  for all weightGoalTypes
+    private final HashMap<String, Boolean> weightGoal; // Hashmap<maintainWeight, False>  for all weightGoalTypes
 
 
 
@@ -37,7 +39,16 @@ public class WeightGoalInputData {
         this.weightGoal = weightGoal;
     }
 
-    HashMap<Integer, HashMap<String, Boolean>> getWeightGoal() {
+    HashMap<String, Boolean> getGender() {
+        return this.gender;
+    }
+
+    double getWeight() {
+       return this.weight;
+    }
+
+
+    HashMap<Integer, HashMap<String, Boolean>> getWeightGoalLol() {
         HashMap<Integer, HashMap<String, Boolean>> map = new HashMap<>();
         map.put(this.userId, this.weightGoal);
         return map;
@@ -59,14 +70,9 @@ public class WeightGoalInputData {
         return this.paceType;
     }
 
-//    String getWeightGoalType(){
-//        String strWeightGoalType = "";
-//        for (Map.Entry<Integer, String> entry: weightGoalType.entrySet()) { // Should only be 1 loop
-//            strWeightGoalType = entry.getValue();
-//        }
-//        return strWeightGoalType;
-//
-//    }
+    HashMap<String, Boolean> getWeightGoal(){
+       return this.weightGoal;
+    }
 
 
     int getUserId(){

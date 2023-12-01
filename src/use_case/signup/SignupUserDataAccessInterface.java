@@ -10,7 +10,7 @@ public interface SignupUserDataAccessInterface {
 
     Boolean existByUserId(int userId);
 
-    void saveUserSignUpData(int userId,
+    Boolean saveUserSignUpData(int userId,
                             String username,
                             String password,
                             LocalDateTime creationTime);

@@ -12,7 +12,7 @@ public class FileCsvBuilder {
         this.csvFilePath = csvFilePath;
     }
 
-    public void buildCsv(User user, int saveType) {
+    public Boolean buildCsv(User user, int saveType) {
         // 0 -> first initial save
         // 1 -> to update existing user
         try {
@@ -27,9 +27,11 @@ public class FileCsvBuilder {
             } else {
                 updateUsersToCsv(user, csvFile);
             }
-
+            return true;
         } catch (IOException e) {
-            throw new RuntimeException("Error building CSV", e);
+            System.out.println("Error, Could not save or update data properly");
+            return false;
+
         }
     }
 

@@ -5,7 +5,7 @@ import src.entity.User;
 import java.util.HashMap;
 
 public interface WeightGoalUserDataInterface {
-    void saveWeightGoalData(int userId,
+    Boolean saveWeightGoalData(int userId,
                             HashMap<String, Boolean> gender,
                             double height,
                             double weight,
@@ -16,6 +16,7 @@ public interface WeightGoalUserDataInterface {
 
     double computedRequiredCalories (int userId) ;
 
+    Boolean existByUserID(int userID);
 
     //User getUserWeightGoalData(int userId);
 

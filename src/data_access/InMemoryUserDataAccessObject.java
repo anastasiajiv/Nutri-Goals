@@ -26,7 +26,7 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     }
 
     @Override
-    public void saveUserSignUpData(int userId, String username, String password, LocalDateTime creationTime) {
-
+    public Boolean saveUserSignUpData(int userId, String username, String password, LocalDateTime creationTime) {
+        return Boolean.TRUE;
     }
 }
