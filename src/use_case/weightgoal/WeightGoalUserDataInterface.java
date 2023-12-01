@@ -18,6 +18,8 @@ public interface WeightGoalUserDataInterface {
 
     Boolean existByUserID(int userID);
 
+    public User getAccountByUserId ( int userId);
+
     //User getUserWeightGoalData(int userId);
 
     //Boolean existByUserId(int userId);

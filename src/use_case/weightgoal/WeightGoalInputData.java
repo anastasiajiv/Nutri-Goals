@@ -55,28 +55,28 @@ public class WeightGoalInputData {
     }
 
     double getHeight() {
-        return this.height;
+        return height;
     }
 
     int getAge() {
-        return this.age;
+        return age;
     }
 
     int getExerciseLvl() {
-        return this.exerciseLvl;
+        return exerciseLvl;
     }
 
     String getPaceType() {
-        return this.paceType;
+        return paceType;
     }
 
     HashMap<String, Boolean> getWeightGoal(){
-       return this.weightGoal;
+       return weightGoal;
     }
 
 
     int getUserId(){
-        return this.userId;
+        return userId;
     }
 
 }
