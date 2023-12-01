@@ -20,6 +20,8 @@ public interface Recipe {
 
     String getrecipelink();
 
+    String getrecipeIngredientstring();
+
 
 
 //    String getBreakfeast();

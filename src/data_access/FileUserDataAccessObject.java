@@ -2,6 +2,7 @@ package src.data_access;
 
 import java.io.*;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -19,6 +20,7 @@ import java.net.http.HttpClient;
 import java.io.IOException;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 
 // import src.entity.PreferenceInfo;
 
@@ -513,7 +515,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         //find all necessary sorting attributes and do calculations
         User user = getAccountByUserId(identifier);
         int daily_cal = user.getRequiredCalories();
-        String breakfast_cals = String.valueOf(Math.round((daily_cal/3)/5));
+        String breakfast_cals = String.valueOf(Math.round((daily_cal/5)));
         String dietary = user.getDietary();
         List<String> allergies = user.getAllergies();
         HashMap<String, Double> conditions = user.getConditions();
@@ -592,7 +594,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         JSONArray ingredients = json.getJSONArray("extendedIngredients");
         List<Ingredient> list = new ArrayList<>();
 
-        // System.out.println(ingredients.length());
+
 
 
         for (int i = 0; i < (ingredients.length() - 1);i ++){
@@ -604,6 +606,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
             String unit = ingredient.getString("unit");
 
             Ingredient finalingredient = new CommonIngredient(id, name, amount + unit);
+
+
 
 
 
@@ -642,7 +646,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         User user = getAccountByUserId(identifier);
         int daily_cal = user.getRequiredCalories();
         // TODO change names of methods **
-        String lunch_cals = String.valueOf((2*(Math.round((daily_cal/3)/5))));
+        String lunch_cals = String.valueOf((2*(Math.round((daily_cal/5)))));
         String dietary = user.getDietary();
         List<String> allergies = user.getAllergies();
         HashMap<String, Double> conditions = user.getConditions();
@@ -732,7 +736,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     public String Dinner(int identifier) {
         User user = getAccountByUserId(identifier);
         int daily_cal = user.getRequiredCalories();
-        String dinner_cals = String.valueOf((2*(Math.round((daily_cal/3)/5))));
+        String dinner_cals = String.valueOf((2*(Math.round((daily_cal/5)))));
         String dietary = user.getDietary();
         List<String> allergies = user.getAllergies();
         HashMap<String, Double> conditions = user.getConditions();
@@ -839,6 +843,48 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
 
 
+
+    @Override
+    public String displayMealPlan(MealPlan mealplan){
+
+
+        Recipe breakfast = mealplan.getBreakfast();
+        Recipe lunch = mealplan.getLunch();
+        Recipe dinner = mealplan.getDinner();
+
+        String breakfastname = breakfast.getRecipeName();
+        String brekfastingredients = breakfast.getrecipeIngredientstring();
+        String breakfastinstruct = breakfast.getRecipeInstructions();
+        String breakfastlink = breakfast.getrecipelink();
+        String breakfasttotal  = "Breakfast: " + breakfastname + "\n" + "Ingredients :  " + brekfastingredients + "\n" + "Summary : " + breakfastinstruct +
+                "\n" + breakfastlink;
+
+
+        String lunchname = lunch.getRecipeName();
+        String lunchingredients = lunch.getrecipeIngredientstring();
+        String lunchinstruct = lunch.getRecipeInstructions();
+        String lunchlink = lunch.getrecipelink();
+        String lunchtotal  = "Lunch: " + lunchname + "\n" + "Ingredients : " + lunchingredients + "\n" + "Summary : " + lunchinstruct +
+                "\n" + lunchlink;
+
+
+
+        String dinnername = dinner.getRecipeName();
+        String dinneringredients = dinner.getrecipeIngredientstring();
+        String dinnerinstruct = dinner.getRecipeInstructions();
+        String dinnerlink = dinner.getrecipelink();
+        String dinnertotal  = "Dinner: "+ dinnername + "\n" + "Ingredients : " + dinneringredients + "\n" + "Summary : " + dinnerinstruct +
+                "\n" + dinnerlink;
+
+
+
+        return breakfasttotal + "\n" + lunchtotal  + "\n"  + dinnertotal;
+
+
+    }
+
+
+
     private HashMap<String, Float> getRecipeNutritionalInfo(String recipeID) {
         // format the API request
         HttpRequest request = HttpRequest.newBuilder()
@@ -867,11 +913,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         for (int i = 0; i < recipeArray.length(); i++) {
             // each nutrient is in its own array
             JSONArray nutrientArray = recipeArray.getJSONArray(i);
-            String nutrientName = nutrientArray.getJSONObject(0).toString();
-            Float nutrientValue = nutrientArray.getJSONObject(1).toFloat();
+            String nutrientName = nutrientArray.getString("name");
+            double nutrient = nutrientArray.getDouble("amount");
 
             // place into the hashmap
-            recipeNutritionalInfo.put(nutrientName, nutrientValue);
+            recipeNutritionalInfo.put(nutrientName, nutrient);
         }
         return recipeNutritionalInfo;
     }

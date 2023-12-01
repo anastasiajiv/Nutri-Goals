@@ -53,6 +53,8 @@ public class CommonRecipe implements Recipe {
         return recipeIngredients;
     }
 
+
+
     @Override
     public String getRecipeInstructions() {
         return recipeInstructions;
@@ -71,6 +73,20 @@ public class CommonRecipe implements Recipe {
     @Override
     public String getrecipelink() {
         return recipelink;
+    }
+
+    @Override
+    public String getrecipeIngredientstring() {
+
+        StringBuilder sb = new StringBuilder();
+        for (int i =0; i < this.recipeIngredients.size(); i ++ ){
+
+            Ingredient ingredient = recipeIngredients.get(i);
+            String ingredientstring = ingredient.getName() + " amount : " + ingredient.getAmount() + ", ";
+            sb.append(ingredientstring);
+
+        }
+        return sb.toString();
     }
 
 

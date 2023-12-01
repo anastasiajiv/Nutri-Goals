@@ -38,6 +38,11 @@ public interface MealPlanDataAccessInterface {
     MealPlan getMealPlan(int id);
 
 
+    Boolean existByUserID(int userID);
+
+   String displayMealPlan(MealPlan mealplan);
+
+
 
 
 
