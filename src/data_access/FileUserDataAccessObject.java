@@ -585,8 +585,10 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         for (int i = 0; i < recipeArray.length(); i++) {
             // each nutrient is in its own array
             JSONArray nutrientArray = recipeArray.getJSONArray(i);
-            String nutrientName = nutrientArray.getJSONObject(0).toString();
-            Float nutrientValue = BigDecimal.valueOf(nutrientArray.getJSONObject(1)).floatValue();
+            String nutrientName = nutrientArray.getString("name");
+            double nutrient = nutrientArray.getDouble("amount");
+
+            Float nutrientValue = BigDecimal.valueOf(nutrient).floatValue();
 
             // place into the hashmap
             recipeNutritionalInfo.put(nutrientName, nutrientValue);
