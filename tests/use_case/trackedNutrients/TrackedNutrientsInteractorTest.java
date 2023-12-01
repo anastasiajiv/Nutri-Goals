@@ -1,6 +1,7 @@
 package tests.use_case.trackedNutrients;
 
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import src.data_access.FileUserDataAccessObject;
 import src.data_access.InMemoryTrackedNutrientsDataAccessObject;
 import src.entity.User;
@@ -20,41 +21,23 @@ public class TrackedNutrientsInteractorTest {
     // TrackedNutrients use case takes an ArrayList<String> of nutrients the user would like to track
     // sets the user's trackedNutrients attribute to the given array list
 
+    private FileUserDataAccessObject fileUserDAO;
+    private final String csvPath = "./users.csv";
+
+    private final UserFactory userFactory = new CommonUserFactory();
+
+    @BeforeEach
+    void setUp() throws IOException {
+        // create a new fileUserDAO
+        this.fileUserDAO = new FileUserDataAccessObject(this.csvPath, this.userFactory);
+    }
+
     @Test
-    void before() {
-        // adds a default user to the CSV file for testing
-        UserFactory userFactory = new CommonUserFactory();
-        FileUserDataAccessObject fileUserDAO;
-
-        try {
-            fileUserDAO = new FileUserDataAccessObject("./users.csv", userFactory);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        // create a new user
-        User user = userFactory.create(
-                101,
-                "Sophia",
-                "abc123",
-                LocalDateTime.now(),
-                new HashMap<>(),
-                170.0,
-                145,
-                19,
-                5,
-                new HashMap<>(),
-                new HashMap<>(),
-                new HashMap<>(),
-                new ArrayList<>(),
-                new HashMap<>(),
-                "normal",
-                2000
-                );
+    void saveUserData() {
+        int userID = 101;
 
         HashMap<String, Boolean> gender = new HashMap<>();
         gender.put("female", true);
-        user.setGender(gender);
 
         HashMap<String, String> conditions = new HashMap<>();
         conditions.put("Calcium", "average");
@@ -64,10 +47,32 @@ public class TrackedNutrientsInteractorTest {
         conditions.put("Iron", "average");
         conditions.put("Magnesium", "average");
         conditions.put("Sugar", "average");
-        user.setConditions(conditions);
+
+        // create a new user
+        User user = userFactory.create(
+                userID,
+                "Sophia",
+                "abc123",
+                LocalDateTime.now(),
+                gender,
+                170.0,
+                145,
+                19,
+                5,
+                new HashMap<>(),
+                new HashMap<>(),
+                conditions,
+                new ArrayList<>(),
+                new HashMap<>(),
+                "normal",
+                2000
+        );
 
         // save the user to the file
-        fileUserDAO.saveNewUser(user);
+        this.fileUserDAO.saveNewUser(user);
+
+        assertTrue(this.fileUserDAO.existByUserID(userID));
+        assertNotNull(this.fileUserDAO.getAccountByUserID(userID));
     }
 
     @Test
