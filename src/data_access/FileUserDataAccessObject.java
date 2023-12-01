@@ -51,11 +51,10 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         newUser.setPassword(password);
         newUser.setCreationTime(creationTime);
 
+        accounts.put(userId, newUser);
 
         csvBuilder.buildCsv(newUser, 0);
 
-
-        accounts.put(userId, newUser);
     }
 
 
