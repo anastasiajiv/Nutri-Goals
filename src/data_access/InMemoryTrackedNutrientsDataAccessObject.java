@@ -18,6 +18,6 @@ public class InMemoryTrackedNutrientsDataAccessObject implements TrackedNutrient
 
     @Override
     public Boolean existByUserID(int userID) {
-        return null;
+        return ...;
     }
 }
