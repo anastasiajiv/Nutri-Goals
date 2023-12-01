@@ -27,7 +27,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
     public Map<Integer, User> accounts = new HashMap<>(); // Testing purposes in MAIN
 
-    private UserFactory userFactory;
+    private final UserFactory userFactory;
 
     public FileUserDataAccessObject(String csvPath, UserFactory userFactory) throws IOException{
         this.userFactory = userFactory;
