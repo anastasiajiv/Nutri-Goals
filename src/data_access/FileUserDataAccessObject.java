@@ -3,12 +3,19 @@ package src.data_access;
 
 import java.io.*;
 
+import java.math.BigDecimal;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import src.entity.*;
 import src.entity.User;
 import src.entity.UserFactory;
@@ -549,5 +556,45 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     @Override
     public ArrayList<String> getUserTrackedNutrientsData(int userID) {
         return accounts.get(userID).getTrackedNutrients();
+    }
+
+    private HashMap<String, Float> getRecipeNutritionalInfo(String recipeID) {
+        // format the API request
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spoonacular.com/recipes/"+ recipeID +"/information?includeNutrition=true"))
+                .header("X-RapidAPI-Host", "https://api.spoonacular.com")
+                .header("X-RapidAPI-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        // attempt to fetch from the API
+        HttpResponse<String> response = null;
+        try {
+            response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        assert response != null;  // ensure that the recipe was fetched correctly
+        String recipe = response.body();
+
+        // find the nutritional info
+        JSONObject json = new JSONObject(recipe);
+        JSONArray recipeArray = json.getJSONArray("nutrients");  // get an array of nutrients
+
+        // initialize a storage hashmap for the nutrients
+        HashMap<String, Float> recipeNutritionalInfo = new HashMap<>();
+
+        for (int i = 0; i < recipeArray.length(); i++) {
+            // each nutrient is in its own array
+            JSONArray nutrientArray = recipeArray.getJSONArray(i);
+            String nutrientName = nutrientArray.getString(1);
+            double nutrient = nutrientArray.getDouble(2);
+
+            Float nutrientValue = BigDecimal.valueOf(nutrient).floatValue();
+
+            // place into the hashmap
+            recipeNutritionalInfo.put(nutrientName, nutrientValue);
+        }
+        return recipeNutritionalInfo;
     }
 }

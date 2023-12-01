@@ -1,21 +1,24 @@
 package src.entity;
-
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 public interface Recipe {
 
-    int getRecipeId();
+    int getRecipeID();
 
     String getRecipeName();
 
-    HashMap<String, Double> getRecipeIngredients(); // Using java.lang DOUBLE -> object
+    List<Ingredient> getRecipeIngredients(); // Using java.lang DOUBLE -> object
 
     String getRecipeInstructions();
 
-    HashMap<String, Boolean> recipeType();
     String getRecipeType();
 
     HashMap<String, Float> getNutritionalInfo();
+
+    String getRecipeLink();
+
 
 
 //    String getBreakfeast();
@@ -24,6 +27,6 @@ public interface Recipe {
 //
 //    String getDinner();
 
-   // HashMap<Integer, HashMap<String, ArrayList<String>>> savedRecipes(); // {1: {Breakfeast: [RECIPE], Lunch:[RECIPE]},
-                                                                        // 2:{Breakfeast: [RECIPE], Lunch:[RECIPE]}}
+    // HashMap<Integer, HashMap<String, ArrayList<String>>> savedRecipes(); // {1: {Breakfeast: [RECIPE], Lunch:[RECIPE]},
+    // 2:{Breakfeast: [RECIPE], Lunch:[RECIPE]}}
 }

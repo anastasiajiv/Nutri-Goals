@@ -3,38 +3,42 @@ package src.entity;
 import org.w3c.dom.ls.LSOutput;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CommonRecipe implements Recipe {
 
-    private final int recipeId;
+    private final int recipeID;
 
     private final String recipeName;
 
-    private final HashMap<String, Double> recipeIngredients;
+    private final List<Ingredient> recipeIngredients;
 
     private final String recipeInstructions;
 
-    private final HashMap<String, Boolean> recipeType;
+    private final String recipeType;
 
     private final HashMap<String, Float> nutritionalInfo;
 
+    private final String recipeLink;
 
-    public CommonRecipe(int recipeId, String recipeName, HashMap<String, Double> recipeIngredients,
-                        String recipeInstructions, HashMap<String, Boolean> recipeType,
-                        HashMap<String, Float> nutritionalInfo) {
-        this.recipeId = recipeId;
+
+    public CommonRecipe(int recipeID, String recipeName, List<Ingredient> recipeIngredients,
+                        String recipeInstructions, String recipeType, HashMap<String, Float> nutritionalInfo,
+                        String recipeLink) {
+        this.recipeID = recipeID;
         this.recipeName = recipeName;
         this.recipeIngredients = recipeIngredients;
         this.recipeInstructions = recipeInstructions;
         this.recipeType = recipeType;
         this.nutritionalInfo = nutritionalInfo;
+        this.recipeLink = recipeLink;
 
     }
 
     @Override
-    public int getRecipeId() {
-        return recipeId;
+    public int getRecipeID() {
+        return recipeID;
     }
 
     @Override
@@ -43,7 +47,7 @@ public class CommonRecipe implements Recipe {
     }
 
     @Override
-    public HashMap<String, Double> getRecipeIngredients() {
+    public List<Ingredient> getRecipeIngredients() {
         return recipeIngredients;
     }
 
@@ -53,23 +57,18 @@ public class CommonRecipe implements Recipe {
     }
 
     @Override
-    public HashMap<String, Boolean> recipeType() {
+    public String getRecipeType() {
         return recipeType;
     }
 
     @Override
-    public String getRecipeType() {
-        for (Map.Entry<String, Boolean> entry : recipeType.entrySet()) {
-            if (entry.getValue() == Boolean.TRUE) {
-                return entry.getKey();
-            }
-        }
-        return "Did not find a type";
+    public HashMap<String, Float> getNutritionalInfo() {
+        return nutritionalInfo;
     }
 
     @Override
-    public HashMap<String, Float> getNutritionalInfo() {
-        return this.nutritionalInfo;
+    public String getRecipeLink() {
+        return recipeLink;
     }
 
 
