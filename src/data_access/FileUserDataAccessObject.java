@@ -2,7 +2,6 @@ package src.data_access;
 
 import java.io.*;
 
-import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -15,12 +14,7 @@ import src.use_case.signup.SignupUserDataAccessInterface;
 import src.use_case.weightgoal.WeightGoalUserDataInterface;
 
 
-
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpClient;
 import java.io.IOException;
-import org.json.*;
 
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
@@ -28,6 +22,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         PreferencesUserDataAccessInterface {
 
     private final String csvFilePath;
+
+    private final String csvMealPlanFilePath;
     private final FileCsvBuilder csvBuilder;
     public Map<Integer, User> accounts = new HashMap<>();
 
@@ -36,9 +32,10 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
     private static List<Integer> generatedIDs = new ArrayList<>();
 
-    public FileUserDataAccessObject(String csvFilePath, UserFactory userFactory) {
+    public FileUserDataAccessObject(String csvFilePath, String csvMealPlanFilePath, UserFactory userFactory) {
         this.csvFilePath = csvFilePath;
         this.csvBuilder = new FileCsvBuilder(csvFilePath);
+        this.csvMealPlanFilePath = csvMealPlanFilePath;
         this.accounts = new HashMap<>();
         this.userFactory = userFactory;
 
@@ -72,13 +69,16 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         int lastUserID = 0;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
-            reader.readLine();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // Assuming the first column contains the user ID
-                String[] columns = line.split(",");
-                if (columns.length > 0) {
-                    lastUserID = Math.max(lastUserID, Integer.parseInt(columns[0]));
+            File csvFile = new File(csvFilePath);
+            if (csvFile.exists()) {
+                reader.readLine();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    // Assuming the first column contains the user ID
+                    String[] columns = line.split(",");
+                    if (columns.length > 0) {
+                        lastUserID = Math.max(lastUserID, Integer.parseInt(columns[0]));
+                    }
                 }
             }
         } catch (IOException | NumberFormatException e) {

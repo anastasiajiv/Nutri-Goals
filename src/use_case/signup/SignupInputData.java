@@ -11,8 +11,6 @@ public class SignupInputData {
 
     final private String repeatPassword;
 
-    private static List<Integer> generatedIDs = new ArrayList<>();
-
 
     public SignupInputData(String username, String password, String repeatPassword) {
         this.username = username;

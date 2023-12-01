@@ -48,12 +48,6 @@ public class WeightGoalInputData {
     }
 
 
-    HashMap<Integer, HashMap<String, Boolean>> getWeightGoalLol() {
-        HashMap<Integer, HashMap<String, Boolean>> map = new HashMap<>();
-        map.put(this.userId, this.weightGoal);
-        return map;
-    }
-
     double getHeight() {
         return height;
     }
