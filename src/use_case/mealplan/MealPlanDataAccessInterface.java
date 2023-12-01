@@ -9,7 +9,7 @@ import java.util.List;
 public interface MealPlanDataAccessInterface {
     String Breakfast(int identifier);
 
-    List<Ingredient> CreateIngredientbreakfast(String identifier);
+    List<Ingredient> CreateIngredients(String identifier);
 
     Recipe CreateRecipeBreakfast(List<Ingredient> ingredients, String recipe);
 
@@ -21,7 +21,7 @@ public interface MealPlanDataAccessInterface {
 
     String Lunch(int identifier);
 
-    List<Ingredient> CreateIngredientlunch(String identifier);
+
 
     Recipe CreateRecipeLunch(List<Ingredient> ingredients, String recipe);
 
@@ -29,7 +29,7 @@ public interface MealPlanDataAccessInterface {
     String Dinner(int identifier);
 
 
-    List<Ingredient> CreateIngredientdinner(String identifier);
+
 
     Recipe CreateRecipeDinner(List<Ingredient> ingredients, String recipe);
 

@@ -18,15 +18,22 @@ public class CommonRecipe implements Recipe {
 
     private final String recipeType;
 
+    private final HashMap<String, Float> nutritionalinfo;
+
+    private final String recipelink;
+
 
     public CommonRecipe(int recipeId, String recipeName, List<Ingredient> recipeIngredients,
-                        String recipeInstructions, String recipeType) {
+                        String recipeInstructions, String recipeType, HashMap<String, Float> nutritionalinfo, String recipelink) {
         this.recipeId = recipeId;
         this.recipeName = recipeName;
         this.recipeIngredients = recipeIngredients;
         this.recipeInstructions = recipeInstructions;
 
         this.recipeType = recipeType;
+
+        this.nutritionalinfo = nutritionalinfo;
+        this.recipelink = recipelink;
 
     }
 
@@ -52,12 +59,19 @@ public class CommonRecipe implements Recipe {
     }
 
     @Override
-    public String recipeType() {
+    public String getrecipeType() {
         return recipeType;
     }
 
+    @Override
+    public HashMap<String, Float> getnutritionalinfo() {
+        return nutritionalinfo;
+    }
 
-
+    @Override
+    public String getrecipelink() {
+        return recipelink;
+    }
 
 
 //    @Override

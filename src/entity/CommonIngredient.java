@@ -7,7 +7,7 @@ public class CommonIngredient implements Ingredient{
 
     private final String amount;
 
-    CommonIngredient(int id, String name, String amount){
+    public CommonIngredient(int id, String name, String amount){
         this.id = id;
         this.name = name;
         this.amount = amount;

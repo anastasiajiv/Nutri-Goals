@@ -19,6 +19,7 @@ import java.net.http.HttpClient;
 import java.io.IOException;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 // import src.entity.PreferenceInfo;
 
 
@@ -584,14 +585,62 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
     // takes in result from Breakfast()
     @Override
-    public List<Ingredient> CreateIngredientbreakfast(String identifier){
+    public List<Ingredient> CreateIngredients(String recipe){
+        String jsonString ="" + recipe;
+        JSONObject json = new JSONObject(jsonString);
+
+        JSONArray ingredients = json.getJSONArray("extendedIngredients");
+        List<Ingredient> list = new ArrayList<>();
+
+        // System.out.println(ingredients.length());
+
+
+        for (int i = 0; i < (ingredients.length() - 1);i ++){
+            JSONObject ingredient = ingredients.getJSONObject(i);
+
+            int id = ingredient.getInt("id");
+            String name = ingredient.getString("name");
+            String amount = String.valueOf(ingredient.getInt("amount"));
+            String unit = ingredient.getString("unit");
+
+            Ingredient finalingredient = new CommonIngredient(id, name, amount + unit);
+
+
+
+
+
+
+            list.add(finalingredient);
+
+
+        }
+        return list;
 
 
     }
 
     @Override
     public Recipe CreateRecipeBreakfast(List<Ingredient> ingredients, String recipe) {
-        return null;
+        // id
+        // name
+        // ingredients
+        // instructions
+        // type
+        // nutritonal info
+        // link
+        String jsonString ="" + recipe;
+        JSONObject json = new JSONObject(jsonString);
+        Integer id = json.getInt("id");
+        String name = json.getString("title");
+        String instructions = json.getString("summary");
+        HashMap<String, Float> nutritionalinfo = getRecipeNutritionalInfo(String.valueOf(id));
+        String link = json.getString("sourceUrl");
+        String type = "breakfast";
+
+        return new CommonRecipe(id, name, ingredients, instructions, type, nutritionalinfo, link);
+
+
+
     }
 
 
@@ -669,22 +718,20 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
         return recipeinfo;
     }
-    @Override
-    public List<Ingredient> CreateIngredientlunch(String recipe){
-        String jsonstring = recipe;
-        JSONObject json = new JSONObject(jsonstring);
-        JSONArray recipearray = json.getJSONArray("results");
-        JSONObject firstresult = recipearray.getJSONObject(0);
-        int recipeid = firstresult.getInt("id");
-        String recipeID = String.valueOf(firstresult.getInt("id"));
 
-
-
-    }
 
     @Override
     public Recipe CreateRecipeLunch(List<Ingredient> ingredients, String recipe) {
-        return null;
+        String jsonString ="" + recipe;
+        JSONObject json = new JSONObject(jsonString);
+        Integer id = json.getInt("id");
+        String name = json.getString("title");
+        String instructions = json.getString("summary");
+        HashMap<String, Float> nutritionalinfo = getRecipeNutritionalInfo(String.valueOf(id));
+        String link = json.getString("sourceUrl");
+        String type = "lunch";
+
+        return new CommonRecipe(id, name, ingredients, instructions, type, nutritionalinfo, link);
     }
 
 
@@ -702,20 +749,71 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         return null;
     }
 
-    @Override
-    public List<Ingredient> CreateIngredientdinner(String identifier){
 
-    }
 
     @Override
     public Recipe CreateRecipeDinner(List<Ingredient> ingredients, String recipe) {
-        return null;
+        String jsonString ="" + recipe;
+        JSONObject json = new JSONObject(jsonString);
+        Integer id = json.getInt("id");
+        String name = json.getString("title");
+        String instructions = json.getString("summary");
+        HashMap<String, Float> nutritionalinfo = getRecipeNutritionalInfo(String.valueOf(id));
+        String link = json.getString("sourceUrl");
+        String type = "dinner";
+
+        return new CommonRecipe(id, name, ingredients, instructions, type, nutritionalinfo, link);
     }
 
     @Override
     public ArrayList<String> MealPlan(ArrayList<String> breakfast, ArrayList<String> lunch, ArrayList<String> dinner) {
         return null;
-    }}
+
+
+    }
+
+    private HashMap<String, Float> getRecipeNutritionalInfo(String recipeID) {
+        // format the API request
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spoonacular.com/recipes/"+ recipeID +"/information?includeNutrition=true"))
+                .header("X-RapidAPI-Host", "https://api.spoonacular.com")
+                .header("X-RapidAPI-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        // attempt to fetch from the API
+        HttpResponse<String> response = null;
+        try {
+            response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String recipe = response.body();
+
+        // find the nutritional info
+        JSONObject json = new JSONObject(recipe);
+        JSONArray recipeArray = json.getJSONArray("nutrients");  // get an array of nutrients
+
+        // initialize a storage hashmap for the nutrients
+        HashMap<String, Float> recipeNutritionalInfo = new HashMap<>();
+
+        for (int i = 0; i < recipeArray.length(); i++) {
+            // each nutrient is in its own array
+            JSONArray nutrientArray = recipeArray.getJSONArray(i);
+            String nutrientName = nutrientArray.getJSONObject(0).toString();
+            Float nutrientValue = nutrientArray.getJSONObject(1).toFloat();
+
+            // place into the hashmap
+            recipeNutritionalInfo.put(nutrientName, nutrientValue);
+        }
+        return recipeNutritionalInfo;
+    }
+}
+
+
+
+
+}
 
 
 
