@@ -2,6 +2,7 @@ package src.data_access;
 
 import java.io.*;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -16,7 +17,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpClient;
 import java.io.IOException;
-import org.json.*;
+import org.json.simple.JSONObject;
+
 
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface, WeightGoalUserDataInterface, PreferencesUserDataAccessInterface, TrackedNutrientsUserDataAccessInterface {
 
@@ -567,9 +569,10 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         HttpResponse<String> response = null;
         try {
             response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+        assert response != null;  // ensure that the recipe was fetched correctly
         String recipe = response.body();
 
         // find the nutritional info
@@ -583,7 +586,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
             // each nutrient is in its own array
             JSONArray nutrientArray = recipeArray.getJSONArray(i);
             String nutrientName = nutrientArray.getJSONObject(0).toString();
-            Float nutrientValue = nutrientArray.getJSONObject(1).toFloat();
+            Float nutrientValue = BigDecimal.valueOf(nutrientArray.getJSONObject(1)).floatValue();
 
             // place into the hashmap
             recipeNutritionalInfo.put(nutrientName, nutrientValue);
