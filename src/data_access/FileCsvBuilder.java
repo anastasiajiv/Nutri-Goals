@@ -12,7 +12,9 @@ public class FileCsvBuilder {
         this.csvFilePath = csvFilePath;
     }
 
-    public void buildCsv(User user) {
+    public void buildCsv(User user, int saveType) {
+        // 0 -> first initial save
+        // 1 -> to update existing user
         try {
             File csvFile = new File(csvFilePath);
 
@@ -20,8 +22,11 @@ public class FileCsvBuilder {
                 // If the CSV file does not exist, create it and write the headers
                 setHeaders(csvFile);
             }
-
-            saveUsersToCsv(user, csvFile);
+            if (saveType == 0) {
+                saveUsersToCsv(user, csvFile);
+            } else {
+                updateUsersToCsv(user, csvFile);
+            }
 
         } catch (IOException e) {
             throw new RuntimeException("Error building CSV", e);
@@ -54,7 +59,8 @@ public class FileCsvBuilder {
 
     private void saveUsersToCsv(User user, File csvFile) throws IOException { // make common method
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile, true))) {
+        if (!isUserIdAlreadyInCsv(user.getUserId(), csvFile)) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile, true))) {
                 String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
                         user.getUserId(),
                         user.getName(),
@@ -76,9 +82,71 @@ public class FileCsvBuilder {
                 writer.write(line);
                 writer.newLine();
 
+            }
         }
 
+    }
+    private boolean isUserIdAlreadyInCsv(int userId, File csvFile) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+            // Skip the header line
+            reader.readLine();
 
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] columns = line.split(",");
+                int existingUserId = Integer.parseInt(columns[0].trim());
+                if (existingUserId == userId) {
+                    return true; // User ID already exists in the CSV file
+                }
+            }
+        }
+        return false; // User ID not found in the CSV file
+    }
+
+    private void updateUsersToCsv(User user, File csvFile) throws IOException {
+        int userId = user.getUserId();
+
+        BufferedReader reader = new BufferedReader(new FileReader(csvFile));
+        StringBuilder updatedCsvContent = new StringBuilder();
+
+        String header = reader.readLine();
+        updatedCsvContent.append(header).append(System.lineSeparator());
+
+        String line;
+        while ((line = reader.readLine()) != null) {
+            // Split the line into columns
+            String[] columns = line.split(",");
+
+            // Check if the userId matches
+            if (Integer.parseInt(columns[0]) == userId) {
+                // Update the columns with the new user information
+                columns[1] = user.getName();
+                columns[2] = user.getPassword();
+                columns[3] = user.getCreationTime().toString();
+                columns[4] = String.valueOf(user.isMale());
+                columns[5] = String.valueOf(user.isFemale());
+                columns[6] = String.valueOf(user.getUserHeight());
+                columns[7] = String.valueOf(user.getUserWeight());
+                columns[8] = String.valueOf(user.getUserAge());
+                columns[9] = String.valueOf(user.getUserExcerciseLevel());
+                columns[10] = String.valueOf(user.getDietary());
+                columns[11] = String.valueOf(user.getMaintainTypeValue());
+                columns[12] = String.valueOf(user.getLoseTypeValue());
+                columns[13] = String.valueOf(user.getGainTypeValue());
+                columns[14] = user.getPaceType();
+                columns[15] = String.valueOf(user.getRequiredCalories());
+
+                // Join the columns back into a line
+                line = String.join(",", columns);
+
+
+            }
+            updatedCsvContent.append(line).append(System.lineSeparator());
+        }
+        reader.close();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile))) {
+            writer.write(updatedCsvContent.toString());
+        }
     }
 
 }
