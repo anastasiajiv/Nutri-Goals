@@ -7,4 +7,10 @@ public class PreferencesPresenter implements PreferencesOutputBoundary {
     private final PreferencesViewModel preferencesViewModel;
 
     private ViewManagerModel viewManagerModel;
+
+    public PreferencesPresenter(ViewManagerModel viewManagerModel, PreferencesViewModel preferencesViewModel){
+        this.preferencesViewModel = preferencesViewModel;
+        this.viewManagerModel = viewManagerModel;
+
+    }
 }
