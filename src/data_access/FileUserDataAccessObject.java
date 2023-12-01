@@ -27,7 +27,7 @@ import org.json.JSONObject;
 
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface, WeightGoalUserDataInterface, PreferencesUserDataAccessInterface, MealPlanDataAccessInterface {
 
-
+    File mealplancsv;
     File csvFile;
 
     private final Map<String, Integer> headers = new LinkedHashMap<>();
@@ -38,10 +38,13 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
     private UserFactory userFactory;
 
-    public FileUserDataAccessObject(String csvPath, UserFactory userFactory) throws IOException{
+
+
+    public FileUserDataAccessObject(String csvPath, String csvmealplanpath, UserFactory userFactory) throws IOException{
         this.userFactory = userFactory;
 
         csvFile = new File(csvPath);
+        mealplancsv = new File(csvmealplanpath);
         headers.put("userId", 0);
         headers.put("username", 1);
         headers.put("password", 2);

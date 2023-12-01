@@ -22,13 +22,15 @@ public class Main {
     public static void main(String[] args) {
         String csvFilePath = "test.csv";
 
+        String csvmealplanpath = "mealplan.csv";
+
         UserFactory userFactory = new CommonUserFactory();
 
         HashMap<String, Boolean> weightgoal = new HashMap<>();
         weightgoal.put("maintainWeight", Boolean.TRUE);
 
         try {
-            FileUserDataAccessObject userDAO = new FileUserDataAccessObject(csvFilePath, userFactory);
+            FileUserDataAccessObject userDAO = new FileUserDataAccessObject(csvFilePath, csvmealplanpath, userFactory);
             User user = new CommonUser(1,
                     "Aarya",
                     "Password",
