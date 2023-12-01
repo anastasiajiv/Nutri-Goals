@@ -16,11 +16,11 @@ public class CommonRecipe implements Recipe {
 
     private final String recipeInstructions;
 
-    private final HashMap<String, Boolean> recipeType;
+    private final String recipeType;
 
 
     public CommonRecipe(int recipeId, String recipeName, List<Ingredient> recipeIngredients,
-                        String recipeInstructions, HashMap<String, Boolean> recipeType) {
+                        String recipeInstructions, String recipeType) {
         this.recipeId = recipeId;
         this.recipeName = recipeName;
         this.recipeIngredients = recipeIngredients;
@@ -52,19 +52,12 @@ public class CommonRecipe implements Recipe {
     }
 
     @Override
-    public HashMap<String, Boolean> recipeType() {
+    public String recipeType() {
         return recipeType;
     }
 
-    @Override
-    public String getRecipeType() {
-        for (Map.Entry<String, Boolean> entry : recipeType.entrySet()) {
-            if (entry.getValue() == Boolean.TRUE) {
-                return entry.getKey();
-            }
-        }
-        return "Did not find a type";
-    }
+
+
 
 
 //    @Override

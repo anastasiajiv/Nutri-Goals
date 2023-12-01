@@ -13,8 +13,8 @@ public interface Recipe {
 
     String getRecipeInstructions();
 
-    HashMap<String, Boolean> recipeType();
-    String getRecipeType();
+    String recipeType();
+
 
 
 //    String getBreakfeast();

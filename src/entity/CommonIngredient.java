@@ -5,9 +5,9 @@ public class CommonIngredient implements Ingredient{
 
     private final String name;
 
-    private final int amount;
+    private final String amount;
 
-    CommonIngredient(int id, String name, int amount){
+    CommonIngredient(int id, String name, String amount){
         this.id = id;
         this.name = name;
         this.amount = amount;
@@ -17,7 +17,7 @@ public class CommonIngredient implements Ingredient{
         return id;
     }
 
-    public int getAmount() {
+    public String getAmount() {
         return amount;
     }
 

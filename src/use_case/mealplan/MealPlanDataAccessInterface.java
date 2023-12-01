@@ -11,7 +11,8 @@ public interface MealPlanDataAccessInterface {
 
     List<Ingredient> CreateIngredientbreakfast(String identifier);
 
-    Recipe CreateRecipeBreakfast(List<Ingredient>, );
+    Recipe CreateRecipeBreakfast(List<Ingredient> ingredients, String recipe);
+
 
 
 
@@ -22,11 +23,17 @@ public interface MealPlanDataAccessInterface {
 
     List<Ingredient> CreateIngredientlunch(String identifier);
 
+    Recipe CreateRecipeLunch(List<Ingredient> ingredients, String recipe);
+
 
     String Dinner(int identifier);
 
 
     List<Ingredient> CreateIngredientdinner(String identifier);
+
+    Recipe CreateRecipeDinner(List<Ingredient> ingredients, String recipe);
+
+
 
     ArrayList<String> MealPlan(ArrayList<String> breakfast, ArrayList<String> lunch, ArrayList<String> dinner);
 

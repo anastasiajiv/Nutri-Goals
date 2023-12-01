@@ -553,7 +553,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                 String recipe = response.body();
 
                 // Find recipe id
-                String jsonstring = recipe;
+                String jsonstring = "" + recipe;
                 JSONObject json = new JSONObject(jsonstring);
                 JSONArray recipearray = json.getJSONArray("results");
                 JSONObject firstresult = recipearray.getJSONObject(0);
@@ -579,45 +579,27 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                 String recipeinfo = response1.body();
 
 
-                // Sort recipe info from api call into recipe entity
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        return recipeinfo;
+                return recipeinfo;
     }
 
+    // takes in result from Breakfast()
+    @Override
+    public List<Ingredient> CreateIngredientbreakfast(String identifier){
 
 
+    }
 
-
-
-
-
-
-
-
+    @Override
+    public Recipe CreateRecipeBreakfast(List<Ingredient> ingredients, String recipe) {
+        return null;
+    }
 
 
     @Override
     public String Lunch(int identifier) {
         User user = getAccountByUserId(identifier);
         int daily_cal = user.getRequiredCalories();
+        // TODO change names of methods **
         String lunch_cals = String.valueOf((2*(Math.round((daily_cal/3)/5))));
         String dietary = user.getDietary();
         List<String> allergies = user.getAllergies();
@@ -687,6 +669,24 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
         return recipeinfo;
     }
+    @Override
+    public List<Ingredient> CreateIngredientlunch(String recipe){
+        String jsonstring = recipe;
+        JSONObject json = new JSONObject(jsonstring);
+        JSONArray recipearray = json.getJSONArray("results");
+        JSONObject firstresult = recipearray.getJSONObject(0);
+        int recipeid = firstresult.getInt("id");
+        String recipeID = String.valueOf(firstresult.getInt("id"));
+
+
+
+    }
+
+    @Override
+    public Recipe CreateRecipeLunch(List<Ingredient> ingredients, String recipe) {
+        return null;
+    }
+
 
     @Override
     public String Dinner(int identifier) {
@@ -697,6 +697,18 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         List<String> allergies = user.getAllergies();
         HashMap<String, Double> conditions = user.getConditions();
 
+
+
+        return null;
+    }
+
+    @Override
+    public List<Ingredient> CreateIngredientdinner(String identifier){
+
+    }
+
+    @Override
+    public Recipe CreateRecipeDinner(List<Ingredient> ingredients, String recipe) {
         return null;
     }
 
