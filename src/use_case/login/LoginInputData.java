@@ -5,8 +5,13 @@ public class LoginInputData {
     final private String username;
     final private String password;
 
-    public LoginInputData( String username, String password) {
-        //this.userID = userID;
+    /*public LoginInputData(int userID, String username, String password) {
+        this.userID = userID;
+        this.username = username;
+        this.password = password;
+    }*/
+    public LoginInputData(String username, String password) {
+
         this.username = username;
         this.password = password;
     }
