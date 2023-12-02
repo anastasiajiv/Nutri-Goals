@@ -23,8 +23,7 @@ public class LoginUseCaseFactory {
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
             LoggedInViewModel loggedInViewModel,
-            LoginUserDataAccessInterface userDataAccessObject,
-            CardLayout cardLayout, JPanel views) {
+            LoginUserDataAccessInterface userDataAccessObject, CardLayout cardLayout, JPanel views) {
 
         try {
             LoginController loginController = createLoginUseCase(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject);
