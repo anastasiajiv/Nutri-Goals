@@ -24,7 +24,9 @@ public class CommonUser implements User {
     private int userExerciseLevel;
     private HashMap<String, Boolean> weightGoalType;
     private String paceType;
-    private int requiredCalories;
+
+    private double requiredCalories;
+
 
     // main User constructor
     public CommonUser(int userId,
@@ -42,7 +44,7 @@ public class CommonUser implements User {
                       ArrayList<String> trackedNutrients,
                       HashMap<String, Boolean> weightGoalType,
                       String paceType,
-                      int requiredCalories) {
+                      double requiredCalories) {
         this.userId = userId;
         this.name = name;
         this.password = password;
@@ -141,7 +143,13 @@ public class CommonUser implements User {
         return userExerciseLevel;
     }
 
-    // retrieves the user's diet
+
+
+    //@Override
+    //public HashMap<String, Boolean> getUserRestriction() {
+    //    return restrictions; // Change to return keys with True values.
+    //}
+
     @Override
     public String getDietary() {
         String user_diet = "";
@@ -170,7 +178,7 @@ public class CommonUser implements User {
         return user_allergies;
     }
 
-    // retrieves the user's health conditions, specifically, the associated nutritional information needed
+
     @Override
     public HashMap<String, Double> getConditions(){
         HashMap<String, Double> user_conditions = new HashMap<>();
@@ -459,8 +467,10 @@ public class CommonUser implements User {
         return paceType;
     }
 
-    // retrieves the user's required calories
-    public int getRequiredCalories() {
+
+
+    public double getRequiredCalories() {
+
         return requiredCalories;
     }
 
@@ -509,7 +519,7 @@ public class CommonUser implements User {
     }
 
     @Override
-    public void setRequiredCalories(int requiredCalories) {
+    public void setRequiredCalories(double requiredCalories) {
         this.requiredCalories = requiredCalories;
     }
 
