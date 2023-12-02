@@ -28,25 +28,36 @@ public class Main1 {
         // The various View objects. Only one view is visible at a time.
         JPanel views = new JPanel(cardLayout);
         application.add(views);
+
+        ViewManagerModel viewManagerModel = new ViewManagerModel();
+        new ViewManager(views, cardLayout, viewManagerModel);
+
         LoginViewModel loginViewModel = new LoginViewModel();
         SignupViewModel signupViewModel = new SignupViewModel();
         LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
+
         FileUserDataAccessObject userDataAccessObject;
-        userDataAccessObject = new FileUserDataAccessObject("./new2.csv", new CommonUserFactory());
+        userDataAccessObject = new FileUserDataAccessObject("./users.csv", new CommonUserFactory());
         // This keeps track of and manages which view is currently showing.
-        ViewManagerModel viewManagerModel = new ViewManagerModel();
-        new ViewManager(views, cardLayout, viewManagerModel);
+
+        //WelcomePageView trial = new WelcomePageView(cardLayout, views);
+        //views.add(trial, trial.viewName);
+
         SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel,
                 userDataAccessObject, cardLayout, views);
         views.add(signupView, signupView.viewName);
+
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel,
-                userDataAccessObject);
+                userDataAccessObject, cardLayout, views);
         views.add(loginView, loginView.viewName);
-        WelcomePageView trial = new WelcomePageView(cardLayout, views);
-        views.add(trial, trial.viewName);
-        viewManagerModel.setActiveView(trial.viewName);
+
+        LoggedInView loggedInView = new LoggedInView(loggedInViewModel);
+        views.add(loggedInView, loggedInView.viewName);
+
+        viewManagerModel.setActiveView(signupView.viewName);
         viewManagerModel.firePropertyChanged();
-        trial.setVisible(true);
+        //trial.setVisible(true);
+
         application.pack();
         application.setVisible(true);
     }
