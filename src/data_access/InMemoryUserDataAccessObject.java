@@ -11,10 +11,6 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
 
     private final Map<Integer, User> users = new HashMap<>();
 
-    @Override
-    public void save(User user) {
-        users.put(user.getUserId(), user);
-    }
 
     @Override
     public Boolean existByUserID(int userId) {
