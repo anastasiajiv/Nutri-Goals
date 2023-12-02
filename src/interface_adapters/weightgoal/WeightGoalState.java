@@ -19,7 +19,9 @@ public class WeightGoalState {
 
     private String paceType = null;
 
-    private HashMap<String, Boolean> weightGoal = null;
+    private String weightGoalError = null;
+
+    private HashMap<String, Boolean> weightGoal;
 
     public WeightGoalState(WeightGoalState copy) {
             userID = copy.userID;
@@ -29,6 +31,7 @@ public class WeightGoalState {
             age = copy.age;
             exerciseLvl = copy.exerciseLvl;
             paceType = copy.paceType;
+            weightGoalError = copy.weightGoalError;
             weightGoal = copy.weightGoal;
     }
 
@@ -62,9 +65,15 @@ public class WeightGoalState {
         return paceType;
     }
 
+    public String getWeightGoalError() { // Testing prepareFailView param, but this should be changed in the future
+                                        // Need this as a string because the prepareFailView takes in a String
+        return weightGoalError;
+    }
+
     public HashMap<String, Boolean> weightGoal() {
         return weightGoal;
     }
+
 
 
     //Setter methods
@@ -98,6 +107,10 @@ public class WeightGoalState {
 
     public void setWeightGoal(HashMap<String, Boolean> weightGoal) {
         this.weightGoal = weightGoal;
+    }
+
+    public void setWeightGoalError(String weightGoalError) {
+        this.weightGoalError = weightGoalError;
     }
 
 
