@@ -72,7 +72,7 @@ public class Main {
                 newUser.getUserHeight(),
                 newUser.getUserWeight(),
                 newUser.getUserAge(),
-                newUser.getUserExcerciseLevel(),
+                newUser.getUserExerciseLevel(),
                 newUser.getPaceType(),
                 weightGoal));
 

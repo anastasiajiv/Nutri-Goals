@@ -74,7 +74,7 @@ public class FileCsvBuilder {
                         user.getUserHeight(),
                         user.getUserWeight(),
                         user.getUserAge(),
-                        user.getUserExcerciseLevel(),
+                        user.getUserExerciseLevel(),
                         user.getDietary(),
                         user.getMaintainTypeValue(),
                         user.getLoseTypeValue(),
@@ -131,7 +131,7 @@ public class FileCsvBuilder {
                 columns[6] = String.valueOf(user.getUserHeight());
                 columns[7] = String.valueOf(user.getUserWeight());
                 columns[8] = String.valueOf(user.getUserAge());
-                columns[9] = String.valueOf(user.getUserExcerciseLevel());
+                columns[9] = String.valueOf(user.getUserExerciseLevel());
                 columns[10] = String.valueOf(user.getDietary());
                 columns[11] = String.valueOf(user.getMaintainTypeValue());
                 columns[12] = String.valueOf(user.getLoseTypeValue());
