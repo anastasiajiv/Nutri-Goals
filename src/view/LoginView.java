@@ -29,16 +29,18 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     final JButton cancel;
     private final LoginController loginController;
 
-    public LoginView(LoginViewModel loginViewModel, LoginController controller, CardLayout cardLayout, JPanel views) {
+
+    public LoginView(LoginViewModel loginViewModel, LoginController controller) {
 
         this.loginController = controller;
         this.loginViewModel = loginViewModel;
+
         this.loginViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel("Login Screen");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        LabelTextPanel userIDInfo = new LabelTextPanel(new JLabel("ID"), userIDInputField);
+        //LabelTextPanel userIDInfo = new LabelTextPanel(new JLabel("ID"), userIDInputField);
 
         LabelTextPanel usernameInfo = new LabelTextPanel(
                 new JLabel("Username"), usernameInputField);
