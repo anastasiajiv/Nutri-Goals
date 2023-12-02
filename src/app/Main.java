@@ -22,11 +22,11 @@ public class Main {
         UserFactory userFactory = new CommonUserFactory();
         UserFactory userFactory1 = new CommonUserFactory();
 
-        FileUserDataAccessObject userDAO = new FileUserDataAccessObject("new2.csv", "mealPlan.csv", userFactory);
+        FileUserDataAccessObject userDAO = new FileUserDataAccessObject("plzwork.csv", "mealPlan.csv", userFactory);
 
         FileUserDataAccessObject fileUserDataAccessObject = new FileUserDataAccessObject("example.csv", "mealPlan.csv", new CommonUserFactory());
 
-        User newUser = userFactory.createdDefaultUser(2387, "Aarya");
+        User newUser = userFactory.createdDefaultUser(30, "Aarya");
         newUser.setPassword("Dario");
         newUser.setCreationTime(LocalDateTime.now());
 

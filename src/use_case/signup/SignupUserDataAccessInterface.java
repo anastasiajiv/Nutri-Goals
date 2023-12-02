@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 public interface SignupUserDataAccessInterface {
 
-    void save (User user);
 
     Boolean existByUserID(int userID);
 

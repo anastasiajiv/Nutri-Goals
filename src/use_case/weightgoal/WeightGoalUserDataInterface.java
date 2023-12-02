@@ -14,11 +14,11 @@ public interface WeightGoalUserDataInterface {
                             String paceType,
                             HashMap<String, Boolean> weightGoal);
 
-    double computedRequiredCalories (int userId) ;
+    double computedRequiredCalories (int userID) ;
 
     Boolean existByUserID(int userID);
 
-    public User getAccountByUserId ( int userId);
+    public User getAccountByUserId ( int userID);
 
     //User getUserWeightGoalData(int userId);
 
