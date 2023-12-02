@@ -37,14 +37,16 @@ public class Main1 {
         LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
 
         FileUserDataAccessObject userDataAccessObject;
+
         userDataAccessObject = new FileUserDataAccessObject("./users.csv", new CommonUserFactory());
+
         // This keeps track of and manages which view is currently showing.
 
-        //WelcomePageView trial = new WelcomePageView(cardLayout, views);
-        //views.add(trial, trial.viewName);
+        WelcomePageView trial = new WelcomePageView(cardLayout, views);
+        views.add(trial, trial.viewName);
 
         SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel,
-                userDataAccessObject, cardLayout, views);
+                userDataAccessObject);
         views.add(signupView, signupView.viewName);
 
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel,
@@ -54,7 +56,7 @@ public class Main1 {
         LoggedInView loggedInView = new LoggedInView(loggedInViewModel);
         views.add(loggedInView, loggedInView.viewName);
 
-        viewManagerModel.setActiveView(signupView.viewName);
+        viewManagerModel.setActiveView(trial.viewName);
         viewManagerModel.firePropertyChanged();
         //trial.setVisible(true);
 
