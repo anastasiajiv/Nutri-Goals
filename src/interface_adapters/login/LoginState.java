@@ -5,22 +5,22 @@ public class LoginState {
     private String usernameError = null;
     private String password = "";
     private String passwordError = null;
-    //private int userID = 0;
+    private int userID = 0;
 
     public LoginState(LoginState copy) {
         username = copy.username;
         usernameError = copy.usernameError;
         password = copy.password;
         passwordError = copy.passwordError;
-        //userID = copy.userID;
+        userID = copy.userID;
     }
 
     // Because of the previous copy constructor, the default constructor must be explicit.
     public LoginState() {}
 
-    //public void setUserID(int userID){this.userID = userID;}
+    public void setUserID(int userID){this.userID = userID;}
 
-    //public int getUserID(){return userID;}
+    public int getUserID(){return userID;}
 
     public String getUsername() {
         return username;
