@@ -42,6 +42,8 @@ public interface MealPlanDataAccessInterface {
 
    String displayMealPlan(MealPlan mealplan);
 
+    void saveMealPlantoCsv(int id);
+
 
 
 

@@ -21,7 +21,10 @@ public class MealPlanInteractor implements MealPlanInputBoundary {
 
 
         } else{
+
+
             MealPlan mealplan = userDataAccessObject.getMealPlan(id);
+            userDataAccessObject.saveMealPlantoCsv(id);
             String mealplanstring = userDataAccessObject.displayMealPlan(mealplan);
             MealPlanOutputData mealPlanOutputData = new MealPlanOutputData(mealplanstring);
             //mealplanPresenter.prepareSuccessView(mealPlanOutputData);

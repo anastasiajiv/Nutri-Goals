@@ -32,11 +32,17 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
     private final Map<String, Integer> headers = new LinkedHashMap<>();
 
+    private final Map<String, Integer> headersmealplan = new LinkedHashMap<>();
+
+    public Map<Integer, MealPlan> mealplanaccounts = new HashMap<>();
+
     //private final Map<Integer, User> accounts = new HashMap<>();
 
     public Map<Integer, User> accounts = new HashMap<>(); // Testing purposes in MAIN
 
     private UserFactory userFactory;
+
+    private final  MealPlancsvbuilder mealplancsvBuilder;
 
 
 
@@ -45,6 +51,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
         csvFile = new File(csvPath);
         mealplancsv = new File(csvmealplanpath);
+        this.mealplancsvBuilder = new MealPlancsvbuilder(csvmealplanpath);
         headers.put("userId", 0);
         headers.put("username", 1);
         headers.put("password", 2);
@@ -172,6 +179,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
 
     }
+
+
+
+
+
 
     public void setHeaders() {
         BufferedWriter writer;
@@ -544,8 +556,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                     HttpRequest request = HttpRequest.newBuilder()
                         .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=breakfast&number=1&" +
                                 calorietype + "Calories=" + breakfast_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergies))
-                        .header("X-RapidAPI-Host", "https://api.spoonacular.com")
-                        .header("X-RapidAPI-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                        .header("X-API-Host", "https://api.spoonacular.com")
+                        .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
                         .method("GET", HttpRequest.BodyPublishers.noBody())
                         .build();
                     HttpResponse<String> response = null;
@@ -569,8 +581,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                 // Use recipe id to get recipe information
 
                 HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("https://api.spoonacular.com/recipes/{" + recipeID + "}/information"))
-                .header("X-RapidAPI-Host", "https://api.spoonacular.com")
-                .header("X-RapidAPI-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                .header("X-API-Host", "https://api.spoonacular.com")
+                .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
                 HttpResponse<String> response1 = null;
@@ -672,8 +684,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=maincourse&number=1&" +
                         calorietype + "Calories=" + lunch_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergies))
-                .header("X-RapidAPI-Host", "https://api.spoonacular.com")
-                .header("X-RapidAPI-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                .header("X-API-Host", "https://api.spoonacular.com")
+                .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         HttpResponse<String> response = null;
@@ -697,8 +709,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         // Use recipe id to get recipe information
 
         HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("https://api.spoonacular.com/recipes/{" + recipeID + "}/information"))
-                .header("X-RapidAPI-Host", "https://api.spoonacular.com")
-                .header("X-RapidAPI-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                .header("X-API-Host", "https://api.spoonacular.com")
+                .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         HttpResponse<String> response1 = null;
@@ -760,8 +772,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=maincourse&number=1&" +
                         calorietype + "Calories=" + dinner_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergies))
-                .header("X-RapidAPI-Host", "https://api.spoonacular.com")
-                .header("X-RapidAPI-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                .header("X-API-Host", "https://api.spoonacular.com")
+                .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         HttpResponse<String> response = null;
@@ -785,8 +797,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         // Use recipe id to get recipe information
 
         HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("https://api.spoonacular.com/recipes/{" + recipeID + "}/information"))
-                .header("X-RapidAPI-Host", "https://api.spoonacular.com")
-                .header("X-RapidAPI-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                .header("X-API-Host", "https://api.spoonacular.com")
+                .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         HttpResponse<String> response1 = null;
@@ -839,8 +851,34 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         String dinner_api = Dinner(id);
         List<Ingredient> ingredientsdinner = CreateIngredients(dinner_api);
         Recipe dinner = CreateRecipeLunch(ingredientsdinner, dinner_api);
+        MealPlan mealplan = new CommonMealPlan(breakfast, lunch, dinner);
+        mealplanaccounts.put(id, mealplan);
 
-        return new CommonMealPlan(breakfast, lunch, dinner);
+        return mealplan;
+
+    }
+    @Override
+    public void saveMealPlantoCsv(int id){
+        int userid = id;
+
+        MealPlan currentmealplan = getmealplanAccountsbyid(id);
+
+        mealplancsvBuilder.mealplanbuildCsv(userid, currentmealplan);
+
+
+
+
+
+
+
+
+    }
+
+    public MealPlan getmealplanAccountsbyid(int id ){
+        return mealplanaccounts.get(id);
+
+
+
 
     }
 
