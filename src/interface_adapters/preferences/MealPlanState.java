@@ -8,7 +8,11 @@ public class MealPlanState {
         this.mealplan = mealplan;
     }
 
+    public MealPlanState(){}
+
     public String getMealplan(){return this.mealplan;}
+
+    public void setMealplan(String mealplan){this.mealplan = mealplan;}
 
 
 
