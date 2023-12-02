@@ -54,19 +54,29 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         signUp.addActionListener(
                 new ActionListener(){
                     public void actionPerformed(ActionEvent evt){
-                        SignupState currentState = signupViewModel.getState();
+                        if (evt.getSource().equals(signUp)){
+                            SignupState currentState = signupViewModel.getState();
 
-                        signupController.execute(
-                                currentState.getUsername(),
-                                currentState.getPassword(),
-                                currentState.getPassword()
-                        );
-                        cardLayout.show(views, "log in");
+                            signupController.execute(
+                                    currentState.getUsername(),
+                                    currentState.getPassword(),
+                                    currentState.getPassword()
+                            );
+                            //cardLayout.show(views, "log in");
+                        }
                     }
                 }
                 );
 
-        cancel.addActionListener(this);
+        cancel.addActionListener(
+                new ActionListener(){
+                    public void actionPerformed(ActionEvent evt){
+                        if (evt.getSource().equals(cancel)){
+                            cardLayout.show(views, "Welcome Page");
+                        }
+                    }
+                }
+        );
 
         usernameInputField.addKeyListener(
                 new KeyListener() {
