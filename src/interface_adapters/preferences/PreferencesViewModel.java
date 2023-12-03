@@ -6,10 +6,26 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class PreferencesViewModel extends ViewModel{
-    public static final String TITLE_LABEL = "Preferences View";
-    public static final String DIETARY_LABEL = "Select Dietary Option";
-    public static final String ALLERGIES_LABEL = "Select Any Allergies You Have";
-    public static final String CONDITIONS_LABEL = "Select Amount for a Specific Nutrient";
+
+    public static final String VEGAN_LABEL = "Vegan";
+    public static final String VEGETARIAN_LABEL = "Vegetarian";
+    public static final String PESCETARIAN_LABEL = "Pescetarian";
+
+    public static final String EGG_LABEL = "Egg";
+    public static final String PEANUT_LABEL = "Peanut";
+    public static final String SEAFOOD_LABEL = "Seafood";
+    public static final String SHELLFISH_LABEL = "Shellfish";
+    public static final String SESAME_LABEL = "Sesame";
+    public static final String SOY_LABEL = "Soy";
+    public static final String TREANUT_LABEL = "Trea Nut";
+    public static final String WHEAT_LABEL = "Wheat";
+    public static final String CALCIUM_LABEL = "Calcium";
+    public static final String POTASSIUM_LABEL = "Potassium";
+    public static final String VITAMINC_LABEL = "Vitamin C";
+    public static final String VITAMIND_LABEL = "Vitamin D";
+    public static final String IRON_LABEL = "Iron";
+    public static final String MAGNESIUM_LABEL = "Magnesium";
+    public static final String SUGAR_LABEL = "Sugar";
 
     public static final String PREFERENCES_BUTTON_LABEL = "preferences";
 
