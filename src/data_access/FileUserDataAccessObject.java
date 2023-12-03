@@ -2,6 +2,8 @@ package src.data_access;
 
 import java.io.*;
 
+import java.math.BigDecimal;
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -11,7 +13,15 @@ import src.entity.UserFactory;
 import src.use_case.login.LoginUserDataAccessInterface;
 import src.use_case.preferences.PreferencesUserDataAccessInterface;
 import src.use_case.signup.SignupUserDataAccessInterface;
+import src.use_case.trackedNutrients.TrackedNutrientsUserDataAccessInterface;
 import src.use_case.weightgoal.WeightGoalUserDataInterface;
+
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpClient;
+import java.io.IOException;
+import org.json.JSONObject;
+import org.json.JSONArray;
 
 
 import java.io.IOException;
@@ -19,7 +29,8 @@ import java.io.IOException;
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
         WeightGoalUserDataInterface,
-        PreferencesUserDataAccessInterface {
+        PreferencesUserDataAccessInterface,
+        TrackedNutrientsUserDataAccessInterface {
 
     private final String csvFilePath;
 
@@ -300,6 +311,99 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         } catch (IOException e) {
             System.out.println("Error, could not save conditions properly.");
         }
+    }
+
+    @Override
+    public Boolean saveTrackedNutrientsData(ArrayList<String> trackedNutrients, int userID) {
+        // userID is already checked for validity in trackedNutrients interactor
+
+        try {
+            // initialize a reader and writer to edit the csv file
+            BufferedReader reader = new BufferedReader(new FileReader(csvFilePath));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(csvFilePath));
+
+            // skip the first line and initialize the row variable
+            reader.readLine();
+            String row;
+
+            // iterate through the csv
+            while ((row = reader.readLine()) != null) {
+
+                // split each row in the csv into their corresponding columns
+                String[] col = row.split(",");
+
+                // if the ID is a match, set the user's trackedNutrients
+                if (col[0].equals(String.valueOf(userID))) {
+
+                    // column 18 is set to store trackedNutrients
+                    col[18] = String.valueOf(trackedNutrients);
+                    // turn the String[] back into a String to write back
+                    String updated_line = String.join(",", col);
+                    // use the buffered writer to add the line back into the csv
+                    writer.write(updated_line);
+                }
+            }
+
+            // close the writer after the line has/has not been edited
+            writer.close();
+            // confirm that the data has been properly saved
+            return true;
+
+        } catch (IOException e) {  // if there is an issue accessing the csv
+
+            // display an error message to the same convention as other save methods
+            System.out.println("Error, could not save trackedNutrients properly.");
+            // error has occurred, return false
+            return false;
+
+        }
+    }
+
+    @Override
+    public ArrayList<String> getUserTrackedNutrientsData(int userID) {
+        return accounts.get(userID).getTrackedNutrients();
+    }
+
+
+
+    private HashMap<String, Float> getRecipeNutritionalInfo(String recipeID) {
+        // format the API request
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spoonacular.com/recipes/"+ recipeID +"/information?includeNutrition=true"))
+                .header("X-RapidAPI-Host", "https://api.spoonacular.com")
+                .header("X-RapidAPI-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        // attempt to fetch from the API
+        HttpResponse<String> response = null;
+        try {
+            response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        assert response != null;  // ensure that the recipe was fetched correctly
+        String recipe = response.body();
+
+        // find the nutritional info
+        JSONObject json = new JSONObject(recipe);
+        JSONArray recipeArray = json.getJSONArray("nutrients");  // get an array of nutrients
+
+        // initialize a storage hashmap for the nutrients
+        HashMap<String, Float> recipeNutritionalInfo = new HashMap<>();
+
+        for (int i = 0; i < recipeArray.length(); i++) {
+            // each nutrient is in its own array
+            JSONArray nutrientArray = recipeArray.getJSONArray(i);
+            String nutrientName = nutrientArray.getString(1);
+            double nutrient = nutrientArray.getDouble(2);
+
+            Float nutrientValue = BigDecimal.valueOf(nutrient).floatValue();
+
+            // place into the hashmap
+            recipeNutritionalInfo.put(nutrientName, nutrientValue);
+        }
+        return recipeNutritionalInfo;
     }
 
 
