@@ -1,4 +1,5 @@
 package src.entity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 public interface Recipe {
@@ -14,6 +15,8 @@ public interface Recipe {
     HashMap<String, Boolean> recipeType();
     String getRecipeType();
 
+    HashMap<String, Float> getNutritionalInfo();
+
 
 //    String getBreakfeast();
 //
@@ -23,6 +26,4 @@ public interface Recipe {
 
    // HashMap<Integer, HashMap<String, ArrayList<String>>> savedRecipes(); // {1: {Breakfeast: [RECIPE], Lunch:[RECIPE]},
                                                                         // 2:{Breakfeast: [RECIPE], Lunch:[RECIPE]}}
-
-
 }

@@ -3,10 +3,9 @@ package src.use_case.weightgoal;
 import java.util.HashMap;
 import java.util.Map;
 
-import src.entity.User;
-import src.entity.CommonUser;
 public class WeightGoalInputData {
-
+    // required input from the GUI is gender, height, weight, age, exercise lvl, weightGoal, paceType, and
+    // reqCalories attributes
     private final int userId;
 
     private HashMap<String, Boolean> gender;
@@ -45,6 +44,7 @@ public class WeightGoalInputData {
     }
 
     double getWeight() {
+
         return this.weight;
     }
 
@@ -65,11 +65,14 @@ public class WeightGoalInputData {
     }
 
     HashMap<String, Boolean> getWeightGoal(){
-        return weightGoal;
+
+       return weightGoal;
+
     }
 
 
     int getUserId(){
         return userId;
     }
+
 }

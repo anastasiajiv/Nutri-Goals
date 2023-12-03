@@ -1,6 +1,10 @@
 package src.use_case.signup;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class SignupInputData {
+
 
     //final private int userID;
     final private String username;
@@ -8,23 +12,15 @@ public class SignupInputData {
     final private String repeatPassword;
 
     public SignupInputData(String username, String password, String repeatPassword) {
-        //this.userID = userID;
         this.username = username;
         this.password = password;
         this.repeatPassword = repeatPassword;
     }
 
-    //int getUserID(){return userID;}
+    String getUsername() {return username;}
 
-    String getUsername() {
-        return username;
-    }
+    String getPassword() {return password;}
 
-    String getPassword() {
-        return password;
-    }
+    String getRepeatPassword() {return repeatPassword;}
 
-    public String getRepeatPassword() {
-        return repeatPassword;
-    }
 }

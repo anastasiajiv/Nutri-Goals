@@ -10,6 +10,7 @@ public interface PreferencesUserDataAccessInterface {
 
     //void saveAllergies(HashMap<Integer, HashMap<String, Boolean>> user_allergies);
 
+
     Boolean savePreferences(int userId, HashMap<String, Boolean> user_dietery,
                          HashMap<String, Boolean> user_allergies,
                          HashMap<String, String> user_condition);
@@ -17,4 +18,6 @@ public interface PreferencesUserDataAccessInterface {
     Boolean existByUserID(int userID);
 
     public User getAccountByUserId (int userId);
+
+
 }

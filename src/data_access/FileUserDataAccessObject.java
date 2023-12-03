@@ -2,38 +2,55 @@ package src.data_access;
 
 import java.io.*;
 
+import java.math.BigDecimal;
+import java.net.URI;
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-import src.entity.*;
+import src.entity.CommonUserFactory;
 import src.entity.User;
 import src.entity.UserFactory;
 import src.use_case.login.LoginUserDataAccessInterface;
-import src.use_case.signup.SignupUserDataAccessInterface;
-import src.use_case.weightgoal.WeightGoalUserDataInterface;
 import src.use_case.preferences.PreferencesUserDataAccessInterface;
+import src.use_case.signup.SignupUserDataAccessInterface;
+import src.use_case.trackedNutrients.TrackedNutrientsUserDataAccessInterface;
+import src.use_case.weightgoal.WeightGoalUserDataInterface;
+
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpClient;
+import java.io.IOException;
+import org.json.JSONObject;
+import org.json.JSONArray;
 
 
-public class FileUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface, WeightGoalUserDataInterface, PreferencesUserDataAccessInterface {
+import java.io.IOException;
+
+public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
+        LoginUserDataAccessInterface,
+        WeightGoalUserDataInterface,
+        PreferencesUserDataAccessInterface,
+        TrackedNutrientsUserDataAccessInterface {
 
     private final String csvFilePath;
+
+    private final String csvMealPlanFilePath;
     private final FileCsvBuilder csvBuilder;
     public Map<Integer, User> accounts = new HashMap<>();
 
     private final UserFactory userFactory;
 
-
-    public FileUserDataAccessObject(String csvFilePath, UserFactory userFactory) {
+    public FileUserDataAccessObject(String csvFilePath, String csvMealPlanFilePath, UserFactory userFactory) {
         this.csvFilePath = csvFilePath;
         this.csvBuilder = new FileCsvBuilder(csvFilePath);
+        this.csvMealPlanFilePath = csvMealPlanFilePath;
         this.accounts = new HashMap<>();
         this.userFactory = userFactory;
 
     }
 
     // SignUp use case methods
+
     @Override
     public Boolean saveUserSignUpData(int userId,
                                       String username,
@@ -138,10 +155,12 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         return accounts.get(userId);
     }
 
-    @Override
-    public void save (User user){
-        accounts.put(user.getUserId(), user);
-    }
+    //@Override
+    //public void save (User user){
+    //    accounts.put(user.getUserId(), user);
+    //}
+
+
 
 
     @Override
@@ -206,107 +225,22 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         User user = accounts.get(userId);
         double newUserBMR = userBMR;
 
-        assert user.getUserExcerciseLevel() >= 1 && user.getUserExcerciseLevel() <= 5; // Must be in the range 1-5.
 
-        if (user.getUserExcerciseLevel() == 1) {
+        assert user.getUserExerciseLevel() >= 1 && user.getUserExerciseLevel() <= 5; // Must be in the range 1-5.
+
+        if (user.getUserExerciseLevel() == 1) {
             newUserBMR = newUserBMR * 1.2;
-        } else if (user.getUserExcerciseLevel() == 2) {
+        } else if (user.getUserExerciseLevel() == 2) {
             newUserBMR = newUserBMR * 1.375;
-        } else if (user.getUserExcerciseLevel() == 3) {
+        } else if (user.getUserExerciseLevel() == 3) {
             newUserBMR = newUserBMR * 1.55;
-        } else if (user.getUserExcerciseLevel() == 4) {
+        } else if (user.getUserExerciseLevel() == 4) {
             newUserBMR = newUserBMR * 1.725;
-        } else if (user.getUserExcerciseLevel() == 5) {
+        } else if (user.getUserExerciseLevel() == 5) {
             newUserBMR = newUserBMR * 1.9;
         }
         return newUserBMR;
     }
-
-    /*@Override
-    public void saveDietary(HashMap<Integer, HashMap<String, Boolean>> dietary){
-        // element 8
-        BufferedReader reader;
-        BufferedWriter writer;
-        try {
-            reader = new BufferedReader(new FileReader(csvFile));
-            writer = new BufferedWriter(new FileWriter(csvFile, false));
-            reader.readLine();
-            String row;
-            for(Map.Entry<Integer, HashMap<String, Boolean>> entry: dietary.entrySet()){
-                Integer key = entry.getKey();
-                HashMap<String, Boolean> value = entry.getValue();
-                while((row = reader.readLine()) != null){
-                    String[] col = row.split(",");
-                    if (col[0].equals(String.valueOf(key))) {
-                        col[10] = String.valueOf(value);
-                        String updated_dietary = String.join(",", col);
-                        writer.write(updated_dietary);
-                    }
-                }
-            }
-            writer.close();
-        } catch (IOException e){
-            System.out.println("Error, could not save dietary properly.");
-        }
-
-    }*/
-    // changes need to be made about the implementation of the three preference save methods, should add preferences to
-    // accounts map and access builder to rewrite in the csv, not directly
-    /*@Override
-    public void saveAllergies(HashMap<Integer, HashMap<String, Boolean>> allergies){
-        //element 10
-        BufferedReader reader;
-        BufferedWriter writer;
-        try {
-            reader = new BufferedReader(new FileReader(csvFile));
-            writer = new BufferedWriter(new FileWriter(csvFile));
-            reader.readLine();
-            String row;
-            for(Map.Entry<Integer, HashMap<String, Boolean>> entry: allergies.entrySet()){
-                Integer key = entry.getKey();
-                HashMap<String, Boolean> value = entry.getValue();
-                while((row = reader.readLine()) != null){
-                    String[] col = row.split(",");
-                    if (col[0].equals(String.valueOf(key))){
-                        col[11] = String.valueOf(value);// or col[10]
-                        String updated_allergies = String.join(",", col);
-                        writer.write(updated_allergies);
-                    }
-                }
-            }
-            writer.close();
-        } catch (IOException e){
-            System.out.println("Error, could not save allergies properly.");
-        }
-
-    }
-
-    @Override
-    public void saveConditions(HashMap<Integer, HashMap<String, String>> conditions){
-        BufferedReader reader;
-        BufferedWriter writer;
-        try {
-            reader = new BufferedReader(new FileReader(csvFile));
-            writer = new BufferedWriter(new FileWriter(csvFile));
-            reader.readLine();
-            String row;
-            for(Map.Entry<Integer, HashMap<String, String>> entry: conditions.entrySet()){
-                Integer key = entry.getKey();
-                HashMap<String, String> value = entry.getValue();
-                while((row = reader.readLine()) != null){
-                    String[] col = row.split(",");
-                    if (col[0].equals(String.valueOf(key))){
-                        col[12] = String.valueOf(value);
-                        String updated_conditions = String.join(",", col);
-                        writer.write(updated_conditions);
-                    }
-                }
-            }
-            writer.close();
-        } catch (IOException e){
-            System.out.println("Error, could not save conditions properly.");
-        }
-    }*/
 
     @Override
     public Boolean savePreferences(int userId, HashMap<String, Boolean> dietary,
@@ -361,9 +295,99 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         return account;
     }
 
+    @Override
+    public Boolean saveTrackedNutrientsData(ArrayList<String> trackedNutrients, int userID) {
+        // userID is already checked for validity in trackedNutrients interactor
+
+        try {
+            // initialize a reader and writer to edit the csv file
+            BufferedReader reader = new BufferedReader(new FileReader(csvFilePath));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(csvFilePath));
+
+            // skip the first line and initialize the row variable
+            reader.readLine();
+            String row;
+
+            // iterate through the csv
+            while ((row = reader.readLine()) != null) {
+
+                // split each row in the csv into their corresponding columns
+                String[] col = row.split(",");
+
+                // if the ID is a match, set the user's trackedNutrients
+                if (col[0].equals(String.valueOf(userID))) {
+
+                    // column 18 is set to store trackedNutrients
+                    col[18] = String.valueOf(trackedNutrients);
+                    // turn the String[] back into a String to write back
+                    String updated_line = String.join(",", col);
+                    // use the buffered writer to add the line back into the csv
+                    writer.write(updated_line);
+                }
+            }
+
+            // close the writer after the line has/has not been edited
+            writer.close();
+            // confirm that the data has been properly saved
+            return true;
+
+        } catch (IOException e) {  // if there is an issue accessing the csv
+
+            // display an error message to the same convention as other save methods
+            System.out.println("Error, could not save trackedNutrients properly.");
+            // error has occurred, return false
+            return false;
+
+        }
+    }
+
+    @Override
+    public ArrayList<String> getUserTrackedNutrientsData(int userID) {
+        return accounts.get(userID).getTrackedNutrients();
+    }
 
 
 
+    private HashMap<String, Float> getRecipeNutritionalInfo(String recipeID) {
+        // format the API request
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spoonacular.com/recipes/"+ recipeID +"/information?includeNutrition=true"))
+                .header("X-RapidAPI-Host", "https://api.spoonacular.com")
+                .header("X-RapidAPI-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        // attempt to fetch from the API
+        HttpResponse<String> response = null;
+        try {
+            response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        assert response != null;  // ensure that the recipe was fetched correctly
+        String recipe = response.body();
+
+        // find the nutritional info
+        JSONObject json = new JSONObject(recipe);
+        JSONArray recipeArray = json.getJSONArray("nutrients");  // get an array of nutrients
+
+        // initialize a storage hashmap for the nutrients
+        HashMap<String, Float> recipeNutritionalInfo = new HashMap<>();
+
+        for (int i = 0; i < recipeArray.length(); i++) {
+            // each nutrient is in its own array
+            JSONArray nutrientArray = recipeArray.getJSONArray(i);
+            String nutrientName = nutrientArray.getString(1);
+            double nutrient = nutrientArray.getDouble(2);
+
+            Float nutrientValue = BigDecimal.valueOf(nutrient).floatValue();
+
+            // place into the hashmap
+            recipeNutritionalInfo.put(nutrientName, nutrientValue);
+        }
+        return recipeNutritionalInfo;
+    }
 
 
 }
+

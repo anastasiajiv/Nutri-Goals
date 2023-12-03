@@ -1,5 +1,7 @@
 package src.use_case.signup;
 
+import java.time.LocalDateTime;
+
 public class SignupOutputData {
     private  int createdUserID;
 
@@ -32,6 +34,7 @@ public class SignupOutputData {
     public void setCreationTime(String creationTime) {
         this.creationTime = creationTime;
     }
+
 
 
 }

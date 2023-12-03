@@ -1,9 +1,12 @@
 package src.use_case.signup;
 
+
 import src.entity.User;
+
 import src.entity.UserFactory;
 
 import java.time.LocalDateTime;
+
 
 public class SignupInteractor implements SignupInputBoundary{
     final SignupUserDataAccessInterface userDataAccessObject;
@@ -22,12 +25,12 @@ public class SignupInteractor implements SignupInputBoundary{
     public void execute(SignupInputData signupInputData) {
         int createdUserID = userDataAccessObject.createUserID();
         LocalDateTime creationTime = LocalDateTime.now();
-        if (userDataAccessObject.existByUserID(createdUserID)) { //
+        if (userDataAccessObject.existByUserID(createdUserID)) { // TODO: implement createUserID methods in file userDAO and then change this method call
             // check in case user already exists in accounts map.
             userPresenter.prepareFailView("This user already exits");// should be impossible
-        } else if (!signupInputData.getPassword().equals(signupInputData.getRepeatPassword())) {
+        }else if (!signupInputData.getPassword().equals(signupInputData.getRepeatPassword())) {
             userPresenter.prepareFailView("Passwords do not match");
-        } else {
+        }else {
 
             userDataAccessObject.saveUserSignUpData(createdUserID,
                     signupInputData.getUsername(),
@@ -39,6 +42,8 @@ public class SignupInteractor implements SignupInputBoundary{
                     creationTime.toString(), false);
             userPresenter.prepareSuccessView(signupOutputData);
         }
+
     }
+
 
 }// GIT WORKFLOW

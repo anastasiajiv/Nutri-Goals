@@ -5,6 +5,9 @@ import src.entity.User;
 import java.io.*;
 import java.util.Map;
 public class FileCsvBuilder {
+
+
+
     private final String csvFilePath;
 
     public FileCsvBuilder(String csvFilePath) {
@@ -21,11 +24,12 @@ public class FileCsvBuilder {
                 // If the CSV file does not exist, create it and write the headers
                 setHeaders(csvFile);
                 saveUsersToCsv(user, csvFile);
-            }
-            if (saveType == 0) {
-                saveUsersToCsv(user, csvFile);
-            } else {
-                updateUsersToCsv(user, csvFile);
+            }else {
+                if (saveType == 0) {
+                    saveUsersToCsv(user, csvFile);
+                } else {
+                    updateUsersToCsv(user, csvFile);
+                }
             }
             return true;
         } catch (IOException e) {
@@ -63,7 +67,9 @@ public class FileCsvBuilder {
 
         if (!isUserIdAlreadyInCsv(user.getUserId(), csvFile)) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile, true))) {
+
                 String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+
                         user.getUserId(),
                         user.getName(),
                         user.getPassword(),
@@ -73,7 +79,7 @@ public class FileCsvBuilder {
                         user.getUserHeight(),
                         user.getUserWeight(),
                         user.getUserAge(),
-                        user.getUserExcerciseLevel(),
+                        user.getUserExerciseLevel(),
                         user.getDietary(),
                         user.getAllergies(),
                         user.getConditions(),
@@ -132,7 +138,7 @@ public class FileCsvBuilder {
                 columns[6] = String.valueOf(user.getUserHeight());
                 columns[7] = String.valueOf(user.getUserWeight());
                 columns[8] = String.valueOf(user.getUserAge());
-                columns[9] = String.valueOf(user.getUserExcerciseLevel());
+                columns[9] = String.valueOf(user.getUserExerciseLevel());
                 columns[10] = String.valueOf(user.getDietary());
                 columns[11] = String.valueOf(user.getAllergies());
                 columns[12] = String.valueOf(user.getConditions());
@@ -141,6 +147,7 @@ public class FileCsvBuilder {
                 columns[15] = String.valueOf(user.getGainTypeValue());
                 columns[16] = user.getPaceType();
                 columns[17] = String.valueOf(user.getRequiredCalories());
+
 
                 // Join the columns back into a line
                 line = String.join(",", columns);
@@ -154,4 +161,8 @@ public class FileCsvBuilder {
             writer.write(updatedCsvContent.toString());
         }
     }
+
 }
+
+
+

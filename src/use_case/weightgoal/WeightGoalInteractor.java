@@ -1,7 +1,9 @@
 package src.use_case.weightgoal;
 
-import java.util.*;
+
+import java.util.HashMap;
 public class WeightGoalInteractor implements WeightGoalInputBoundry{
+
     final WeightGoalUserDataInterface userDataAccessObject;
     final WeightGoalOutputBoundry weightGoalPresenter;
 
@@ -45,7 +47,15 @@ public class WeightGoalInteractor implements WeightGoalInputBoundry{
                     weightGoal)) { // call the userDAO method to update the existing user data
                 // for the given user with this new weightGoal data
 
-                WeightGoalOutputData weightGoalOutputData = new WeightGoalOutputData(userId, false);
+                WeightGoalOutputData weightGoalOutputData = new WeightGoalOutputData(userId,
+                        gender,
+                        height,
+                        weight,
+                        age,
+                        exerciseLvl,
+                        paceType,
+                        weightGoal,
+                        false);
                 weightGoalPresenter.prepareSuccessView(weightGoalOutputData);
             }else {
                 weightGoalPresenter.prepareFailView("Error with saving weight goal data");
@@ -53,4 +63,6 @@ public class WeightGoalInteractor implements WeightGoalInputBoundry{
         }
 
     }
+
+
 }

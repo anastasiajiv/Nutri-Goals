@@ -1,6 +1,7 @@
 package src.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,8 +26,9 @@ public interface User {
 
     int getUserAge();
 
-    int getUserExcerciseLevel(); // Excersice level will be in a range from 1 - 5 --> Specify each levels
+    int getUserExerciseLevel(); // Exercise level will be in a range from 1 to 5 --> Specify each levels
                                 // logistics in the ReadMe file
+
 
     //HashMap<String, Boolean> getUserRestriction(); // Restriction type will be stored as a hashmap <String(Restriction Type),
                                 // Boolean(Weather user clicked this option or not)>
@@ -39,6 +41,10 @@ public interface User {
     void setAllergies(HashMap<String, Boolean> allergies);
     HashMap<String, Boolean> getAllergies();
 
+
+    ArrayList<String> getTrackedNutrients(); // <Nutrient name, current value being tracked>
+
+
     // should not be set but should be changeConditions
     void setConditions(HashMap<String, String> conditions);
 
@@ -47,7 +53,8 @@ public interface User {
     //HashMap<String, Boolean> getUserRestriction(); // Restriction type will be stored as a hashmap <String(Restriction Type),
     // Boolean(Weather user clicked this option or not)>
 
-    HashMap<String, Boolean> WeightGoalType(); // String -> Maintain, Gain, Lose
+
+    //HashMap<String, Boolean> WeightGoalType(); // String -> Maintain, Gain, Lose
 
     //HashMap<String, Double> weightPace();
 
@@ -55,14 +62,21 @@ public interface User {
 
     List<String> userSpecifiedAllergies(); //TODO Esha access this for MealPlan
     HashMap<String, Double> userSpecifiedConditions(); //TODO Esha access this for MealPlan
+
+    Double getCalciumValue();
+
     Double getPotassiumValue();
 
     Double getVitaminCValue();
-
     Double getVitaminDValue();
+
     Double getIronValue();
+
     Double getMagnesiumValue();
+
     Double getSugarValue();
+
+
     String getWeightGoalType();
 
     String getMaintainTypeValue();
@@ -72,6 +86,7 @@ public interface User {
     String getGainTypeValue();
 
     String getPaceType();
+
 
 //    HashMap<String, HashMap<String, Boolean>> weightPaceType();
 //    // {loseWeight : {typical : False, moderate: True, extreme: False}
@@ -97,11 +112,16 @@ public interface User {
 
     void setWeightGoalType(HashMap<String, Boolean> weightGoalType);
 
-    //void setRestrictions(HashMap<String, Boolean> restrictions);
+    void setTrackedNutrients(ArrayList<String> trackedNutrients);
+
 
     void setPaceType(String paceType);
 
 
     void setRequiredCalories(double requiredCalories);
+
+
+
+
 
 }

@@ -9,8 +9,6 @@ package src.app;
 
 
 import src.data_access.FileUserDataAccessObject;
-import src.entity.CommonRecipe;
-import src.entity.CommonUser;
 import src.entity.*;
 import src.entity.UserFactory;
 
@@ -21,12 +19,12 @@ import java.util.HashMap;
 public class Main {
     public static void main(String[] args) throws IOException {
 
-            UserFactory userFactory = new CommonUserFactory();
-            UserFactory userFactory1 = new CommonUserFactory();
+        UserFactory userFactory = new CommonUserFactory();
+        UserFactory userFactory1 = new CommonUserFactory();
 
-            FileUserDataAccessObject userDAO = new FileUserDataAccessObject("new2.csv", userFactory);
+        FileUserDataAccessObject userDAO = new FileUserDataAccessObject("plzwork.csv", "mealPlan.csv", userFactory);
 
-            FileUserDataAccessObject fileUserDataAccessObject = new FileUserDataAccessObject("example.csv", new CommonUserFactory());
+        FileUserDataAccessObject fileUserDataAccessObject = new FileUserDataAccessObject("example.csv", "mealPlan.csv", new CommonUserFactory());
 
             User newUser = userFactory.createdDefaultUser(2389, "Xavier");
             newUser.setPassword("Dario");
@@ -71,7 +69,7 @@ public class Main {
                     newUser.getUserHeight(),
                     newUser.getUserWeight(),
                     newUser.getUserAge(),
-                    newUser.getUserExcerciseLevel(),
+                    newUser.getUserExerciseLevel(),
                     newUser.getPaceType(),
                     weightGoal);
 
@@ -96,67 +94,81 @@ public class Main {
 
             userDAO.savePreferences(newUser.getUserId(), newUser.getDietary(), newUser.getAllergies(), newUser.getConditions());
     }
-        /*String csvFilePath = "test.csv";
-
-        UserFactory userFactory = new CommonUserFactory();
-
-        HashMap<String, Boolean> weightgoal = new HashMap<>();
-        weightgoal.put("maintainWeight", Boolean.TRUE);
-
-        try {
-            FileUserDataAccessObject userDAO = new FileUserDataAccessObject(csvFilePath, userFactory);
-            User user = new CommonUser(1,
-                    "Aarya",
-                    "Password",
-                    LocalDateTime.now(),
-                    new HashMap<>(),
-                    175,
-                    65.5,
-                    19,
-                    1,
-                    new HashMap<>(),
-                    new HashMap<>(),
-                    0
-                    );
 
 
+//        String csvFilePath = "final.csv";
+//
+//        HashMap<String, HashMap<String, Boolean>> weightPaceType = null;
+//
+//        UserFactory userFactory = new CommonUserFactory();
+//
+//        HashMap<String, Boolean> weightgoal = new HashMap<>();
+//        weightgoal.put("maintainWeight", Boolean.TRUE);
+//
+//        try {
+//            FileUserDataAccessObject userDAO = new FileUserDataAccessObject(csvFilePath, userFactory);
+//            User user = new CommonUser(1,
+//                    "Aarya",
+//                    "Password",
+//                    LocalDateTime.now(),
+//                    new HashMap<>(),
+//                    175,
+//                    65.5,
+//                    19,
+//                    1,
+//                    new HashMap<>(),
+//                    new HashMap<>(),
+//                    "normal", 0
+//                    );
+//
+//            User testUser = userFactory.createdDefaultUser(1,
+//                    "Aarya");
+//
+//            User user2 = new CommonUser(2,
+//                    "Aarya",
+//                    "Password",
+//                    LocalDateTime.now(),
+//                    new HashMap<>(),
+//                    175,
+//                    65.5,
+//                    19,
+//                    1,
+//                    new HashMap<>(),
+//                    new HashMap<>(),
+//                    "normal",
+//                    0
+//                );
+//
+//
+//            User user3 = new CommonUser(5,
+//                    "Aarya",
+//                    "Password",
+//                    LocalDateTime.now(),
+//                    new HashMap<>(),
+//                    200000000.0,
+//                    65.5,
+//                    19,
+//                    1,
+//                    new HashMap<>(),
+//                    weightgoal,
+//                    "extreme",
+//                    0
+//            );
+//
+//            testUser.setUserExerciseLvl(1);
+//            System.out.println(testUser.getUserExcerciseLevel());
+//            testUser.setRequiredCalories(4000);
+//            userDAO.saveWeightGoalData(testUser);
+//
+//
+//
+//            // Optional[String] : None
+//            //userDAO.saveNewUser(user3);
+//            //System.out.println(userDAO.existById(2));
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+    }
 
-            User user2 = new CommonUser(2,
-                    "Aarya",
-                    "Password",
-                    LocalDateTime.now(),
-                    new HashMap<>(),
-                    175,
-                    65.5,
-                    19,
-                    1,
-                    new HashMap<>(),
-                    new HashMap<>(),
-                    0
-                );
 
-
-            User user3 = new CommonUser(1,
-                    "Aarya",
-                    "Password",
-                    LocalDateTime.now(),
-                    new HashMap<>(),
-                    200000000.0,
-                    65.5,
-                    19,
-                    1,
-                    new HashMap<>(),
-                    weightgoal,
-                    0
-            );
-
-            // Optional[String] : None
-            userDAO.saveWeightGoalData(user3);
-            System.out.println(weightgoal);
-            //System.out.println(userDAO.existById(2));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }*/
-}
 
