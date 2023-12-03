@@ -20,7 +20,7 @@ public class FileCsvBuilder {
             if (!csvFile.exists()) {
                 // If the CSV file does not exist, create it and write the headers
                 setHeaders(csvFile);
-
+                saveUsersToCsv(user, csvFile);
             }
             if (saveType == 0) {
                 saveUsersToCsv(user, csvFile);
