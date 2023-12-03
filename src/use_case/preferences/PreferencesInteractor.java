@@ -1,7 +1,7 @@
 package src.use_case.preferences;
 import src.entity.User;
 import java.util.*;
-public class PreferencesInteractor{
+public class PreferencesInteractor implements PreferencesInputBoundary{
     final PreferencesUserDataAccessInterface userDataAccessObject;
     final PreferencesOutputBoundary preferencesPresenter;
 
@@ -14,17 +14,19 @@ public class PreferencesInteractor{
 
     @Override
     public void execute(PreferencesInputData preferencesInputData){
-        HashMap<Integer, HashMap<String, Boolean>> dietary = preferencesInputData.getDietary();
-        HashMap<Integer, HashMap<String, String>> conditions = preferencesInputData.getConditions();
-        HashMap<Integer, HashMap<String, Boolean>> allergies = preferencesInputData.getAllergies();
+        int userId = preferencesInputData.getUserId();
+        HashMap<String, Boolean> dietary = preferencesInputData.getDietary();
+        HashMap<String, String> conditions = preferencesInputData.getConditions();
+        HashMap<String, Boolean> allergies = preferencesInputData.getAllergies();
         int userID = preferencesInputData.getUserId();
-        if (!userDataAccessObject.existById(userID)){
+        if (!userDataAccessObject.existByUserID(userID)){
             preferencesPresenter.prepareFailView("Unable to add preferences as user does not exist.Please try again.");
         } else {
-            userDataAccessObject.saveDietary(dietary);
-            userDataAccessObject.saveConditions(conditions);
-            userDataAccessObject.saveAllergies(allergies);
-            preferencesPresenter.prepareSuccessView("Your preferences have successfully been added.");
+            userDataAccessObject.savePreferences(userId, dietary, allergies, conditions);
+
+            PreferencesOutputData preferencesOutputData = new PreferencesOutputData(userId);
+            preferencesPresenter.prepareSuccessView(preferencesOutputData);
+
         }
     }
 }
