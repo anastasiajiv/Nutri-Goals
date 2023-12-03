@@ -353,10 +353,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         for (Integer key: accounts.keySet()){
             User value = accounts.get(key);
             String name = value.getName();
-            if (name == username){
+            if (name.equals(username)){
                 account = value;
             }
         }
+        assert(account != null);
         return account;
     }
 
