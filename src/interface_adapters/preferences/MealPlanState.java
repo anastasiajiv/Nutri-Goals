@@ -4,11 +4,24 @@ public class MealPlanState {
 
     private String mealplan;
 
-    public MealPlanState(String mealplan){
+    private int id ;
+    private String idError = null;
+
+
+    public MealPlanState(String mealplan, MealPlanState copy){
         this.mealplan = mealplan;
+        id = copy.id;
     }
 
     public MealPlanState(){}
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getMealplan(){return this.mealplan;}
 
