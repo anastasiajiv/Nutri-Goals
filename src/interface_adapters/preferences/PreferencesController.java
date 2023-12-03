@@ -13,5 +13,6 @@ public class PreferencesController {
     public void execute(Integer userID, HashMap<String, Boolean> dietary, HashMap<String, String> conditions, HashMap<String,
             Boolean> allergies){
         PreferencesInputData preferencesInputData = new PreferencesInputData(userID, dietary, conditions, allergies);
+        preferencesInteractor.execute(preferencesInputData);
     }
 }
