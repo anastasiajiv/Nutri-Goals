@@ -51,10 +51,10 @@ public interface User {
 
     //HashMap<String, Double> weightPace();
 
-    String userSpecifiedDietary();
+    String userSpecifiedDietary(); //TODO Esha access these for MealPlan
 
-    List<String> userSpecifiedAllergies();
-    HashMap<String, Double> userSpecifiedConditions();
+    List<String> userSpecifiedAllergies(); //TODO Esha access this for MealPlan
+    HashMap<String, Double> userSpecifiedConditions(); //TODO Esha access this for MealPlan
     Double getPotassiumValue();
 
     Double getVitaminCValue();
@@ -78,7 +78,7 @@ public interface User {
 //
 //    HashMap<String, String> getPaceType();
 
-    int getRequiredCalories(); // Should default to 0
+    double getRequiredCalories(); // Should default to 0
 
     // setters
     void setPassword(String password);
@@ -102,6 +102,6 @@ public interface User {
     void setPaceType(String paceType);
 
 
-    void setRequiredCalories(int requiredCalories);
+    void setRequiredCalories(double requiredCalories);
 
 }
