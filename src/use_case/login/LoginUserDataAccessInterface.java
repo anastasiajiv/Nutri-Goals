@@ -5,7 +5,7 @@ public interface LoginUserDataAccessInterface {
     boolean existByName(String identifier);
     Boolean existByUserID(int userID);
 
-    void save(User user);
+    //void save(User user);
 
     User get(String username);
 }
