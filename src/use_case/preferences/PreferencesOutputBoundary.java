@@ -1,6 +1,6 @@
 package src.use_case.preferences;
 
-public class PreferencesOutputBoundary {
+public interface PreferencesOutputBoundary {
     void prepareSuccessView(PreferencesOutputData user);
 
     void prepareFailView(String error);
