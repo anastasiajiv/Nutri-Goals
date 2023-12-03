@@ -14,17 +14,22 @@ import src.interface_adapters.logged_in.LoggedInViewModel;
 public class LoggedInView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "logged in";
     private final LoggedInViewModel loggedInViewModel;
+    private final CardLayout cardLayout;
+    private final JPanel views;
 
     JLabel username;
     JLabel userID;
+    JButton preferences;
 
     final JButton logOut;
 
     /**
      * A window with a title and a JButton.
      */
-    public LoggedInView(LoggedInViewModel loggedInViewModel) {
+    public LoggedInView(LoggedInViewModel loggedInViewModel, CardLayout cardLayout, JPanel views) {
         this.loggedInViewModel = loggedInViewModel;
+        this.cardLayout = cardLayout;
+        this.views = views;
         this.loggedInViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel("Logged In Screen");
@@ -35,6 +40,20 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         userID = new JLabel();
 
         JPanel buttons = new JPanel();
+
+        preferences = new JButton(loggedInViewModel.PREFERENCES_BUTTON_LABEL);
+        buttons.add(preferences);
+        preferences.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(preferences)){
+
+                        }
+                    }
+                }
+        );
+
         logOut = new JButton(loggedInViewModel.LOGOUT_BUTTON_LABEL);
         buttons.add(logOut);
 
