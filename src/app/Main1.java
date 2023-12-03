@@ -29,6 +29,7 @@ public class Main1 {
         JPanel views = new JPanel(cardLayout);
         application.add(views);
 
+        // This keeps track of and manages which view is currently showing.
         ViewManagerModel viewManagerModel = new ViewManagerModel();
         new ViewManager(views, cardLayout, viewManagerModel);
 
@@ -40,7 +41,6 @@ public class Main1 {
 
         userDataAccessObject = new FileUserDataAccessObject("./users.csv", new CommonUserFactory());
 
-        // This keeps track of and manages which view is currently showing.
 
         WelcomePageView trial = new WelcomePageView(cardLayout, views);
         views.add(trial, trial.viewName);
@@ -53,7 +53,7 @@ public class Main1 {
                 userDataAccessObject);
         views.add(loginView, loginView.viewName);
 
-        LoggedInView loggedInView = new LoggedInView(loggedInViewModel);
+        LoggedInView loggedInView = new LoggedInView(loggedInViewModel, cardLayout, views);
         views.add(loggedInView, loggedInView.viewName);
 
         viewManagerModel.setActiveView(trial.viewName);
