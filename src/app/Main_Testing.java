@@ -56,7 +56,7 @@ public class Main_Testing {
         views.add(signupView, signupView.viewName);
 
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel,
-                preferencesViewModel, trackedNutrientsViewModel, userDataAccessObject);
+                preferencesViewModel, trackedNutrientsViewModel, weightGoalViewModel,userDataAccessObject);
         views.add(loginView, loginView.viewName);
 
         LoggedInView loggedInView = new LoggedInView(loggedInViewModel, cardLayout, views);
@@ -89,7 +89,8 @@ public class Main_Testing {
         application.setVisible(true);
         System.out.println(userDataAccessObject.accounts.get(5).getName());
         System.out.println(userDataAccessObject.accounts.get(5).getPassword());
-        System.out.println(userDataAccessObject.accounts.get(3).getCreationTime());
+        //System.out.println(userDataAccessObject.accounts.get(3).getCreationTime());
+        //System.out.println(userDataAccessObject.accounts.get(5).);
         //System.out.println(userDataAccessObject.accounts.get(12).getPassword());
     }
 

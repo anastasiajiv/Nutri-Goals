@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class WeightGoalTests { // TODO : Create a mock database to hold the accounts hashmap
                               // TODO: Test that use case interactor calls are appropriately interacting with each other
-<<<<<<< HEAD
+
     private FileUserDataAccessObject userDataAccessObject;
     private final String testCsvFilePath = "./test_users.csv";
 
@@ -66,7 +66,7 @@ public class WeightGoalTests { // TODO : Create a mock database to hold the acco
         assertNotNull(userDataAccessObject.getAccountByUserID(userId));
 
     }
-=======
+
 //    private FileUserDataAccessObject userDataAccessObject;
 //    private final String testCsvFilePath = "./test_users.csv";
 //
@@ -119,7 +119,7 @@ public class WeightGoalTests { // TODO : Create a mock database to hold the acco
 //        assertNotNull(userDataAccessObject.getAccountByUserId(userId));
 //
 //    }
->>>>>>> main
+
 //
 //    @Test
 //    void saveNewUser_saveUserAndCsv() {
