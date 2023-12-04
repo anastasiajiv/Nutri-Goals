@@ -13,8 +13,6 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     private final Map<Integer, User> users = new HashMap<>();
 
 
-
-
     @Override
     public Boolean existByUserID(int userId) {
         return null;
@@ -28,6 +26,12 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     public int createUserID(){
         return 1;
     }
+
+    @Override
+    public User getAccountByUserID(int userId) {
+        return null;
+    }
+
     public User getAccountByUserId ( int userId) {
         User User = null;
         return User; // fill to stop red highlights

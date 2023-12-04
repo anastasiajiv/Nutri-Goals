@@ -13,7 +13,7 @@ public interface SignupUserDataAccessInterface {
     //void save (User user);
     public int createUserID();
 
-    public User getAccountByUserId ( int userId);
+    public User getAccountByUserID ( int userId);
 
 
 }
