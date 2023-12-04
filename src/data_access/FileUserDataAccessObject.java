@@ -345,8 +345,6 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         return accounts.get(userID).getTrackedNutrients();
     }
 
-
-
     private HashMap<String, Float> getRecipeNutritionalInfo(String recipeID) {
         // format the API request
         HttpRequest request = HttpRequest.newBuilder()
