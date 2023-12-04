@@ -20,8 +20,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpClient;
 import java.io.IOException;
-import org.json.JSONObject;
-import org.json.JSONArray;
+//import org.json.JSONObject;
+//import org.json.JSONArray;
 
 
 import java.io.IOException;
@@ -137,30 +137,10 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
     }
 
-
-//    public void saveNewUser(User user) {
-//        if (!accounts.containsKey(user.getUserId())) {
-//            // Don't add user if they already exist
-//            accounts.put(user.getUserId(), user);
-//            // Save the updated data to the CSV file
-//            csvBuilder.buildCsv(user);
-//        } else {
-//            System.out.println("This user already exists");
-//        }
-//    }
-
-
     @Override
     public User getAccountByUserId ( int userId){
         return accounts.get(userId);
     }
-
-    //@Override
-    //public void save (User user){
-    //    accounts.put(user.getUserId(), user);
-    //}
-
-
 
 
     @Override
@@ -256,20 +236,6 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
 
-    //added these
-    public HashMap<String, Boolean> getDietaryFile(String userID){
-        User data = accounts.get(userID);
-        return data.getDietary();
-    }
-    public HashMap<String, Boolean> getAllergiesFile(String userID){
-        User data = accounts.get(userID);
-        return data.getAllergies();
-    }
-    public HashMap<String, String> getConditionsFile(String userID){
-        User data = accounts.get(userID);
-        return data.getConditions();
-    }
-
     @Override
     public boolean existByName(String identifier) {
         for (Integer key: accounts.keySet()){
@@ -348,7 +314,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
 
 
-    private HashMap<String, Float> getRecipeNutritionalInfo(String recipeID) {
+    /*private HashMap<String, Float> getRecipeNutritionalInfo(String recipeID) {
         // format the API request
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spoonacular.com/recipes/"+ recipeID +"/information?includeNutrition=true"))
@@ -386,7 +352,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
             recipeNutritionalInfo.put(nutrientName, nutrientValue);
         }
         return recipeNutritionalInfo;
-    }
+    }*/
 
 
 }
