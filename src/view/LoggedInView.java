@@ -20,6 +20,9 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     JLabel username;
     JLabel userID;
     JButton preferences;
+    JButton trackedNutrients;
+
+    JButton weightGoals;
 
     final JButton logOut;
 
@@ -42,6 +45,9 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         JPanel buttons = new JPanel();
 
         preferences = new JButton(loggedInViewModel.PREFERENCES_BUTTON_LABEL);
+
+        weightGoals = new JButton(loggedInViewModel.weightGOAL_BUTTONS_LABEL);
+
         buttons.add(preferences);
         preferences.addActionListener(
                 new ActionListener() {
@@ -49,6 +55,33 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(preferences)){
                             cardLayout.show(views, "preferences");
+                        }
+
+                    }
+                }
+        );
+
+        buttons.add(weightGoals);
+        weightGoals.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent evt2) {
+                        if (evt2.getSource().equals(weightGoals)) {
+                            cardLayout.show(views, "Weight Goals");
+                        }
+                    }
+                }
+        );
+
+        // adding the JButton for the TrackedNutrients view and use case
+        trackedNutrients = new JButton(loggedInViewModel.TRACKED_NUTRIENTS_BUTTON_LABEL);
+        buttons.add(trackedNutrients);
+        trackedNutrients.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(trackedNutrients)) {
+                            cardLayout.show(views, "tracked nutrients");
                         }
                     }
                 }

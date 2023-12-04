@@ -13,6 +13,6 @@ public interface LoginUserDataAccessInterface {
     User get(String username);
 
 
-    public User getAccountByUserId (int userId);
+    public User getAccountByUserID (int userId);
 
 }

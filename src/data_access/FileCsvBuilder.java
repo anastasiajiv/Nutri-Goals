@@ -3,6 +3,8 @@ package src.data_access;
 import src.entity.User;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 public class FileCsvBuilder {
 
@@ -58,7 +60,8 @@ public class FileCsvBuilder {
                 "loseWeight," + //14
                 "gainWeight," +// 15
                 "weightPaceType," +// 16
-                "requiredCalories"); //17
+                "requiredCalories," +// 17
+                "trackedNutrients"); //18
         writer.newLine();
         writer.close();
     }
@@ -68,7 +71,7 @@ public class FileCsvBuilder {
         if (!isUserIdAlreadyInCsv(user.getUserId(), csvFile)) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile, true))) {
 
-                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
 
                         user.getUserId(),
                         user.getName(),
@@ -87,7 +90,8 @@ public class FileCsvBuilder {
                         user.getLoseTypeValue(),
                         user.getGainTypeValue(),
                         user.getPaceType(),
-                        user.getRequiredCalories());
+                        user.getRequiredCalories(),
+                        user.getTrackedNutrients());
 
                 writer.write(line);
                 writer.newLine();
@@ -129,6 +133,8 @@ public class FileCsvBuilder {
 
             // Check if the userId matches
             if (Integer.parseInt(columns[0]) == userId) {
+
+
                 // Update the columns with the new user information
                 columns[1] = user.getName();
                 columns[2] = user.getPassword();
@@ -139,14 +145,19 @@ public class FileCsvBuilder {
                 columns[7] = String.valueOf(user.getUserWeight());
                 columns[8] = String.valueOf(user.getUserAge());
                 columns[9] = String.valueOf(user.getUserExerciseLevel());
-                columns[10] = String.valueOf(user.getDietary());
-                columns[11] = String.valueOf(user.getAllergies());
-                columns[12] = String.valueOf(user.getConditions());
+                //columns[10] = String.valueOf(user.getDietary());
+                columns[10] = getStringRep(user.getDietary());
+                //columns[11] = String.valueOf(user.getAllergies());
+                columns[11] = getStringRep(user.getAllergies());
+                //columns[12] = String.valueOf(user.getConditions());
+                columns[12] = getStringRep(user.getConditions());
                 columns[13] = String.valueOf(user.getMaintainTypeValue());
                 columns[14] = String.valueOf(user.getLoseTypeValue());
                 columns[15] = String.valueOf(user.getGainTypeValue());
                 columns[16] = user.getPaceType();
                 columns[17] = String.valueOf(user.getRequiredCalories());
+                //columns[18] = String.valueOf(user.getTrackedNutrients());
+                columns[18] = getStringRep(user.getTrackedNutrients());
 
 
                 // Join the columns back into a line
@@ -162,6 +173,43 @@ public class FileCsvBuilder {
         }
     }
 
+    private String getStringRep(HashMap<String, ?> map) {
+        // create strings for the HashMap values
+        StringBuilder items = new StringBuilder();
+        // iterate for each key
+        for (String item : map.keySet()) {
+            items.append(item);
+            items.append("=");
+            items.append(map.get(item));
+            items.append(" "); // separate each value with a space, not a comma
+        }
+
+        if (!items.isEmpty()) {
+            // remove the last white space
+            items.deleteCharAt(items.length() - 1);
+        }
+
+        // return back as a string
+        return items.toString();
+    }
+
+    // overload the helper method to take arraylists as well
+    private String getStringRep(ArrayList<String> list) {
+        // create strings for the HashMap values
+        StringBuilder items = new StringBuilder();
+        // iterate for each key
+        for (String item : list) {
+            items.append(item).append(" "); // separate each value with a space, not a comma
+        }
+
+        if (!items.isEmpty()) {
+            // remove the last white space
+            items.deleteCharAt(items.length() - 1);
+        }
+
+        // return back as a string
+        return items.toString();
+    }
 }
 
 

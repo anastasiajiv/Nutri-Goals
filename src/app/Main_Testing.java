@@ -1,5 +1,7 @@
 package src.app;
 import src.interface_adapters.preferences.PreferencesViewModel;
+import src.interface_adapters.trackedNutrients.TrackedNutrientsViewModel;
+import src.interface_adapters.weightgoal.WeightGoalViewModel;
 import src.view.*;
 
 import src.data_access.FileUserDataAccessObject;
@@ -18,7 +20,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class Main1 {
+public class Main_Testing {
     public static void main(String[] args){
         JFrame application = new JFrame("Login Example");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -38,6 +40,8 @@ public class Main1 {
         SignupViewModel signupViewModel = new SignupViewModel();
         LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
         PreferencesViewModel preferencesViewModel = new PreferencesViewModel();
+        TrackedNutrientsViewModel trackedNutrientsViewModel = new TrackedNutrientsViewModel();
+        WeightGoalViewModel weightGoalViewModel = new WeightGoalViewModel();
 
         FileUserDataAccessObject userDataAccessObject;
 
@@ -52,7 +56,7 @@ public class Main1 {
         views.add(signupView, signupView.viewName);
 
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel,
-                preferencesViewModel, userDataAccessObject);
+                preferencesViewModel, trackedNutrientsViewModel, userDataAccessObject);
         views.add(loginView, loginView.viewName);
 
         LoggedInView loggedInView = new LoggedInView(loggedInViewModel, cardLayout, views);
@@ -62,12 +66,33 @@ public class Main1 {
                 loggedInViewModel, userDataAccessObject);
         views.add(preferencesView, preferencesView.viewName);
 
+        TrackedNutrientsView trackedNutrientsView = TrackedNutrientsUseCaseFactory.create(viewManagerModel,
+                trackedNutrientsViewModel, loggedInViewModel, userDataAccessObject);
+        views.add(trackedNutrientsView, trackedNutrientsView.viewName);
+
         viewManagerModel.setActiveView(trial.viewName);
         viewManagerModel.firePropertyChanged();
         //trial.setVisible(true);
 
+        // TODO: Implement for weight goals
+        WeightGoalsView weightGoalsView = WeightGoalUseCaseFactory.create(viewManagerModel,
+                weightGoalViewModel,
+                loggedInViewModel,
+                userDataAccessObject);
+        views.add(weightGoalsView, weightGoalsView.viewName);
+
+        viewManagerModel.setActiveView(trial.viewName);
+        viewManagerModel.firePropertyChanged();
+
+
         application.pack();
         application.setVisible(true);
+        System.out.println(userDataAccessObject.accounts.get(5).getName());
+        System.out.println(userDataAccessObject.accounts.get(5).getPassword());
+        System.out.println(userDataAccessObject.accounts.get(3).getCreationTime());
+        //System.out.println(userDataAccessObject.accounts.get(12).getPassword());
     }
+
+
 
 }
