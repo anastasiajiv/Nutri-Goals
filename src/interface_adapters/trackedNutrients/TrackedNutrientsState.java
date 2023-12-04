@@ -1,6 +1,7 @@
 package src.interface_adapters.trackedNutrients;
 
 import javax.sound.midi.Track;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class TrackedNutrientsState {
@@ -34,5 +35,9 @@ public class TrackedNutrientsState {
     // getters
     public int getUserID() {
         return this.userID;
+    }
+
+    public ArrayList<String> getTrackedNutrients() {
+        return this.trackedNutrients;
     }
 }

@@ -96,11 +96,13 @@ public class TrackedNutrientsView extends JPanel implements ActionListener, Prop
                             nutrientSelected(trackedNutrients, "vitaminD", vitaminD);
                             nutrientSelected(trackedNutrients, "iron", iron);
                             nutrientSelected(trackedNutrients, "magnesium", magnesium);
-                            trackedNutrients = nutrientSelected(trackedNutrients, "sugar", sugar);
+                            nutrientSelected(trackedNutrients, "sugar", sugar);
+                            // set the tracked nutrients to the current state's attribute
+                            currentState.setTrackedNutrients(trackedNutrients);
 
                             // hand off the input data to the controller
                             trackedNutrientsController.execute(currentState.getUserID(),
-                                    currentState.getTrackedNutrients));
+                                    currentState.getTrackedNutrients());
                         }
                     }
                 }
@@ -128,10 +130,9 @@ public class TrackedNutrientsView extends JPanel implements ActionListener, Prop
     }
 
     // helper method to check if each nutrient was selected
-    private ArrayList<String> nutrientSelected(ArrayList<String> list, String name, JCheckBox nutrient) {
+    private void nutrientSelected(ArrayList<String> list, String name, JCheckBox nutrient) {
         // if selected, add the nutrient to the arraylist
         if (nutrient.isSelected())
             list.add(name);
-        return list;
     }
 }
