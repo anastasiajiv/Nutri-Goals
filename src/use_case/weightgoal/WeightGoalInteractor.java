@@ -1,7 +1,7 @@
 package src.use_case.weightgoal;
 
-import java.util.HashMap;
 
+import java.util.HashMap;
 public class WeightGoalInteractor implements WeightGoalInputBoundry{
 
     final WeightGoalUserDataInterface userDataAccessObject;

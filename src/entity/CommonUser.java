@@ -5,35 +5,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CommonUser implements User{
+public class CommonUser implements User {
 
     private final int userId;
-
-    //private HashMap<String, Boolean> restrictions = new HashMap<>();
+    // private HashMap<String, Boolean> restrictions = new HashMap<>();
     private HashMap<String, Boolean> dietary = new HashMap<>();
-
+    private ArrayList<String> trackedNutrients = new ArrayList<>();
     private HashMap<String, Boolean> allergies = new HashMap<>();
-
     private HashMap<String, String> conditions = new HashMap<>();
     private final String name;
-
     private String password;
-
     private LocalDateTime creationTime;
-
     HashMap<String, Boolean> gender; // remove final since they are subject to change.
     //Not sure if this is a good design decision
-
     private double userHeight;
-
     private double userWeight;
-
     private int userAge;
-
-    private int userExcerciseLevel;
-
+    private int userExerciseLevel;
     private HashMap<String, Boolean> weightGoalType;
-
     private String paceType;
 
     private double requiredCalories;
@@ -41,6 +30,9 @@ public class CommonUser implements User{
 
 
 
+
+
+    // main User constructor
     public CommonUser(int userId,
                       String name,
                       String password,
@@ -49,10 +41,11 @@ public class CommonUser implements User{
                       double userHeight,
                       double userWeight,
                       int userAge,
-                      int userExcerciseLevel,
+                      int userExerciseLevel,
                       HashMap<String, Boolean> dietary,
                       HashMap<String, Boolean> allergies,
                       HashMap<String, String> conditions,
+                      ArrayList<String> trackedNutrients,
                       HashMap<String, Boolean> weightGoalType,
                       String paceType,
                       double requiredCalories) {
@@ -64,77 +57,57 @@ public class CommonUser implements User{
         this.userHeight  = userHeight;
         this.userWeight = userWeight;
         this.userAge = userAge;
-        this.userExcerciseLevel = userExcerciseLevel;
+        this.userExerciseLevel = userExerciseLevel;
         this.dietary = dietary;
         this.allergies = allergies;
         this.conditions = conditions;
+        this.trackedNutrients = trackedNutrients;
         this.weightGoalType = weightGoalType;
         this.paceType = paceType;
         this.requiredCalories = requiredCalories;
-
     }
 
-//
-//    public CommonUser(int userId, String name) {
-//        this();  // Call the default constructor to set default values
-//        this.userId = userId;
-//        this.name = name;
-//    }
-//
-//    // Constructor with full attribute set
-//    public CommonUser(int userId, String name, String password, LocalDateTime creationTime,
-//                      HashMap<String, Boolean> gender, double userHeight, double userWeight,
-//                      int userAge, int userExcerciseLevel, HashMap<String, Boolean> restrictions,
-//                      HashMap<String, Boolean> weightGoalType, int requiredCalories) {
-//        this.userId = userId;
-//        this.name = name;
-//        this.password = password;
-//        this.creationTime = creationTime;
-//        this.gender = gender;
-//        this.userHeight = userHeight;
-//        this.userWeight = userWeight;
-//        this.userAge = userAge;
-//        this.userExcerciseLevel = userExerciseLevel;
-//        this.restrictions = restrictions;
-//        this.weightGoalType = weightGoalType;
-//        this.requiredCalories = requiredCalories;
-//
-//   }
-//
-
-
+    // retrieves UserID
     @Override
     public int getUserId() {
         return userId;
     }
 
+    // retrieves the user's name
     @Override
     public String getName() {
         return name;
     }
 
+    // retrieves the user's password
     @Override
     public String getPassword() {
         return password;
     }
 
+    // retrievers the user's creation time
     @Override
     public LocalDateTime getCreationTime() {
         return creationTime;
     }
+
+    // retrieve the user's gender (call getGenderType first to see if the value is specified)
     @Override
     public HashMap<String, Boolean> getGender() {
         return this.gender;
     }
 
+    // retrieves the user's gender type
     public String getGenderType() {
         for (Map.Entry<String, Boolean> entry: gender.entrySet()) {
-            if (entry.getValue() == Boolean.TRUE);
-            return entry.getKey();
+            if (entry.getValue() == Boolean.TRUE) {
+                return entry.getKey();
+            }
         }
         return "User did not input Gender";
     }
 
+    // returns true if the user identified that they are male
     public String isMale() {
         if (gender.get("male") != null) {
             return String.valueOf(gender.get("male"));
@@ -142,60 +115,52 @@ public class CommonUser implements User{
         return String.valueOf(Boolean.FALSE);
     }
 
+    // returns true if the user identified that they are female
     public String isFemale() {
-        if (gender.get("female") != null){
+        if (gender.get("female") != null) {
             return String.valueOf(gender.get("female"));
         }
         return String.valueOf(Boolean.FALSE);
     }
+
+    // retrieves the user's height
     @Override
     public double getUserHeight() {
         return userHeight;
     }
 
+    // retrieves the user's weight
     @Override
     public double getUserWeight() {
         return userWeight;
     }
 
+    // retrieves the user's age
     @Override
     public int getUserAge() {
         return userAge;
     }
 
+    // retrieves the user's exercise level
     @Override
-    public int getUserExcerciseLevel() {
-        return userExcerciseLevel;
+    public int getUserExerciseLevel() {
+        return userExerciseLevel;
     }
 
-    @Override
-    public void setDietary() {
 
-    }
 
     //@Override
     //public HashMap<String, Boolean> getUserRestriction() {
     //    return restrictions; // Change to return keys with True values.
     //}
+
     public void setDietary(HashMap<String, Boolean> dietary){
         this.dietary = dietary;
     }
-    @Override
-    public String getDietary() {
-        String user_diet = new String();
-        for (Map.Entry<String, Boolean> map : dietary.entrySet()) {
-            String key = map.getKey();
-            Boolean value = map.getValue();
-            if (value == Boolean.TRUE) {
-                user_diet = key;
-            }
-        }
-        return user_diet;
-    }
 
     @Override
-    public void setAllergies() {
-
+    public HashMap<String, Boolean> getDietary() {
+        return this.dietary;
     }
 
     public void setAllergies(HashMap<String, Boolean> allergies){
@@ -203,28 +168,51 @@ public class CommonUser implements User{
     }
 
     @Override
-    public List<String> getAllergies(){
-        List<String> user_allergies = new ArrayList<>();
-        for (Map.Entry<String, Boolean> map: allergies.entrySet()){
+    public HashMap<String, Boolean> getAllergies(){
+        return this.allergies;
+    }
+    public void setConditions(HashMap<String, String> conditions){
+        this.conditions = conditions;
+    }
+    @Override
+    public HashMap<String, String> getConditions(){
+        return this.conditions;
+    }
+
+    public String userSpecifiedDietary() {
+        String user_diet = new String();
+        for (Map.Entry<String, Boolean> map : getDietary().entrySet()) {
             String key = map.getKey();
             Boolean value = map.getValue();
-            if (value == Boolean.TRUE){
+            if ((value == Boolean.TRUE) && !key.equals("none")) {
+                user_diet = key;
+            } else if (key.equals("none") && (value == Boolean.TRUE)){
+                user_diet = " ";
+            }
+        }
+        return user_diet;
+    }
+
+
+    //this would return a list of all allergies the user clicked on only
+    public List<String> userSpecifiedAllergies(){
+        List<String> user_allergies = new ArrayList<>();
+        for (Map.Entry<String, Boolean> map: getAllergies().entrySet()){
+            String key = map.getKey();
+            Boolean value = map.getValue();
+            if ((value == Boolean.TRUE) && !key.equals("none")){
                 user_allergies.add(key);
+            } else if (key.equals("none") && (value == Boolean.TRUE)){
+                user_allergies.add(" ");
             }
         }
         return user_allergies;
     }
 
-    @Override
-    public void setConditions() {
 
-    }
+    //return a daily intake amount depending on user selection
+    public HashMap<String, Double> userSpecifiedConditions(){
 
-    public void setConditions(HashMap<String, String> conditions){
-        this.conditions = conditions;
-    }
-    @Override
-    public HashMap<String, Double> getConditions(){
         HashMap<String, Double> user_conditions = new HashMap<>();
         user_conditions.put("Calcium", getCalciumValue());
         user_conditions.put("Potassium", getPotassiumValue());
@@ -236,16 +224,21 @@ public class CommonUser implements User{
         return user_conditions;
     }
 
-    @Override
+
     public Double getCalciumValue(){
-        String value = conditions.get("Calcium");
+        String value = getConditions().get("Calcium");
+
         int age = getUserAge();
+
+        // initialize a double to store the recommended daily average intake depending on the user's information
         double daily_value;
 
+        // specifies the daily calcium intake based on sex and age
         if ((isMale().equals("true") && age > 18 && age < 71) || (isFemale().equals("true") && age > 18 && age < 51)){
+            // calculates the daily intake based on what intake type the user specified (low, average, high)
             if (value.equals("low")){
                 daily_value = 1000 - 0.20 * 1000;
-            } else if (value.equals("average")){
+            } else if (value.equals("average")) {
                 daily_value = 1000;
             } else {
                 daily_value = 1000 + 0.20 * 1000;
@@ -253,34 +246,39 @@ public class CommonUser implements User{
         } else if ((isMale().equals("true") && age > 70) || (isFemale().equals("true") && age > 50)){
             if (value.equals("low")){
                 daily_value = 1200 - 0.20 * 1200;
-            } else if (value.equals("average")){
+            } else if (value.equals("average")) {
                 daily_value = 1200;
             } else {
                 daily_value = 1200 + 0.20 * 1200;
             }
         } else {
+            // an improper age group and/or sex has been specified by the user, call an exception
             daily_value = 0.0;
+            // Note: later replace this println for a custom exception to be handled in another layer
             System.out.println("Could not set Calcium level.");
         }
+
+        // if the daily value has been properly calculated, return the value
         assert(daily_value != 0.0);
         return daily_value;
     }
-    @Override
+
+
     public Double getPotassiumValue(){
-        String value = conditions.get("Potassium");
+        String value = getConditions().get("Potassium");
         double daily_value;
-        if (isMale() == "true"){
-            if (value == "low"){
+        if (isMale().equals("true")) {
+            if (value.equals("low")) {
                 daily_value = 3400 - 0.20 * 3400;
-            } else if (value == "average"){
+            } else if (value.equals("average")) {
                 daily_value = 3400;
             } else {
                 daily_value = 3400 + 0.20 * 3400;
             }
         } else if (isFemale().equals("true")){
-            if (value == "low"){
+            if (value.equals("low")) {
                 daily_value = 2600 - 0.20 * 2600;
-            } else if (value == "average"){
+            } else if (value.equals("average")) {
                 daily_value = 2600;
             } else {
                 daily_value = 2600 + 0.2 * 2600;
@@ -293,9 +291,9 @@ public class CommonUser implements User{
         return daily_value;
     }
 
-    @Override
+
     public Double getVitaminCValue(){
-        String value = conditions.get("Vitamin C");
+        String value = getConditions().get("Vitamin C");
         double daily_value;
         if (isMale().equals("true")){
             if (value.equals("low")){
@@ -321,23 +319,23 @@ public class CommonUser implements User{
         return daily_value;
     }
 
-    @Override
+
     public Double getVitaminDValue() {
-        String value = conditions.get("Vitamin D");
+        String value = getConditions().get("Vitamin D");
         double daily_value;
         int age = getUserAge();
         if ((isMale().equals("true") && age > 18 && age < 71) || (isFemale().equals("true"))){
-            if (value == "low") {
+            if (value.equals("low")) {
                 daily_value = (600 * 0.67) - 0.20 * (600 * 0.67);
-            } else if (value == "average") {
+            } else if (value.equals("average")) {
                 daily_value = (600 * 0.67);
             } else {
                 daily_value = (600 * 0.67) + 0.20 * (600 * 0.67);
             }
         } else if ((isMale().equals("true") && age > 70)){
-            if (value == "low"){
+            if (value.equals("low") ){
                 daily_value = (800 * 0.67) - 0.20 * (800 * 0.67);
-            } else if (value == "average"){
+            } else if (value.equals("average")) {
                 daily_value = (800 * 0.67);
             } else {
                 daily_value = (800 * 0.67) + 0.20 * (800 * 0.67);
@@ -350,9 +348,9 @@ public class CommonUser implements User{
         return daily_value;
     }
 
-    @Override
+
     public Double getIronValue(){
-        String value = conditions.get("Iron");
+        String value = getConditions().get("Iron");
         int age = getUserAge();
         double daily_value;
         if ((isMale().equals("true")) || (isFemale().equals("true") && age > 50)){
@@ -379,9 +377,8 @@ public class CommonUser implements User{
         return daily_value;
     }
 
-    @Override
     public Double getMagnesiumValue(){
-        String value = conditions.get("Magnesium");
+        String value = getConditions().get("Magnesium");
         double daily_value;
         int age = getUserAge();
         if (isMale().equals("true") && age > 18 && age< 31){
@@ -425,10 +422,10 @@ public class CommonUser implements User{
 
     }
 
-    @Override
+
     //sugar is measured in grams not mg
     public Double getSugarValue(){
-        String value = conditions.get("Sugar");
+        String value = getConditions().get("Sugar");
         double daily_value;
         int age = getUserAge();
         if (isMale().equals("true") || isFemale().equals("true")){
@@ -446,11 +443,14 @@ public class CommonUser implements User{
         assert(daily_value != 0.0);
         return daily_value;
     }
+
+
     @Override
-    public HashMap<String, Boolean> WeightGoalType() {
-        return weightGoalType;
+    public ArrayList<String> getTrackedNutrients() {
+        return trackedNutrients;
     }
 
+    // retrieves the user's weight goal type (lose, gain, maintain)
     @Override
     public String getWeightGoalType() {
         for (Map.Entry<String, Boolean> entry: weightGoalType.entrySet()) {
@@ -461,6 +461,7 @@ public class CommonUser implements User{
         return "WeightGoalType not established";
     }
 
+    // retrieves the user's maintain weight goal value
     public String getMaintainTypeValue() {
         if (weightGoalType.get("maintainWeight") != null){
             return String.valueOf(weightGoalType.get("maintainWeight"));
@@ -468,6 +469,7 @@ public class CommonUser implements User{
         else return String.valueOf(Boolean.FALSE);
     }
 
+    // retrieves the user's weight loss goal value
     public String getLoseTypeValue() {
         if (weightGoalType.get("loseWeight") != null) {
             return String.valueOf(weightGoalType.get("loseWeight"));
@@ -475,12 +477,15 @@ public class CommonUser implements User{
         else return String.valueOf(Boolean.FALSE);
     }
 
+    // retrieves the user's weight gain goal value
     public String getGainTypeValue() {
         if (weightGoalType.get("gainWeight") != null) {
             return String.valueOf(weightGoalType.get("gainWeight"));
         }
         else return String.valueOf(Boolean.FALSE);
     }
+
+    // retrieves the user's pace type
     @Override
     public String getPaceType() {
         return paceType;
@@ -489,6 +494,8 @@ public class CommonUser implements User{
 
 
     public double getRequiredCalories() {
+
+
         return requiredCalories;
     }
 
@@ -502,7 +509,6 @@ public class CommonUser implements User{
     public void setCreationTime(LocalDateTime creationTime) {
         this.creationTime = creationTime;
     }
-
 
     @Override
     public void setGender(HashMap<String, Boolean> gender) {
@@ -524,18 +530,13 @@ public class CommonUser implements User{
     }
     @Override
     public void setUserExerciseLvl(int userExerciseLvl) {
-        this.userExcerciseLevel = userExerciseLvl;
+        this.userExerciseLevel = userExerciseLvl;
     }
 
     @Override
     public void setWeightGoalType(HashMap<String, Boolean> weightGoalType) {
         this.weightGoalType = weightGoalType;
     }
-
-    //@Override
-    //public void setRestrictions(HashMap<String, Boolean> restrictions) {
-    //    this.restrictions = restrictions;
-    //}
 
     @Override
     public void setPaceType(String paceType) {
@@ -547,4 +548,10 @@ public class CommonUser implements User{
         this.requiredCalories = requiredCalories;
     }
 
+
+    // sets the nutrients the user would like to track
+    @Override
+    public void setTrackedNutrients(ArrayList<String> trackedNutrients) {
+        this.trackedNutrients = trackedNutrients;
+    }
 }

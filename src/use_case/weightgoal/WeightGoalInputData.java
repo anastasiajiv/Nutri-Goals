@@ -44,9 +44,9 @@ public class WeightGoalInputData {
     }
 
     double getWeight() {
-       return this.weight;
-    }
 
+        return this.weight;
+    }
 
     double getHeight() {
         return height;
@@ -65,7 +65,9 @@ public class WeightGoalInputData {
     }
 
     HashMap<String, Boolean> getWeightGoal(){
+
        return weightGoal;
+
     }
 
 

@@ -17,18 +17,20 @@ public class CommonRecipe implements Recipe {
 
     private final HashMap<String, Boolean> recipeType;
 
+    private final HashMap<String, Float> nutritionalInfo;
+
 
     public CommonRecipe(int recipeId, String recipeName, HashMap<String, Double> recipeIngredients,
-                        String recipeInstructions, HashMap<String, Boolean> recipeType) {
+                        String recipeInstructions, HashMap<String, Boolean> recipeType,
+                        HashMap<String, Float> nutritionalInfo) {
         this.recipeId = recipeId;
         this.recipeName = recipeName;
         this.recipeIngredients = recipeIngredients;
         this.recipeInstructions = recipeInstructions;
-
         this.recipeType = recipeType;
+        this.nutritionalInfo = nutritionalInfo;
 
     }
-
 
     @Override
     public int getRecipeId() {
@@ -63,6 +65,11 @@ public class CommonRecipe implements Recipe {
             }
         }
         return "Did not find a type";
+    }
+
+    @Override
+    public HashMap<String, Float> getNutritionalInfo() {
+        return this.nutritionalInfo;
     }
 
 

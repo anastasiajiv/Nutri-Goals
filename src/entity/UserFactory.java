@@ -1,6 +1,7 @@
 package src.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface UserFactory {
@@ -16,11 +17,13 @@ public interface UserFactory {
                  HashMap<String, Boolean> dietary,
                  HashMap<String, Boolean> allergies,
                  HashMap<String, String> conditions,
+                 ArrayList<String> trackedNutrients,
                  HashMap<String, Boolean> weightGoal,
                  String paceType,
                  int requiredCalories);
 
      default User createdDefaultUser(int userId, String name) {
+
           return create(userId,
                   name,
                   null, //password defaults to null
@@ -33,6 +36,7 @@ public interface UserFactory {
                   new HashMap<>(),// default restrictions to empty map
                   new HashMap<>(),
                   new HashMap<>(),
+                  new ArrayList<>(),
                   new HashMap<>(), // default weightgoal to empty map
                   "", // default weight gain/lose type to null
                   0 // default req calories to 0
