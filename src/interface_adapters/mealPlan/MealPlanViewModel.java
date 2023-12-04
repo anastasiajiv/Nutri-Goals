@@ -1,6 +1,5 @@
-package src.interface_adapters.mealplan;
+package src.interface_adapters.mealPlan;
 
-import src.interface_adapters.mealplan.MealPlanState;
 import src.use_case.mealplan.ViewManagerModel;
 
 import java.beans.PropertyChangeListener;

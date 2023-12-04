@@ -1,8 +1,8 @@
-package src.interface_adapters.mealplan;
+package src.interface_adapters.mealPlan;
 
-import src.use_case.mealplan.MealPlanOutputBoundary;
+import src.use_case.mealPlan.MealPlanOutputBoundary;
 import src.interface_adapters.ViewManagerModel;
-import src.use_case.mealplan.MealPlanOutputData;
+import src.use_case.mealPlan.MealPlanOutputData;
 
 public class MealPlanPresenter implements MealPlanOutputBoundary {
     private final MealPlanViewModel mealPlanViewModel;
