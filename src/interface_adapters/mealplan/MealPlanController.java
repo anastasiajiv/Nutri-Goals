@@ -1,4 +1,4 @@
-package src.interfaceadaptersmealplan;
+package src.interface_adapters.mealplan;
 
 import src.use_case.mealplan.MealPlanInputBoundary;
 import src.use_case.mealplan.MealPlanInputData;

@@ -1,8 +1,8 @@
-package src.viewmealplan;
+package src.view;
 
-import src.interfaceadaptersmealplan.MealPlanController;
-import src.interfaceadaptersmealplan.MealPlanState;
-import src.interfaceadaptersmealplan.MealPlanViewModel;
+import src.interface_adapters.mealplan.MealPlanController;
+import src.interface_adapters.mealplan.MealPlanState;
+import src.interface_adapters.mealplan.MealPlanViewModel;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
