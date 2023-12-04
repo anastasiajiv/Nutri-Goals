@@ -76,9 +76,8 @@ public class CommonRecipe implements Recipe {
     public String getRecipeIngredientString() {
 
         StringBuilder sb = new StringBuilder();
-        for (int i =0; i < this.recipeIngredients.size(); i ++ ){
+        for (Ingredient ingredient : this.recipeIngredients) {
 
-            Ingredient ingredient = recipeIngredients.get(i);
             String ingredientstring = ingredient.getName() + "amount : " + ingredient.getAmount() + ", ";
             sb.append(ingredientstring);
 
