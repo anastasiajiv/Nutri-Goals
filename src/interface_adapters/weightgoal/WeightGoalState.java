@@ -53,11 +53,11 @@ public class WeightGoalState {
     public double getWeight() {
         return weight;
     }
-    public double getAge() {
+    public int getAge() {
         return age;
     }
 
-    public double getExerciseLvl() {
+    public int getExerciseLvl() {
         return exerciseLvl;
     }
 
@@ -70,7 +70,7 @@ public class WeightGoalState {
         return weightGoalError;
     }
 
-    public HashMap<String, Boolean> weightGoal() {
+    public HashMap<String, Boolean> getWeightGoal() {
         return weightGoal;
     }
 
