@@ -25,18 +25,21 @@ public class CommonRecipe implements Recipe {
 
     public CommonRecipe(int recipeId, String recipeName, List<Ingredient> recipeIngredients,
                         String recipeInstructions, String recipeType, HashMap<String, Float> nutritionalinfo, String recipelink) {
+
+
+
+
         this.recipeId = recipeId;
         this.recipeName = recipeName;
         this.recipeIngredients = recipeIngredients;
         this.recipeInstructions = recipeInstructions;
-
         this.recipeType = recipeType;
+
 
         this.nutritionalinfo = nutritionalinfo;
         this.recipelink = recipelink;
 
     }
-
 
     @Override
     public int getRecipeId() {
@@ -91,6 +94,11 @@ public class CommonRecipe implements Recipe {
 
         }
         return sb.toString();
+    }
+
+    @Override
+    public HashMap<String, Float> getNutritionalInfo() {
+        return this.nutritionalinfo;
     }
 
 
