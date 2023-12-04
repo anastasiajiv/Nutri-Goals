@@ -12,7 +12,6 @@ import src.entity.User;
 import src.entity.UserFactory;
 import src.use_case.login.LoginUserDataAccessInterface;
 import src.use_case.preferences.PreferencesUserDataAccessInterface;
->>>>>>> main
 import src.use_case.signup.SignupUserDataAccessInterface;
 import src.use_case.trackedNutrients.TrackedNutrientsUserDataAccessInterface;
 import src.use_case.weightgoal.WeightGoalUserDataInterface;

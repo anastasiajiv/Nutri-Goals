@@ -39,7 +39,7 @@ public class Main1 {
 
         FileUserDataAccessObject userDataAccessObject;
 
-        userDataAccessObject = new FileUserDataAccessObject("./users.csv", new CommonUserFactory());
+        userDataAccessObject = new FileUserDataAccessObject("./users.csv", "./Mealplan.csv", new CommonUserFactory());
 
 
         WelcomePageView trial = new WelcomePageView(cardLayout, views);
