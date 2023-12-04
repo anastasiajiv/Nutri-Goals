@@ -1,5 +1,8 @@
 package src.interface_adapters.weightgoal;
 
+import src.interface_adapters.ViewManagerModel;
+import src.interface_adapters.logged_in.LoggedInState;
+import src.interface_adapters.logged_in.LoggedInViewModel;
 import src.use_case.weightgoal.WeightGoalOutputBoundry;
 import src.use_case.weightgoal.WeightGoalOutputData;
 
@@ -23,7 +26,7 @@ public class WeightGoalPresenter implements WeightGoalOutputBoundry {
 
 
     @Override
-    public void prepareSuccessView(WeightGoalOutputData weightGoal) {
+    public void prepareSuccessView(WeightGoalOutputData response) {
         // On success, after the user is done inputs it will take them back to the
         // loggedInView where the buttons for the other use cases will be present
 

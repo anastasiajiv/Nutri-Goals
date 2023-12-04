@@ -1,9 +1,11 @@
 package src.interface_adapters.weightgoal;
 
+import src.interface_adapters.ViewModel;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class WeightGoalViewModel extends ViewModel{
+public class WeightGoalViewModel extends ViewModel {
 
 //    private final WeightGoalViewModel weightGoalViewModel;
 //
