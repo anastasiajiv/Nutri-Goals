@@ -184,8 +184,10 @@ public class CommonUser implements User {
         for (Map.Entry<String, Boolean> map : getDietary().entrySet()) {
             String key = map.getKey();
             Boolean value = map.getValue();
-            if (value == Boolean.TRUE) {
+            if ((value == Boolean.TRUE) && !key.equals("none")) {
                 user_diet = key;
+            } else if (key.equals("none") && (value == Boolean.TRUE)){
+                user_diet = " ";
             }
         }
         return user_diet;
@@ -198,8 +200,10 @@ public class CommonUser implements User {
         for (Map.Entry<String, Boolean> map: getAllergies().entrySet()){
             String key = map.getKey();
             Boolean value = map.getValue();
-            if (value == Boolean.TRUE){
+            if ((value == Boolean.TRUE) && !key.equals("none")){
                 user_allergies.add(key);
+            } else if (key.equals("none") && (value == Boolean.TRUE)){
+                user_allergies.add(" ");
             }
         }
         return user_allergies;

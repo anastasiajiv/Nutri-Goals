@@ -48,7 +48,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     @Override
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(preferences)){
-
+                            cardLayout.show(views, "preferences");
                         }
                     }
                 }
@@ -79,6 +79,6 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     public void propertyChange(PropertyChangeEvent evt) {
         LoggedInState state = (LoggedInState) evt.getNewValue();
         username.setText(state.getUsername());
-        //userID.setText(Integer.toString(state.getUserID()));
+        userID.setText(Integer.toString(state.getUserID()));
     }
 }

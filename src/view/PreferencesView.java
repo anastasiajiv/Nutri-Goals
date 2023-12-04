@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 public class PreferencesView extends JPanel implements ActionListener, PropertyChangeListener {
 
     public final String viewName = "preferences";
@@ -23,6 +25,7 @@ public class PreferencesView extends JPanel implements ActionListener, PropertyC
     private final JRadioButton vegetarian;
 
     private final JRadioButton pescetarian;
+    private final JRadioButton none1;
 
     private final JCheckBox egg;
     private final JCheckBox peanut;
@@ -35,9 +38,10 @@ public class PreferencesView extends JPanel implements ActionListener, PropertyC
 
     private final JCheckBox soy;
 
-    private final JCheckBox treaNut;
+    private final JCheckBox treeNut;
 
     private final JCheckBox wheat;
+    private final JCheckBox none;
 
     private final JComboBox<String> calcium;
 
@@ -57,21 +61,28 @@ public class PreferencesView extends JPanel implements ActionListener, PropertyC
         preferencesViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel("Here you can indicate any dietary needs or if you have any allergies or nutrients" +
-                "you want considered");
+                "you want considered.");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel subtitle1 = new JLabel("Dietary Restrictions");
+        JLabel subtitle1 = new JLabel("Dietary Restrictions: ");
 
+        ButtonGroup buttonGroup = new ButtonGroup();
         JPanel radioButtons = new JPanel();
         vegan = new JRadioButton(PreferencesViewModel.VEGAN_LABEL);
+        buttonGroup.add(vegan);
         radioButtons.add(vegan);
         vegetarian = new JRadioButton(PreferencesViewModel.VEGETARIAN_LABEL);
+        buttonGroup.add(vegetarian);
         radioButtons.add(vegetarian);
         pescetarian = new JRadioButton(PreferencesViewModel.PESCETARIAN_LABEL);
+        buttonGroup.add(pescetarian);
         radioButtons.add(pescetarian);
+        none1 = new JRadioButton(PreferencesViewModel.NONE_LABEL);
+        buttonGroup.add(none1);
+        radioButtons.add(none1);
 
         JPanel checkBox = new JPanel();
-        JLabel subtitle2 = new JLabel("Select Any Allergies");
+        JLabel subtitle2 = new JLabel("Select Any Allergies: ");
         egg = new JCheckBox(PreferencesViewModel.EGG_LABEL);
         checkBox.add(egg);
         peanut = new JCheckBox(PreferencesViewModel.PEANUT_LABEL);
@@ -84,11 +95,13 @@ public class PreferencesView extends JPanel implements ActionListener, PropertyC
         checkBox.add(shellfish);
         soy = new JCheckBox(PreferencesViewModel.SOY_LABEL);
         checkBox.add(soy);
-        treaNut = new JCheckBox(PreferencesViewModel.TREANUT_LABEL);
-        checkBox.add(treaNut);
+        treeNut = new JCheckBox(PreferencesViewModel.TREENUT_LABEL);
+        checkBox.add(treeNut);
         wheat =  new JCheckBox(PreferencesViewModel.WHEAT_LABEL);
         checkBox.add(wheat);
-        JLabel subtitle3 = new JLabel("Indicate the Daily Intake you Want for Certain Nutrients.");
+        none = new JCheckBox(PreferencesViewModel.NONE_LABEL);
+        checkBox.add(none);
+        JLabel subtitle3 = new JLabel("Indicate the Daily Intake you Want for Certain Nutrients: ");
         String[] levels = {"low", "average", "high"};
 
         JPanel dropBox = new JPanel();
@@ -130,6 +143,46 @@ public class PreferencesView extends JPanel implements ActionListener, PropertyC
         JPanel buttons = new JPanel();
         confirm = new JButton("Confirm");
         buttons.add(confirm);
+        none.addItemListener(new ItemListener(){
+            public void itemStateChanged(ItemEvent evt) {
+                if (none.isSelected()){
+                    egg.setSelected(false);
+                    egg.setEnabled(false);
+                    peanut.setSelected(false);
+                    peanut.setEnabled(false);
+                    seafood.setSelected(false);
+                    seafood.setEnabled(false);
+                    sesame.setSelected(false);
+                    sesame.setEnabled(false);
+                    shellfish.setSelected(false);
+                    shellfish.setEnabled(false);
+                    soy.setSelected(false);
+                    soy.setEnabled(false);
+                    treeNut.setSelected(false);
+                    treeNut.setEnabled(false);
+                    wheat.setSelected(false);
+                    wheat.setEnabled(false);
+                } else {
+                    egg.setEnabled(true);
+                    peanut.setEnabled(true);
+                    seafood.setEnabled(true);
+                    sesame.setEnabled(true);
+                    shellfish.setEnabled(true);
+                    soy.setEnabled(true);
+                    treeNut.setEnabled(true);
+                    wheat.setEnabled(true);
+                    /*egg.setSelected(false);
+                    peanut.setSelected(false);
+                    seafood.setSelected(false);
+                    sesame.setSelected(false);
+                    shellfish.setSelected(false);
+                    soy.setSelected(false);
+                    treaNut.setSelected(false);
+                    wheat.setSelected(false);*/
+                }
+            }
+        });
+
         confirm.addActionListener(
                 new ActionListener() {
                     @Override
@@ -137,24 +190,32 @@ public class PreferencesView extends JPanel implements ActionListener, PropertyC
                         if (evt.getSource().equals(confirm)){
                             PreferencesState currentState = preferencesViewModel.getState();
                             HashMap<String, Boolean> dietaryMap = new HashMap<>();
-                            dietaryMap.put("vegan", vegan.isSelected());
-                            dietaryMap.put("vegetarian", vegetarian.isSelected());
-                            dietaryMap.put("pescetarian", pescetarian.isSelected());
+                            dietaryMap.put("Vegan", vegan.isSelected());
+                            dietaryMap.put("Vegetarian", vegetarian.isSelected());
+                            dietaryMap.put("Pescetarian", pescetarian.isSelected());
+                            dietaryMap.put("none1", none1.isSelected());
                             currentState.setDietaryMap(dietaryMap);
 
                             HashMap<String, Boolean> allergiesMap = new HashMap<>();
-                            allergiesMap.put("egg", egg.isSelected());
-                            allergiesMap.put("peanut", peanut.isSelected());
-                            allergiesMap.put("seafood", seafood.isSelected());
+                            allergiesMap.put("Egg", egg.isSelected());
+                            allergiesMap.put("Peanut", peanut.isSelected());
+                            allergiesMap.put("Seafood", seafood.isSelected());
+                            allergiesMap.put("Sesame", sesame.isSelected());
+                            allergiesMap.put("Shellfish", shellfish.isSelected());
+                            allergiesMap.put("Soy", soy.isSelected());
+                            allergiesMap.put("Tree Nut", treeNut.isSelected());
+                            allergiesMap.put("Wheat", wheat.isSelected());
+                            allergiesMap.put("none", none.isSelected());
                             currentState.setAllergiesMap(allergiesMap);
 
                             HashMap<String, String> conditionsMap = new HashMap<>();
-                            conditionsMap.put("calcium", (String) calcium.getSelectedItem());
-                            conditionsMap.put("potassium", (String) potassium.getSelectedItem());
-                            conditionsMap.put("vitaminC", (String) vitaminC.getSelectedItem());
-                            conditionsMap.put("vitaminD", (String) vitaminD.getSelectedItem());
-                            conditionsMap.put("iron", (String) iron.getSelectedItem());
-                            conditionsMap.put("sugar", (String) sugar.getSelectedItem());
+                            conditionsMap.put("Calcium", (String) calcium.getSelectedItem());
+                            conditionsMap.put("Potassium", (String) potassium.getSelectedItem());
+                            conditionsMap.put("Vitamin C", (String) vitaminC.getSelectedItem());
+                            conditionsMap.put("Vitamin D", (String) vitaminD.getSelectedItem());
+                            conditionsMap.put("Iron", (String) iron.getSelectedItem());
+                            conditionsMap.put("Magnesium", (String) magnesium.getSelectedItem());
+                            conditionsMap.put("Sugar", (String) sugar.getSelectedItem());
                             currentState.setConditionsMap(conditionsMap);
 
                             preferencesController.execute(currentState.getUserID(), currentState.getDietaryMap(),
@@ -163,6 +224,8 @@ public class PreferencesView extends JPanel implements ActionListener, PropertyC
                     }
                 }
         );
+
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(subtitle1);
         this.add(radioButtons);
@@ -170,6 +233,7 @@ public class PreferencesView extends JPanel implements ActionListener, PropertyC
         this.add(checkBox);
         this.add(subtitle3);
         this.add(dropBox);
+        this.add(confirm);
 
     }
 

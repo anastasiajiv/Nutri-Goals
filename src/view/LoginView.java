@@ -17,7 +17,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     public final String viewName = "log in";
     private final LoginViewModel loginViewModel;
 
-    final JTextField userIDInputField = new JTextField(15);
+    //final JTextField userIDInputField = new JTextField(15);
 
     final JTextField usernameInputField = new JTextField(15);
     private final JLabel usernameErrorField = new JLabel();
@@ -108,6 +108,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                     }
                 });
 
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         //this.add(userIDInfo);
         this.add(usernameInfo);
@@ -132,6 +133,6 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
     private void setFields(LoginState state) {
         usernameInputField.setText(state.getUsername());
-        userIDInputField.setText(Integer.toString(state.getUserID()));
+        //userIDInputField.setText(Integer.toString(state.getUserID()));
     }
 }
