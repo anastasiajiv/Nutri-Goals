@@ -82,6 +82,12 @@ public class Main1 {
 
         application.pack();
         application.setVisible(true);
+        System.out.println(userDataAccessObject.accounts.get(5).getName());
+        System.out.println(userDataAccessObject.accounts.get(5).getPassword());
+        System.out.println(userDataAccessObject.accounts.get(3).getCreationTime());
+        //System.out.println(userDataAccessObject.accounts.get(12).getPassword());
     }
+
+
 
 }
