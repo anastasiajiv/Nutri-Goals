@@ -8,19 +8,40 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import src.entity.CommonUserFactory;
+import src.entity.MealPlan;
 import src.entity.User;
 import src.entity.UserFactory;
+
+
+
+import src.use_case.mealplan.MealPlanDataAccessInterface;
 import src.use_case.login.LoginUserDataAccessInterface;
 import src.use_case.preferences.PreferencesUserDataAccessInterface;
+
 import src.use_case.signup.SignupUserDataAccessInterface;
 import src.use_case.trackedNutrients.TrackedNutrientsUserDataAccessInterface;
 import src.use_case.weightgoal.WeightGoalUserDataInterface;
+import src.use_case.preferences.PreferencesUserDataAccessInterface;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpClient;
+import java.io.IOException;
+import src.entity.MealPlan;
+import src.entity.CommonMealPlan;
+import src.entity.Recipe;
+import src.entity.CommonRecipe;
+import src.entity.Ingredient;
+import src.entity.CommonIngredient;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpClient;
 import java.io.IOException;
+
 import java.io.IOException;
+
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -29,15 +50,23 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
         WeightGoalUserDataInterface,
         PreferencesUserDataAccessInterface,
-        TrackedNutrientsUserDataAccessInterface {
+        TrackedNutrientsUserDataAccessInterface, MealPlanDataAccessInterface {
+
+
+
+
+    private final Map<String, Integer> headersmealplan = new LinkedHashMap<>();
+
+    public Map<Integer, MealPlan> mealplanaccounts = new HashMap<>();
 
     private final String csvFilePath;
-
     private final String csvMealPlanFilePath;
     private final FileCsvBuilder csvBuilder;
     public Map<Integer, User> accounts = new HashMap<>();
 
     private final UserFactory userFactory;
+    private final  MealPlancsvbuilder mealplancsvBuilder;
+
 
     public FileUserDataAccessObject(String csvFilePath, String csvMealPlanFilePath, UserFactory userFactory) {
         this.csvFilePath = csvFilePath;
@@ -45,10 +74,15 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         this.csvMealPlanFilePath = csvMealPlanFilePath;
         this.accounts = new HashMap<>();
         this.userFactory = userFactory;
+
+        this.mealplancsvBuilder = new MealPlancsvbuilder(csvMealPlanFilePath);
+
         loadUserDataFromCsv();
+
     }
 
     // SignUp use case methods
+
 
     @Override
     public Boolean saveUserSignUpData(int userID,
@@ -259,7 +293,6 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         return account;
     }
 
-    @Override
     public Boolean saveTrackedNutrientsData(ArrayList<String> trackedNutrients, int userID) {
         User currentUser = getAccountByUserID(userID);
         currentUser.setTrackedNutrients(trackedNutrients);
@@ -267,8 +300,16 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         return csvBuilder.buildCsv(currentUser, 1);
     }
 
+    //@Override
+    public ArrayList<String> getUserTrackedNutrientsData(int userID) {
+        return accounts.get(userID).getTrackedNutrients();
+    }
+
+
+
     private HashMap<String, Float> getRecipeNutritionalInfo(String recipeID) {
         // format the API request
+
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spoonacular.com/recipes/"+ recipeID +"/information?includeNutrition=true"))
                 .header("X-RapidAPI-Host", "https://api.spoonacular.com")
@@ -306,6 +347,463 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         }
         return recipeNutritionalInfo;
     }
+
+
+
+
+
+    @Override
+    public String Breakfast(int identifier) {
+        //find all necessary sorting attributes and do calculations
+        User user = getAccountByUserID(identifier);
+        int daily_cal = (int) computedRequiredCalories(identifier);
+        String breakfast_cals = String.valueOf(Math.round((daily_cal/5)));
+        String dietary = user.userSpecifiedDietary();
+        List<String> allergies = user.userSpecifiedAllergies();
+        HashMap<String, Double> conditions = user.userSpecifiedConditions();
+
+
+
+                //conditions made to be called
+                StringBuilder conditionsaccum = new StringBuilder();
+                for (Map.Entry<String, Double> entry : conditions.entrySet()){
+                    String condition = entry.getKey();
+                    Double amount = entry.getValue();
+                    conditionsaccum.append("max" + condition + "=" + amount + "&");
+                }
+
+                //make allergies into format for api call
+                StringBuilder allergiesaccum = new StringBuilder();
+                for (int i = 0; i < allergies.size(); i ++ ){
+                    if (i < allergies.size() - 1){
+                        allergiesaccum.append(allergies.get(i) + ",");}
+                    else {
+                        allergiesaccum.append(allergies.get(i));
+
+                    }
+
+                }
+
+                //calories depending on what weight goal
+
+                String calorietype = "max";
+                    if (user.getWeightGoalType().equals("gainWeight")) {
+                        calorietype = "min";}
+
+
+
+
+        // diet and calories and allergies and conditions filtering through API call
+                    HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=breakfast&number=1&" +
+                                calorietype + "Calories=" + breakfast_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergiesaccum))
+                        .header("X-API-Host", "https://api.spoonacular.com")
+                        .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                        .method("GET", HttpRequest.BodyPublishers.noBody())
+                        .build();
+                    HttpResponse<String> response = null;
+                    try {
+                        response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+                    } catch (IOException e) {
+                     e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                String recipe = response.body();
+
+                // Find recipe id
+                String jsonstring = "" + recipe;
+                JSONObject json = new JSONObject(jsonstring);
+                JSONArray recipearray = json.getJSONArray("results");
+                JSONObject firstresult = recipearray.getJSONObject(0);
+                int recipeid = firstresult.getInt("id");
+                String recipeID = String.valueOf(firstresult.getInt("id"));
+
+                // Use recipe id to get recipe information
+
+                HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("https://api.spoonacular.com/recipes/{" + recipeID + "}/information"))
+                .header("X-API-Host", "https://api.spoonacular.com")
+                .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+                HttpResponse<String> response1 = null;
+                try {
+                response1 = HttpClient.newHttpClient().send(request1, HttpResponse.BodyHandlers.ofString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                String recipeinfo = response1.body();
+
+
+                return recipeinfo;
+    }
+
+    // takes in result from Breakfast()
+    @Override
+    public List<Ingredient> CreateIngredients(String recipe){
+        String jsonString ="" + recipe;
+        JSONObject json = new JSONObject(jsonString);
+
+        JSONArray ingredients = json.getJSONArray("extendedIngredients");
+        List<Ingredient> list = new ArrayList<>();
+
+
+
+
+        for (int i = 0; i < (ingredients.length() - 1);i ++){
+            JSONObject ingredient = ingredients.getJSONObject(i);
+
+            int id = ingredient.getInt("id");
+            String name = ingredient.getString("name");
+            String amount = String.valueOf(ingredient.getInt("amount"));
+            String unit = ingredient.getString("unit");
+
+            Ingredient finalingredient = new CommonIngredient(id, name, amount + unit);
+
+
+
+
+
+
+
+
+            list.add(finalingredient);
+
+
+        }
+        return list;
+
+
+    }
+
+    @Override
+    public Recipe CreateRecipeBreakfast(List<Ingredient> ingredients, String recipe) {
+        String jsonString ="" + recipe;
+        JSONObject json = new JSONObject(jsonString);
+        Integer id = json.getInt("id");
+        String name = json.getString("title");
+        String instructions = json.getString("summary");
+        HashMap<String, Float> nutritionalinfo = getRecipeNutritionalInfo(String.valueOf(id));
+        String link = json.getString("sourceUrl");
+        String type = "breakfast";
+
+        return new CommonRecipe(id, name, ingredients, instructions, type, nutritionalinfo, link);
+
+
+
+    }
+
+
+    @Override
+    public String Lunch(int identifier) {
+        User user = getAccountByUserID(identifier);
+        int daily_cal = (int) computedRequiredCalories(identifier);
+        String lunch_cals = String.valueOf(Math.round((daily_cal/5)));
+        String dietary = user.userSpecifiedDietary();
+        List<String> allergies = user.userSpecifiedAllergies();
+        HashMap<String, Double> conditions = user.userSpecifiedConditions();
+
+        //conditions into format for api call
+
+        StringBuilder conditionsaccum = new StringBuilder();
+        for (Map.Entry<String, Double> entry : conditions.entrySet()){
+            String condition = entry.getKey();
+            Double amount = entry.getValue();
+            conditionsaccum.append("max" + condition + "=" + amount + "&");
+        }
+        //calories depending on what weight goal
+
+        String calorietype = "max";
+        if (user.getWeightGoalType().equals("gainWeight")) {
+            calorietype = "min";}
+
+        //make allergies into format for api call
+        StringBuilder allergiesaccum = new StringBuilder();
+        for (int i = 0; i < allergies.size(); i ++ ){
+            if (i < allergies.size() - 1){
+                allergiesaccum.append(allergies.get(i) + ",");}
+            else {
+                allergiesaccum.append(allergies.get(i));
+
+            }
+
+        }
+
+
+
+
+        // diet and calories and allergies and conditions filtering through API call
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=maincourse&number=1&" +
+                        calorietype + "Calories=" + lunch_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergiesaccum))
+                .header("X-API-Host", "https://api.spoonacular.com")
+                .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+        HttpResponse<String> response = null;
+        try {
+            response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String recipe = response.body();
+
+        // Find recipe id
+        String jsonstring = recipe;
+        JSONObject json = new JSONObject(jsonstring);
+        JSONArray recipearray = json.getJSONArray("results");
+        JSONObject firstresult = recipearray.getJSONObject(0);
+        int recipeid = firstresult.getInt("id");
+        String recipeID = String.valueOf(firstresult.getInt("id"));
+
+        // Use recipe id to get recipe information
+
+        HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("https://api.spoonacular.com/recipes/{" + recipeID + "}/information"))
+                .header("X-API-Host", "https://api.spoonacular.com")
+                .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+        HttpResponse<String> response1 = null;
+        try {
+            response1 = HttpClient.newHttpClient().send(request1, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        String recipeinfo = response1.body();
+
+
+
+
+
+        return recipeinfo;
+    }
+
+
+    @Override
+    public Recipe CreateRecipeLunch(List<Ingredient> ingredients, String recipe) {
+        String jsonString ="" + recipe;
+        JSONObject json = new JSONObject(jsonString);
+        Integer id = json.getInt("id");
+        String name = json.getString("title");
+        String instructions = json.getString("summary");
+        HashMap<String, Float> nutritionalinfo = getRecipeNutritionalInfo(String.valueOf(id));
+        String link = json.getString("sourceUrl");
+        String type = "lunch";
+
+        return new CommonRecipe(id, name, ingredients, instructions, type, nutritionalinfo, link);
+    }
+
+
+    @Override
+    public String Dinner(int identifier) {
+        User user = getAccountByUserID(identifier);
+        int daily_cal = (int) computedRequiredCalories(identifier);
+        String dinner_cals = String.valueOf(Math.round((daily_cal/5)));
+        String dietary = user.userSpecifiedDietary();
+        List<String> allergies = user.userSpecifiedAllergies();
+        HashMap<String, Double> conditions = user.userSpecifiedConditions();
+
+
+        StringBuilder conditionsaccum = new StringBuilder();
+        for (Map.Entry<String, Double> entry : conditions.entrySet()){
+            String condition = entry.getKey();
+            Double amount = entry.getValue();
+            conditionsaccum.append("max" + condition + "=" + amount + "&");
+        }
+        //calories depending on what weight goal
+
+        //make allergies into format for api call
+        StringBuilder allergiesaccum = new StringBuilder();
+        for (int i = 0; i < allergies.size(); i ++ ){
+            if (i < allergies.size() - 1){
+                allergiesaccum.append(allergies.get(i) + ",");}
+            else {
+                allergiesaccum.append(allergies.get(i));
+
+            }
+
+        }
+
+
+        String calorietype = "max";
+        if (user.getWeightGoalType().equals("gainWeight")) {
+            calorietype = "min";}
+
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=maincourse&number=1&" +
+                        calorietype + "Calories=" + dinner_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergiesaccum))
+                .header("X-API-Host", "https://api.spoonacular.com")
+                .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+        HttpResponse<String> response = null;
+        try {
+            response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String recipe = response.body();
+
+        // Find recipe id
+        String jsonstring = recipe;
+        JSONObject json = new JSONObject(jsonstring);
+        JSONArray recipearray = json.getJSONArray("results");
+        JSONObject firstresult = recipearray.getJSONObject(0);
+        int recipeid = firstresult.getInt("id");
+        String recipeID = String.valueOf(firstresult.getInt("id"));
+
+        // Use recipe id to get recipe information
+
+        HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("https://api.spoonacular.com/recipes/{" + recipeID + "}/information"))
+                .header("X-API-Host", "https://api.spoonacular.com")
+                .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+        HttpResponse<String> response1 = null;
+        try {
+            response1 = HttpClient.newHttpClient().send(request1, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        String recipeinfo = response1.body();
+
+
+        return recipeinfo;
+
+
+    }
+
+
+
+    @Override
+    public Recipe CreateRecipeDinner(List<Ingredient> ingredients, String recipe) {
+        String jsonString ="" + recipe;
+        JSONObject json = new JSONObject(jsonString);
+        Integer id = json.getInt("id");
+        String name = json.getString("title");
+        String instructions = json.getString("summary");
+        HashMap<String, Float> nutritionalinfo = getRecipeNutritionalInfo(String.valueOf(id));
+        String link = json.getString("sourceUrl");
+        String type = "dinner";
+
+        return new CommonRecipe(id, name, ingredients, instructions, type, nutritionalinfo, link);
+    }
+
+
+
+
+    @Override
+    public MealPlan getMealPlan(int id){
+        // Breakfast
+        String breakfast_api = Breakfast(id);
+        List<Ingredient> ingredientsbreak = CreateIngredients(breakfast_api);
+        Recipe breakfast = CreateRecipeBreakfast(ingredientsbreak, breakfast_api);
+        //Lunch
+        String lunch_api = Lunch(id);
+        List<Ingredient> ingredientslunch = CreateIngredients(lunch_api);
+        Recipe lunch = CreateRecipeLunch(ingredientslunch, lunch_api);
+        // Dinner
+        String dinner_api = Dinner(id);
+        List<Ingredient> ingredientsdinner = CreateIngredients(dinner_api);
+        Recipe dinner = CreateRecipeLunch(ingredientsdinner, dinner_api);
+        MealPlan mealplan = new CommonMealPlan(breakfast, lunch, dinner);
+        mealplanaccounts.put(id, mealplan);
+
+        return mealplan;
+
+    }
+    @Override
+    public void saveMealPlantoCsv(int id){
+        int userid = id;
+
+        MealPlan currentmealplan = getmealplanAccountsbyid(id);
+
+        mealplancsvBuilder.mealplanbuildCsv(userid, currentmealplan);
+
+
+
+
+
+
+
+
+    }
+
+    public MealPlan getmealplanAccountsbyid(int id ){
+        return mealplanaccounts.get(id);
+
+
+
+
+    }
+
+
+
+
+    @Override
+    public String displayMealPlan(MealPlan mealplan){
+
+
+        Recipe breakfast = mealplan.getBreakfast();
+        Recipe lunch = mealplan.getLunch();
+        Recipe dinner = mealplan.getDinner();
+
+        String breakfastname = breakfast.getRecipeName();
+        String brekfastingredients = breakfast.getrecipeIngredientstring();
+        String breakfastinstruct = breakfast.getRecipeInstructions();
+        String breakfastlink = breakfast.getrecipelink();
+        String breakfastnutrients = breakfast.getnutritionalinfostring();
+
+        String breakfasttotal  = "Breakfast: " + breakfastname + "\n" + "Ingredients :  " + brekfastingredients + "\n" + "Summary : " + breakfastinstruct +
+                "\n" + breakfastlink + "\n" + "Nutritional Info: " + breakfastnutrients;
+
+
+        String lunchname = lunch.getRecipeName();
+        String lunchingredients = lunch.getrecipeIngredientstring();
+        String lunchinstruct = lunch.getRecipeInstructions();
+        String lunchlink = lunch.getrecipelink();
+        String lunchnutrients = lunch.getnutritionalinfostring();
+        String lunchtotal  = "Lunch: " + lunchname + "\n" + "Ingredients : " + lunchingredients + "\n" + "Summary : " + lunchinstruct +
+                "\n" + lunchlink + "\n" + "Nutritional Info: " + lunchnutrients;
+
+
+
+        String dinnername = dinner.getRecipeName();
+        String dinneringredients = dinner.getrecipeIngredientstring();
+        String dinnerinstruct = dinner.getRecipeInstructions();
+        String dinnerlink = dinner.getrecipelink();
+        String dinnernutrients = dinner.getnutritionalinfostring();
+        String dinnertotal  = "Dinner: "+ dinnername + "\n" + "Ingredients : " + dinneringredients + "\n" + "Summary : " + dinnerinstruct +
+                "\n" + dinnerlink+ "\n" + "Nutritional Info: " + dinnernutrients;
+
+
+
+        return breakfasttotal + "\n" + lunchtotal  + "\n"  + dinnertotal;
+
+
+    }
+
+
+
+
+
+
+
+
 
 
     public void loadUserDataFromCsv() {
@@ -351,6 +849,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
             throw new RuntimeException("Error loading user data from CSV", e);
         }
     }
+
 
 
 

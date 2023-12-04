@@ -19,6 +19,8 @@ import java.util.HashMap;
 public class Main {
     public static void main(String[] args) throws IOException {
 
+        String csvmealplanpath = "mealplan.csv";
+
         UserFactory userFactory = new CommonUserFactory();
         UserFactory userFactory1 = new CommonUserFactory();
 
@@ -93,6 +95,7 @@ public class Main {
             newUser.setConditions(condition);
 
             userDAO.savePreferences(newUser.getUserId(), newUser.getDietary(), newUser.getAllergies(), newUser.getConditions());
+
     }
 
 
