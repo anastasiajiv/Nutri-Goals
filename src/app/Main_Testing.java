@@ -1,4 +1,5 @@
 package src.app;
+import src.interface_adapters.preferences.PreferencesViewModel;
 import src.view.*;
 
 import src.data_access.FileUserDataAccessObject;
@@ -36,10 +37,11 @@ public class Main_Testing {
         LoginViewModel loginViewModel = new LoginViewModel();
         SignupViewModel signupViewModel = new SignupViewModel();
         LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
+        PreferencesViewModel preferencesViewModel = new PreferencesViewModel();
 
         FileUserDataAccessObject userDataAccessObject;
 
-        userDataAccessObject = new FileUserDataAccessObject("./users.csv", "./Mealplan.csv", new CommonUserFactory());
+        userDataAccessObject = new FileUserDataAccessObject("./users.csv", "mealplan.csv", new CommonUserFactory());
 
 
         WelcomePageView trial = new WelcomePageView(cardLayout, views);
@@ -50,11 +52,15 @@ public class Main_Testing {
         views.add(signupView, signupView.viewName);
 
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel,
-                userDataAccessObject);
+                preferencesViewModel, userDataAccessObject);
         views.add(loginView, loginView.viewName);
 
         LoggedInView loggedInView = new LoggedInView(loggedInViewModel, cardLayout, views);
         views.add(loggedInView, loggedInView.viewName);
+
+        PreferencesView preferencesView = PreferencesUseCaseFactory.create(viewManagerModel, preferencesViewModel,
+                loggedInViewModel, userDataAccessObject);
+        views.add(preferencesView, preferencesView.viewName);
 
         viewManagerModel.setActiveView(trial.viewName);
         viewManagerModel.firePropertyChanged();

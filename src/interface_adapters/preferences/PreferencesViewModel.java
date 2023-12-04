@@ -17,7 +17,7 @@ public class PreferencesViewModel extends ViewModel{
     public static final String SHELLFISH_LABEL = "Shellfish";
     public static final String SESAME_LABEL = "Sesame";
     public static final String SOY_LABEL = "Soy";
-    public static final String TREANUT_LABEL = "Trea Nut";
+    public static final String TREENUT_LABEL = "Tree Nut";
     public static final String WHEAT_LABEL = "Wheat";
     public static final String CALCIUM_LABEL = "Calcium";
     public static final String POTASSIUM_LABEL = "Potassium";
@@ -27,6 +27,7 @@ public class PreferencesViewModel extends ViewModel{
     public static final String MAGNESIUM_LABEL = "Magnesium";
     public static final String SUGAR_LABEL = "Sugar";
 
+    public static final String NONE_LABEL = "none";
     public static final String PREFERENCES_BUTTON_LABEL = "preferences";
 
     private PreferencesState state = new PreferencesState();

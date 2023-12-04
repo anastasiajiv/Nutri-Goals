@@ -7,6 +7,7 @@ import src.interface_adapters.logged_in.LoggedInViewModel;
 import src.interface_adapters.login.LoginController;
 import src.interface_adapters.login.LoginPresenter;
 import src.interface_adapters.login.LoginViewModel;
+import src.interface_adapters.preferences.PreferencesViewModel;
 import src.use_case.login.LoginInputBoundary;
 import src.use_case.login.LoginOutputBoundary;
 import src.use_case.login.LoginInteractor;
@@ -23,10 +24,12 @@ public class LoginUseCaseFactory {
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
             LoggedInViewModel loggedInViewModel,
+            PreferencesViewModel preferencesViewModel,
             LoginUserDataAccessInterface userDataAccessObject) {
 
         try {
-            LoginController loginController = createLoginUseCase(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject);
+            LoginController loginController = createLoginUseCase(viewManagerModel, loginViewModel, loggedInViewModel,
+                    preferencesViewModel,userDataAccessObject);
             return new LoginView(loginViewModel, loginController);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
@@ -39,10 +42,12 @@ public class LoginUseCaseFactory {
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
             LoggedInViewModel loggedInViewModel,
+            PreferencesViewModel preferencesViewModel,
             LoginUserDataAccessInterface userDataAccessObject) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
-        LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel, loggedInViewModel, loginViewModel);
+        LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel, loggedInViewModel, loginViewModel,
+                preferencesViewModel);
 
         UserFactory userFactory = new CommonUserFactory();
 

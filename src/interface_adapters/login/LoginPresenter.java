@@ -3,6 +3,8 @@ package src.interface_adapters.login;
 import src.interface_adapters.logged_in.LoggedInState;
 import src.interface_adapters.logged_in.LoggedInViewModel;
 import src.interface_adapters.ViewManagerModel;
+import src.interface_adapters.preferences.PreferencesState;
+import src.interface_adapters.preferences.PreferencesViewModel;
 import src.interface_adapters.signup.SignupState;
 import src.use_case.login.LoginOutputBoundary;
 import src.use_case.login.LoginOutputData;
@@ -13,12 +15,16 @@ public class LoginPresenter implements LoginOutputBoundary{
     private final LoggedInViewModel loggedInViewModel;
     private ViewManagerModel viewManagerModel;
 
+    private final PreferencesViewModel preferencesViewModel;
+
     public LoginPresenter(ViewManagerModel viewManagerModel,
                           LoggedInViewModel loggedInViewModel,
-                          LoginViewModel loginViewModel) {
+                          LoginViewModel loginViewModel,
+                          PreferencesViewModel preferencesViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.loggedInViewModel = loggedInViewModel;
         this.loginViewModel = loginViewModel;
+        this.preferencesViewModel = preferencesViewModel;
     }
 
     @Override
@@ -26,8 +32,10 @@ public class LoginPresenter implements LoginOutputBoundary{
         // On success, switch to the logged in view.
 
         LoggedInState loggedInState = loggedInViewModel.getState();
+        PreferencesState preferencesState = preferencesViewModel.getState();
         loggedInState.setUsername(response.getUsername());
         loggedInState.setUserID(response.getUserID());
+        preferencesState.setUserID(response.getUserID());
         this.loggedInViewModel.setState(loggedInState);
         this.loggedInViewModel.firePropertyChanged();
 
