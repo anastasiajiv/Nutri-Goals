@@ -21,6 +21,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     JLabel userID;
     JButton preferences;
 
+    JButton weightGoals;
+
     final JButton logOut;
 
     /**
@@ -42,6 +44,9 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         JPanel buttons = new JPanel();
 
         preferences = new JButton(loggedInViewModel.PREFERENCES_BUTTON_LABEL);
+
+        weightGoals = new JButton(loggedInViewModel.weightGOAL_BUTTONS_LABEL);
+
         buttons.add(preferences);
         preferences.addActionListener(
                 new ActionListener() {
@@ -49,6 +54,19 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(preferences)){
                             cardLayout.show(views, "preferences");
+                        }
+
+                    }
+                }
+        );
+
+        buttons.add(weightGoals);
+        weightGoals.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent evt2) {
+                        if (evt2.getSource().equals(weightGoals)) {
+                            cardLayout.show(views, "Weight Goals");
                         }
                     }
                 }
