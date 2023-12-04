@@ -15,7 +15,7 @@ import java.util.*;
 
 public class TrackedNutrientsView extends JPanel implements ActionListener, PropertyChangeListener {
     // plug in the view into the interface adapters for the use case
-    public final String viewName = "trackedNutrients";
+    public final String viewName = "tracked nutrients";
     private final TrackedNutrientsViewModel trackedNutrientsViewModel;
     private final TrackedNutrientsController trackedNutrientsController;
 
@@ -108,11 +108,13 @@ public class TrackedNutrientsView extends JPanel implements ActionListener, Prop
                 }
         );
         // add the titles, subtitles, buttons; set up view
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(macro_subtitle);
         this.add(macro_checkBox);
         this.add(micro_subtitle);
         this.add(micro_checkBox);
+        this.add(confirm);
     }
 
     // for any buttons that aren't implemented yet; testing purposes

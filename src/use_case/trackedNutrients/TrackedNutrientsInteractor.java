@@ -26,16 +26,11 @@ public class TrackedNutrientsInteractor implements TrackedNutrientsInputBoundary
             
         } else {  // user exists, attempt to save data to user associated with userID
 
-            // save method returns a boolean representing if the data was saved or not
-            if (userDataAccessObject.saveTrackedNutrientsData(trackedNutrients, userID)) {
+            // successfully saved, prepare the success view
+            userDataAccessObject.saveTrackedNutrientsData(trackedNutrients, userID);
 
-                // successfully saved, prepare the success view
-                TrackedNutrientsOutputData trackedNutrientsOutputData = new TrackedNutrientsOutputData(userID);
-                trackedNutrientsPresenter.prepareSuccessView(trackedNutrientsOutputData);
-
-            } else {  // save was not successful, prepare fail view
-                trackedNutrientsPresenter.prepareFailView("Error with saving tracked nutrients.");
-            }
+            TrackedNutrientsOutputData trackedNutrientsOutputData = new TrackedNutrientsOutputData(userID);
+            trackedNutrientsPresenter.prepareSuccessView(trackedNutrientsOutputData);
         }
     }
 }

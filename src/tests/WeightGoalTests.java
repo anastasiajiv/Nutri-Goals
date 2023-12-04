@@ -38,7 +38,7 @@ public class WeightGoalTests { // TODO : Create a mock database to hold the acco
 
         // Asserts
         assertTrue(userDataAccessObject.existByUserID(userId));
-        assertNotNull(userDataAccessObject.getAccountByUserId(userId));
+        assertNotNull(userDataAccessObject.getAccountByUserID(userId));
         // Add asserts within the mock database to check for each attribute
     }
 
@@ -62,7 +62,7 @@ public class WeightGoalTests { // TODO : Create a mock database to hold the acco
 
         // Assert statemnets
         assertTrue(userDataAccessObject.existByUserID(userId));
-        assertNotNull(userDataAccessObject.getAccountByUserId(userId));
+        assertNotNull(userDataAccessObject.getAccountByUserID(userId));
 
     }
 //

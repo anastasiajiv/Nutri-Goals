@@ -63,7 +63,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     @Override
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(trackedNutrients)) {
-                            // ...
+                            cardLayout.show(views, "tracked nutrients");
                         }
                     }
                 }
