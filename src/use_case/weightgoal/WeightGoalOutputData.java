@@ -30,6 +30,7 @@ public class WeightGoalOutputData {
                                 String paceType,
                                 HashMap<String, Boolean> weightGoal,
                                 boolean useCaseFailed) {
+
         this.userID = userID;
         this.useCaseFailed = useCaseFailed;
     }

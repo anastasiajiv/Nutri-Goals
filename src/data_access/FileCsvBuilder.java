@@ -6,6 +6,8 @@ import java.io.*;
 import java.util.Map;
 public class FileCsvBuilder {
 
+
+
     private final String csvFilePath;
 
     public FileCsvBuilder(String csvFilePath) {
@@ -65,7 +67,9 @@ public class FileCsvBuilder {
 
         if (!isUserIdAlreadyInCsv(user.getUserId(), csvFile)) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile, true))) {
-                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+
+                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+
                         user.getUserId(),
                         user.getName(),
                         user.getPassword(),
@@ -77,6 +81,8 @@ public class FileCsvBuilder {
                         user.getUserAge(),
                         user.getUserExerciseLevel(),
                         user.getDietary(),
+                        user.getAllergies(),
+                        user.getConditions(),
                         user.getMaintainTypeValue(),
                         user.getLoseTypeValue(),
                         user.getGainTypeValue(),
@@ -134,11 +140,14 @@ public class FileCsvBuilder {
                 columns[8] = String.valueOf(user.getUserAge());
                 columns[9] = String.valueOf(user.getUserExerciseLevel());
                 columns[10] = String.valueOf(user.getDietary());
-                columns[11] = String.valueOf(user.getMaintainTypeValue());
-                columns[12] = String.valueOf(user.getLoseTypeValue());
-                columns[13] = String.valueOf(user.getGainTypeValue());
-                columns[14] = user.getPaceType();
-                columns[15] = String.valueOf(user.getRequiredCalories());
+                columns[11] = String.valueOf(user.getAllergies());
+                columns[12] = String.valueOf(user.getConditions());
+                columns[13] = String.valueOf(user.getMaintainTypeValue());
+                columns[14] = String.valueOf(user.getLoseTypeValue());
+                columns[15] = String.valueOf(user.getGainTypeValue());
+                columns[16] = user.getPaceType();
+                columns[17] = String.valueOf(user.getRequiredCalories());
+
 
                 // Join the columns back into a line
                 line = String.join(",", columns);
@@ -154,4 +163,6 @@ public class FileCsvBuilder {
     }
 
 }
+
+
 

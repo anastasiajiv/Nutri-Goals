@@ -50,6 +50,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     // SignUp use case methods
+
     @Override
     public Boolean saveUserSignUpData(int userId,
                                       String username,
@@ -137,10 +138,27 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
 
+//    public void saveNewUser(User user) {
+//        if (!accounts.containsKey(user.getUserId())) {
+//            // Don't add user if they already exist
+//            accounts.put(user.getUserId(), user);
+//            // Save the updated data to the CSV file
+//            csvBuilder.buildCsv(user);
+//        } else {
+//            System.out.println("This user already exists");
+//        }
+//    }
+
+
     @Override
     public User getAccountByUserId ( int userId){
         return accounts.get(userId);
     }
+
+    //@Override
+    //public void save (User user){
+    //    accounts.put(user.getUserId(), user);
+    //}
 
 
 
@@ -207,6 +225,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         User user = accounts.get(userId);
         double newUserBMR = userBMR;
 
+
         assert user.getUserExerciseLevel() >= 1 && user.getUserExerciseLevel() <= 5; // Must be in the range 1-5.
 
         if (user.getUserExerciseLevel() == 1) {
@@ -223,94 +242,57 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         return newUserBMR;
     }
 
-
     @Override
-    public void saveDietary (HashMap < Integer, HashMap < String, Boolean >> dietary){
-        // element 8
-        File csvFile = new File(csvFilePath); // consistent naming
-        BufferedReader reader;
-        BufferedWriter writer;
-        try {
-            reader = new BufferedReader(new FileReader(csvFile));
-            writer = new BufferedWriter(new FileWriter(csvFile, false));
-            reader.readLine();
-            String row;
-            for (Map.Entry<Integer, HashMap<String, Boolean>> entry : dietary.entrySet()) {
-                Integer key = entry.getKey();
-                HashMap<String, Boolean> value = entry.getValue();
-                while ((row = reader.readLine()) != null) {
-                    String[] col = row.split(",");
-                    if (col[0].equals(String.valueOf(key))) {
-                        col[10] = String.valueOf(value);
-                        String updated_dietary = String.join(",", col);
-                        writer.write(updated_dietary);
-                    }
-                }
-            }
-            writer.close();
-        } catch (IOException e) {
-            System.out.println("Error, could not save dietary properly.");
-        }
-
-    }
-
-    @Override
-    public void saveAllergies (HashMap < Integer, HashMap < String, Boolean >> allergies){
-        //element 10
-        File csvFile = new File(csvFilePath);
-        BufferedReader reader;
-        BufferedWriter writer;
-        try {
-            reader = new BufferedReader(new FileReader(csvFile));
-            writer = new BufferedWriter(new FileWriter(csvFile));
-            reader.readLine();
-            String row;
-            for (Map.Entry<Integer, HashMap<String, Boolean>> entry : allergies.entrySet()) {
-                Integer key = entry.getKey();
-                HashMap<String, Boolean> value = entry.getValue();
-                while ((row = reader.readLine()) != null) {
-                    String[] col = row.split(",");
-                    if (col[0].equals(String.valueOf(key))) {
-                        col[11] = String.valueOf(value);// or col[10]
-                        String updated_allergies = String.join(",", col);
-                        writer.write(updated_allergies);
-                    }
-                }
-            }
-            writer.close();
-        } catch (IOException e) {
-            System.out.println("Error, could not save allergies properly.");
-        }
+    public Boolean savePreferences(int userId, HashMap<String, Boolean> dietary,
+                               HashMap<String, Boolean> allergies,
+                               HashMap<String, String> conditions){
+        User current_user = getAccountByUserId(userId);
+        current_user.setDietary(dietary);
+        current_user.setAllergies(allergies);
+        current_user.setConditions(conditions);
+        accounts.put(userId, current_user);
+        return csvBuilder.buildCsv(current_user, 1);
 
     }
 
 
+    //added these
+    public HashMap<String, Boolean> getDietaryFile(String userID){
+        User data = accounts.get(userID);
+        return data.getDietary();
+    }
+    public HashMap<String, Boolean> getAllergiesFile(String userID){
+        User data = accounts.get(userID);
+        return data.getAllergies();
+    }
+    public HashMap<String, String> getConditionsFile(String userID){
+        User data = accounts.get(userID);
+        return data.getConditions();
+    }
+
     @Override
-    public void saveConditions (HashMap < Integer, HashMap < String, String >> conditions){
-        File csvFile = new File(csvFilePath);
-        BufferedReader reader;
-        BufferedWriter writer;
-        try {
-            reader = new BufferedReader(new FileReader(csvFile));
-            writer = new BufferedWriter(new FileWriter(csvFile));
-            reader.readLine();
-            String row;
-            for (Map.Entry<Integer, HashMap<String, String>> entry : conditions.entrySet()) {
-                Integer key = entry.getKey();
-                HashMap<String, String> value = entry.getValue();
-                while ((row = reader.readLine()) != null) {
-                    String[] col = row.split(",");
-                    if (col[0].equals(String.valueOf(key))) {
-                        col[12] = String.valueOf(value);
-                        String updated_conditions = String.join(",", col);
-                        writer.write(updated_conditions);
-                    }
-                }
+    public boolean existByName(String identifier) {
+        for (Integer key: accounts.keySet()){
+            User account = accounts.get(key);
+            if (account.getName().equals(identifier)){
+                return true;
             }
-            writer.close();
-        } catch (IOException e) {
-            System.out.println("Error, could not save conditions properly.");
         }
+        return false;
+    }
+
+    @Override
+    public User get(String username) {
+        User account = null;
+        for (Integer key: accounts.keySet()){
+            User value = accounts.get(key);
+            String name = value.getName();
+            if (name.equals(username)){
+                account = value;
+            }
+        }
+        assert(account != null);
+        return account;
     }
 
     @Override
@@ -408,3 +390,4 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
 
 }
+

@@ -26,60 +26,74 @@ public class Main {
 
         FileUserDataAccessObject fileUserDataAccessObject = new FileUserDataAccessObject("example.csv", "mealPlan.csv", new CommonUserFactory());
 
-        User newUser = userFactory.createdDefaultUser(30, "Aarya");
-        newUser.setPassword("Dario");
-        newUser.setCreationTime(LocalDateTime.now());
+            User newUser = userFactory.createdDefaultUser(2389, "Xavier");
+            newUser.setPassword("Dario");
+            newUser.setCreationTime(LocalDateTime.now());
 
-        System.out.println(userDAO.saveUserSignUpData(newUser.getUserId(),
-                newUser.getName(),
-                newUser.getPassword(),
-                newUser.getCreationTime()));
-
-
-
-        
-        HashMap<String, Boolean> gender = new HashMap<>();
-        gender.put("female", Boolean.FALSE);
-        gender.put("male", Boolean.TRUE);
-
-        double height = 175.5;
-        double weight = 65.5;
-        int age = 19;
-        int exerciseLvl = 1;
-        String paceType = "fast";
-
-
-        HashMap<String, Boolean> weightGoal = new HashMap<>();
-        weightGoal.put("maintainWeight", Boolean.TRUE);
-        weightGoal.put("gainWeight", Boolean.FALSE);
-        weightGoal.put("loseWeight", Boolean.FALSE);
+            System.out.println(userDAO.saveUserSignUpData(newUser.getUserId(),
+                    newUser.getName(),
+                    newUser.getPassword(),
+                    newUser.getCreationTime()));
 
 
 
 
+            HashMap<String, Boolean> gender = new HashMap<>();
+            gender.put("female", Boolean.FALSE);
+            gender.put("male", Boolean.TRUE);
 
-        newUser.setWeightGoalType(weightGoal);
-        newUser.setGender(gender);
-        newUser.setUserHeight(height);
-        newUser.setUserWeight(weight);
-        newUser.setUserAge(age);
-        newUser.setUserExerciseLvl(exerciseLvl);
-        newUser.setPaceType(paceType);
-
-
-        System.out.println(userDAO.saveWeightGoalData(newUser.getUserId(),
-                newUser.getGender(),
-                newUser.getUserHeight(),
-                newUser.getUserWeight(),
-                newUser.getUserAge(),
-                newUser.getUserExerciseLevel(),
-                newUser.getPaceType(),
-                weightGoal));
-
-        System.out.println(userDAO.createUserID());
+            double height = 175.5;
+            double weight = 65.5;
+            int age = 19;
+            int exerciseLvl = 1;
+            String paceType = "fast";
 
 
+            HashMap<String, Boolean> weightGoal = new HashMap<>();
+            weightGoal.put("maintainWeight", Boolean.TRUE);
+            weightGoal.put("gainWeight", Boolean.FALSE);
+            weightGoal.put("loseWeight", Boolean.FALSE);
 
+            newUser.setWeightGoalType(weightGoal);
+            newUser.setGender(gender);
+            newUser.setUserHeight(height);
+            newUser.setUserWeight(weight);
+            newUser.setUserAge(age);
+            newUser.setUserExerciseLvl(exerciseLvl);
+            newUser.setPaceType(paceType);
+
+
+
+            userDAO.saveWeightGoalData(newUser.getUserId(),
+                    newUser.getGender(),
+                    newUser.getUserHeight(),
+                    newUser.getUserWeight(),
+                    newUser.getUserAge(),
+                    newUser.getUserExerciseLevel(),
+                    newUser.getPaceType(),
+                    weightGoal);
+
+            HashMap<String, Boolean> dietary = new HashMap<>();
+            dietary.put("Vegetarian", Boolean.TRUE);
+            dietary.put("Vegan", Boolean.FALSE);
+            dietary.put("Pescatarian", Boolean.FALSE);
+
+            newUser.setDietary(dietary);
+            HashMap<String, Boolean> allergies = new HashMap<>();
+            allergies.put("Eggs", Boolean.TRUE);
+            allergies.put("Sesame", Boolean.TRUE);
+            allergies.put("Shellfish", Boolean.FALSE);
+            allergies.put("Wheat", Boolean.FALSE);
+            newUser.setAllergies(allergies);
+            HashMap<String, String> condition = new HashMap<>();
+            condition.put("Magnesium", "low");
+            condition.put("Iron", "average");
+            condition.put("Calcium", "high");
+            condition.put("VitaminD", "high");
+            newUser.setConditions(condition);
+
+            userDAO.savePreferences(newUser.getUserId(), newUser.getDietary(), newUser.getAllergies(), newUser.getConditions());
+    }
 
 
 //        String csvFilePath = "final.csv";
@@ -155,5 +169,6 @@ public class Main {
 //            throw new RuntimeException(e);
 //        }
     }
-}
+
+
 

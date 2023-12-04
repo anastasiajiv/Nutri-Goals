@@ -1,16 +1,16 @@
 package src.use_case.signup;
 
 
+import src.entity.User;
+
 import src.entity.UserFactory;
 
 import java.time.LocalDateTime;
 
-public class SignupInteractor implements SignupInputBoundary {
 
+public class SignupInteractor implements SignupInputBoundary{
     final SignupUserDataAccessInterface userDataAccessObject;
-
     final SignupOutputBoundary userPresenter;
-
     final UserFactory userFactory;
 
     public SignupInteractor(SignupUserDataAccessInterface signupDataAccessInterface,
@@ -44,7 +44,6 @@ public class SignupInteractor implements SignupInputBoundary {
         }
 
     }
-
 
 
 }// GIT WORKFLOW

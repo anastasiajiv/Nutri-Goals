@@ -5,4 +5,6 @@ public interface WeightGoalOutputBoundry {
     void prepareFailView(String error);
 
 
+
+
 }

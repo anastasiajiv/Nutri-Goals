@@ -3,7 +3,6 @@ package src.use_case.signup;
 import java.time.LocalDateTime;
 
 public class SignupOutputData {
-
     private  int createdUserID;
 
     private String username;
@@ -31,6 +30,11 @@ public class SignupOutputData {
     public String getCreationTime() {
         return creationTime;
     }
+
+    public void setCreationTime(String creationTime) {
+        this.creationTime = creationTime;
+    }
+
 
 
 }

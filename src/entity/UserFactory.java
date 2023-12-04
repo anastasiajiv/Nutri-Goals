@@ -23,6 +23,7 @@ public interface UserFactory {
                  int requiredCalories);
 
      default User createdDefaultUser(int userId, String name) {
+
           return create(userId,
                   name,
                   null, //password defaults to null
