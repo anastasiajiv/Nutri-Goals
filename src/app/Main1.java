@@ -1,5 +1,6 @@
 package src.app;
 import src.interface_adapters.preferences.PreferencesViewModel;
+import src.interface_adapters.weightgoal.WeightGoalViewModel;
 import src.view.*;
 
 import src.data_access.FileUserDataAccessObject;
@@ -38,6 +39,8 @@ public class Main1 {
         SignupViewModel signupViewModel = new SignupViewModel();
         LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
         PreferencesViewModel preferencesViewModel = new PreferencesViewModel();
+        //for weight Goals
+        WeightGoalViewModel weightGoalViewModel = new WeightGoalViewModel();
 
         FileUserDataAccessObject userDataAccessObject;
 
@@ -65,6 +68,17 @@ public class Main1 {
         viewManagerModel.setActiveView(trial.viewName);
         viewManagerModel.firePropertyChanged();
         //trial.setVisible(true);
+
+        // TODO: Implement for weight goals
+        WeightGoalsView weightGoalsView = WeightGoalUseCaseFactory.create(viewManagerModel,
+                weightGoalViewModel,
+                loggedInViewModel,
+                userDataAccessObject);
+        views.add(weightGoalsView, weightGoalsView.viewName);
+
+        viewManagerModel.setActiveView(trial.viewName);
+        viewManagerModel.firePropertyChanged();
+
 
         application.pack();
         application.setVisible(true);
