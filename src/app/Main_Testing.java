@@ -17,7 +17,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class Main1 {
+public class Main_Testing {
     public static void main(String[] args){
         JFrame application = new JFrame("Login Example");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

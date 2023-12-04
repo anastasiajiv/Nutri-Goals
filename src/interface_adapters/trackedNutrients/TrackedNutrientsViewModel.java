@@ -1,9 +1,7 @@
 package src.interface_adapters.trackedNutrients;
 
-import jdk.nashorn.internal.runtime.Property;
 import src.interface_adapters.ViewModel;
 
-import javax.sound.midi.Track;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
