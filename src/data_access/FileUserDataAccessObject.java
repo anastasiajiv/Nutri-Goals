@@ -47,6 +47,10 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         this.accounts = new HashMap<>();
         this.userFactory = userFactory;
 
+        loadUserDataFromCsv();
+
+
+
     }
 
     // SignUp use case methods
@@ -63,6 +67,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         newUser.setCreationTime(creationTime);
 
         accounts.put(userId, newUser);
+        loadUserDataFromCsv(); // IMPORTANT -> This updates accounts map upon every run
 
         return csvBuilder.buildCsv(newUser, 0);
 
@@ -353,6 +358,54 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         }
         return recipeNutritionalInfo;
     }*/
+
+
+
+    public void loadUserDataFromCsv() {
+        try {
+            File csvFile = new File(csvFilePath);
+
+            if (!csvFile.exists()) {
+
+                return;
+            }
+
+            try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+                String header = reader.readLine();
+
+                String row;
+                while ((row = reader.readLine()) != null) {
+                    String[] col = row.split(",");
+                    // Parse data from CSV and save to accounts map
+
+                    int userId = Integer.parseInt(col[0]);
+                    String username = col[1];
+                    String password = col[2];
+                    LocalDateTime creationTime = LocalDateTime.parse(col[3]);
+                    boolean male = Boolean.parseBoolean(col[4]);
+                    boolean female = Boolean.parseBoolean(col[5]);
+                    double height = Double.parseDouble(col[6]);
+                    double weight = Double.parseDouble(col[7]);
+                    int age = Integer.parseInt(col[8]);
+                    int exerciseLvl = Integer.parseInt(col[9]);
+                    // TODO: Parse other attributes
+                    UserFactory userFactory = new CommonUserFactory();
+                    User user = userFactory.createdDefaultUser(userId, username);
+                    user.setCreationTime(creationTime);
+                    user.setPassword(password);
+                    //TODO:  Add the rest
+
+
+                    // Add the user to the accounts map
+                    accounts.put(userId, user);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error loading user data from CSV", e);
+        }
+    }
+
+
 
 
 }
