@@ -6,25 +6,32 @@ import src.interface_adapters.ViewManagerModel;
 import src.interface_adapters.preferences.PreferencesState;
 import src.interface_adapters.preferences.PreferencesViewModel;
 import src.interface_adapters.signup.SignupState;
+import src.interface_adapters.trackedNutrients.TrackedNutrientsState;
+import src.interface_adapters.trackedNutrients.TrackedNutrientsViewModel;
 import src.use_case.login.LoginOutputBoundary;
 import src.use_case.login.LoginOutputData;
 import src.use_case.signup.SignupOutputBoundary;
 import src.use_case.signup.SignupOutputData;
+import src.view.TrackedNutrientsView;
+
 public class LoginPresenter implements LoginOutputBoundary{
     private final LoginViewModel loginViewModel;
     private final LoggedInViewModel loggedInViewModel;
     private ViewManagerModel viewManagerModel;
 
     private final PreferencesViewModel preferencesViewModel;
+    private final TrackedNutrientsViewModel trackedNutrientsViewModel;
 
     public LoginPresenter(ViewManagerModel viewManagerModel,
                           LoggedInViewModel loggedInViewModel,
                           LoginViewModel loginViewModel,
-                          PreferencesViewModel preferencesViewModel) {
+                          PreferencesViewModel preferencesViewModel,
+                          TrackedNutrientsViewModel trackedNutrientsViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.loggedInViewModel = loggedInViewModel;
         this.loginViewModel = loginViewModel;
         this.preferencesViewModel = preferencesViewModel;
+        this.trackedNutrientsViewModel = trackedNutrientsViewModel;
     }
 
     @Override
@@ -33,9 +40,11 @@ public class LoginPresenter implements LoginOutputBoundary{
 
         LoggedInState loggedInState = loggedInViewModel.getState();
         PreferencesState preferencesState = preferencesViewModel.getState();
+        TrackedNutrientsState trackedNutrientsState = trackedNutrientsViewModel.getState();
         loggedInState.setUsername(response.getUsername());
         loggedInState.setUserID(response.getUserID());
         preferencesState.setUserID(response.getUserID());
+        trackedNutrientsState.setUserID(response.getUserID());
         this.loggedInViewModel.setState(loggedInState);
         this.loggedInViewModel.firePropertyChanged();
 

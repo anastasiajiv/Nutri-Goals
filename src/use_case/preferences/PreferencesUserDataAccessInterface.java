@@ -17,7 +17,7 @@ public interface PreferencesUserDataAccessInterface {
 
     Boolean existByUserID(int userID);
 
-    public User getAccountByUserId (int userId);
+    User getAccountByUserID (int userId);
 
 
 }

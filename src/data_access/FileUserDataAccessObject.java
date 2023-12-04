@@ -20,11 +20,10 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpClient;
 import java.io.IOException;
-//import org.json.JSONObject;
-//import org.json.JSONArray;
-
-
 import java.io.IOException;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
@@ -46,27 +45,23 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         this.csvMealPlanFilePath = csvMealPlanFilePath;
         this.accounts = new HashMap<>();
         this.userFactory = userFactory;
-
         loadUserDataFromCsv();
-
-
-
     }
 
     // SignUp use case methods
 
     @Override
-    public Boolean saveUserSignUpData(int userId,
+    public Boolean saveUserSignUpData(int userID,
                                       String username,
                                       String password,
                                       LocalDateTime creationTime) {
 
         UserFactory userFactory = new CommonUserFactory();
-        User newUser = userFactory.createdDefaultUser(userId, username);
+        User newUser = userFactory.createdDefaultUser(userID, username);
         newUser.setPassword(password);
         newUser.setCreationTime(creationTime);
 
-        accounts.put(userId, newUser);
+        accounts.put(userID, newUser);
         loadUserDataFromCsv(); // IMPORTANT -> This updates accounts map upon every run
 
         return csvBuilder.buildCsv(newUser, 0);
@@ -104,7 +99,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
 
     @Override
-    public Boolean saveWeightGoalData ( int userId,
+    public Boolean saveWeightGoalData ( int userID,
                                         HashMap<String, Boolean> gender,
                                         double height,
                                         double weight,
@@ -117,7 +112,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         // information into the csv file
 
         //First get the current userId
-        User curr_user = getAccountByUserId(userId); //change to update from setter
+        User curr_user = getAccountByUserID(userID); //change to update from setter
         curr_user.setGender(gender);
         curr_user.setUserHeight(height);
         curr_user.setUserWeight(weight);
@@ -126,15 +121,16 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         curr_user.setPaceType(paceType);
         curr_user.setWeightGoalType(weightGoal);
 
-        accounts.put(userId, curr_user);
+        accounts.put(userID, curr_user);
+
 
         // Now compute req calories
-        double requiredCalories = computedRequiredCalories(userId);
+        double requiredCalories = computedRequiredCalories(userID);
         // Save this new data
         curr_user.setRequiredCalories(requiredCalories);
         // Update user into accounts map to account for newly updated req calories
 
-        accounts.put(userId, curr_user);
+        accounts.put(userID, curr_user);
 
         // Save updated user values into the Csv file
         return csvBuilder.buildCsv(curr_user, 1);
@@ -143,15 +139,14 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     @Override
-    public User getAccountByUserId ( int userId){
-        return accounts.get(userId);
+    public User getAccountByUserID(int userID) {
+        return accounts.get(userID);
     }
 
-
     @Override
-    public double computedRequiredCalories ( int userId){
-        User user = getAccountByUserId(userId);
-        double reqCalories = getBMR(userId);
+    public double computedRequiredCalories ( int userID){
+        User user = getAccountByUserID(userID);
+        double reqCalories = getBMR(userID);
 
         if (user.getWeightGoalType().equals("maintainWeight")) {
             reqCalories = reqCalories;
@@ -184,7 +179,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         return accounts.containsKey(userID);
     }
 
-    public double getBMR ( int userId){
+    public double getBMR ( int userID){
         // Men: BMR = 88.63 + (13.397 * weight in kg) + (4.799 * height in cm) - (5.677 * age in years)
         // Miffin - St Jeor Equation -> BMR = 10 * weight + 6.25 * height - 5 * age + 5
         // Women: BMR = 447.593 + (9.247 x weight in kg) + (3.098 x height in cm) – (4.330 x age in years)
@@ -193,21 +188,21 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
         // Harris - Benedict -> Men -> BMR = 66 + (13.7 x wt in kg) + (5 x ht in cm) - (6.8 x age in years)
         // Harris - Benedict -> Men -> BMR =  655 + (9.6 x wt in kg) + (1.8 x ht in cm) - (4.7 x age in years)
-        assert existByUserID(userId);
+        assert existByUserID(userID);
         double userBMR = 0;
 
 
-        User user = accounts.get(userId);
+        User user = accounts.get(userID);
         //Get BMR
         if (Boolean.valueOf(user.isMale())) {
             userBMR = (10 * user.getUserWeight()) + (6.25 * user.getUserHeight()) - (5 * user.getUserAge()) + 5;
         } else if (Boolean.valueOf(user.isFemale())) {
             userBMR = (10 * user.getUserWeight()) + (6.25 * user.getUserHeight()) - (5 * user.getUserAge()) - 161;
         }
-        return getBMRAfterActivityMultiplier(userId, userBMR);
+        return getBMRAfterActivityMultiplier(userID, userBMR);
     }
-    public double getBMRAfterActivityMultiplier ( int userId, double userBMR){
-        User user = accounts.get(userId);
+    public double getBMRAfterActivityMultiplier ( int userID, double userBMR){
+        User user = accounts.get(userID);
         double newUserBMR = userBMR;
 
 
@@ -228,18 +223,17 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     @Override
-    public Boolean savePreferences(int userId, HashMap<String, Boolean> dietary,
+    public Boolean savePreferences(int userID, HashMap<String, Boolean> dietary,
                                HashMap<String, Boolean> allergies,
                                HashMap<String, String> conditions){
-        User current_user = getAccountByUserId(userId);
+        User current_user = getAccountByUserID(userID);
         current_user.setDietary(dietary);
         current_user.setAllergies(allergies);
         current_user.setConditions(conditions);
-        accounts.put(userId, current_user);
+        accounts.put(userID, current_user);
         return csvBuilder.buildCsv(current_user, 1);
 
     }
-
 
     @Override
     public boolean existByName(String identifier) {
@@ -268,58 +262,13 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
     @Override
     public Boolean saveTrackedNutrientsData(ArrayList<String> trackedNutrients, int userID) {
-        // userID is already checked for validity in trackedNutrients interactor
-
-        try {
-            // initialize a reader and writer to edit the csv file
-            BufferedReader reader = new BufferedReader(new FileReader(csvFilePath));
-            BufferedWriter writer = new BufferedWriter(new FileWriter(csvFilePath));
-
-            // skip the first line and initialize the row variable
-            reader.readLine();
-            String row;
-
-            // iterate through the csv
-            while ((row = reader.readLine()) != null) {
-
-                // split each row in the csv into their corresponding columns
-                String[] col = row.split(",");
-
-                // if the ID is a match, set the user's trackedNutrients
-                if (col[0].equals(String.valueOf(userID))) {
-
-                    // column 18 is set to store trackedNutrients
-                    col[18] = String.valueOf(trackedNutrients);
-                    // turn the String[] back into a String to write back
-                    String updated_line = String.join(",", col);
-                    // use the buffered writer to add the line back into the csv
-                    writer.write(updated_line);
-                }
-            }
-
-            // close the writer after the line has/has not been edited
-            writer.close();
-            // confirm that the data has been properly saved
-            return true;
-
-        } catch (IOException e) {  // if there is an issue accessing the csv
-
-            // display an error message to the same convention as other save methods
-            System.out.println("Error, could not save trackedNutrients properly.");
-            // error has occurred, return false
-            return false;
-
-        }
+        User currentUser = getAccountByUserID(userID);
+        currentUser.setTrackedNutrients(trackedNutrients);
+        accounts.put(userID, currentUser);
+        return csvBuilder.buildCsv(currentUser, 1);
     }
 
-    @Override
-    public ArrayList<String> getUserTrackedNutrientsData(int userID) {
-        return accounts.get(userID).getTrackedNutrients();
-    }
-
-
-
-    /*private HashMap<String, Float> getRecipeNutritionalInfo(String recipeID) {
+    private HashMap<String, Float> getRecipeNutritionalInfo(String recipeID) {
         // format the API request
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spoonacular.com/recipes/"+ recipeID +"/information?includeNutrition=true"))
@@ -357,8 +306,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
             recipeNutritionalInfo.put(nutrientName, nutrientValue);
         }
         return recipeNutritionalInfo;
-    }*/
-
+    }
 
 
     public void loadUserDataFromCsv() {
@@ -409,4 +357,3 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
 
 }
-
