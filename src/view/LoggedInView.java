@@ -20,6 +20,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     JLabel username;
     JLabel userID;
     JButton preferences;
+    JButton trackedNutrients;
 
     final JButton logOut;
 
@@ -49,6 +50,20 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(preferences)){
 
+                        }
+                    }
+                }
+        );
+
+        // adding the JButton for the TrackedNutrients view and use case
+        trackedNutrients = new JButton(loggedInViewModel.TRACKED_NUTRIENTS_BUTTON_LABEL);
+        buttons.add(trackedNutrients);
+        trackedNutrients.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(trackedNutrients)) {
+                            // ...
                         }
                     }
                 }
