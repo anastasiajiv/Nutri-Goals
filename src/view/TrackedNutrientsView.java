@@ -62,8 +62,8 @@ public class TrackedNutrientsView extends JPanel implements ActionListener, Prop
         JLabel micro_subtitle = new JLabel("Select Micronutrients");
         // create the panel and associated buttons
         JPanel micro_checkBox = new JPanel();
-        this.vitaminC = new JCheckBox(TrackedNutrientsViewModel.VITAMINC_LABEL);
-        this.vitaminD = new JCheckBox(TrackedNutrientsViewModel.VITAMIND_LABEL);
+        this.vitaminC = new JCheckBox(TrackedNutrientsViewModel.VITAMIN_C_LABEL);
+        this.vitaminD = new JCheckBox(TrackedNutrientsViewModel.VITAMIN_D_LABEL);
         this.iron = new JCheckBox(TrackedNutrientsViewModel.IRON_LABEL);
         this.magnesium = new JCheckBox(TrackedNutrientsViewModel.MAGNESIUM_LABEL);
         this.sugar = new JCheckBox(TrackedNutrientsViewModel.SUGAR_LABEL);
