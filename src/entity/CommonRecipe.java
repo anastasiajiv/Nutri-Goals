@@ -17,6 +17,7 @@ public class CommonRecipe implements Recipe {
     private final String recipeInstructions;
 
     private final String recipeType;
+<<<<<<< HEAD
 
     private final HashMap<String, Double> nutritionalInfo;
 
@@ -27,12 +28,34 @@ public class CommonRecipe implements Recipe {
                         String recipeInstructions, String recipeType, HashMap<String, Double> nutritionalInfo,
                         String recipeLink) {
         this.recipeID = recipeID;
+=======
+
+    private final HashMap<String, Float> nutritionalinfo;
+
+    private final String recipelink;
+
+
+    public CommonRecipe(int recipeId, String recipeName, List<Ingredient> recipeIngredients,
+                        String recipeInstructions, String recipeType, HashMap<String, Float> nutritionalinfo, String recipelink) {
+
+
+
+
+        this.recipeId = recipeId;
+>>>>>>> main
         this.recipeName = recipeName;
         this.recipeIngredients = recipeIngredients;
         this.recipeInstructions = recipeInstructions;
         this.recipeType = recipeType;
+<<<<<<< HEAD
         this.nutritionalInfo = nutritionalInfo;
         this.recipeLink = recipeLink;
+=======
+
+
+        this.nutritionalinfo = nutritionalinfo;
+        this.recipelink = recipelink;
+>>>>>>> main
 
     }
 
@@ -51,17 +74,24 @@ public class CommonRecipe implements Recipe {
         return recipeIngredients;
     }
 
+
+
     @Override
     public String getRecipeInstructions() {
         return recipeInstructions;
     }
 
     @Override
+<<<<<<< HEAD
     public String getRecipeType() {
+=======
+    public String getrecipeType() {
+>>>>>>> main
         return recipeType;
     }
 
     @Override
+<<<<<<< HEAD
     public HashMap<String, Double> getNutritionalInfo() {
         return nutritionalInfo;
     }
@@ -69,6 +99,38 @@ public class CommonRecipe implements Recipe {
     @Override
     public String getRecipeLink() {
         return recipeLink;
+=======
+    public HashMap<String, Float> getnutritionalinfo() {
+        return nutritionalinfo;
+    }
+
+
+    @Override
+    public String getnutritionalinfostring(){return nutritionalinfo.toString();}
+
+    @Override
+    public String getrecipelink() {
+        return recipelink;
+    }
+
+    @Override
+    public String getrecipeIngredientstring() {
+
+        StringBuilder sb = new StringBuilder();
+        for (int i =0; i < this.recipeIngredients.size(); i ++ ){
+
+            Ingredient ingredient = recipeIngredients.get(i);
+            String ingredientstring = ingredient.getName() + "amount : " + ingredient.getAmount() + ", ";
+            sb.append(ingredientstring);
+
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public HashMap<String, Float> getNutritionalInfo() {
+        return this.nutritionalinfo;
+>>>>>>> main
     }
 
 

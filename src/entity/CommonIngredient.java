@@ -6,6 +6,7 @@ public class CommonIngredient implements Ingredient {
 
     private final String amount;
 
+
     public CommonIngredient(int ingredientID, String name, String amount){
         this.ingredientID = ingredientID;
         this.name = name;
