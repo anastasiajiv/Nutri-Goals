@@ -5,9 +5,10 @@ import src.entity.User;
 import java.util.ArrayList;
 
 public interface TrackedNutrientsUserDataAccessInterface {
-    Boolean saveTrackedNutrientsData(ArrayList<String> trackedNutrients, int userID);
+    void saveTrackedNutrientsData(ArrayList<String> trackedNutrients, int userID);
 
-    ArrayList<String> getUserTrackedNutrientsData(int userID);  // may remove
+    public ArrayList<String> getUserTrackedNutrientsData(int userID);
 
     Boolean existByUserID(int userID);
+    User getAccountByUserID(int userID);
 }

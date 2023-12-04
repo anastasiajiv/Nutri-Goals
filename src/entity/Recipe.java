@@ -21,12 +21,18 @@ public interface Recipe {
 
 
 
-//    String getBreakfeast();
+//    String getBreakfast();
 //
 //    String getLunch();
 //
 //    String getDinner();
 
+<<<<<<< HEAD
     // HashMap<Integer, HashMap<String, ArrayList<String>>> savedRecipes(); // {1: {Breakfeast: [RECIPE], Lunch:[RECIPE]},
     // 2:{Breakfeast: [RECIPE], Lunch:[RECIPE]}}
 }
+=======
+   // HashMap<Integer, HashMap<String, ArrayList<String>>> savedRecipes(); // {1: {Breakfast: [RECIPE], Lunch:[RECIPE]},
+                                                                        // 2:{Breakfast: [RECIPE], Lunch:[RECIPE]}}
+}
+>>>>>>> main

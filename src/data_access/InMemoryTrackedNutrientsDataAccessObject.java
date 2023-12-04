@@ -1,5 +1,6 @@
 package src.data_access;
 
+import src.entity.User;
 import src.use_case.trackedNutrients.TrackedNutrientsUserDataAccessInterface;
 
 import java.util.ArrayList;
@@ -7,8 +8,7 @@ import java.util.ArrayList;
 public class InMemoryTrackedNutrientsDataAccessObject implements TrackedNutrientsUserDataAccessInterface {
 
     @Override
-    public Boolean saveTrackedNutrientsData(ArrayList<String> trackedNutrients, int userID) {
-        return null;
+    public void saveTrackedNutrientsData(ArrayList<String> trackedNutrients, int userID) {
     }
 
     @Override
@@ -18,6 +18,11 @@ public class InMemoryTrackedNutrientsDataAccessObject implements TrackedNutrient
 
     @Override
     public Boolean existByUserID(int userID) {
-        return ...;
+        return null;
+    }
+
+    @Override
+    public User getAccountByUserID(int userID) {
+        return null;
     }
 }

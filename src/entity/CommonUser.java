@@ -24,7 +24,13 @@ public class CommonUser implements User {
     private int userExerciseLevel;
     private HashMap<String, Boolean> weightGoalType;
     private String paceType;
-    private int requiredCalories;
+
+    private double requiredCalories;
+
+
+
+
+
 
     // main User constructor
     public CommonUser(int userId,
@@ -42,7 +48,7 @@ public class CommonUser implements User {
                       ArrayList<String> trackedNutrients,
                       HashMap<String, Boolean> weightGoalType,
                       String paceType,
-                      int requiredCalories) {
+                      double requiredCalories) {
         this.userId = userId;
         this.name = name;
         this.password = password;
@@ -141,38 +147,72 @@ public class CommonUser implements User {
         return userExerciseLevel;
     }
 
-    // retrieves the user's diet
+
+
+    //@Override
+    //public HashMap<String, Boolean> getUserRestriction() {
+    //    return restrictions; // Change to return keys with True values.
+    //}
+
+    public void setDietary(HashMap<String, Boolean> dietary){
+        this.dietary = dietary;
+    }
+
     @Override
-    public String getDietary() {
-        String user_diet = "";
-        for (Map.Entry<String, Boolean> map : dietary.entrySet()) {
+    public HashMap<String, Boolean> getDietary() {
+        return this.dietary;
+    }
+
+    public void setAllergies(HashMap<String, Boolean> allergies){
+        this.allergies = allergies;
+    }
+
+    @Override
+    public HashMap<String, Boolean> getAllergies(){
+        return this.allergies;
+    }
+    public void setConditions(HashMap<String, String> conditions){
+        this.conditions = conditions;
+    }
+    @Override
+    public HashMap<String, String> getConditions(){
+        return this.conditions;
+    }
+
+    public String userSpecifiedDietary() {
+        String user_diet = new String();
+        for (Map.Entry<String, Boolean> map : getDietary().entrySet()) {
             String key = map.getKey();
             Boolean value = map.getValue();
-            if (value == Boolean.TRUE) {
+            if ((value == Boolean.TRUE) && !key.equals("none")) {
                 user_diet = key;
+            } else if (key.equals("none") && (value == Boolean.TRUE)){
+                user_diet = " ";
             }
         }
         return user_diet;
     }
 
 
-    // retrieves the user's allergies
-    @Override
-    public List<String> getAllergies(){
+    //this would return a list of all allergies the user clicked on only
+    public List<String> userSpecifiedAllergies(){
         List<String> user_allergies = new ArrayList<>();
-        for (Map.Entry<String, Boolean> map: allergies.entrySet()){
+        for (Map.Entry<String, Boolean> map: getAllergies().entrySet()){
             String key = map.getKey();
             Boolean value = map.getValue();
-            if (value == Boolean.TRUE){
+            if ((value == Boolean.TRUE) && !key.equals("none")){
                 user_allergies.add(key);
+            } else if (key.equals("none") && (value == Boolean.TRUE)){
+                user_allergies.add(" ");
             }
         }
         return user_allergies;
     }
 
-    // retrieves the user's health conditions, specifically, the associated nutritional information needed
-    @Override
-    public HashMap<String, Double> getConditions(){
+
+    //return a daily intake amount depending on user selection
+    public HashMap<String, Double> userSpecifiedConditions(){
+
         HashMap<String, Double> user_conditions = new HashMap<>();
         user_conditions.put("Calcium", getCalciumValue());
         user_conditions.put("Potassium", getPotassiumValue());
@@ -184,12 +224,10 @@ public class CommonUser implements User {
         return user_conditions;
     }
 
-    // calculates a user's suggested calcium intake
-    @Override
-    public Double getCalciumValue(){
 
-        // retrieves the user's preference for calcium (low, average, high) and their age
-        String value = conditions.get("Calcium");
+    public Double getCalciumValue(){
+        String value = getConditions().get("Calcium");
+
         int age = getUserAge();
 
         // initialize a double to store the recommended daily average intake depending on the user's information
@@ -225,10 +263,9 @@ public class CommonUser implements User {
         return daily_value;
     }
 
-    // calculates a user's suggested potassium intake
-    @Override
+
     public Double getPotassiumValue(){
-        String value = conditions.get("Potassium");
+        String value = getConditions().get("Potassium");
         double daily_value;
         if (isMale().equals("true")) {
             if (value.equals("low")) {
@@ -254,10 +291,9 @@ public class CommonUser implements User {
         return daily_value;
     }
 
-    // calculates a user's suggested vitamin C intake
-    @Override
+
     public Double getVitaminCValue(){
-        String value = conditions.get("Vitamin C");
+        String value = getConditions().get("Vitamin C");
         double daily_value;
         if (isMale().equals("true")){
             if (value.equals("low")){
@@ -283,10 +319,9 @@ public class CommonUser implements User {
         return daily_value;
     }
 
-    // calculates a user's suggested vitamin D intake
-    @Override
+
     public Double getVitaminDValue() {
-        String value = conditions.get("Vitamin D");
+        String value = getConditions().get("Vitamin D");
         double daily_value;
         int age = getUserAge();
         if ((isMale().equals("true") && age > 18 && age < 71) || (isFemale().equals("true"))){
@@ -313,10 +348,9 @@ public class CommonUser implements User {
         return daily_value;
     }
 
-    // calculates a user's suggested iron intake
-    @Override
-    public Double getIronValue() {
-        String value = conditions.get("Iron");
+
+    public Double getIronValue(){
+        String value = getConditions().get("Iron");
         int age = getUserAge();
         double daily_value;
         if ((isMale().equals("true")) || (isFemale().equals("true") && age > 50)){
@@ -343,10 +377,8 @@ public class CommonUser implements User {
         return daily_value;
     }
 
-    // calculates a user's suggested magnesium intake
-    @Override
-    public Double getMagnesiumValue() {
-        String value = conditions.get("Magnesium");
+    public Double getMagnesiumValue(){
+        String value = getConditions().get("Magnesium");
         double daily_value;
         int age = getUserAge();
         if (isMale().equals("true") && age > 18 && age< 31){
@@ -390,10 +422,10 @@ public class CommonUser implements User {
 
     }
 
-    // calculates a user's suggested sugar intake
-    @Override
-    public Double getSugarValue() {  // note: sugar is measured in grams, not milligrams
-        String value = conditions.get("Sugar");
+
+    //sugar is measured in grams not mg
+    public Double getSugarValue(){
+        String value = getConditions().get("Sugar");
         double daily_value;
         int age = getUserAge();
         if (isMale().equals("true") || isFemale().equals("true")){
@@ -412,7 +444,7 @@ public class CommonUser implements User {
         return daily_value;
     }
 
-    // retrieves the nutrients the user would like to track
+
     @Override
     public ArrayList<String> getTrackedNutrients() {
         return trackedNutrients;
@@ -459,8 +491,11 @@ public class CommonUser implements User {
         return paceType;
     }
 
-    // retrieves the user's required calories
-    public int getRequiredCalories() {
+
+
+    public double getRequiredCalories() {
+
+
         return requiredCalories;
     }
 
@@ -509,24 +544,10 @@ public class CommonUser implements User {
     }
 
     @Override
-    public void setRequiredCalories(int requiredCalories) {
+    public void setRequiredCalories(double requiredCalories) {
         this.requiredCalories = requiredCalories;
     }
 
-    // sets the user's health conditions
-    public void setConditions(HashMap<String, String> conditions){
-        this.conditions = conditions;
-    }
-
-    @Override
-    public void setDietary(HashMap<String, Boolean> dietary) {
-        this.dietary = dietary;
-    }
-
-    // sets the user's allergies
-    public void setAllergies(HashMap<String, Boolean> allergies){
-        this.allergies = allergies;
-    }
 
     // sets the nutrients the user would like to track
     @Override

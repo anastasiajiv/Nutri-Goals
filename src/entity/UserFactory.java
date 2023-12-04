@@ -23,6 +23,7 @@ public interface UserFactory {
                  int requiredCalories);
 
      default User createdDefaultUser(int userId, String name) {
+
           return create(userId,
                   name,
                   null, //password defaults to null
@@ -37,7 +38,7 @@ public interface UserFactory {
                   new HashMap<>(),
                   new ArrayList<>(),
                   new HashMap<>(), // default weightgoal to empty map
-                  null, // default weight gain/lose type to null
+                  "", // default weight gain/lose type to null
                   0 // default req calories to 0
                   );
 
