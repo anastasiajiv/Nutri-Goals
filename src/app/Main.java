@@ -26,7 +26,7 @@ public class Main {
 
         FileUserDataAccessObject fileUserDataAccessObject = new FileUserDataAccessObject("example.csv", "mealPlan.csv", new CommonUserFactory());
 
-            User newUser = userFactory.createdDefaultUser(2389, "Xavier");
+            User newUser = userFactory.createdDefaultUser(userDAO.createUserID(), "new");
             newUser.setPassword("Dario");
             newUser.setCreationTime(LocalDateTime.now());
 
@@ -93,6 +93,7 @@ public class Main {
             newUser.setConditions(condition);
 
             userDAO.savePreferences(newUser.getUserId(), newUser.getDietary(), newUser.getAllergies(), newUser.getConditions());
+        System.out.println(userDAO.accounts.size());
     }
 
 

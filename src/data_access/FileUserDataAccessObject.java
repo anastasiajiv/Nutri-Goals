@@ -126,7 +126,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         curr_user.setPaceType(paceType);
         curr_user.setWeightGoalType(weightGoal);
 
-        accounts.put(userId, curr_user);// TODO: Discuss weather this should this go in interactor?
+        accounts.put(userId, curr_user);
 
         // Now compute req calories
         double requiredCalories = computedRequiredCalories(userId);
