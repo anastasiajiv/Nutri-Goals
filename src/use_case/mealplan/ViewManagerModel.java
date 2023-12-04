@@ -1,4 +1,4 @@
-package src.use_case;
+package src.use_case.mealplan;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

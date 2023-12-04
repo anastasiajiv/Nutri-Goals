@@ -4,10 +4,11 @@ import src.entity.MealPlan;
 
 public class MealPlanInteractor implements MealPlanInputBoundary {
     final MealPlanDataAccessInterface userDataAccessObject;
-    //final MealPlanOutputBoundary mealplanPresenter;
+    final MealPlanOutputBoundary mealplanPresenter;
 
-    public MealPlanInteractor(MealPlanDataAccessInterface userDataAccessObject){
+    public MealPlanInteractor(MealPlanDataAccessInterface userDataAccessObject,MealPlanOutputBoundary mealplanPresenter ){
         this.userDataAccessObject = userDataAccessObject;
+        this.mealplanPresenter = mealplanPresenter;
     }
 
     @Override
@@ -16,7 +17,7 @@ public class MealPlanInteractor implements MealPlanInputBoundary {
         int id = mealPlanInputData.getId();
 
         if (!userDataAccessObject.existByUserID(id)){
-            //mealplanPresenter.prepareFailView( id + ": Account does not exist.");
+            mealplanPresenter.prepareFailView( id + ": Account does not exist.");
 
 
 
@@ -27,7 +28,7 @@ public class MealPlanInteractor implements MealPlanInputBoundary {
             userDataAccessObject.saveMealPlantoCsv(id);
             String mealplanstring = userDataAccessObject.displayMealPlan(mealplan);
             MealPlanOutputData mealPlanOutputData = new MealPlanOutputData(mealplanstring);
-            //mealplanPresenter.prepareSuccessView(mealPlanOutputData);
+            mealplanPresenter.prepareSuccessView(mealPlanOutputData);
 
 
 

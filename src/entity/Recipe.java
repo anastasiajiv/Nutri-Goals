@@ -17,6 +17,8 @@ public interface Recipe {
 
     HashMap<String, Float> getnutritionalinfo();
 
+    String getnutritionalinfostring();
+
 
     String getrecipelink();
 

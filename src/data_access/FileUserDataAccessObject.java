@@ -940,16 +940,19 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         String brekfastingredients = breakfast.getrecipeIngredientstring();
         String breakfastinstruct = breakfast.getRecipeInstructions();
         String breakfastlink = breakfast.getrecipelink();
+        String breakfastnutrients = breakfast.getnutritionalinfostring();
+
         String breakfasttotal  = "Breakfast: " + breakfastname + "\n" + "Ingredients :  " + brekfastingredients + "\n" + "Summary : " + breakfastinstruct +
-                "\n" + breakfastlink;
+                "\n" + breakfastlink + "\n" + "Nutritional Info: " + breakfastnutrients;
 
 
         String lunchname = lunch.getRecipeName();
         String lunchingredients = lunch.getrecipeIngredientstring();
         String lunchinstruct = lunch.getRecipeInstructions();
         String lunchlink = lunch.getrecipelink();
+        String lunchnutrients = lunch.getnutritionalinfostring();
         String lunchtotal  = "Lunch: " + lunchname + "\n" + "Ingredients : " + lunchingredients + "\n" + "Summary : " + lunchinstruct +
-                "\n" + lunchlink;
+                "\n" + lunchlink + "\n" + "Nutritional Info: " + lunchnutrients;
 
 
 
@@ -957,55 +960,20 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         String dinneringredients = dinner.getrecipeIngredientstring();
         String dinnerinstruct = dinner.getRecipeInstructions();
         String dinnerlink = dinner.getrecipelink();
+        String dinnernutrients = dinner.getnutritionalinfostring();
         String dinnertotal  = "Dinner: "+ dinnername + "\n" + "Ingredients : " + dinneringredients + "\n" + "Summary : " + dinnerinstruct +
-                "\n" + dinnerlink;
+                "\n" + dinnerlink+ "\n" + "Nutritional Info: " + dinnernutrients;
 
 
 
         return breakfasttotal + "\n" + lunchtotal  + "\n"  + dinnertotal;
 
 
-    }
+    }}
 
 
 
-    private HashMap<String, Float> getRecipeNutritionalInfo(String recipeID) {
-        // format the API request
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.spoonacular.com/recipes/"+ recipeID +"/information?includeNutrition=true"))
-                .header("X-RapidAPI-Host", "https://api.spoonacular.com")
-                .header("X-RapidAPI-Key", "0702028f1e12446ca891a3eb2f36fd0e")
-                .method("GET", HttpRequest.BodyPublishers.noBody())
-                .build();
 
-        // attempt to fetch from the API
-        HttpResponse<String> response = null;
-        try {
-            response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String recipe = response.body();
-
-        // find the nutritional info
-        JSONObject json = new JSONObject(recipe);
-        JSONArray recipeArray = json.getJSONArray("nutrients");  // get an array of nutrients
-
-        // initialize a storage hashmap for the nutrients
-        HashMap<String, Float> recipeNutritionalInfo = new HashMap<>();
-
-        for (int i = 0; i < recipeArray.length(); i++) {
-            // each nutrient is in its own array
-            JSONArray nutrientArray = recipeArray.getJSONArray(i);
-            String nutrientName = nutrientArray.getString("name");
-            double nutrient = nutrientArray.getDouble("amount");
-
-            // place into the hashmap
-            recipeNutritionalInfo.put(nutrientName, nutrient);
-        }
-        return recipeNutritionalInfo;
-    }
-}
 
 
 

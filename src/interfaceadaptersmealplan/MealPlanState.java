@@ -7,6 +7,11 @@ public class MealPlanState {
     private int id ;
     private String idError = null;
 
+    public MealPlanState(MealPlanState copy ){
+        this.id = copy.id;
+        this.idError = copy.idError;
+    }
+
 
     public MealPlanState(){}
 

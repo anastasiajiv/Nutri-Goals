@@ -5,7 +5,7 @@ import src.use_case.mealplan.MealPlanOutputData;
 
 public class MealPlanPresenter implements MealPlanOutputBoundary {
     private final MealPlanViewModel mealPlanViewModel;
-    //private ViewManagermodel viewManagermodel
+    private ViewManagermodel viewManagermodel;
 
     public MealPlanPresenter(MealPlanViewModel mealPlanViewModel){
         this.mealPlanViewModel = mealPlanViewModel;

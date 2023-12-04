@@ -70,6 +70,10 @@ public class CommonRecipe implements Recipe {
         return nutritionalinfo;
     }
 
+
+    @Override
+    public String getnutritionalinfostring(){return nutritionalinfo.toString();}
+
     @Override
     public String getrecipelink() {
         return recipelink;
