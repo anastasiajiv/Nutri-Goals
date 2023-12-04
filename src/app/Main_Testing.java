@@ -1,6 +1,7 @@
 package src.app;
 import src.interface_adapters.preferences.PreferencesViewModel;
 import src.interface_adapters.trackedNutrients.TrackedNutrientsViewModel;
+import src.interface_adapters.weightgoal.WeightGoalViewModel;
 import src.view.*;
 
 import src.data_access.FileUserDataAccessObject;
@@ -40,6 +41,7 @@ public class Main_Testing {
         LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
         PreferencesViewModel preferencesViewModel = new PreferencesViewModel();
         TrackedNutrientsViewModel trackedNutrientsViewModel = new TrackedNutrientsViewModel();
+        WeightGoalViewModel weightGoalViewModel = new WeightGoalViewModel();
 
         FileUserDataAccessObject userDataAccessObject;
 
@@ -72,8 +74,25 @@ public class Main_Testing {
         viewManagerModel.firePropertyChanged();
         //trial.setVisible(true);
 
+        // TODO: Implement for weight goals
+        WeightGoalsView weightGoalsView = WeightGoalUseCaseFactory.create(viewManagerModel,
+                weightGoalViewModel,
+                loggedInViewModel,
+                userDataAccessObject);
+        views.add(weightGoalsView, weightGoalsView.viewName);
+
+        viewManagerModel.setActiveView(trial.viewName);
+        viewManagerModel.firePropertyChanged();
+
+
         application.pack();
         application.setVisible(true);
+        System.out.println(userDataAccessObject.accounts.get(5).getName());
+        System.out.println(userDataAccessObject.accounts.get(5).getPassword());
+        System.out.println(userDataAccessObject.accounts.get(3).getCreationTime());
+        //System.out.println(userDataAccessObject.accounts.get(12).getPassword());
     }
+
+
 
 }
