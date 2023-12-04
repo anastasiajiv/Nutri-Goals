@@ -10,13 +10,12 @@ public class LoggedInViewModel extends ViewModel{
     private LoggedInState state = new LoggedInState();
 
     public static final String PREFERENCES_BUTTON_LABEL = "Preferences";
-<<<<<<< HEAD
+
     public static final String TRACKED_NUTRIENTS_BUTTON_LABEL = "Tracked Nutrients";
-=======
+
     //Add weight goals button to logged in view
     public static final String weightGOAL_BUTTONS_LABEL = "Weight Goals";
 
->>>>>>> main
     public static final String LOGOUT_BUTTON_LABEL = "Log out";
     private String loggedInUser;
 

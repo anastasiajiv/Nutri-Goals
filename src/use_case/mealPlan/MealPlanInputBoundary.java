@@ -1,4 +1,6 @@
 package src.use_case.mealPlan;
 
-public class MealPlanInputBoundary {
+public interface MealPlanInputBoundary {
+
+    void execute(MealPlanInputData mealPlanInputData);
 }

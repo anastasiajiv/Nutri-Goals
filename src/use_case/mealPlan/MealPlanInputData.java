@@ -1,4 +1,4 @@
-package src.use_case.mealplan;
+package src.use_case.mealPlan;
 
 public class MealPlanInputData {
     final private int id;

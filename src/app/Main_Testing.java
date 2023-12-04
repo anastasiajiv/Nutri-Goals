@@ -20,6 +20,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
+// testing
+
 public class Main_Testing {
     public static void main(String[] args){
         JFrame application = new JFrame("Login Example");
@@ -45,7 +47,7 @@ public class Main_Testing {
 
         FileUserDataAccessObject userDataAccessObject;
 
-        userDataAccessObject = new FileUserDataAccessObject("./users.csv", "mealplan.csv", new CommonUserFactory());
+        userDataAccessObject = new FileUserDataAccessObject("./users.csv", "mealplan.csv");
 
 
         WelcomePageView trial = new WelcomePageView(cardLayout, views);

@@ -13,26 +13,16 @@ public interface Recipe {
 
     String getRecipeInstructions();
 
-<<<<<<< HEAD
     String getRecipeType();
-=======
-    String getrecipeType();
-
-    HashMap<String, Float> getnutritionalinfo();
-
-    String getnutritionalinfostring();
-
-
-    String getrecipelink();
-
-    String getrecipeIngredientstring();
-
->>>>>>> main
 
     HashMap<String, Double> getNutritionalInfo();
 
+    String getNutritionalInfoString();
+
+
     String getRecipeLink();
 
+    String getRecipeIngredientString();
 
 
 //    String getBreakfast();
@@ -41,12 +31,6 @@ public interface Recipe {
 //
 //    String getDinner();
 
-<<<<<<< HEAD
     // HashMap<Integer, HashMap<String, ArrayList<String>>> savedRecipes(); // {1: {Breakfeast: [RECIPE], Lunch:[RECIPE]},
     // 2:{Breakfeast: [RECIPE], Lunch:[RECIPE]}}
 }
-=======
-   // HashMap<Integer, HashMap<String, ArrayList<String>>> savedRecipes(); // {1: {Breakfast: [RECIPE], Lunch:[RECIPE]},
-                                                                        // 2:{Breakfast: [RECIPE], Lunch:[RECIPE]}}
-}
->>>>>>> main

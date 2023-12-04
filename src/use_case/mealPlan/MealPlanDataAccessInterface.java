@@ -5,25 +5,33 @@ import src.entity.MealPlan;
 import src.entity.Recipe;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public interface MealPlanDataAccessInterface {
-    HashMap<String, Double> getRecipeNutritionalInfo(String recipeID);  // temporary for testing
+    String Breakfast(int identifier);
 
-    String breakfast(int identifier);
+    List<Ingredient> CreateIngredients(String identifier);
 
-    List<Ingredient> createIngredients(String identifier);
+    Recipe CreateRecipeBreakfast(List<Ingredient> ingredients, String recipe);
 
-    Recipe createRecipeBreakfast(List<Ingredient> ingredients, String recipe);
+    String Lunch(int identifier);
 
-    String lunch(int identifier);
+    Recipe CreateRecipeLunch(List<Ingredient> ingredients, String recipe);
 
-    Recipe createRecipeLunch(List<Ingredient> ingredients, String recipe);
+    String Dinner(int identifier);
 
-    String dinner(int identifier);
-
-    Recipe createRecipeDinner(List<Ingredient> ingredients, String recipe);
+    Recipe CreateRecipeDinner(List<Ingredient> ingredients, String recipe);
 
     MealPlan getMealPlan(int id);
+
+    Boolean existByUserID(int userID);
+
+   String displayMealPlan(MealPlan mealplan);
+
+    void saveMealPlantoCsv(int id);
+
+
+
+
+
 }
