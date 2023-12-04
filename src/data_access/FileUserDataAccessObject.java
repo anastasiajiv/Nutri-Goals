@@ -674,7 +674,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     public String Lunch(int identifier) {
         User user = getAccountByUserId(identifier);
         int daily_cal = user.getRequiredCalories();
-        // TODO change names of methods **
+
         String lunch_cals = String.valueOf((2*(Math.round((daily_cal/5)))));
         String dietary = user.getDietary();
         List<String> allergies = user.getAllergies();
