@@ -19,19 +19,25 @@ public class WeightGoalViewModel extends ViewModel {
 
     public static final String USERID_LABEL = "UserId:"; // Track the current users userID
 
-    public static final String GENDER_LABEL = "Select Gender";
-    public static final String HEIGHT_LABEL = "Input Your Height";
-    public static final String WEIGHT_LABEL = "Input Your Weight";
+    public static final String MALE_LABEL = "Male";
 
-    public static final String AGE_LABEL = "Input Your Age";
+    public static final String FEMALE_LABEL = "Female";
+    public static final String HEIGHT_LABEL = "Input Your Height in cm: ";
+    public static final String WEIGHT_LABEL = "Input Your Weight in kg: ";
 
-    public static final String exerciseLVL_LABEL = "Select Exercise Level";
+    public static final String AGE_LABEL = "Input Your Age In Years: ";
 
-    public static final String weightGoalType_LABEL = "Select Your Desired Weight Goal";
+    public static final String exerciseLVL_LABEL = "Select Activity Level";
+
+    public static final String MAINTAINWEIGHT_LABEL = "Maintain Weight";
+
+    public static final String LOSEWEIGHT_LABEL = "Lose Weight";
+
+    public static final String GAINWEIGHT_LABEL = "Gain Weight";
 
     public static final String paceType_LABEL = "Input weight";
 
-    public static final String weightGOAL_BUTTONS_LAbEL = "Weight Goal";
+    public static final String weightGOAL_BUTTONS_LABEL = "Weight Goal";
 
     private WeightGoalState state = new WeightGoalState();
 
