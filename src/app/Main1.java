@@ -39,6 +39,7 @@ public class Main1 {
         SignupViewModel signupViewModel = new SignupViewModel();
         LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
         PreferencesViewModel preferencesViewModel = new PreferencesViewModel();
+
         //for weight Goals
         WeightGoalViewModel weightGoalViewModel = new WeightGoalViewModel();
 
@@ -78,7 +79,6 @@ public class Main1 {
 
         viewManagerModel.setActiveView(trial.viewName);
         viewManagerModel.firePropertyChanged();
-
 
         application.pack();
         application.setVisible(true);
