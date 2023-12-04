@@ -544,6 +544,19 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                     Double amount = entry.getValue();
                     conditionsaccum.append("max" + condition + "=" + amount + "&");
                 }
+
+                //make allergies into format for api call
+                StringBuilder allergiesaccum = new StringBuilder();
+                for (int i = 0; i < allergies.size(); i ++ ){
+                    if (i < allergies.size() - 1){
+                        allergiesaccum.append(allergies.get(i) + ",");}
+                    else {
+                        allergiesaccum.append(allergies.get(i));
+
+                    }
+
+                }
+
                 //calories depending on what weight goal
 
                 String calorietype = "max";
@@ -552,10 +565,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
 
 
+
         // diet and calories and allergies and conditions filtering through API call
                     HttpRequest request = HttpRequest.newBuilder()
                         .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=breakfast&number=1&" +
-                                calorietype + "Calories=" + breakfast_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergies))
+                                calorietype + "Calories=" + breakfast_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergiesaccum))
                         .header("X-API-Host", "https://api.spoonacular.com")
                         .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
                         .method("GET", HttpRequest.BodyPublishers.noBody())
@@ -666,6 +680,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         List<String> allergies = user.getAllergies();
         HashMap<String, Double> conditions = user.getConditions();
 
+        //conditions into format for api call
+
         StringBuilder conditionsaccum = new StringBuilder();
         for (Map.Entry<String, Double> entry : conditions.entrySet()){
             String condition = entry.getKey();
@@ -678,12 +694,25 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         if (user.WeightGoalType().equals("gainWeight")) {
             calorietype = "min";}
 
+        //make allergies into format for api call
+        StringBuilder allergiesaccum = new StringBuilder();
+        for (int i = 0; i < allergies.size(); i ++ ){
+            if (i < allergies.size() - 1){
+                allergiesaccum.append(allergies.get(i) + ",");}
+            else {
+                allergiesaccum.append(allergies.get(i));
+
+            }
+
+        }
+
+
 
 
         // diet and calories and allergies and conditions filtering through API call
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=maincourse&number=1&" +
-                        calorietype + "Calories=" + lunch_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergies))
+                        calorietype + "Calories=" + lunch_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergiesaccum))
                 .header("X-API-Host", "https://api.spoonacular.com")
                 .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
                 .method("GET", HttpRequest.BodyPublishers.noBody())
@@ -756,6 +785,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         List<String> allergies = user.getAllergies();
         HashMap<String, Double> conditions = user.getConditions();
 
+
         StringBuilder conditionsaccum = new StringBuilder();
         for (Map.Entry<String, Double> entry : conditions.entrySet()){
             String condition = entry.getKey();
@@ -764,6 +794,19 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         }
         //calories depending on what weight goal
 
+        //make allergies into format for api call
+        StringBuilder allergiesaccum = new StringBuilder();
+        for (int i = 0; i < allergies.size(); i ++ ){
+            if (i < allergies.size() - 1){
+                allergiesaccum.append(allergies.get(i) + ",");}
+            else {
+                allergiesaccum.append(allergies.get(i));
+
+            }
+
+        }
+
+
         String calorietype = "max";
         if (user.WeightGoalType().equals("gainWeight")) {
             calorietype = "min";}
@@ -771,7 +814,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=maincourse&number=1&" +
-                        calorietype + "Calories=" + dinner_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergies))
+                        calorietype + "Calories=" + dinner_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergiesaccum))
                 .header("X-API-Host", "https://api.spoonacular.com")
                 .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
                 .method("GET", HttpRequest.BodyPublishers.noBody())

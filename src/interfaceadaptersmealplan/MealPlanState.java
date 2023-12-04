@@ -1,4 +1,4 @@
-package src.interface_adapters.preferences;
+package src.interfaceadaptersmealplan;
 
 public class MealPlanState {
 
@@ -7,11 +7,6 @@ public class MealPlanState {
     private int id ;
     private String idError = null;
 
-
-    public MealPlanState(String mealplan, MealPlanState copy){
-        this.mealplan = mealplan;
-        id = copy.id;
-    }
 
     public MealPlanState(){}
 

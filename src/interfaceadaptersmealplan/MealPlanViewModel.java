@@ -1,5 +1,6 @@
-package src.interface_adapters.preferences;
+package src.interfaceadaptersmealplan;
 
+import src.interfaceadaptersmealplan.MealPlanState;
 import src.use_case.ViewManagerModel;
 
 import java.beans.PropertyChangeListener;
@@ -7,7 +8,11 @@ import java.beans.PropertyChangeSupport;
 
 public class MealPlanViewModel extends ViewManagerModel {
 
+    public final String MEALPLAN_BUTTON_LABEL = "Get Meal Plan";
+
     private MealPlanState state = new MealPlanState();
+
+
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     public MealPlanViewModel(){}

@@ -1,4 +1,4 @@
-package src.interface_adapters.preferences;
+package src.interfaceadaptersmealplan;
 
 import src.use_case.mealplan.MealPlanOutputBoundary;
 import src.use_case.mealplan.MealPlanOutputData;
