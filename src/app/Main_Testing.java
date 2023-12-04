@@ -1,5 +1,6 @@
 package src.app;
 import src.interface_adapters.preferences.PreferencesViewModel;
+import src.interface_adapters.trackedNutrients.TrackedNutrientsViewModel;
 import src.view.*;
 
 import src.data_access.FileUserDataAccessObject;
@@ -38,6 +39,7 @@ public class Main_Testing {
         SignupViewModel signupViewModel = new SignupViewModel();
         LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
         PreferencesViewModel preferencesViewModel = new PreferencesViewModel();
+        TrackedNutrientsViewModel trackedNutrientsViewModel = new TrackedNutrientsViewModel();
 
         FileUserDataAccessObject userDataAccessObject;
 
@@ -52,7 +54,7 @@ public class Main_Testing {
         views.add(signupView, signupView.viewName);
 
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel,
-                preferencesViewModel, userDataAccessObject);
+                preferencesViewModel, trackedNutrientsViewModel, userDataAccessObject);
         views.add(loginView, loginView.viewName);
 
         LoggedInView loggedInView = new LoggedInView(loggedInViewModel, cardLayout, views);
@@ -61,6 +63,10 @@ public class Main_Testing {
         PreferencesView preferencesView = PreferencesUseCaseFactory.create(viewManagerModel, preferencesViewModel,
                 loggedInViewModel, userDataAccessObject);
         views.add(preferencesView, preferencesView.viewName);
+
+        TrackedNutrientsView trackedNutrientsView = TrackedNutrientsUseCaseFactory.create(viewManagerModel,
+                trackedNutrientsViewModel, loggedInViewModel, userDataAccessObject);
+        views.add(trackedNutrientsView, trackedNutrientsView.viewName);
 
         viewManagerModel.setActiveView(trial.viewName);
         viewManagerModel.firePropertyChanged();
