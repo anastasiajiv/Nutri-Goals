@@ -15,6 +15,7 @@ import src.entity.UserFactory;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -76,27 +77,45 @@ public class Main {
                     weightGoal);
 
             HashMap<String, Boolean> dietary = new HashMap<>();
-            dietary.put("Vegetarian", Boolean.TRUE);
+            dietary.put("Vegetarian", Boolean.FALSE);
             dietary.put("Vegan", Boolean.FALSE);
             dietary.put("Pescatarian", Boolean.FALSE);
+            dietary.put("none1", Boolean.TRUE);
 
             newUser.setDietary(dietary);
             HashMap<String, Boolean> allergies = new HashMap<>();
-            allergies.put("Eggs", Boolean.TRUE);
-            allergies.put("Sesame", Boolean.TRUE);
+            allergies.put("Eggs", Boolean.FALSE);
+            allergies.put("Sesame", Boolean.FALSE);
             allergies.put("Shellfish", Boolean.FALSE);
             allergies.put("Wheat", Boolean.FALSE);
+            allergies.put("Peanut", Boolean.FALSE);
+            allergies.put("Seafood", Boolean.TRUE);
+            allergies.put("none", Boolean.TRUE);
+            allergies.put("Wheat", Boolean.FALSE);
+            allergies.put("TreeNut", Boolean.FALSE);
             newUser.setAllergies(allergies);
             HashMap<String, String> condition = new HashMap<>();
             condition.put("Magnesium", "low");
             condition.put("Iron", "average");
             condition.put("Calcium", "high");
             condition.put("VitaminD", "high");
+            condition.put("VitaminC", "average");
+            condition.put("Sugar", "low");
+            condition.put("Potassium", "average");
+
             newUser.setConditions(condition);
 
             userDAO.savePreferences(newUser.getUserId(), newUser.getDietary(), newUser.getAllergies(), newUser.getConditions());
+            String breakFast = userDAO.Breakfast(newUser.getUserId());
+            List<Ingredient> ing = userDAO.CreateIngredients(breakFast);
+            Recipe rec = userDAO.CreateRecipeBreakfast(ing, breakFast);
+            MealPlan meal = userDAO.getMealPlan(newUser.getUserId());
 
-        System.out.println(userDAO.accounts.size());
+        //System.out.println(userDAO.accounts.size());
+
+
+
+        System.out.println(userDAO.Lunch(newUser.getUserId()));
 
 
 
