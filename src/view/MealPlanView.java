@@ -45,7 +45,7 @@ public class MealPlanView extends JPanel implements ActionListener, PropertyChan
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(getmealplan)) {
                             MealPlanState currentState = mealPlanViewModel.getState();
-                            //mealPlanController.execute(//TODO get id);
+                            mealPlanController.execute(currentState.getId());
                             String mealplan = currentState.getMealplan();
                             showmealplan(mealplan);
 
@@ -60,6 +60,10 @@ public class MealPlanView extends JPanel implements ActionListener, PropertyChan
                     }
                 }
         );
+
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.add(title);
+        this.add(getmealplan);
 
 
 
