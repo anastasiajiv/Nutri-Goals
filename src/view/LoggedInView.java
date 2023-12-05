@@ -24,6 +24,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
     JButton weightGoals;
 
+    JButton getmealplan;
+
     final JButton logOut;
 
     /**
@@ -48,6 +50,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
         weightGoals = new JButton(loggedInViewModel.weightGOAL_BUTTONS_LABEL);
 
+        getmealplan = new JButton(loggedInViewModel.MEALPLAN_BUTTON_LABEL);
+
         buttons.add(preferences);
         preferences.addActionListener(
                 new ActionListener() {
@@ -71,6 +75,19 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                         }
                     }
                 }
+        );
+
+        buttons.add(getmealplan);
+        getmealplan.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent evt2) {
+                        if (evt2.getSource().equals(getmealplan)) {
+                            cardLayout.show(views, "Get Meal Plan");
+                        }
+                    }
+                }
+
         );
 
         // adding the JButton for the TrackedNutrients view and use case

@@ -7,6 +7,7 @@ import src.interface_adapters.logged_in.LoggedInViewModel;
 import src.interface_adapters.login.LoginController;
 import src.interface_adapters.login.LoginPresenter;
 import src.interface_adapters.login.LoginViewModel;
+import src.interface_adapters.mealplan.MealPlanViewModel;
 import src.interface_adapters.preferences.PreferencesViewModel;
 import src.interface_adapters.trackedNutrients.TrackedNutrientsViewModel;
 import src.interface_adapters.weightgoal.WeightGoalViewModel;
@@ -27,13 +28,14 @@ public class LoginUseCaseFactory {
             LoginViewModel loginViewModel,
             LoggedInViewModel loggedInViewModel,
             PreferencesViewModel preferencesViewModel,
-            TrackedNutrientsViewModel trackedNutrientsViewModel,
             WeightGoalViewModel weightGoalViewModel,
+            TrackedNutrientsViewModel trackedNutrientsViewModel,
+            MealPlanViewModel mealPlanViewModel,
             LoginUserDataAccessInterface userDataAccessObject) {
 
         try {
             LoginController loginController = createLoginUseCase(viewManagerModel, loginViewModel, loggedInViewModel,
-                    preferencesViewModel, trackedNutrientsViewModel,weightGoalViewModel, userDataAccessObject);
+                    preferencesViewModel, weightGoalViewModel, trackedNutrientsViewModel, mealPlanViewModel, userDataAccessObject);
             return new LoginView(loginViewModel, loginController);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
@@ -47,8 +49,9 @@ public class LoginUseCaseFactory {
             LoginViewModel loginViewModel,
             LoggedInViewModel loggedInViewModel,
             PreferencesViewModel preferencesViewModel,
-            TrackedNutrientsViewModel trackedNutrientsViewModel,
             WeightGoalViewModel weightGoalViewModel,
+            TrackedNutrientsViewModel trackedNutrientsViewModel,
+            MealPlanViewModel mealPlanViewModel,
             LoginUserDataAccessInterface userDataAccessObject) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
@@ -56,8 +59,11 @@ public class LoginUseCaseFactory {
                 loggedInViewModel,
                 loginViewModel,
                 preferencesViewModel,
+                weightGoalViewModel,
                 trackedNutrientsViewModel,
-                weightGoalViewModel);
+                mealPlanViewModel
+                );
+
 
         UserFactory userFactory = new CommonUserFactory();
 
