@@ -358,22 +358,27 @@ public class CommonUser implements User {
                 daily_value = 8 - 0.20 * 8;
             } else if (value.equals("average")){
                 daily_value = 8;
+
             } else {
                 daily_value = 8 + 0.20 * 8;
+
             }
         } else if (isFemale().equals("true") && age > 18 && age < 51){
             if (value.equals("low")){
                 daily_value = 18 - 0.20 * 18;
+
             } else if (value.equals("average")){
                 daily_value = 18;
+
             } else {
                 daily_value = 18 + 0.20 * 18;
+
             }
         } else {
             daily_value = 0.0;
             System.out.println("Could not set Iron level.");
+
         }
-        assert(daily_value != 0.0);
         return (daily_value / 3);
     }
 
@@ -417,7 +422,7 @@ public class CommonUser implements User {
             daily_value = 0.0;
             System.out.println("Could not set Magnesium level");
         }
-        assert(daily_value != 0.0);
+
         return (daily_value / 3);
 
     }
