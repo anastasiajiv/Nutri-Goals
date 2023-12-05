@@ -45,8 +45,8 @@ public class Main_Testing {
 
         FileUserDataAccessObject userDataAccessObject;
 
-        userDataAccessObject = new FileUserDataAccessObject("./users.csv", "mealplan.csv", new CommonUserFactory());
-
+        /*userDataAccessObject = new FileUserDataAccessObject("./users.csv", "mealplan.csv", new CommonUserFactory());*/
+        userDataAccessObject = new FileUserDataAccessObject("./help.csv", "mealplan.csv", new CommonUserFactory());
 
         WelcomePageView trial = new WelcomePageView(cardLayout, views);
         views.add(trial, trial.viewName);
@@ -87,8 +87,8 @@ public class Main_Testing {
 
         application.pack();
         application.setVisible(true);
-        System.out.println(userDataAccessObject.accounts.get(5).getName());
-        System.out.println(userDataAccessObject.accounts.get(5).getPassword());
+        /*System.out.println(userDataAccessObject.accounts.get(5).getName());
+        System.out.println(userDataAccessObject.accounts.get(5).getPassword());*/
         //System.out.println(userDataAccessObject.accounts.get(3).getCreationTime());
         //System.out.println(userDataAccessObject.accounts.get(5).);
         //System.out.println(userDataAccessObject.accounts.get(12).getPassword());
