@@ -1,4 +1,5 @@
 package src.app;
+import src.interface_adapters.mealplan.MealPlanViewModel;
 import src.interface_adapters.preferences.PreferencesViewModel;
 import src.interface_adapters.trackedNutrients.TrackedNutrientsViewModel;
 import src.interface_adapters.weightgoal.WeightGoalViewModel;
@@ -42,6 +43,7 @@ public class Main_Testing {
         PreferencesViewModel preferencesViewModel = new PreferencesViewModel();
         TrackedNutrientsViewModel trackedNutrientsViewModel = new TrackedNutrientsViewModel();
         WeightGoalViewModel weightGoalViewModel = new WeightGoalViewModel();
+        MealPlanViewModel mealPlanViewModel = new MealPlanViewModel();
 
         FileUserDataAccessObject userDataAccessObject;
 
@@ -56,7 +58,7 @@ public class Main_Testing {
         views.add(signupView, signupView.viewName);
 
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel,
-                preferencesViewModel, trackedNutrientsViewModel, userDataAccessObject);
+                preferencesViewModel, trackedNutrientsViewModel, mealPlanViewModel, userDataAccessObject);
         views.add(loginView, loginView.viewName);
 
         LoggedInView loggedInView = new LoggedInView(loggedInViewModel, cardLayout, views);
@@ -82,6 +84,10 @@ public class Main_Testing {
         views.add(weightGoalsView, weightGoalsView.viewName);
 
         viewManagerModel.setActiveView(trial.viewName);
+        viewManagerModel.firePropertyChanged();
+
+        MealPlanView mealPlanView = MealPlanUseCaseFactory.create(viewManagerModel, mealPlanViewModel, loggedInViewModel, userDataAccessObject);
+        views.add(mealPlanView, mealPlanView.viewName);
         viewManagerModel.firePropertyChanged();
 
 
