@@ -11,46 +11,57 @@ import java.util.List;
 public class InMemoryMealPlanAccessObject implements MealPlanDataAccessInterface {
 
     @Override
-    public HashMap<String, Double> getRecipeNutritionalInfo(String recipeID) {  // temporary for testing
-        return null;
-    }
-    @Override
-    public String breakfast(int identifier) {
+    public String Breakfast(int identifier) {
         return null;
     }
 
     @Override
-    public List<Ingredient> createIngredients(String identifier) {
+    public List<Ingredient> CreateIngredients(String identifier) {
         return null;
     }
 
     @Override
-    public Recipe createRecipeBreakfast(List<Ingredient> ingredients, String recipe) {
+    public Recipe CreateRecipeBreakfast(List<Ingredient> ingredients, String recipe) {
         return null;
     }
 
     @Override
-    public String lunch(int identifier) {
+    public String Lunch(int identifier) {
         return null;
     }
 
     @Override
-    public Recipe createRecipeLunch(List<Ingredient> ingredients, String recipe) {
+    public Recipe CreateRecipeLunch(List<Ingredient> ingredients, String recipe) {
         return null;
     }
 
     @Override
-    public String dinner(int identifier) {
+    public String Dinner(int identifier) {
         return null;
     }
 
     @Override
-    public Recipe createRecipeDinner(List<Ingredient> ingredients, String recipe) {
+    public Recipe CreateRecipeDinner(List<Ingredient> ingredients, String recipe) {
         return null;
     }
 
     @Override
     public MealPlan getMealPlan(int id) {
         return null;
+    }
+
+    @Override
+    public Boolean existByUserID(int userID) {
+        return null;
+    }
+
+    @Override
+    public String displayMealPlan(MealPlan mealplan) {
+        return null;
+    }
+
+    @Override
+    public void saveMealPlantoCsv(int id) {
+
     }
 }

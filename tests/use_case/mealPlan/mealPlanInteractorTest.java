@@ -16,13 +16,14 @@ import java.util.Map;
 
 public class mealPlanInteractorTest {
     private FileUserDataAccessObject fileUserDAO;
-    private final String csvPath = "./users.csv";
+    private final String csvFilePath = "./users.csv";
+    private final String csvMealPlanFilePath = "./mealplan.csv";  // might be wrong
     private final UserFactory userFactory = new CommonUserFactory();
 
     @BeforeEach
     void setUp() throws IOException {
         // create a new fileUserDAO
-        this.fileUserDAO = new FileUserDataAccessObject(this.csvPath, this.userFactory);
+        this.fileUserDAO = new FileUserDataAccessObject(this.csvFilePath, this.csvMealPlanFilePath);
     }
 
     @Test

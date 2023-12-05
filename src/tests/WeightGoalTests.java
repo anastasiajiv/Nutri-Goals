@@ -23,7 +23,7 @@ public class WeightGoalTests { // TODO : Create a mock database to hold the acco
 
     @BeforeEach
     void setUp() {
-        this.userDataAccessObject = new FileUserDataAccessObject(testCsvFilePath, testMealPlanFilePath, userFactory);
+        this.userDataAccessObject = new FileUserDataAccessObject(testCsvFilePath, testMealPlanFilePath);
     }
 
     @Test

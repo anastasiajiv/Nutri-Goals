@@ -1,6 +1,5 @@
 package tests.use_case.trackedNutrients;
 
-import org.junit.jupiter.api.BeforeEach;
 import src.data_access.FileUserDataAccessObject;
 import src.data_access.InMemoryTrackedNutrientsDataAccessObject;
 import src.entity.User;
@@ -21,14 +20,15 @@ public class TrackedNutrientsInteractorTest {
     // sets the user's trackedNutrients attribute to the given array list
 
     private FileUserDataAccessObject fileUserDAO;
-    private final String csvPath = "./users.csv";
+    private final String csvFilePath = "./users.csv";
+    private final String csvMealPlanFilePath = "./mealplan.csv";  // might be wrong name
 
     private final UserFactory userFactory = new CommonUserFactory();
 
     @Test
     void setUp() throws IOException {
         // create a new fileUserDAO
-        this.fileUserDAO = new FileUserDataAccessObject(this.csvPath, this.userFactory);
+        this.fileUserDAO = new FileUserDataAccessObject(this.csvFilePath, this.csvMealPlanFilePath);
     }
 
     @Test
@@ -69,8 +69,8 @@ public class TrackedNutrientsInteractorTest {
         );
 
         // save the user to the file
-        this.fileUserDAO.saveNewUser(user);   // need to change with pull request
-        this.fileUserDAO.save(user);
+        // this.fileUserDAO.saveNewUser(user);   // need to change with pull request
+        // this.fileUserDAO.save(user);
 
         assertTrue(this.fileUserDAO.existByUserID(userID));
         assertNotNull(this.fileUserDAO.getAccountByUserID(userID));

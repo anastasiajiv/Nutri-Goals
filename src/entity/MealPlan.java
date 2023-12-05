@@ -1,10 +1,6 @@
 package src.entity;
 
-import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.HashMap;
-=======
->>>>>>> main
 
 public interface MealPlan {
     Recipe getBreakfast();
@@ -12,10 +8,4 @@ public interface MealPlan {
     Recipe getLunch();
 
     Recipe getDinner();
-<<<<<<< HEAD
-
-    HashMap<String, Double> getCumulativeNutritionalInfo();
 }
-=======
-}
->>>>>>> main
