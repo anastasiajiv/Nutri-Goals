@@ -7,7 +7,11 @@ public class WeightGoalState {
     private int userID = 0; // We should be retrieving this userID from the view
                             // (preferably not as a user input) - method should be used in view and state
 
-    private HashMap<String, Boolean> gender = null;
+    private HashMap<String, Boolean> gender = new HashMap<>();
+
+    private String isMale = null;
+
+    private String isFemale = null;
 
     private double height = 0.0;
 
@@ -21,11 +25,13 @@ public class WeightGoalState {
 
     private String weightGoalError = null;
 
-    private HashMap<String, Boolean> weightGoal;
+    private HashMap<String, Boolean> weightGoal = new HashMap<>();
 
     public WeightGoalState(WeightGoalState copy) {
             userID = copy.userID;
             gender = copy.gender;
+            isMale = copy.isMale;
+            isFemale = copy.isFemale;
             height = copy.height;
             weight = copy.weight;
             age = copy.age;
@@ -44,6 +50,20 @@ public class WeightGoalState {
 
     public HashMap<String, Boolean> getGender() {
         return gender;
+    }
+
+    public String getIsMale() {
+        if (gender.get("male") != null) {
+            return String.valueOf(gender.get("male"));
+        }
+        return String.valueOf(Boolean.FALSE);
+    }
+
+    public String getIsFemale() {
+        if (gender.get("female") != null) {
+            return String.valueOf(gender.get("female"));
+        }
+        return String.valueOf(Boolean.FALSE);
     }
 
     public double getHeight() {
@@ -73,6 +93,8 @@ public class WeightGoalState {
     public HashMap<String, Boolean> getWeightGoal() {
         return weightGoal;
     }
+
+
 
 
 
@@ -112,6 +134,10 @@ public class WeightGoalState {
     public void setWeightGoalError(String weightGoalError) {
         this.weightGoalError = weightGoalError;
     }
+
+    public void setIsMale(String isMale) {this.isMale = isMale;}
+
+    public void setIsFemale(String isFemale) {this.isFemale = isFemale;}
 
 
 

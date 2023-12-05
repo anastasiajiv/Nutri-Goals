@@ -31,5 +31,6 @@ public class WeightGoalController {
                 exerciseLvl,
                 paceType,
                 weightGoal);
+        weightGoalUseCaseInteractor.execute(weightGoalInputData); //
     }
 }

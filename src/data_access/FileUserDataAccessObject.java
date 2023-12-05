@@ -45,7 +45,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         this.csvMealPlanFilePath = csvMealPlanFilePath;
         this.accounts = new HashMap<>();
         this.userFactory = userFactory;
-        loadUserDataFromCsv();
+        loadUserDataFromCsv();  // TODO: IMPORTANT -> This updates accounts map upon every run
     }
 
     // SignUp use case methods
@@ -194,7 +194,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
         User user = accounts.get(userID);
         //Get BMR
-        if (Boolean.valueOf(user.isMale())) {
+        if (Boolean.valueOf(user. isMale())) {
             userBMR = (10 * user.getUserWeight()) + (6.25 * user.getUserHeight()) - (5 * user.getUserAge()) + 5;
         } else if (Boolean.valueOf(user.isFemale())) {
             userBMR = (10 * user.getUserWeight()) + (6.25 * user.getUserHeight()) - (5 * user.getUserAge()) - 161;

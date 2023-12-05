@@ -18,6 +18,8 @@ import java.util.HashMap;
 public class WeightGoalsView extends JPanel implements ActionListener, PropertyChangeListener {
 
     private final WeightGoalViewModel weightGoalViewModel;
+//    final WeightGoalController weightGoalController;
+
     private final WeightGoalController weightGoalController;
 
     public final String viewName = "Weight Goals";
@@ -153,6 +155,10 @@ public class WeightGoalsView extends JPanel implements ActionListener, PropertyC
                             HashMap<String, Boolean> gender = new HashMap<>();
                             gender.put("male", male.isSelected());
                             gender.put("female", female.isSelected());
+
+                            currentState.setIsFemale(String.valueOf(female.isSelected()));
+                            currentState.setIsMale(String.valueOf(male.isSelected()));
+
                             currentState.setGender(gender);
 
                             HashMap<String, Boolean> weightGoal = new HashMap<>();
@@ -162,12 +168,17 @@ public class WeightGoalsView extends JPanel implements ActionListener, PropertyC
                             currentState.setWeightGoal(weightGoal);
 
                             int exerciseLvlSave = (Integer) exerciseLvl.getSelectedItem();
+
                             currentState.setExerciseLvl(exerciseLvlSave);
                             String paceTypeSave = (String) paceType.getSelectedItem();
+                            currentState.setPaceType(paceTypeSave);
 
-//                            int userAge = currentState.getAge();
-//                            double userHeight = currentState.getHeight();
-//                            double userWeight = currentState.getWeight();
+                            int userAge = currentState.getAge();
+                            currentState.setAge(userAge);
+                            double userHeight = currentState.getHeight();
+                            currentState.setHeight(userHeight);
+                            double userWeight = currentState.getWeight();
+                            currentState.setWeight(userWeight);
 
                             weightGoalController.execute(currentState.getUserId(),
                                     currentState.getGender(),
@@ -177,6 +188,15 @@ public class WeightGoalsView extends JPanel implements ActionListener, PropertyC
                                     currentState.getExerciseLvl(),
                                     currentState.getPaceType(),
                                     currentState.getWeightGoal());
+
+//                            weightGoalController.execute(currentState.getUserId(),
+//                                    currentState.getGender(),
+//                                    currentState.getHeight(),
+//                                    currentState.getWeight(),
+//                                    currentState.getAge(),
+//                                    currentState.getExerciseLvl(),
+//                                    currentState.getPaceType(),
+//                                    currentState.getWeightGoal());
 
                         }
 
