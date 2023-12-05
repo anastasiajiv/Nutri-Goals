@@ -190,7 +190,7 @@ public class CommonUser implements User {
             if ((value == Boolean.TRUE) && !key.equals("none")) {
                 user_diet = key;
             } else if (key.equals("none1") && (value == Boolean.TRUE)){
-                user_diet = " ";
+                user_diet = "";
             }
         }
         return user_diet;
@@ -206,7 +206,7 @@ public class CommonUser implements User {
             if ((value == Boolean.TRUE) && !key.equals("none")){
                 user_allergies.add(key);
             } else if (key.equals("none") && (value == Boolean.TRUE)){
-                user_allergies.add(" ");
+                user_allergies.add("");
             }
         }
         return user_allergies;
