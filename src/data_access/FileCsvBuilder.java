@@ -47,21 +47,22 @@ public class FileCsvBuilder {
                 "username," +//1
                 "password," +//2
                 "creationTime," +//3
-                "male," +//4
-                "female," +//5
-                "height," +//6
-                "weight," +//7
-                "age," +//8
-                "exerciseLvl," +//9
-                "dietaryRestriction1," +//10
-                "allergiesRestriction1," +//11
-                "conditionsRestrictions1," +//12
-                "maintainWeight," + //13
-                "loseWeight," + //14
-                "gainWeight," +// 15
-                "weightPaceType," +// 16
-                "requiredCalories," +// 17
-                "trackedNutrients"); //18
+                "gender," + //4
+//                "male," +//4
+//                "female," +//5
+                "height," +//5
+                "weight," +//6
+                "age," +//7
+                "exerciseLvl," +//8
+                "dietaryRestriction1," +//9
+                "allergiesRestriction1," +//10
+                "conditionsRestrictions1," +//11
+                "maintainWeight," + //12
+                "loseWeight," + //13
+                "gainWeight," +// 14
+                "weightPaceType," +// 15
+                "requiredCalories," +// 16
+                "trackedNutrients"); //17
         writer.newLine();
         writer.close();
     }
@@ -71,14 +72,13 @@ public class FileCsvBuilder {
         if (!isUserIdAlreadyInCsv(user.getUserId(), csvFile)) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile, true))) {
 
-                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
 
                         user.getUserId(),
                         user.getName(),
                         user.getPassword(),
                         user.getCreationTime(),
-                        user.isMale(),
-                        user.isFemale(),
+                        user.getGender(),
                         user.getUserHeight(),
                         user.getUserWeight(),
                         user.getUserAge(),
@@ -139,25 +139,26 @@ public class FileCsvBuilder {
                 columns[1] = user.getName();
                 columns[2] = user.getPassword();
                 columns[3] = user.getCreationTime().toString();
-                columns[4] = String.valueOf(user.isMale());
-                columns[5] = String.valueOf(user.isFemale());
-                columns[6] = String.valueOf(user.getUserHeight());
-                columns[7] = String.valueOf(user.getUserWeight());
-                columns[8] = String.valueOf(user.getUserAge());
-                columns[9] = String.valueOf(user.getUserExerciseLevel());
+                columns[4] = getStringRep(user.getGender());
+//                columns[4] = String.valueOf(user.isMale());
+//                columns[5] = String.valueOf(user.isFemale());
+                columns[5] = String.valueOf(user.getUserHeight());
+                columns[6] = String.valueOf(user.getUserWeight());
+                columns[7] = String.valueOf(user.getUserAge());
+                columns[8] = String.valueOf(user.getUserExerciseLevel());
                 //columns[10] = String.valueOf(user.getDietary());
-                columns[10] = getStringRep(user.getDietary());
+                columns[9] = getStringRep(user.getDietary());
                 //columns[11] = String.valueOf(user.getAllergies());
-                columns[11] = getStringRep(user.getAllergies());
+                columns[10] = getStringRep(user.getAllergies());
                 //columns[12] = String.valueOf(user.getConditions());
-                columns[12] = getStringRep(user.getConditions());
-                columns[13] = String.valueOf(user.getMaintainTypeValue());
-                columns[14] = String.valueOf(user.getLoseTypeValue());
-                columns[15] = String.valueOf(user.getGainTypeValue());
-                columns[16] = user.getPaceType();
-                columns[17] = String.valueOf(user.getRequiredCalories());
+                columns[11] = getStringRep(user.getConditions());
+                columns[12] = String.valueOf(user.getMaintainTypeValue());
+                columns[13] = String.valueOf(user.getLoseTypeValue());
+                columns[14] = String.valueOf(user.getGainTypeValue());
+                columns[15] = user.getPaceType();
+                columns[16] = String.valueOf(user.getRequiredCalories());
                 //columns[18] = String.valueOf(user.getTrackedNutrients());
-                columns[18] = getStringRep(user.getTrackedNutrients());
+                columns[17] = getStringRep(user.getTrackedNutrients());
 
 
                 // Join the columns back into a line

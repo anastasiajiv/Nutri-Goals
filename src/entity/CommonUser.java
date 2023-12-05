@@ -16,7 +16,7 @@ public class CommonUser implements User {
     private final String name;
     private String password;
     private LocalDateTime creationTime;
-    HashMap<String, Boolean> gender; // remove final since they are subject to change.
+    private HashMap<String, Boolean> gender = new HashMap<>(); // remove final since they are subject to change.
     //Not sure if this is a good design decision
     private double userHeight;
     private double userWeight;
@@ -91,13 +91,22 @@ public class CommonUser implements User {
         return creationTime;
     }
 
-    // retrieve the user's gender (call getGenderType first to see if the value is specified)
     @Override
     public HashMap<String, Boolean> getGender() {
-        return this.gender;
+        return gender;
     }
 
+    // retrieve the user's gender (call getGenderType first to see if the value is specified)
+
+//    @Override
+//    public HashMap<String, Boolean> getGender() {
+//        gender.put("male", Boolean.valueOf(isMale()));
+//        gender.put("female", Boolean.valueOf(isFemale()));
+//        return gender;
+//    }
+
     // retrieves the user's gender type
+    @Override
     public String getGenderType() {
         for (Map.Entry<String, Boolean> entry: gender.entrySet()) {
             if (entry.getValue() == Boolean.TRUE) {
@@ -108,20 +117,22 @@ public class CommonUser implements User {
     }
 
     // returns true if the user identified that they are male
-    public String isMale() {
-        if (gender.get("male") != null) {
-            return String.valueOf(gender.get("male"));
-        }
-        return String.valueOf(Boolean.FALSE);
-    }
+//    public String isMale() {
+//
+//        return String.valueOf(gender.get("male"));
+//    }
 
     // returns true if the user identified that they are female
-    public String isFemale() {
-        if (gender.get("female") != null) {
-            return String.valueOf(gender.get("female"));
-        }
-        return String.valueOf(Boolean.FALSE);
-    }
+//    public String isFemale() {
+//        if (gender.get("female") != null) {
+//            return String.valueOf(gender.get("female"));
+//        }
+//        return String.valueOf(Boolean.FALSE);
+//    }
+
+//    public String isFemale() {
+//        return String.valueOf(gender.get("female"));
+//    }
 
     // retrieves the user's height
     @Override
@@ -234,7 +245,7 @@ public class CommonUser implements User {
         double daily_value;
 
         // specifies the daily calcium intake based on sex and age
-        if ((isMale().equals("true") && age > 18 && age < 71) || (isFemale().equals("true") && age > 18 && age < 51)){
+        if ((getGenderType().equals("male") && age > 18 && age < 71) || (getGenderType().equals("female") && age > 18 && age < 51)){
             // calculates the daily intake based on what intake type the user specified (low, average, high)
             if (value.equals("low")){
                 daily_value = 1000 - 0.20 * 1000;
@@ -243,7 +254,7 @@ public class CommonUser implements User {
             } else {
                 daily_value = 1000 + 0.20 * 1000;
             }
-        } else if ((isMale().equals("true") && age > 70) || (isFemale().equals("true") && age > 50)){
+        } else if ((getGenderType().equals("male") && age > 70) || (getGenderType().equals("female") && age > 50)){
             if (value.equals("low")){
                 daily_value = 1200 - 0.20 * 1200;
             } else if (value.equals("average")) {
@@ -267,7 +278,7 @@ public class CommonUser implements User {
     public Double getPotassiumValue(){
         String value = getConditions().get("Potassium");
         double daily_value;
-        if (isMale().equals("true")) {
+        if (getGenderType().equals("male")) {
             if (value.equals("low")) {
                 daily_value = 3400 - 0.20 * 3400;
             } else if (value.equals("average")) {
@@ -275,7 +286,7 @@ public class CommonUser implements User {
             } else {
                 daily_value = 3400 + 0.20 * 3400;
             }
-        } else if (isFemale().equals("true")){
+        } else if (getGenderType().equals("female")){
             if (value.equals("low")) {
                 daily_value = 2600 - 0.20 * 2600;
             } else if (value.equals("average")) {
@@ -295,7 +306,7 @@ public class CommonUser implements User {
     public Double getVitaminCValue(){
         String value = getConditions().get("Vitamin C");
         double daily_value;
-        if (isMale().equals("true")){
+        if (getGenderType().equals("male")){
             if (value.equals("low")){
                 daily_value = 90 - 0.20 * 90;
             } else if (value.equals("average")){
@@ -303,7 +314,7 @@ public class CommonUser implements User {
             } else {
                 daily_value = 90 + 0.20 * 90;
             }
-        } else if (isFemale().equals("true")){
+        } else if (getGenderType().equals("female")){
             if (value.equals("low")){
                 daily_value = 75 - 0.20 * 75;
             } else if (value.equals("average")){
@@ -324,7 +335,7 @@ public class CommonUser implements User {
         String value = getConditions().get("Vitamin D");
         double daily_value;
         int age = getUserAge();
-        if ((isMale().equals("true") && age > 18 && age < 71) || (isFemale().equals("true"))){
+        if ((getGenderType().equals("male") && age > 18 && age < 71) || (getGenderType().equals("female"))){
             if (value.equals("low")) {
                 daily_value = (600 * 0.67) - 0.20 * (600 * 0.67);
             } else if (value.equals("average")) {
@@ -332,7 +343,7 @@ public class CommonUser implements User {
             } else {
                 daily_value = (600 * 0.67) + 0.20 * (600 * 0.67);
             }
-        } else if ((isMale().equals("true") && age > 70)){
+        } else if ((getGenderType().equals("male") && age > 70)){
             if (value.equals("low") ){
                 daily_value = (800 * 0.67) - 0.20 * (800 * 0.67);
             } else if (value.equals("average")) {
@@ -353,7 +364,7 @@ public class CommonUser implements User {
         String value = getConditions().get("Iron");
         int age = getUserAge();
         double daily_value;
-        if ((isMale().equals("true")) || (isFemale().equals("true") && age > 50)){
+        if ((getGenderType().equals("male")) || (getGenderType().equals("female") && age > 50)){
             if (value.equals("low")){
                 daily_value = 8 - 0.20 * 8;
             } else if (value.equals("average")){
@@ -361,7 +372,7 @@ public class CommonUser implements User {
             } else {
                 daily_value = 8 + 0.20 * 8;
             }
-        } else if (isFemale().equals("true") && age > 18 && age < 51){
+        } else if (getGenderType().equals("female") && age > 18 && age < 51){
             if (value.equals("low")){
                 daily_value = 18 - 0.20 * 18;
             } else if (value.equals("average")){
@@ -381,7 +392,7 @@ public class CommonUser implements User {
         String value = getConditions().get("Magnesium");
         double daily_value;
         int age = getUserAge();
-        if (isMale().equals("true") && age > 18 && age< 31){
+        if (getGenderType().equals("male") && age > 18 && age< 31){
             if (value.equals("low")){
                 daily_value = 400 - 0.20 * 400;
             } else if (value.equals("average")){
@@ -389,7 +400,7 @@ public class CommonUser implements User {
             } else {
                 daily_value = 400 + 0.20 * 400;
             }
-        }else if (isMale().equals("true") && age > 30){
+        }else if (getGenderType().equals("male") && age > 30){
             if (value.equals("low")){
                 daily_value = 420 - 0.20 * 420;
             }else if (value.equals("average")){
@@ -397,7 +408,7 @@ public class CommonUser implements User {
             }else {
                 daily_value = 420 + 0.20 * 420;
             }
-        } else if (isFemale().equals("true") && age > 18 && age < 31){
+        } else if (getGenderType().equals("female") && age > 18 && age < 31){
             if (value.equals("low")){
                 daily_value = 310 - 0.20 * 310;
             } else if (value.equals("average")){
@@ -405,7 +416,7 @@ public class CommonUser implements User {
             } else {
                 daily_value = 310 + 0.20 * 310;
             }
-        } else if (isFemale().equals("true") && age > 30){
+        } else if (getGenderType().equals("female") && age > 30){
             if (value.equals("low")){
                 daily_value = 320 - 0.20 * 320;
             } else if (value.equals("average")){
@@ -428,7 +439,7 @@ public class CommonUser implements User {
         String value = getConditions().get("Sugar");
         double daily_value;
         int age = getUserAge();
-        if (isMale().equals("true") || isFemale().equals("true")){
+        if (getGenderType().equals("male") || getGenderType().equals("female")){
             if (value.equals("low")){
                 daily_value = 130 - 0.20 * 130;
             } else if (value.equals("average")){
@@ -512,6 +523,9 @@ public class CommonUser implements User {
 
     @Override
     public void setGender(HashMap<String, Boolean> gender) {
+        gender.put("male", getGenderType() == "male");
+        gender.put("female", getGenderType() == "female");
+
         this.gender = gender;
     }
     @Override

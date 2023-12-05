@@ -194,9 +194,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
         User user = accounts.get(userID);
         //Get BMR
-        if (Boolean.valueOf(user. isMale())) {
+        if (user.getGenderType().equals("male")) {
             userBMR = (10 * user.getUserWeight()) + (6.25 * user.getUserHeight()) - (5 * user.getUserAge()) + 5;
-        } else if (Boolean.valueOf(user.isFemale())) {
+        } else if (user.getGenderType().equals("female")) {
             userBMR = (10 * user.getUserWeight()) + (6.25 * user.getUserHeight()) - (5 * user.getUserAge()) - 161;
         }
         return getBMRAfterActivityMultiplier(userID, userBMR);
@@ -341,6 +341,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                     User user = userFactory.createdDefaultUser(userId, username);
                     user.setCreationTime(creationTime);
                     user.setPassword(password);
+                    HashMap<String, Boolean> gender = new HashMap<>();
+                    gender.put("male", male);
+                    gender.put("female", female);
+                    user.setGender(gender);
+
                     //TODO:  Add the rest
 
 

@@ -30,10 +30,10 @@ public class Main {
             newUser.setPassword("Dario");
             newUser.setCreationTime(LocalDateTime.now());
 
-            System.out.println(userDAO.saveUserSignUpData(newUser.getUserId(),
+            userDAO.saveUserSignUpData(newUser.getUserId(),
                     newUser.getName(),
                     newUser.getPassword(),
-                    newUser.getCreationTime()));
+                    newUser.getCreationTime());
 
 
 
@@ -93,7 +93,9 @@ public class Main {
             newUser.setConditions(condition);
 
             userDAO.savePreferences(newUser.getUserId(), newUser.getDietary(), newUser.getAllergies(), newUser.getConditions());
-        System.out.println(userDAO.accounts.size());
+
+
+        System.out.println(userDAO.accounts.get(2391).getGenderType());
     }
 
 

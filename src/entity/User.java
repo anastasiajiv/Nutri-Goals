@@ -16,9 +16,11 @@ public interface User {
 
     HashMap<String, Boolean> getGender();
 
-    String isFemale();
+    String getGenderType();
 
-    String isMale();
+//    String isFemale();
+//
+//    String isMale();
 
     double getUserHeight();
 
