@@ -22,8 +22,8 @@ import java.net.http.HttpClient;
 import java.io.IOException;
 import java.io.IOException;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+/*import org.json.JSONArray;
+import org.json.JSONObject;*/
 
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
@@ -268,7 +268,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         return csvBuilder.buildCsv(currentUser, 1);
     }
 
-    private HashMap<String, Float> getRecipeNutritionalInfo(String recipeID) {
+    /*private HashMap<String, Float> getRecipeNutritionalInfo(String recipeID) {
         // format the API request
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spoonacular.com/recipes/"+ recipeID +"/information?includeNutrition=true"))
@@ -306,7 +306,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
             recipeNutritionalInfo.put(nutrientName, nutrientValue);
         }
         return recipeNutritionalInfo;
-    }
+    }*/
 
 
     public void loadUserDataFromCsv() {
