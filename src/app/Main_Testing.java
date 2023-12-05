@@ -20,8 +20,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-// testing
-
 public class Main_Testing {
     public static void main(String[] args){
         JFrame application = new JFrame("Login Example");
