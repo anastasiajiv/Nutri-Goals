@@ -19,10 +19,7 @@ public class MealPlanInteractor implements MealPlanInputBoundary {
         if (!userDataAccessObject.existByUserID(id)){
             mealplanPresenter.prepareFailView( id + ": Account does not exist.");
 
-
-
         } else{
-
 
             MealPlan mealplan = userDataAccessObject.getMealPlan(id);
             userDataAccessObject.saveMealPlantoCsv(id);

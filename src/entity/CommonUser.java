@@ -29,10 +29,6 @@ public class CommonUser implements User {
 
 
 
-
-
-
-
     // main User constructor
     public CommonUser(int userId,
                       String name,
@@ -184,7 +180,7 @@ public class CommonUser implements User {
 
     public String userSpecifiedDietary() {
         String user_diet = new String();
-        for (Map.Entry<String, Boolean> map : getDietary().entrySet()) {
+        for (Map.Entry<String, Boolean> map : this.getDietary().entrySet()) {
             String key = map.getKey();
             Boolean value = map.getValue();
             if ((value == Boolean.TRUE) && !key.equals("none")) {
@@ -200,7 +196,7 @@ public class CommonUser implements User {
     //this would return a list of all allergies the user clicked on only
     public List<String> userSpecifiedAllergies(){
         List<String> user_allergies = new ArrayList<>();
-        for (Map.Entry<String, Boolean> map: getAllergies().entrySet()){
+        for (Map.Entry<String, Boolean> map: this.getAllergies().entrySet()){
             String key = map.getKey();
             Boolean value = map.getValue();
             if ((value == Boolean.TRUE) && !key.equals("none")){
@@ -217,21 +213,22 @@ public class CommonUser implements User {
     public HashMap<String, Double> userSpecifiedConditions(){
 
         HashMap<String, Double> user_conditions = new HashMap<>();
-        user_conditions.put("Calcium", getCalciumValue());
-        user_conditions.put("Potassium", getPotassiumValue());
-        user_conditions.put("VitaminC", getVitaminCValue());
-        user_conditions.put("VitaminD", getVitaminDValue());
-        user_conditions.put("Iron", getIronValue());
-        user_conditions.put("Magnesium", getMagnesiumValue());
-        user_conditions.put("Sugar", getSugarValue());
+        user_conditions.put("Calcium", this.getCalciumValue());
+        user_conditions.put("Potassium", this.getPotassiumValue());
+        user_conditions.put("VitaminC", this.getVitaminCValue());
+        user_conditions.put("VitaminD", this.getVitaminDValue());
+        user_conditions.put("Iron", this.getIronValue());
+        user_conditions.put("Magnesium", this.getMagnesiumValue());
+        user_conditions.put("Sugar", this.getSugarValue());
         return user_conditions;
     }
 
 
     public Double getCalciumValue(){
-        String value = getConditions().get("Calcium");
+        //String value = this.getConditions().get("Calcium");
+        String value = this.conditions.get("Calcium");
 
-        int age = getUserAge();
+        int age = this.getUserAge();
 
         // initialize a double to store the recommended daily average intake depending on the user's information
         double daily_value;
@@ -268,7 +265,7 @@ public class CommonUser implements User {
 
 
     public Double getPotassiumValue(){
-        String value = getConditions().get("Potassium");
+        String value = this.getConditions().get("Potassium");
         double daily_value;
         if (isMale().equals("true")) {
             if (value.equals("low")) {
@@ -296,7 +293,7 @@ public class CommonUser implements User {
 
 
     public Double getVitaminCValue(){
-        String value = getConditions().get("VitaminC");
+        String value = this.getConditions().get("VitaminC");
         double daily_value;
         if (isMale().equals("true")){
             if (value.equals("low")){
@@ -324,7 +321,7 @@ public class CommonUser implements User {
 
 
     public Double getVitaminDValue() {
-        String value = getConditions().get("VitaminD");
+        String value = this.getConditions().get("VitaminD");
         double daily_value;
         int age = getUserAge();
         if ((isMale().equals("true") && age > 18 && age < 71) || (isFemale().equals("true"))){
@@ -353,7 +350,7 @@ public class CommonUser implements User {
 
 
     public Double getIronValue(){
-        String value = getConditions().get("Iron");
+        String value = this.getConditions().get("Iron");
         int age = getUserAge();
         double daily_value;
         if ((isMale().equals("true")) || (isFemale().equals("true") && age > 50)){
@@ -381,7 +378,7 @@ public class CommonUser implements User {
     }
 
     public Double getMagnesiumValue(){
-        String value = getConditions().get("Magnesium");
+        String value = this.getConditions().get("Magnesium");
         double daily_value;
         int age = getUserAge();
         if (isMale().equals("true") && age > 18 && age< 31){
@@ -428,7 +425,7 @@ public class CommonUser implements User {
 
     //sugar is measured in grams not mg
     public Double getSugarValue(){
-        String value = getConditions().get("Sugar");
+        String value = this.getConditions().get("Sugar");
         double daily_value;
         int age = getUserAge();
         if (isMale().equals("true") || isFemale().equals("true")){

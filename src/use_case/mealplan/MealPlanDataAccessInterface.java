@@ -1,5 +1,6 @@
 package src.use_case.mealplan;
 
+import org.json.JSONArray;
 import src.entity.Ingredient;
 import src.entity.MealPlan;
 import src.entity.Recipe;
