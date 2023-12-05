@@ -72,8 +72,7 @@ public class Main_Testing {
                 trackedNutrientsViewModel, loggedInViewModel, userDataAccessObject);
         views.add(trackedNutrientsView, trackedNutrientsView.viewName);
 
-        viewManagerModel.setActiveView(trial.viewName);
-        viewManagerModel.firePropertyChanged();
+
         //trial.setVisible(true);
 
         // TODO: Implement for weight goals
@@ -83,11 +82,12 @@ public class Main_Testing {
                 userDataAccessObject);
         views.add(weightGoalsView, weightGoalsView.viewName);
 
-        viewManagerModel.setActiveView(trial.viewName);
-        viewManagerModel.firePropertyChanged();
 
         MealPlanView mealPlanView = MealPlanUseCaseFactory.create(viewManagerModel, mealPlanViewModel, loggedInViewModel, userDataAccessObject);
         views.add(mealPlanView, mealPlanView.viewName);
+
+
+        viewManagerModel.setActiveView(trial.viewName);
         viewManagerModel.firePropertyChanged();
 
 

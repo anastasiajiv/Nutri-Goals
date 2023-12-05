@@ -26,6 +26,9 @@ public class MealPlanPresenter implements MealPlanOutputBoundary {
         mealPlanState.setMealplan(mealplan.getMealplan());
         this.mealPlanViewModel.setState(mealPlanState);
 
+        this.viewManagermodel.setActiveView(loggedInViewModel.getViewName());
+        this.viewManagermodel.firePropertyChanged();
+
     }
 
     @Override
