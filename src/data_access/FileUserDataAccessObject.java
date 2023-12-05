@@ -533,9 +533,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         }
         //calories depending on what weight goal
 
-        String calorietype = "max";
-        if (user.getWeightGoalType().equals("gainWeight")) {
-            calorietype = "min";}
+
 
         //make allergies into format for api call
         StringBuilder allergiesaccum = new StringBuilder();
@@ -550,12 +548,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         }
 
 
-
-
         // diet and calories and allergies and conditions filtering through API call
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=salad,soup&number=1&" +
-                        calorietype + "Calories=" + lunch_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergiesaccum))
+                .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=salad,soup&number=1&maxCalories=" + lunch_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergiesaccum))
                 .header("X-API-Host", "https://api.spoonacular.com")
                 .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
                 .method("GET", HttpRequest.BodyPublishers.noBody())
@@ -571,7 +566,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         String recipe = response.body();
 
         // Find recipe id
-        String jsonstring = recipe;
+        String jsonstring = "" + recipe;
         JSONObject json = new JSONObject(jsonstring);
         JSONArray recipearray = json.getJSONArray("results");
         JSONObject firstresult = recipearray.getJSONObject(0);
@@ -656,7 +651,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=maincourse&number=1&minCalories=" + dinner_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergiesaccum))
+                .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=maincourse&number=1&maxCalories=" + dinner_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergiesaccum))
                 .header("X-API-Host", "https://api.spoonacular.com")
                 .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
                 .method("GET", HttpRequest.BodyPublishers.noBody())
@@ -672,7 +667,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         String recipe = response.body();
 
         // Find recipe id
-        String jsonstring = recipe;
+        String jsonstring = "" + recipe;
         JSONObject json = new JSONObject(jsonstring);
         JSONArray recipearray = json.getJSONArray("results");
         //return recipearray;
@@ -681,7 +676,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         int recipeid = firstresult.getInt("id");
 
 
-        String recipeID = String.valueOf(firstresult.getInt("id"));
+        //String recipeID = String.valueOf(firstresult.getInt("id"));
 
         //Use recipe id to get recipe information
 
