@@ -15,8 +15,8 @@ import java.beans.PropertyChangeEvent;
 
 public class MealPlanView extends JPanel implements ActionListener, PropertyChangeListener {
     private final MealPlanViewModel mealPlanViewModel;
-    final JTextField IDinputfield = new JTextField();
-    private final JLabel IDErrorfield = new JLabel();
+
+    public final String viewName = "Meal Plan";
 
     private final MealPlanController mealPlanController;
 
@@ -31,8 +31,7 @@ public class MealPlanView extends JPanel implements ActionListener, PropertyChan
         JLabel title = new JLabel("Get Meal Plan");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        LabelTextPanel usernameInfo = new LabelTextPanel(
-                new JLabel("User ID"), IDinputfield);
+
 
         JPanel buttons = new JPanel();
 
@@ -42,12 +41,19 @@ public class MealPlanView extends JPanel implements ActionListener, PropertyChan
 
         getmealplan.addActionListener(                // This creates an anonymous subclass of ActionListener and instantiates it.
                 new ActionListener() {
+                    @Override
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(getmealplan)) {
                             MealPlanState currentState = mealPlanViewModel.getState();
+                            //mealPlanController.execute(//TODO get id);
+                            String mealplan = currentState.getMealplan();
+                            showmealplan(mealplan);
 
-                            //mealPlanController.execute();
-                                    //String currentState.getId()
+
+
+
+
+
 
 
                         }
@@ -64,15 +70,20 @@ public class MealPlanView extends JPanel implements ActionListener, PropertyChan
 
 
 
+
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
+    public void showmealplan(String message) {
+        JOptionPane.showMessageDialog(this, message);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
 
     }
 }
