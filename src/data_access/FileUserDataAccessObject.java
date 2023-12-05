@@ -49,6 +49,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 
+
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
         WeightGoalUserDataInterface,
@@ -419,20 +420,26 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                 }
                 String recipe = response.body();
 
-                // Find recipe id
+
+                    //return recipe;
+
+
+                //Find recipe id
                 String jsonstring = "" + recipe;
                 JSONObject json = new JSONObject(jsonstring);
                 JSONArray recipearray = json.getJSONArray("results");
                 JSONObject firstresult = recipearray.getJSONObject(0);
                 int recipeid = firstresult.getInt("id");
-                String recipeID = String.valueOf(firstresult.getInt("id"));
+               // String recipeID = String.valueOf(firstresult.getInt("id"));
+
+
 
                 // Use recipe id to get recipe information
 
-                HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("https://api.spoonacular.com/recipes/{" + recipeID + "}/information"))
-                .header("X-API-Host", "https://api.spoonacular.com")
-                .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
-                .method("GET", HttpRequest.BodyPublishers.noBody())
+                HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("https://api.spoonacular.com/recipes/" + recipeid + "/information"))
+                    .header("X-API-Host", "https://api.spoonacular.com")
+                    .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                    .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
                 HttpResponse<String> response1 = null;
                 try {
@@ -444,9 +451,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                 }
 
                 String recipeinfo = response1.body();
-
-
                 return recipeinfo;
+
+
+
+
     }
 
     // takes in result from Breakfast()
@@ -494,7 +503,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         Integer id = json.getInt("id");
         String name = json.getString("title");
         String instructions = json.getString("summary");
-        HashMap<String, Float> nutritionalinfo = getRecipeNutritionalInfo(String.valueOf(id));
+        HashMap<String, Float> nutritionalinfo = new HashMap<>();
         String link = json.getString("sourceUrl");
         String type = "breakfast";
 
@@ -545,7 +554,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
         // diet and calories and allergies and conditions filtering through API call
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=maincourse&number=1&" +
+                .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=soup&number=1&" +
                         calorietype + "Calories=" + lunch_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergiesaccum))
                 .header("X-API-Host", "https://api.spoonacular.com")
                 .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
@@ -567,11 +576,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         JSONArray recipearray = json.getJSONArray("results");
         JSONObject firstresult = recipearray.getJSONObject(0);
         int recipeid = firstresult.getInt("id");
-        String recipeID = String.valueOf(firstresult.getInt("id"));
+        //String recipeID = String.valueOf(firstresult.getInt("id"));
 
         // Use recipe id to get recipe information
 
-        HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("https://api.spoonacular.com/recipes/{" + recipeID + "}/information"))
+        HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("https://api.spoonacular.com/recipes/" + recipeid + "/information"))
                 .header("X-API-Host", "https://api.spoonacular.com")
                 .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
                 .method("GET", HttpRequest.BodyPublishers.noBody())
@@ -602,7 +611,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         Integer id = json.getInt("id");
         String name = json.getString("title");
         String instructions = json.getString("summary");
-        HashMap<String, Float> nutritionalinfo = getRecipeNutritionalInfo(String.valueOf(id));
+        HashMap<String, Float> nutritionalinfo = new HashMap<>();
         String link = json.getString("sourceUrl");
         String type = "lunch";
 
@@ -669,11 +678,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         JSONArray recipearray = json.getJSONArray("results");
         JSONObject firstresult = recipearray.getJSONObject(0);
         int recipeid = firstresult.getInt("id");
-        String recipeID = String.valueOf(firstresult.getInt("id"));
+        //String recipeID = String.valueOf(firstresult.getInt("id"));
 
         // Use recipe id to get recipe information
 
-        HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("https://api.spoonacular.com/recipes/{" + recipeID + "}/information"))
+        HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("https://api.spoonacular.com/recipes/" + recipeid + "/information"))
                 .header("X-API-Host", "https://api.spoonacular.com")
                 .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
                 .method("GET", HttpRequest.BodyPublishers.noBody())
@@ -704,7 +713,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         Integer id = json.getInt("id");
         String name = json.getString("title");
         String instructions = json.getString("summary");
-        HashMap<String, Float> nutritionalinfo = getRecipeNutritionalInfo(String.valueOf(id));
+        HashMap<String, Float> nutritionalinfo = new HashMap<>();
         String link = json.getString("sourceUrl");
         String type = "dinner";
 
@@ -725,7 +734,10 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         List<Ingredient> ingredientslunch = CreateIngredients(lunch_api);
         Recipe lunch = CreateRecipeLunch(ingredientslunch, lunch_api);
         // Dinner
+
         String dinner_api = Dinner(id);
+
+
         List<Ingredient> ingredientsdinner = CreateIngredients(dinner_api);
         Recipe dinner = CreateRecipeLunch(ingredientsdinner, dinner_api);
         MealPlan mealplan = new CommonMealPlan(breakfast, lunch, dinner);
