@@ -171,14 +171,6 @@ public class PreferencesView extends JPanel implements ActionListener, PropertyC
                     soy.setEnabled(true);
                     treeNut.setEnabled(true);
                     wheat.setEnabled(true);
-                    /*egg.setSelected(false);
-                    peanut.setSelected(false);
-                    seafood.setSelected(false);
-                    sesame.setSelected(false);
-                    shellfish.setSelected(false);
-                    soy.setSelected(false);
-                    treaNut.setSelected(false);
-                    wheat.setSelected(false);*/
                 }
             }
         });

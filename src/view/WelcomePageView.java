@@ -53,6 +53,7 @@ public class WelcomePageView extends JPanel {
                     }
                 }
         );
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(subtitle);
         this.add(createAccount);
