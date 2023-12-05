@@ -32,6 +32,7 @@ public class CommonUser implements User {
 
 
 
+
     // main User constructor
     public CommonUser(int userId,
                       String name,
@@ -49,6 +50,7 @@ public class CommonUser implements User {
                       HashMap<String, Boolean> weightGoalType,
                       String paceType,
                       double requiredCalories) {
+
         this.userId = userId;
         this.name = name;
         this.password = password;
@@ -65,6 +67,7 @@ public class CommonUser implements User {
         this.weightGoalType = weightGoalType;
         this.paceType = paceType;
         this.requiredCalories = requiredCalories;
+
     }
 
     // retrieves UserID
@@ -499,7 +502,6 @@ public class CommonUser implements User {
         return requiredCalories;
     }
 
-
     //SETTERS -> These will allow us to update user information after creating a default user.
     @Override
     public void setPassword(String password) {
@@ -555,3 +557,4 @@ public class CommonUser implements User {
         this.trackedNutrients = trackedNutrients;
     }
 }
+

@@ -2,18 +2,29 @@ package src.entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 public interface Recipe {
 
     int getRecipeId();
 
     String getRecipeName();
 
-    HashMap<String, Double> getRecipeIngredients(); // Using java.lang DOUBLE -> object
+    List<Ingredient> getRecipeIngredients(); // Using java.lang DOUBLE -> object
 
     String getRecipeInstructions();
 
-    HashMap<String, Boolean> recipeType();
-    String getRecipeType();
+    String getrecipeType();
+
+    HashMap<String, Float> getnutritionalinfo();
+
+    String getnutritionalinfostring();
+
+
+    String getrecipelink();
+
+    String getrecipeIngredientstring();
+
 
     HashMap<String, Float> getNutritionalInfo();
 
