@@ -32,8 +32,6 @@ import src.entity.Recipe;
 import src.entity.CommonRecipe;
 import src.entity.Ingredient;
 import src.entity.CommonIngredient;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -42,14 +40,14 @@ import java.io.IOException;
 
 import java.io.IOException;
 
-<<<<<<< HEAD
+
 /*import org.json.JSONArray;
 import org.json.JSONObject;*/
-=======
+
 
 import org.json.JSONArray;
 import org.json.JSONObject;
->>>>>>> main
+
 
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
@@ -307,7 +305,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
 
-    /*private HashMap<String, Float> getRecipeNutritionalInfo(String recipeID) {
+    //private HashMap<String, Float> getRecipeNutritionalInfo(String recipeID) {
 
     //@Override
     public ArrayList<String> getUserTrackedNutrientsData(int userID) {
@@ -317,7 +315,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
 
     private HashMap<String, Float> getRecipeNutritionalInfo(String recipeID) {
->>>>>>> main
+
         // format the API request
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -356,7 +354,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
             recipeNutritionalInfo.put(nutrientName, nutrientValue);
         }
         return recipeNutritionalInfo;
-    }*/
+    }
 
 
 
