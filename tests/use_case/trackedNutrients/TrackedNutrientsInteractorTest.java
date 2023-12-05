@@ -20,13 +20,13 @@ public class TrackedNutrientsInteractorTest {
     // sets the user's trackedNutrients attribute to the given array list
 
     private FileUserDataAccessObject fileUserDAO;
-    private final String csvFilePath = "./users.csv";
-    private final String csvMealPlanFilePath = "./mealplan.csv";  // might be wrong name
+    private final String csvFilePath = "./test_users.csv";
+    private final String csvMealPlanFilePath = "./test_mealplan.csv";  // might be wrong name
 
     private final UserFactory userFactory = new CommonUserFactory();
 
     @Test
-    void setUp() throws IOException {
+    void setUp() {
         // create a new fileUserDAO
         this.fileUserDAO = new FileUserDataAccessObject(this.csvFilePath, this.csvMealPlanFilePath);
     }
@@ -35,48 +35,61 @@ public class TrackedNutrientsInteractorTest {
     void saveUserData() throws IOException {
         setUp();
         int userID = 101;
+        String username = "TestUser";
+        String password = "TestPassword";
+        LocalDateTime creationTime = LocalDateTime.now();
 
-        HashMap<String, Boolean> gender = new HashMap<>();
-        gender.put("female", true);
+        // create a new user; calls builder
+        fileUserDAO.saveUserSignUpData(userID, username, password, creationTime);
 
-        HashMap<String, String> conditions = new HashMap<>();
-        conditions.put("Calcium", "average");
-        conditions.put("Potassium", "average");
-        conditions.put("Vitamin C", "average");
-        conditions.put("Vitamin D", "average");
-        conditions.put("Iron", "average");
-        conditions.put("Magnesium", "average");
-        conditions.put("Sugar", "average");
-
-        // create a new user
-        User user = userFactory.create(
-                userID,
-                "Sophia",
-                "abc123",
-                LocalDateTime.now(),
-                gender,
-                170.0,
-                145,
-                19,
-                5,
-                new HashMap<>(),
-                new HashMap<>(),
-                conditions,
-                new ArrayList<>(),
-                new HashMap<>(),
-                "normal",
-                2000
-        );
-
-        // save the user to the file
-        // this.fileUserDAO.saveNewUser(user);   // need to change with pull request
-        // this.fileUserDAO.save(user);
-
+        // asserts that the user was successfully saved
         assertTrue(this.fileUserDAO.existByUserID(userID));
         assertNotNull(this.fileUserDAO.getAccountByUserID(userID));
-
-        successTest();
+        // calls the success test (integration test) after proper set up)
+        //successTest();
     }
+
+    @Test
+    void saveUserTrackedNutrientsData_empty() {
+        setUp();
+        int userID = 101;
+        ArrayList<String> trackedNutrients = new ArrayList<>();
+
+        // save the tracked nutrients to the account associated with userID
+        this.fileUserDAO.saveTrackedNutrientsData(trackedNutrients, userID);
+
+        // assert that the user exists
+        assertTrue(this.fileUserDAO.existByUserID(userID));
+
+        // fetch the account and assert its not null
+        User user = this.fileUserDAO.getAccountByUserID(userID);
+        assertNotNull(user);
+
+        // assert that the tracked nutrients is empty
+        assertEquals(0,user.getTrackedNutrients().size());
+    }
+
+    @Test
+    void saveUserTrackedNutrientsData_nonEmpty() {
+        setUp();
+        int userID = 101;
+        ArrayList<String> trackedNutrients = new ArrayList<>();
+        trackedNutrients.add("Calories");
+
+        // save the tracked nutrients to the account associated with userID
+        this.fileUserDAO.saveTrackedNutrientsData(trackedNutrients, userID);
+
+        // assert that the user exists
+        assertTrue(this.fileUserDAO.existByUserID(userID));
+
+        // fetch the account and assert its not null
+        User user = this.fileUserDAO.getAccountByUserID(userID);
+        assertNotNull(user);
+
+        // assert that the tracked nutrients is empty
+        assertEquals(1,user.getTrackedNutrients().size());
+    }
+
 
     @Test
     void successTest() throws IOException {

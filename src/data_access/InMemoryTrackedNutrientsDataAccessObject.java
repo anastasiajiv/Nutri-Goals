@@ -4,6 +4,8 @@ import src.entity.User;
 import src.use_case.trackedNutrients.TrackedNutrientsUserDataAccessInterface;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class InMemoryTrackedNutrientsDataAccessObject implements TrackedNutrientsUserDataAccessInterface {
 
@@ -18,7 +20,7 @@ public class InMemoryTrackedNutrientsDataAccessObject implements TrackedNutrient
 
     @Override
     public Boolean existByUserID(int userID) {
-        return null;
+        return true;
     }
 
     @Override

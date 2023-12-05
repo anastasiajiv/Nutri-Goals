@@ -55,9 +55,6 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         TrackedNutrientsUserDataAccessInterface,
         MealPlanDataAccessInterface {
 
-
-
-
     private final Map<String, Integer> headersmealplan = new LinkedHashMap<>();
 
     public Map<Integer, MealPlan> mealplanaccounts = new HashMap<>();
