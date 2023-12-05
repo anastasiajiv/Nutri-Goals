@@ -8,6 +8,7 @@ package src.app;
 //import view.ViewManager;
 
 
+import org.json.JSONArray;
 import src.data_access.FileUserDataAccessObject;
 import src.entity.*;
 import src.entity.UserFactory;
@@ -25,11 +26,16 @@ public class Main {
         UserFactory userFactory = new CommonUserFactory();
         UserFactory userFactory1 = new CommonUserFactory();
 
-        FileUserDataAccessObject userDAO = new FileUserDataAccessObject("plzwork.csv", "mealPlan.csv", userFactory);
+        FileUserDataAccessObject userDAO = new FileUserDataAccessObject("help.csv", "mealPlan.csv", userFactory);
 
         FileUserDataAccessObject fileUserDataAccessObject = new FileUserDataAccessObject("example.csv", "mealPlan.csv", new CommonUserFactory());
 
-            User newUser = userFactory.createdDefaultUser(userDAO.createUserID(), "new");
+
+
+            User tesst_user = userDAO.getAccountByUserID(4);
+
+
+            /*User newUser = userFactory.createdDefaultUser(userDAO.createUserID(), "new");
             newUser.setPassword("Dario");
             newUser.setCreationTime(LocalDateTime.now());
 
@@ -107,15 +113,26 @@ public class Main {
 
             userDAO.savePreferences(newUser.getUserId(), newUser.getDietary(), newUser.getAllergies(), newUser.getConditions());
             String breakFast = userDAO.Breakfast(newUser.getUserId());
+            String lunch = userDAO.Lunch(newUser.getUserId());
+            String dinner = userDAO.Dinner(newUser.getUserId());
             List<Ingredient> ing = userDAO.CreateIngredients(breakFast);
-            Recipe rec = userDAO.CreateRecipeBreakfast(ing, breakFast);
-            MealPlan meal = userDAO.getMealPlan(newUser.getUserId());
+           Recipe rec = userDAO.CreateRecipeBreakfast(ing, breakFast);
+            MealPlan mealplan = userDAO.getMealPlan(newUser.getUserId());
+            HashMap<String, Double> pleaseWork = userDAO.getAccountByUserID(newUser.getUserId()).userSpecifiedConditions();
+           double cals = userDAO.computedRequiredCalories(newUser.getUserId());
+            int lunch_cals = (int)Math.round((cals/5)) * 2;
+            int breakfast_cals = (int)Math.round((cals/5));
 
         //System.out.println(userDAO.accounts.size());
 
 
-
-        System.out.println(userDAO.Lunch(newUser.getUserId()));
+        System.out.println(dinner);
+        //System.out.println(userDAO.computedRequiredCalories(newUser.getUserId()));
+        //System.out.println(lunch_cals);
+       // System.out.println(breakfast_cals);
+        //System.out.println(lunch_cals + lunch_cals + breakfast_cals);*/
+        System.out.println(userDAO.getAccountByUserID(4).getConditions());
+        System.out.println(userDAO.Dinner(tesst_user.getUserId()));
 
 
 
