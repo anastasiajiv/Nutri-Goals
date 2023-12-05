@@ -366,7 +366,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         //find all necessary sorting attributes and do calculations
         User user = getAccountByUserID(identifier);
         int daily_cal = (int) computedRequiredCalories(identifier);
-        String breakfast_cals = String.valueOf(Math.round((daily_cal/5)));
+        int breakfast_cals = Math.round((daily_cal/5));
         String dietary = user.userSpecifiedDietary();
         List<String> allergies = user.userSpecifiedAllergies();
         HashMap<String, Double> conditions = user.userSpecifiedConditions();
@@ -377,7 +377,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                 StringBuilder conditionsaccum = new StringBuilder();
                 for (Map.Entry<String, Double> entry : conditions.entrySet()){
                     String condition = entry.getKey();
-                    Double amount = entry.getValue();
+                    int amount = (int) Math.round(entry.getValue());
                     conditionsaccum.append("max" + condition + "=" + amount + "&");
                 }
 
@@ -518,7 +518,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     public String Lunch(int identifier) {
         User user = getAccountByUserID(identifier);
         int daily_cal = (int) computedRequiredCalories(identifier);
-        String lunch_cals = String.valueOf(Math.round((daily_cal/5)));
+        int lunch_cals = Math.round((daily_cal/5)) * 2;
         String dietary = user.userSpecifiedDietary();
         List<String> allergies = user.userSpecifiedAllergies();
         HashMap<String, Double> conditions = user.userSpecifiedConditions();
@@ -528,7 +528,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         StringBuilder conditionsaccum = new StringBuilder();
         for (Map.Entry<String, Double> entry : conditions.entrySet()){
             String condition = entry.getKey();
-            Double amount = entry.getValue();
+            int amount = (int) Math.round(entry.getValue());
             conditionsaccum.append("max" + condition + "=" + amount + "&");
         }
         //calories depending on what weight goal
@@ -554,7 +554,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
         // diet and calories and allergies and conditions filtering through API call
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=soup&number=1&" +
+                .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=salad,soup&number=1&" +
                         calorietype + "Calories=" + lunch_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergiesaccum))
                 .header("X-API-Host", "https://api.spoonacular.com")
                 .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
@@ -623,7 +623,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     public String Dinner(int identifier) {
         User user = getAccountByUserID(identifier);
         int daily_cal = (int) computedRequiredCalories(identifier);
-        String dinner_cals = String.valueOf(Math.round((daily_cal/5)));
+        int dinner_cals = Math.round((daily_cal/5)) * 2;
         String dietary = user.userSpecifiedDietary();
         List<String> allergies = user.userSpecifiedAllergies();
         HashMap<String, Double> conditions = user.userSpecifiedConditions();
@@ -632,7 +632,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         StringBuilder conditionsaccum = new StringBuilder();
         for (Map.Entry<String, Double> entry : conditions.entrySet()){
             String condition = entry.getKey();
-            Double amount = entry.getValue();
+            int amount = (int) Math.round(entry.getValue());
             conditionsaccum.append("max" + condition + "=" + amount + "&");
         }
         //calories depending on what weight goal
@@ -650,14 +650,13 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         }
 
 
-        String calorietype = "max";
-        if (user.getWeightGoalType().equals("gainWeight")) {
-            calorietype = "min";}
+       // String calorietype = "max";
+        //if (user.getWeightGoalType().equals("gainWeight")) {
+            //calorietype = "min";}
 
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=maincourse&number=1&" +
-                        calorietype + "Calories=" + dinner_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergiesaccum))
+                .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=maincourse&number=1&minCalories=" + dinner_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergiesaccum))
                 .header("X-API-Host", "https://api.spoonacular.com")
                 .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
                 .method("GET", HttpRequest.BodyPublishers.noBody())
@@ -676,11 +675,15 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         String jsonstring = recipe;
         JSONObject json = new JSONObject(jsonstring);
         JSONArray recipearray = json.getJSONArray("results");
+        //return recipearray;
+
         JSONObject firstresult = recipearray.getJSONObject(0);
         int recipeid = firstresult.getInt("id");
-        //String recipeID = String.valueOf(firstresult.getInt("id"));
 
-        // Use recipe id to get recipe information
+
+        String recipeID = String.valueOf(firstresult.getInt("id"));
+
+        //Use recipe id to get recipe information
 
         HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("https://api.spoonacular.com/recipes/" + recipeid + "/information"))
                 .header("X-API-Host", "https://api.spoonacular.com")
@@ -722,7 +725,6 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
 
 
-
     @Override
     public MealPlan getMealPlan(int id){
         // Breakfast
@@ -734,12 +736,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         List<Ingredient> ingredientslunch = CreateIngredients(lunch_api);
         Recipe lunch = CreateRecipeLunch(ingredientslunch, lunch_api);
         // Dinner
-
         String dinner_api = Dinner(id);
-
-
         List<Ingredient> ingredientsdinner = CreateIngredients(dinner_api);
-        Recipe dinner = CreateRecipeLunch(ingredientsdinner, dinner_api);
+        Recipe dinner = CreateRecipeDinner(ingredientsdinner, dinner_api);
         MealPlan mealplan = new CommonMealPlan(breakfast, lunch, dinner);
         mealplanaccounts.put(id, mealplan);
 
@@ -849,15 +848,29 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                     LocalDateTime creationTime = LocalDateTime.parse(col[3]);
                     boolean male = Boolean.parseBoolean(col[4]);
                     boolean female = Boolean.parseBoolean(col[5]);
+                    HashMap<String, Boolean> gender = new HashMap<>();
+                    gender.put("male", male);
+                    gender.put("female", female);
                     double height = Double.parseDouble(col[6]);
                     double weight = Double.parseDouble(col[7]);
                     int age = Integer.parseInt(col[8]);
                     int exerciseLvl = Integer.parseInt(col[9]);
+                    HashMap<String, Boolean> dietary = convertToDict(col[10]);
+                    HashMap<String, Boolean> allergies = convertToDict(col[11]);
+                    HashMap<String, String> conditions = convertToDict1(col[12]);
                     // TODO: Parse other attributes
                     UserFactory userFactory = new CommonUserFactory();
                     User user = userFactory.createdDefaultUser(userId, username);
                     user.setCreationTime(creationTime);
                     user.setPassword(password);
+                    user.setUserAge(age);
+                    user.setGender(gender);
+                    user.setUserHeight(height);
+                    user.setUserWeight(weight);
+                    user.setUserExerciseLvl(exerciseLvl);
+                    user.setDietary(dietary);
+                    user.setAllergies(allergies);
+                    user.setConditions(conditions);
                     //TODO:  Add the rest
 
 
@@ -870,7 +883,37 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         }
     }
 
+    public HashMap<String, Boolean> convertToDict(String string) {
+        String[] dictPairs = string.split(" ");
+        HashMap<String, Boolean> dict = new HashMap<>();
+        for (String pair:dictPairs){
+            if (pair.equals("{}")){
+                return dict;
+            } else {
+                String[] keyValuePair = pair.split("=");
+                if (keyValuePair.length == 2) {
+                    dict.put(keyValuePair[0], Boolean.valueOf(keyValuePair[1]));
+                }
+            }
+        }
+        return dict;
+    }
 
+    public HashMap<String, String> convertToDict1(String string) {
+        String[] dictPairs = string.split(" ");
+        HashMap<String, String> dict = new HashMap<>();
+        for (String pair:dictPairs){
+            if (pair.equals("{}")){
+                return dict;
+            } else {
+                String[] keyValuePair = pair.split("=");
+                if (keyValuePair.length == 2) {
+                    dict.put(keyValuePair[0], keyValuePair[1]);
+                }
+            }
+        }
+        return dict;
+    }
 
 
 
