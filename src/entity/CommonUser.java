@@ -189,7 +189,7 @@ public class CommonUser implements User {
             Boolean value = map.getValue();
             if ((value == Boolean.TRUE) && !key.equals("none")) {
                 user_diet = key;
-            } else if (key.equals("none") && (value == Boolean.TRUE)){
+            } else if (key.equals("none1") && (value == Boolean.TRUE)){
                 user_diet = " ";
             }
         }
@@ -219,8 +219,8 @@ public class CommonUser implements User {
         HashMap<String, Double> user_conditions = new HashMap<>();
         user_conditions.put("Calcium", getCalciumValue());
         user_conditions.put("Potassium", getPotassiumValue());
-        user_conditions.put("Vitamin C", getVitaminCValue());
-        user_conditions.put("Vitamin D", getVitaminDValue());
+        user_conditions.put("VitaminC", getVitaminCValue());
+        user_conditions.put("VitaminD", getVitaminDValue());
         user_conditions.put("Iron", getIronValue());
         user_conditions.put("Magnesium", getMagnesiumValue());
         user_conditions.put("Sugar", getSugarValue());
@@ -263,7 +263,7 @@ public class CommonUser implements User {
 
         // if the daily value has been properly calculated, return the value
         assert(daily_value != 0.0);
-        return daily_value;
+        return (daily_value / 3);
     }
 
 
@@ -291,12 +291,12 @@ public class CommonUser implements User {
             System.out.println("Could not set Potassium level.");
         }
         assert(daily_value != 0.0);
-        return daily_value;
+        return (daily_value / 3);
     }
 
 
     public Double getVitaminCValue(){
-        String value = getConditions().get("Vitamin C");
+        String value = getConditions().get("VitaminC");
         double daily_value;
         if (isMale().equals("true")){
             if (value.equals("low")){
@@ -316,15 +316,15 @@ public class CommonUser implements User {
             }
         }else {
             daily_value = 0.0;
-            System.out.println("Could not set Vitamin C level.");
+            System.out.println("Could not set VitaminC level.");
         }
         assert(daily_value != 0.0);
-        return daily_value;
+        return (daily_value / 3);
     }
 
 
     public Double getVitaminDValue() {
-        String value = getConditions().get("Vitamin D");
+        String value = getConditions().get("VitaminD");
         double daily_value;
         int age = getUserAge();
         if ((isMale().equals("true") && age > 18 && age < 71) || (isFemale().equals("true"))){
@@ -345,10 +345,10 @@ public class CommonUser implements User {
             }
         } else {
             daily_value = 0.0;
-            System.out.println("Could not set Vitamin D level.");
+            System.out.println("Could not set VitaminD level.");
         }
         assert(daily_value != 0.0);
-        return daily_value;
+        return (daily_value / 3);
     }
 
 
@@ -374,10 +374,10 @@ public class CommonUser implements User {
             }
         } else {
             daily_value = 0.0;
-            System.out.println("Could not set Magnesium level.");
+            System.out.println("Could not set Iron level.");
         }
         assert(daily_value != 0.0);
-        return daily_value;
+        return (daily_value / 3);
     }
 
     public Double getMagnesiumValue(){
@@ -421,7 +421,7 @@ public class CommonUser implements User {
             System.out.println("Could not set Magnesium level");
         }
         assert(daily_value != 0.0);
-        return daily_value;
+        return (daily_value / 3);
 
     }
 
@@ -444,7 +444,7 @@ public class CommonUser implements User {
             System.out.println("Could not set Sugar level.");
         }
         assert(daily_value != 0.0);
-        return daily_value;
+        return (daily_value / 3);
     }
 
 
