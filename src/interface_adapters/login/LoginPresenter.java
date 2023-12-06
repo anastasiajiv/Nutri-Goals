@@ -3,6 +3,8 @@ package src.interface_adapters.login;
 import src.interface_adapters.logged_in.LoggedInState;
 import src.interface_adapters.logged_in.LoggedInViewModel;
 import src.interface_adapters.ViewManagerModel;
+import src.interface_adapters.mealplan.MealPlanState;
+import src.interface_adapters.mealplan.MealPlanViewModel;
 import src.interface_adapters.preferences.PreferencesState;
 import src.interface_adapters.preferences.PreferencesViewModel;
 import src.interface_adapters.signup.SignupState;
@@ -22,16 +24,19 @@ public class LoginPresenter implements LoginOutputBoundary{
     private final PreferencesViewModel preferencesViewModel;
     private final TrackedNutrientsViewModel trackedNutrientsViewModel;
 
+    private final MealPlanViewModel mealPlanViewModel;
+
     public LoginPresenter(ViewManagerModel viewManagerModel,
                           LoggedInViewModel loggedInViewModel,
                           LoginViewModel loginViewModel,
                           PreferencesViewModel preferencesViewModel,
-                          TrackedNutrientsViewModel trackedNutrientsViewModel) {
+                          TrackedNutrientsViewModel trackedNutrientsViewModel, MealPlanViewModel mealPlanViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.loggedInViewModel = loggedInViewModel;
         this.loginViewModel = loginViewModel;
         this.preferencesViewModel = preferencesViewModel;
         this.trackedNutrientsViewModel = trackedNutrientsViewModel;
+        this.mealPlanViewModel = mealPlanViewModel;
     }
 
     @Override
@@ -41,15 +46,18 @@ public class LoginPresenter implements LoginOutputBoundary{
         LoggedInState loggedInState = loggedInViewModel.getState();
         PreferencesState preferencesState = preferencesViewModel.getState();
         TrackedNutrientsState trackedNutrientsState = trackedNutrientsViewModel.getState();
+        MealPlanState mealPlanState = mealPlanViewModel.getState();
         loggedInState.setUsername(response.getUsername());
         loggedInState.setUserID(response.getUserID());
         preferencesState.setUserID(response.getUserID());
         trackedNutrientsState.setUserID(response.getUserID());
+        mealPlanState.setId(response.getUserID());
         this.loggedInViewModel.setState(loggedInState);
         this.loggedInViewModel.firePropertyChanged();
 
         this.viewManagerModel.setActiveView(loggedInViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
+
     }
 
     @Override

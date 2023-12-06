@@ -7,6 +7,7 @@ import src.interface_adapters.logged_in.LoggedInViewModel;
 import src.interface_adapters.login.LoginController;
 import src.interface_adapters.login.LoginPresenter;
 import src.interface_adapters.login.LoginViewModel;
+import src.interface_adapters.mealplan.MealPlanViewModel;
 import src.interface_adapters.preferences.PreferencesViewModel;
 import src.interface_adapters.trackedNutrients.TrackedNutrientsViewModel;
 import src.use_case.login.LoginInputBoundary;
@@ -26,12 +27,12 @@ public class LoginUseCaseFactory {
             LoginViewModel loginViewModel,
             LoggedInViewModel loggedInViewModel,
             PreferencesViewModel preferencesViewModel,
-            TrackedNutrientsViewModel trackedNutrientsViewModel,
+            TrackedNutrientsViewModel trackedNutrientsViewModel, MealPlanViewModel mealPlanViewModel,
             LoginUserDataAccessInterface userDataAccessObject) {
 
         try {
             LoginController loginController = createLoginUseCase(viewManagerModel, loginViewModel, loggedInViewModel,
-                    preferencesViewModel, trackedNutrientsViewModel, userDataAccessObject);
+                    preferencesViewModel, trackedNutrientsViewModel, mealPlanViewModel, userDataAccessObject);
             return new LoginView(loginViewModel, loginController);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
@@ -45,12 +46,12 @@ public class LoginUseCaseFactory {
             LoginViewModel loginViewModel,
             LoggedInViewModel loggedInViewModel,
             PreferencesViewModel preferencesViewModel,
-            TrackedNutrientsViewModel trackedNutrientsViewModel,
+            TrackedNutrientsViewModel trackedNutrientsViewModel, MealPlanViewModel mealPlanViewModel,
             LoginUserDataAccessInterface userDataAccessObject) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
         LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel, loggedInViewModel, loginViewModel,
-                preferencesViewModel, trackedNutrientsViewModel);
+                preferencesViewModel, trackedNutrientsViewModel, mealPlanViewModel);
 
         UserFactory userFactory = new CommonUserFactory();
 
