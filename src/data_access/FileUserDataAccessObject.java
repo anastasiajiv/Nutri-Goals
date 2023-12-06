@@ -615,7 +615,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         StringBuilder conditionsaccum = new StringBuilder();
         for (Map.Entry<String, Double> entry : conditions.entrySet()){
             String condition = entry.getKey();
-            Double amount = entry.getValue();
+            int amount = (int) Math.round(entry.getValue());
             conditionsaccum.append("max" + condition + "=" + amount + "&");
         }
         //calories depending on what weight goal

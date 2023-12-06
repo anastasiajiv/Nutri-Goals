@@ -29,7 +29,7 @@ public class MealPlanView extends JPanel implements ActionListener, PropertyChan
         mealPlanViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel("Get Meal Plan");
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
 
