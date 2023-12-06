@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 //Mainly fileDAO and user entity tests
 
 public class WeightGoalTests { // TODO : Create a mock database to hold the accounts hashmap
-                              // TODO: Test that use case interactor calls are appropriately interacting with each other
+                               // TODO: Test that use case interactor calls are appropriately interacting with each other
 
     private FileUserDataAccessObject userDataAccessObject;
     private final String testCsvFilePath = "./test_users.csv";

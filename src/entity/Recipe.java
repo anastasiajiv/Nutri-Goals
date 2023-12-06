@@ -18,7 +18,7 @@ public interface Recipe {
 
     String getrecipeType();
 
-    HashMap<String, Float> getnutritionalinfo();
+    HashMap<String, Double> getnutritionalinfo();
 
     String getnutritionalinfostring();
 
@@ -28,7 +28,7 @@ public interface Recipe {
     String getrecipeIngredientstring();
 
 
-    HashMap<String, Float> getNutritionalInfo();
+    // HashMap<String, Float> getNutritionalInfo();
 
 
 //    String getBreakfast();

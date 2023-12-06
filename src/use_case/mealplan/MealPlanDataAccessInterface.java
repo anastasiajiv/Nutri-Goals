@@ -13,7 +13,7 @@ public interface MealPlanDataAccessInterface {
 
     List<Ingredient> CreateIngredients(String identifier);
 
-    Recipe CreateRecipeBreakfast(List<Ingredient> ingredients, String recipe);
+    Recipe CreateRecipeBreakfast(List<Ingredient> ingredients, String recipe, int recipeId);
 
 
 
@@ -25,7 +25,7 @@ public interface MealPlanDataAccessInterface {
 
 
 
-    Recipe CreateRecipeLunch(List<Ingredient> ingredients, String recipe);
+    Recipe CreateRecipeLunch(List<Ingredient> ingredients, String recipe, int recipeId);
 
 
     String Dinner(int identifier);
@@ -33,7 +33,7 @@ public interface MealPlanDataAccessInterface {
 
 
 
-    Recipe CreateRecipeDinner(List<Ingredient> ingredients, String recipe);
+    Recipe CreateRecipeDinner(List<Ingredient> ingredients, String recipe, int recipeId);
 
 
     MealPlan getMealPlan(int id);
