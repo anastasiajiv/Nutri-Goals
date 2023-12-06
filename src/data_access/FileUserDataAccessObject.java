@@ -357,10 +357,6 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         return recipeNutritionalInfo;
     }
 
-
-
-
-
     @Override
     public String Breakfast(int identifier) {
         //find all necessary sorting attributes and do calculations
@@ -858,7 +854,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                     HashMap<String, Boolean> dietary = convertToDict(col[10]);
                     HashMap<String, Boolean> allergies = convertToDict(col[11]);
                     HashMap<String, String> conditions = convertToDict1(col[12]);
-                    // TODO: Parse other attributes
+
                     UserFactory userFactory = new CommonUserFactory();
                     User user = userFactory.createdDefaultUser(userId, username);
                     user.setCreationTime(creationTime);
@@ -871,7 +867,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                     user.setDietary(dietary);
                     user.setAllergies(allergies);
                     user.setConditions(conditions);
-                    //TODO:  Add the rest
+
 
 
                     // Add the user to the accounts map
