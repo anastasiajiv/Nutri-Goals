@@ -83,7 +83,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     @Override
                     public void actionPerformed(ActionEvent evt2) {
                         if (evt2.getSource().equals(getmealplan)) {
-                            cardLayout.show(views, "Get Meal Plan");
+                            cardLayout.show(views, "Meal Plan");
                         }
                     }
                 }
@@ -107,7 +107,16 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         logOut = new JButton(loggedInViewModel.LOGOUT_BUTTON_LABEL);
         buttons.add(logOut);
 
-        logOut.addActionListener(this);
+        logOut.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(logOut)){
+                            cardLayout.show(views, "Welcome Page");
+                        }
+                    }
+                }
+        );
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 

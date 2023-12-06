@@ -21,7 +21,7 @@ public class InMemoryMealPlanAccessObject implements MealPlanDataAccessInterface
     }
 
     @Override
-    public Recipe CreateRecipeBreakfast(List<Ingredient> ingredients, String recipe) {
+    public Recipe CreateRecipeBreakfast(List<Ingredient> ingredients, String recipe, int userID) {
         return null;
     }
 
@@ -31,7 +31,7 @@ public class InMemoryMealPlanAccessObject implements MealPlanDataAccessInterface
     }
 
     @Override
-    public Recipe CreateRecipeLunch(List<Ingredient> ingredients, String recipe) {
+    public Recipe CreateRecipeLunch(List<Ingredient> ingredients, String recipe, int userID) {
         return null;
     }
 
@@ -41,7 +41,7 @@ public class InMemoryMealPlanAccessObject implements MealPlanDataAccessInterface
     }
 
     @Override
-    public Recipe CreateRecipeDinner(List<Ingredient> ingredients, String recipe) {
+    public Recipe CreateRecipeDinner(List<Ingredient> ingredients, String recipe, int userID) {
         return null;
     }
 

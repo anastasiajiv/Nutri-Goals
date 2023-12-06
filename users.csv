@@ -1,2 +1,0 @@
-userId,username,password,creationTime,male,female,height,weight,age,exerciseLvl,dietaryRestriction1,allergiesRestriction1,conditionsRestriction1,maintainWeight,loseWeight,gainWeight,weightPaceType,requiredCalories,trackedNutrients
-101,Sophia,abc123,2023-11-30T21:06:40.851,false,true,170.0,145.0,19,5,,[],{Calcium=1000.0, Vitamin D=402.0, Vitamin C=75.0, Iron=18.0, Magnesium=310.0, Potassium=2600.0, Sugar=130.0},[],false,false,false,normal,2000

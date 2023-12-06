@@ -8,6 +8,7 @@ package src.app;
 //import view.ViewManager;
 
 
+import org.json.JSONArray;
 import src.data_access.FileUserDataAccessObject;
 import src.entity.*;
 import src.entity.UserFactory;
@@ -15,6 +16,7 @@ import src.entity.UserFactory;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -27,7 +29,12 @@ public class Main {
 
         FileUserDataAccessObject fileUserDataAccessObject = new FileUserDataAccessObject("example.csv", "mealPlan.csv");
 
-            User newUser = userFactory.createdDefaultUser(2389, "Xavier");
+
+
+            User tesst_user = userDAO.getAccountByUserID(4);
+
+
+            /*User newUser = userFactory.createdDefaultUser(userDAO.createUserID(), "new");
             newUser.setPassword("Dario");
             newUser.setCreationTime(LocalDateTime.now());
 
@@ -75,25 +82,58 @@ public class Main {
                     weightGoal);
 
             HashMap<String, Boolean> dietary = new HashMap<>();
-            dietary.put("Vegetarian", Boolean.TRUE);
+            dietary.put("Vegetarian", Boolean.FALSE);
             dietary.put("Vegan", Boolean.FALSE);
             dietary.put("Pescatarian", Boolean.FALSE);
+            dietary.put("none1", Boolean.TRUE);
 
             newUser.setDietary(dietary);
             HashMap<String, Boolean> allergies = new HashMap<>();
-            allergies.put("Eggs", Boolean.TRUE);
-            allergies.put("Sesame", Boolean.TRUE);
+            allergies.put("Eggs", Boolean.FALSE);
+            allergies.put("Sesame", Boolean.FALSE);
             allergies.put("Shellfish", Boolean.FALSE);
             allergies.put("Wheat", Boolean.FALSE);
+            allergies.put("Peanut", Boolean.FALSE);
+            allergies.put("Seafood", Boolean.TRUE);
+            allergies.put("none", Boolean.TRUE);
+            allergies.put("Wheat", Boolean.FALSE);
+            allergies.put("TreeNut", Boolean.FALSE);
             newUser.setAllergies(allergies);
             HashMap<String, String> condition = new HashMap<>();
             condition.put("Magnesium", "low");
             condition.put("Iron", "average");
             condition.put("Calcium", "high");
             condition.put("VitaminD", "high");
+            condition.put("VitaminC", "average");
+            condition.put("Sugar", "low");
+            condition.put("Potassium", "average");
+
             newUser.setConditions(condition);
 
             userDAO.savePreferences(newUser.getUserId(), newUser.getDietary(), newUser.getAllergies(), newUser.getConditions());
+            String breakFast = userDAO.Breakfast(newUser.getUserId());
+            String lunch = userDAO.Lunch(newUser.getUserId());
+            String dinner = userDAO.Dinner(newUser.getUserId());
+            List<Ingredient> ing = userDAO.CreateIngredients(breakFast);
+           Recipe rec = userDAO.CreateRecipeBreakfast(ing, breakFast);
+            MealPlan mealplan = userDAO.getMealPlan(newUser.getUserId());
+            HashMap<String, Double> pleaseWork = userDAO.getAccountByUserID(newUser.getUserId()).userSpecifiedConditions();
+           double cals = userDAO.computedRequiredCalories(newUser.getUserId());
+            int lunch_cals = (int)Math.round((cals/5)) * 2;
+            int breakfast_cals = (int)Math.round((cals/5));
+
+        //System.out.println(userDAO.accounts.size());
+
+
+        System.out.println(dinner);
+        //System.out.println(userDAO.computedRequiredCalories(newUser.getUserId()));
+        //System.out.println(lunch_cals);
+       // System.out.println(breakfast_cals);
+        //System.out.println(lunch_cals + lunch_cals + breakfast_cals);*/
+        System.out.println(userDAO.getAccountByUserID(4).getConditions());
+        System.out.println(userDAO.Dinner(tesst_user.getUserId()));
+
+
 
     }
 

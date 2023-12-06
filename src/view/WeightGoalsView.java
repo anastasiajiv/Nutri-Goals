@@ -101,14 +101,14 @@ public class WeightGoalsView extends JPanel implements ActionListener, PropertyC
 
 
         // Textfields for user inputs
-        JLabel subtitle5 = new JLabel(WeightGoalViewModel.HEIGHT_LABEL);
-        subtitle5.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //JLabel subtitle5 = new JLabel(WeightGoalViewModel.HEIGHT_LABEL);
+        //subtitle5.setAlignmentX(Component.CENTER_ALIGNMENT);
         LabelTextPanel heightInfo = new LabelTextPanel(new JLabel(WeightGoalViewModel.HEIGHT_LABEL), heightInputField);
-        JLabel subtitle6  = new JLabel(WeightGoalViewModel.WEIGHT_LABEL);
-        subtitle6.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //JLabel subtitle6  = new JLabel(WeightGoalViewModel.WEIGHT_LABEL);
+        //subtitle6.setAlignmentX(Component.CENTER_ALIGNMENT);
         LabelTextPanel weightInfo = new LabelTextPanel(new JLabel(WeightGoalViewModel.WEIGHT_LABEL), weightInputField);
-        JLabel subtitle7 = new JLabel(WeightGoalViewModel.AGE_LABEL);
-        subtitle7.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //JLabel subtitle7 = new JLabel(WeightGoalViewModel.AGE_LABEL);
+        //subtitle7.setAlignmentX(Component.CENTER_ALIGNMENT);
         LabelTextPanel ageInfo = new LabelTextPanel(new JLabel(WeightGoalViewModel.AGE_LABEL), ageInputField);
 
         // Drop down options for Exercise level and Pace Type
@@ -140,51 +140,6 @@ public class WeightGoalsView extends JPanel implements ActionListener, PropertyC
         confirm = new JButton("Confirm");
         buttons.add(confirm);
 
-
-
-
-        confirm.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(confirm)){
-                            WeightGoalState currentState = weightGoalViewModel.getState();
-
-                            HashMap<String, Boolean> gender = new HashMap<>();
-                            gender.put("male", male.isSelected());
-                            gender.put("female", female.isSelected());
-                            currentState.setGender(gender);
-
-                            HashMap<String, Boolean> weightGoal = new HashMap<>();
-                            weightGoal.put("maintainWeight", maintainWeight.isSelected());
-                            weightGoal.put("gainWeight", gainWeight.isSelected());
-                            weightGoal.put("loseWeight", loseWeight.isSelected());
-                            currentState.setWeightGoal(weightGoal);
-
-                            int exerciseLvlSave = (Integer) exerciseLvl.getSelectedItem();
-                            currentState.setExerciseLvl(exerciseLvlSave);
-                            String paceTypeSave = (String) paceType.getSelectedItem();
-
-//                            int userAge = currentState.getAge();
-//                            double userHeight = currentState.getHeight();
-//                            double userWeight = currentState.getWeight();
-
-                            weightGoalController.execute(currentState.getUserId(),
-                                    currentState.getGender(),
-                                    currentState.getHeight(),
-                                    currentState.getWeight(),
-                                    currentState.getAge(),
-                                    currentState.getExerciseLvl(),
-                                    currentState.getPaceType(),
-                                    currentState.getWeightGoal());
-
-                        }
-
-                    }
-                }
-        );
-
-        // text input fields
         ageInputField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -230,7 +185,7 @@ public class WeightGoalsView extends JPanel implements ActionListener, PropertyC
             public void keyTyped(KeyEvent e) {
                 WeightGoalState currentState = weightGoalViewModel.getState();
                 String text = weightInputField.getText() + e.getKeyChar();
-                currentState.setHeight(Double.parseDouble(text));
+                currentState.setWeight(Double.parseDouble(text));
                 weightGoalViewModel.setState(currentState);
             }
 
@@ -244,6 +199,52 @@ public class WeightGoalsView extends JPanel implements ActionListener, PropertyC
 
             }
         });
+
+
+        confirm.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(confirm)){
+                            WeightGoalState currentState = weightGoalViewModel.getState();
+
+                            HashMap<String, Boolean> gender = new HashMap<>();
+                            gender.put("male", male.isSelected());
+                            gender.put("female", female.isSelected());
+                            currentState.setGender(gender);
+
+                            HashMap<String, Boolean> weightGoal = new HashMap<>();
+                            weightGoal.put("maintainWeight", maintainWeight.isSelected());
+                            weightGoal.put("gainWeight", gainWeight.isSelected());
+                            weightGoal.put("loseWeight", loseWeight.isSelected());
+                            currentState.setWeightGoal(weightGoal);
+
+                            int exerciseLvlSave = (Integer) exerciseLvl.getSelectedItem();
+                            currentState.setExerciseLvl(exerciseLvlSave);
+                            String paceTypeSave = (String) paceType.getSelectedItem();
+                            currentState.setPaceType(paceTypeSave);
+
+                            /*int userAge = currentState.getAge();
+                            double userHeight = currentState.getHeight();
+                            double userWeight = currentState.getWeight();*/
+
+                            weightGoalController.execute(currentState.getUserId(),
+                                    currentState.getGender(),
+                                    currentState.getHeight(),
+                                    currentState.getWeight(),
+                                    currentState.getAge(),
+                                    currentState.getExerciseLvl(),
+                                    currentState.getPaceType(),
+                                    currentState.getWeightGoal());
+
+                        }
+
+                    }
+                }
+        );
+
+        // text input fields
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(subtitle1);// Gender selection
@@ -254,14 +255,14 @@ public class WeightGoalsView extends JPanel implements ActionListener, PropertyC
         this.add(dropbox);
         this.add(subtitle4);// Pace Type
         this.add(dropbox2);
-        this.add(subtitle5);
-        this.add(heightInputField);
+        //this.add(subtitle5);
+        this.add(heightInfo);
        // this.add(heightErrorField);
-        this.add(subtitle6);
-        this.add(weightInputField);
-        this.add(subtitle7);
+        //this.add(subtitle6);
+        this.add(weightInfo);
+        //this.add(subtitle7);
         //this.add(weightErrorField);
-        this.add(ageInputField);
+        this.add(ageInfo);
         //this.add(ageErrorField);
         this.add(confirm);
     }

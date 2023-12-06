@@ -36,6 +36,12 @@ public class WeightGoalInputData {
                                String paceType,
                                HashMap<String, Boolean> weightGoal){
         this.userId = userId;
+        this.gender = gender;
+        this.height = height;
+        this.weight = weight;
+        this.age = age;
+        this.exerciseLvl = exerciseLvl;
+        this.paceType = paceType;
         this.weightGoal = weightGoal;
     }
 

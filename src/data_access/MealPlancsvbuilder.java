@@ -25,9 +25,9 @@ public class MealPlancsvbuilder {
                 setHeaders(csvFile);
                 saveMealPlanToCsv(id, mealplan, csvFile);
 
+            }else {
+                saveMealPlanToCsv(id, mealplan, csvFile);
             }
-            saveMealPlanToCsv(id, mealplan, csvFile);
-
 
 
         } catch (IOException e) {

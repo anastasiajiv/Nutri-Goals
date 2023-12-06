@@ -1,7 +1,7 @@
 package src.interface_adapters.mealPlan;
 
 import src.interface_adapters.logged_in.LoggedInViewModel;
-import src.use_case.mealplan.MealPlanOutputBoundary;
+import src.use_case.mealPlan.MealPlanOutputBoundary;
 import src.interface_adapters.ViewManagerModel;
 import src.use_case.mealPlan.MealPlanOutputData;
 

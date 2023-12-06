@@ -13,6 +13,8 @@ public interface Recipe {
 
     String getRecipeInstructions();
 
+    String getRecipeInstructionsDisplay();
+
     String getRecipeType();
 
     HashMap<String, Double> getNutritionalInfo();

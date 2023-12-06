@@ -157,7 +157,7 @@ public class FileCsvBuilder {
                 columns[16] = user.getPaceType();
                 columns[17] = String.valueOf(user.getRequiredCalories());
                 //columns[18] = String.valueOf(user.getTrackedNutrients());
-                columns[18] = getStringRep(user.getTrackedNutrients());
+                //columns[18] = getStringRep(user.getTrackedNutrients());
 
 
                 // Join the columns back into a line

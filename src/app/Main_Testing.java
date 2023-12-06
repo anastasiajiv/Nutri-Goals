@@ -1,5 +1,5 @@
 package src.app;
-import src.interface_adapters.mealplan.MealPlanViewModel;
+import src.interface_adapters.mealPlan.MealPlanViewModel;
 import src.interface_adapters.preferences.PreferencesViewModel;
 import src.interface_adapters.trackedNutrients.TrackedNutrientsViewModel;
 import src.interface_adapters.weightgoal.WeightGoalViewModel;
@@ -58,7 +58,8 @@ public class Main_Testing {
         views.add(signupView, signupView.viewName);
 
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel,
-                preferencesViewModel, trackedNutrientsViewModel, mealPlanViewModel, userDataAccessObject);
+                preferencesViewModel, weightGoalViewModel, trackedNutrientsViewModel, mealPlanViewModel, userDataAccessObject);
+
         views.add(loginView, loginView.viewName);
 
         LoggedInView loggedInView = new LoggedInView(loggedInViewModel, cardLayout, views);
@@ -93,9 +94,10 @@ public class Main_Testing {
 
         application.pack();
         application.setVisible(true);
-        System.out.println(userDataAccessObject.accounts.get(5).getName());
-        System.out.println(userDataAccessObject.accounts.get(5).getPassword());
-        System.out.println(userDataAccessObject.accounts.get(3).getCreationTime());
+        /*System.out.println(userDataAccessObject.accounts.get(5).getName());
+        System.out.println(userDataAccessObject.accounts.get(5).getPassword());*/
+        //System.out.println(userDataAccessObject.accounts.get(3).getCreationTime());
+        //System.out.println(userDataAccessObject.accounts.get(5).);
         //System.out.println(userDataAccessObject.accounts.get(12).getPassword());
     }
 

@@ -171,14 +171,6 @@ public class PreferencesView extends JPanel implements ActionListener, PropertyC
                     soy.setEnabled(true);
                     treeNut.setEnabled(true);
                     wheat.setEnabled(true);
-                    /*egg.setSelected(false);
-                    peanut.setSelected(false);
-                    seafood.setSelected(false);
-                    sesame.setSelected(false);
-                    shellfish.setSelected(false);
-                    soy.setSelected(false);
-                    treaNut.setSelected(false);
-                    wheat.setSelected(false);*/
                 }
             }
         });
@@ -203,7 +195,7 @@ public class PreferencesView extends JPanel implements ActionListener, PropertyC
                             allergiesMap.put("Sesame", sesame.isSelected());
                             allergiesMap.put("Shellfish", shellfish.isSelected());
                             allergiesMap.put("Soy", soy.isSelected());
-                            allergiesMap.put("Tree Nut", treeNut.isSelected());
+                            allergiesMap.put("TreeNut", treeNut.isSelected());
                             allergiesMap.put("Wheat", wheat.isSelected());
                             allergiesMap.put("none", none.isSelected());
                             currentState.setAllergiesMap(allergiesMap);
@@ -211,8 +203,8 @@ public class PreferencesView extends JPanel implements ActionListener, PropertyC
                             HashMap<String, String> conditionsMap = new HashMap<>();
                             conditionsMap.put("Calcium", (String) calcium.getSelectedItem());
                             conditionsMap.put("Potassium", (String) potassium.getSelectedItem());
-                            conditionsMap.put("Vitamin C", (String) vitaminC.getSelectedItem());
-                            conditionsMap.put("Vitamin D", (String) vitaminD.getSelectedItem());
+                            conditionsMap.put("VitaminC", (String) vitaminC.getSelectedItem());
+                            conditionsMap.put("VitaminD", (String) vitaminD.getSelectedItem());
                             conditionsMap.put("Iron", (String) iron.getSelectedItem());
                             conditionsMap.put("Magnesium", (String) magnesium.getSelectedItem());
                             conditionsMap.put("Sugar", (String) sugar.getSelectedItem());

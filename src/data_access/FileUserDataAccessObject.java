@@ -34,8 +34,6 @@ import src.entity.Recipe;
 import src.entity.CommonRecipe;
 import src.entity.Ingredient;
 import src.entity.CommonIngredient;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -45,8 +43,14 @@ import java.io.IOException;
 import java.io.IOException;
 
 
+/*import org.json.JSONArray;
+import org.json.JSONObject;*/
+
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+
 
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
@@ -150,7 +154,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         curr_user.setPaceType(paceType);
         curr_user.setWeightGoalType(weightGoal);
 
-        accounts.put(userID, curr_user);// TODO: Discuss whether this should this go in interactor?
+        accounts.put(userID, curr_user);
+
 
         // Now compute req calories
         double requiredCalories = computedRequiredCalories(userID);
@@ -296,6 +301,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         csvBuilder.buildCsv(currentUser, 1);
     }
 
+
+    //private HashMap<String, Float> getRecipeNutritionalInfo(String recipeID) {
+
     //@Override
     public ArrayList<String> getUserTrackedNutrientsData(int userID) {
         return accounts.get(userID).getTrackedNutrients();
@@ -306,7 +314,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         //find all necessary sorting attributes and do calculations
         User user = getAccountByUserID(identifier);
         int daily_cal = (int) computedRequiredCalories(identifier);
-        String breakfast_cals = String.valueOf(Math.round((daily_cal/5)));
+        int breakfast_cals = Math.round((daily_cal/5));
         String dietary = user.userSpecifiedDietary();
         List<String> allergies = user.userSpecifiedAllergies();
         HashMap<String, Double> conditions = user.userSpecifiedConditions();
@@ -317,7 +325,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                 StringBuilder conditionsaccum = new StringBuilder();
                 for (Map.Entry<String, Double> entry : conditions.entrySet()){
                     String condition = entry.getKey();
-                    Double amount = entry.getValue();
+                    int amount = (int) Math.round(entry.getValue());
                     conditionsaccum.append("max" + condition + "=" + amount + "&");
                 }
 
@@ -360,20 +368,26 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                 }
                 String recipe = response.body();
 
-                // Find recipe id
+
+                    //return recipe;
+
+
+                //Find recipe id
                 String jsonstring = "" + recipe;
                 JSONObject json = new JSONObject(jsonstring);
                 JSONArray recipearray = json.getJSONArray("results");
                 JSONObject firstresult = recipearray.getJSONObject(0);
                 int recipeid = firstresult.getInt("id");
-                String recipeID = String.valueOf(firstresult.getInt("id"));
+               // String recipeID = String.valueOf(firstresult.getInt("id"));
+
+
 
                 // Use recipe id to get recipe information
 
-                HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("https://api.spoonacular.com/recipes/{" + recipeID + "}/information"))
-                .header("X-API-Host", "https://api.spoonacular.com")
-                .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
-                .method("GET", HttpRequest.BodyPublishers.noBody())
+                HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("https://api.spoonacular.com/recipes/" + recipeid + "/information"))
+                    .header("X-API-Host", "https://api.spoonacular.com")
+                    .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                    .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
                 HttpResponse<String> response1 = null;
                 try {
@@ -385,9 +399,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                 }
 
                 String recipeinfo = response1.body();
-
-
                 return recipeinfo;
+
+
+
+
     }
 
     // takes in result from Breakfast()
@@ -429,20 +445,17 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     @Override
-    public Recipe CreateRecipeBreakfast(List<Ingredient> ingredients, String recipe) {
-        String jsonString ="" + recipe;
+    public Recipe CreateRecipeBreakfast(List<Ingredient> ingredients, String recipe, int userID) {
+        String jsonString = "" + recipe;
         JSONObject json = new JSONObject(jsonString);
-        Integer id = json.getInt("id");
+        Integer RecipeID = json.getInt("id");
         String name = json.getString("title");
         String instructions = json.getString("summary");
-        HashMap<String, Double> nutritionalInfo = getRecipeNutritionalInfo(String.valueOf(id));
+        HashMap<String, Double> nutritionalInfo = getRecipeNutritionalInfo(String.valueOf(RecipeID), userID);
         String link = json.getString("sourceUrl");
         String type = "breakfast";
 
-        return new CommonRecipe(id, name, ingredients, instructions, type, nutritionalInfo, link);
-
-
-
+        return new CommonRecipe(RecipeID, name, ingredients, instructions, type, nutritionalInfo, link);
     }
 
 
@@ -450,7 +463,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     public String Lunch(int identifier) {
         User user = getAccountByUserID(identifier);
         int daily_cal = (int) computedRequiredCalories(identifier);
-        String lunch_cals = String.valueOf(Math.round((daily_cal/5)));
+        int lunch_cals = Math.round((daily_cal/5)) * 2;
         String dietary = user.userSpecifiedDietary();
         List<String> allergies = user.userSpecifiedAllergies();
         HashMap<String, Double> conditions = user.userSpecifiedConditions();
@@ -460,14 +473,12 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         StringBuilder conditionsaccum = new StringBuilder();
         for (Map.Entry<String, Double> entry : conditions.entrySet()){
             String condition = entry.getKey();
-            Double amount = entry.getValue();
+            int amount = (int) Math.round(entry.getValue());
             conditionsaccum.append("max" + condition + "=" + amount + "&");
         }
         //calories depending on what weight goal
 
-        String calorietype = "max";
-        if (user.getWeightGoalType().equals("gainWeight")) {
-            calorietype = "min";}
+
 
         //make allergies into format for api call
         StringBuilder allergiesaccum = new StringBuilder();
@@ -482,12 +493,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         }
 
 
-
-
         // diet and calories and allergies and conditions filtering through API call
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=maincourse&number=1&" +
-                        calorietype + "Calories=" + lunch_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergiesaccum))
+                .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=salad,soup&number=1&maxCalories=" + lunch_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergiesaccum))
                 .header("X-API-Host", "https://api.spoonacular.com")
                 .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
                 .method("GET", HttpRequest.BodyPublishers.noBody())
@@ -503,16 +511,16 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         String recipe = response.body();
 
         // Find recipe id
-        String jsonstring = recipe;
+        String jsonstring = "" + recipe;
         JSONObject json = new JSONObject(jsonstring);
         JSONArray recipearray = json.getJSONArray("results");
         JSONObject firstresult = recipearray.getJSONObject(0);
         int recipeid = firstresult.getInt("id");
-        String recipeID = String.valueOf(firstresult.getInt("id"));
+        //String recipeID = String.valueOf(firstresult.getInt("id"));
 
         // Use recipe id to get recipe information
 
-        HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("https://api.spoonacular.com/recipes/{" + recipeID + "}/information"))
+        HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("https://api.spoonacular.com/recipes/" + recipeid + "/information"))
                 .header("X-API-Host", "https://api.spoonacular.com")
                 .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
                 .method("GET", HttpRequest.BodyPublishers.noBody())
@@ -537,13 +545,13 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
 
     @Override
-    public Recipe CreateRecipeLunch(List<Ingredient> ingredients, String recipe) {
+    public Recipe CreateRecipeLunch(List<Ingredient> ingredients, String recipe, int userID) {
         String jsonString ="" + recipe;
         JSONObject json = new JSONObject(jsonString);
         Integer id = json.getInt("id");
         String name = json.getString("title");
         String instructions = json.getString("summary");
-        HashMap<String, Double> nutritionalInfo = getRecipeNutritionalInfo(String.valueOf(id));
+        HashMap<String, Double> nutritionalInfo = getRecipeNutritionalInfo(String.valueOf(id),userID);
         String link = json.getString("sourceUrl");
         String type = "lunch";
 
@@ -555,7 +563,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     public String Dinner(int identifier) {
         User user = getAccountByUserID(identifier);
         int daily_cal = (int) computedRequiredCalories(identifier);
-        String dinner_cals = String.valueOf(Math.round((daily_cal/5)));
+        int dinner_cals = Math.round((daily_cal/5)) * 2;
         String dietary = user.userSpecifiedDietary();
         List<String> allergies = user.userSpecifiedAllergies();
         HashMap<String, Double> conditions = user.userSpecifiedConditions();
@@ -564,7 +572,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         StringBuilder conditionsaccum = new StringBuilder();
         for (Map.Entry<String, Double> entry : conditions.entrySet()){
             String condition = entry.getKey();
-            Double amount = entry.getValue();
+            int amount = (int) Math.round(entry.getValue());
             conditionsaccum.append("max" + condition + "=" + amount + "&");
         }
         //calories depending on what weight goal
@@ -582,14 +590,13 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         }
 
 
-        String calorietype = "max";
-        if (user.getWeightGoalType().equals("gainWeight")) {
-            calorietype = "min";}
+       // String calorietype = "max";
+        //if (user.getWeightGoalType().equals("gainWeight")) {
+            //calorietype = "min";}
 
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=maincourse&number=1&" +
-                        calorietype + "Calories=" + dinner_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergiesaccum))
+                .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=maincourse&number=1&maxCalories=" + dinner_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergiesaccum))
                 .header("X-API-Host", "https://api.spoonacular.com")
                 .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
                 .method("GET", HttpRequest.BodyPublishers.noBody())
@@ -605,16 +612,20 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         String recipe = response.body();
 
         // Find recipe id
-        String jsonstring = recipe;
+        String jsonstring = "" + recipe;
         JSONObject json = new JSONObject(jsonstring);
         JSONArray recipearray = json.getJSONArray("results");
+        //return recipearray;
+
         JSONObject firstresult = recipearray.getJSONObject(0);
         int recipeid = firstresult.getInt("id");
-        String recipeID = String.valueOf(firstresult.getInt("id"));
 
-        // Use recipe id to get recipe information
 
-        HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("https://api.spoonacular.com/recipes/{" + recipeID + "}/information"))
+        //String recipeID = String.valueOf(firstresult.getInt("id"));
+
+        //Use recipe id to get recipe information
+
+        HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("https://api.spoonacular.com/recipes/" + recipeid + "/information"))
                 .header("X-API-Host", "https://api.spoonacular.com")
                 .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
                 .method("GET", HttpRequest.BodyPublishers.noBody())
@@ -639,13 +650,13 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
 
     @Override
-    public Recipe CreateRecipeDinner(List<Ingredient> ingredients, String recipe) {
+    public Recipe CreateRecipeDinner(List<Ingredient> ingredients, String recipe, int userID) {
         String jsonString ="" + recipe;
         JSONObject json = new JSONObject(jsonString);
         Integer id = json.getInt("id");
         String name = json.getString("title");
         String instructions = json.getString("summary");
-        HashMap<String, Double> nutritionalinfo = getRecipeNutritionalInfo(String.valueOf(id));
+        HashMap<String, Double> nutritionalinfo = getRecipeNutritionalInfo(String.valueOf(id), userID);
         String link = json.getString("sourceUrl");
         String type = "dinner";
 
@@ -654,23 +665,22 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
 
 
-
     @Override
-    public MealPlan getMealPlan(int id){
+    public MealPlan getMealPlan(int userID){
         // Breakfast
-        String breakfast_api = Breakfast(id);
+        String breakfast_api = Breakfast(userID);
         List<Ingredient> ingredientsbreak = CreateIngredients(breakfast_api);
-        Recipe breakfast = CreateRecipeBreakfast(ingredientsbreak, breakfast_api);
+        Recipe breakfast = CreateRecipeBreakfast(ingredientsbreak, breakfast_api, userID);
         //Lunch
-        String lunch_api = Lunch(id);
+        String lunch_api = Lunch(userID);
         List<Ingredient> ingredientslunch = CreateIngredients(lunch_api);
-        Recipe lunch = CreateRecipeLunch(ingredientslunch, lunch_api);
+        Recipe lunch = CreateRecipeLunch(ingredientslunch, lunch_api, userID);
         // Dinner
-        String dinner_api = Dinner(id);
+        String dinner_api = Dinner(userID);
         List<Ingredient> ingredientsdinner = CreateIngredients(dinner_api);
-        Recipe dinner = CreateRecipeLunch(ingredientsdinner, dinner_api);
+        Recipe dinner = CreateRecipeDinner(ingredientsdinner, dinner_api, userID);
         MealPlan mealplan = new CommonMealPlan(breakfast, lunch, dinner);
-        mealplanaccounts.put(id, mealplan);
+        mealplanaccounts.put(userID, mealplan);
 
         return mealplan;
 
@@ -717,8 +727,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         String breakfastlink = breakfast.getRecipeLink();
         String breakfastnutrients = breakfast.getNutritionalInfoString();
 
-        String breakfasttotal  = "Breakfast: " + breakfastname + "\n" + "Ingredients :  " + brekfastingredients + "\n" + "Summary : " + breakfastinstruct +
-                "\n" + breakfastlink + "\n" + "Nutritional Info: " + breakfastnutrients;
+        String breakfasttotal  = "🍳 BREAKFAST: " + breakfastname + "\n" + "Ingredients :  " + brekfastingredients + "\n" + "Summary : " + breakfastinstruct +
+                  breakfastlink + "\n" + "Nutritional Info: " + breakfastnutrients;
 
 
         String lunchname = lunch.getRecipeName();
@@ -741,7 +751,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
 
 
-        return breakfasttotal + "\n" + lunchtotal  + "\n"  + dinnertotal;
+        return breakfasttotal + "\n" + "\n" + lunchtotal  + "\n" + "\n" + dinnertotal;
 
 
     }
@@ -769,15 +779,29 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                     LocalDateTime creationTime = LocalDateTime.parse(col[3]);
                     boolean male = Boolean.parseBoolean(col[4]);
                     boolean female = Boolean.parseBoolean(col[5]);
+                    HashMap<String, Boolean> gender = new HashMap<>();
+                    gender.put("male", male);
+                    gender.put("female", female);
                     double height = Double.parseDouble(col[6]);
                     double weight = Double.parseDouble(col[7]);
                     int age = Integer.parseInt(col[8]);
                     int exerciseLvl = Integer.parseInt(col[9]);
+                    HashMap<String, Boolean> dietary = convertToDict(col[10]);
+                    HashMap<String, Boolean> allergies = convertToDict(col[11]);
+                    HashMap<String, String> conditions = convertToDict1(col[12]);
                     // TODO: Parse other attributes
                     UserFactory userFactory = new CommonUserFactory();
                     User user = userFactory.createdDefaultUser(userId, username);
                     user.setCreationTime(creationTime);
                     user.setPassword(password);
+                    user.setUserAge(age);
+                    user.setGender(gender);
+                    user.setUserHeight(height);
+                    user.setUserWeight(weight);
+                    user.setUserExerciseLvl(exerciseLvl);
+                    user.setDietary(dietary);
+                    user.setAllergies(allergies);
+                    user.setConditions(conditions);
                     //TODO:  Add the rest
 
 
@@ -790,7 +814,42 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         }
     }
 
-    public HashMap<String, Double> getRecipeNutritionalInfo(String recipeID) {
+    public HashMap<String, Boolean> convertToDict(String string) {
+        String[] dictPairs = string.split(" ");
+        HashMap<String, Boolean> dict = new HashMap<>();
+        for (String pair:dictPairs){
+            if (pair.equals("{}")){
+                return dict;
+            } else {
+                String[] keyValuePair = pair.split("=");
+                if (keyValuePair.length == 2) {
+                    dict.put(keyValuePair[0], Boolean.valueOf(keyValuePair[1]));
+                }
+            }
+        }
+        return dict;
+    }
+
+    public HashMap<String, String> convertToDict1(String string) {
+        String[] dictPairs = string.split(" ");
+        HashMap<String, String> dict = new HashMap<>();
+        for (String pair:dictPairs){
+            if (pair.equals("{}")){
+                return dict;
+            } else {
+                String[] keyValuePair = pair.split("=");
+                if (keyValuePair.length == 2) {
+                    dict.put(keyValuePair[0], keyValuePair[1]);
+                }
+            }
+        }
+        return dict;
+    }
+
+    public HashMap<String, Double> getRecipeNutritionalInfo(String recipeID, int userID) {
+        // fetch the user's tracked nutrients
+        ArrayList<String> trackedNutrients = getUserTrackedNutrientsData(userID);
+
         // format the API request
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spoonacular.com/recipes/"+ recipeID +"/information?includeNutrition=true"))
@@ -823,8 +882,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
             String nutrientName = nutrientArray.getString("name");
             double nutrientValue = nutrientArray.getDouble("amount");
 
-            // place into the hashmap
-            recipeNutritionalInfo.put(nutrientName, nutrientValue);
+            // only place into the return hashmap if the user would like to track that nutrient
+            if (trackedNutrients.contains(nutrientName)) {
+                // place into the hashmap
+                recipeNutritionalInfo.put(nutrientName, nutrientValue);
+            }
         }
         return recipeNutritionalInfo;
     }
