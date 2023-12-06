@@ -852,8 +852,19 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                     HashMap<String, Boolean> dietary = convertToDict(col[10]);
                     HashMap<String, Boolean> allergies = convertToDict(col[11]);
                     HashMap<String, String> conditions = convertToDict1(col[12]);
+                    Boolean maintainWeight = Boolean.valueOf(col[13]);
+                    Boolean loseWeight = Boolean.valueOf(col[14]);
+                    Boolean gainWeight = Boolean.valueOf(col[15]);
+                    HashMap<String, Boolean> weightGoal = new HashMap<>();
+                    weightGoal.put("maintainWeight", maintainWeight);
+                    weightGoal.put("loseWeight", loseWeight);
+                    weightGoal.put("gainWeight", gainWeight);
+                    String paceType = String.valueOf(col[16]);
                     double requiredCalories = Double.parseDouble(col[17]);
+                    ArrayList<String> nutrients = convertToList(col[18]);
+
                     // TODO: Parse other attributes
+
                     UserFactory userFactory = new CommonUserFactory();
                     User user = userFactory.createdDefaultUser(userId, username);
                     user.setCreationTime(creationTime);
@@ -866,7 +877,12 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                     user.setDietary(dietary);
                     user.setAllergies(allergies);
                     user.setConditions(conditions);
+                    user.setWeightGoalType(weightGoal);
+                    user.setPaceType(paceType);
                     user.setRequiredCalories(requiredCalories);
+                    user.setTrackedNutrients(nutrients);
+
+
                     //TODO:  Add the rest
 
 
@@ -909,6 +925,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
             }
         }
         return dict;
+    }
+
+    public static ArrayList<String> convertToList(String str) {
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(str.split(" ")));
+        return list;
     }
 
 
