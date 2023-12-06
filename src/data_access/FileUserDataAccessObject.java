@@ -2,6 +2,7 @@ package src.data_access;
 
 import java.io.*;
 
+import java.lang.reflect.Array;
 import java.net.URI;
 
 import java.net.http.HttpClient;
@@ -445,17 +446,17 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     @Override
-    public Recipe CreateRecipeBreakfast(List<Ingredient> ingredients, String recipe) {
-        String jsonString ="" + recipe;
+    public Recipe CreateRecipeBreakfast(List<Ingredient> ingredients, String recipe, int userID) {
+        String jsonString = "" + recipe;
         JSONObject json = new JSONObject(jsonString);
-        Integer id = json.getInt("id");
+        Integer RecipeID = json.getInt("id");
         String name = json.getString("title");
         String instructions = json.getString("summary");
-        HashMap<String, Double> nutritionalInfo = getRecipeNutritionalInfo(String.valueOf(id));
+        HashMap<String, Double> nutritionalInfo = getRecipeNutritionalInfo(String.valueOf(RecipeID), userID);
         String link = json.getString("sourceUrl");
         String type = "breakfast";
 
-        return new CommonRecipe(id, name, ingredients, instructions, type, nutritionalInfo, link);
+        return new CommonRecipe(RecipeID, name, ingredients, instructions, type, nutritionalInfo, link);
 
 
 
@@ -548,13 +549,13 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
 
     @Override
-    public Recipe CreateRecipeLunch(List<Ingredient> ingredients, String recipe) {
+    public Recipe CreateRecipeLunch(List<Ingredient> ingredients, String recipe, int userID) {
         String jsonString ="" + recipe;
         JSONObject json = new JSONObject(jsonString);
         Integer id = json.getInt("id");
         String name = json.getString("title");
         String instructions = json.getString("summary");
-        HashMap<String, Double> nutritionalInfo = getRecipeNutritionalInfo(String.valueOf(id));
+        HashMap<String, Double> nutritionalInfo = getRecipeNutritionalInfo(String.valueOf(id),userID);
         String link = json.getString("sourceUrl");
         String type = "lunch";
 
@@ -653,13 +654,13 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
 
     @Override
-    public Recipe CreateRecipeDinner(List<Ingredient> ingredients, String recipe) {
+    public Recipe CreateRecipeDinner(List<Ingredient> ingredients, String recipe, int userID) {
         String jsonString ="" + recipe;
         JSONObject json = new JSONObject(jsonString);
         Integer id = json.getInt("id");
         String name = json.getString("title");
         String instructions = json.getString("summary");
-        HashMap<String, Double> nutritionalinfo = getRecipeNutritionalInfo(String.valueOf(id));
+        HashMap<String, Double> nutritionalinfo = getRecipeNutritionalInfo(String.valueOf(id), userID);
         String link = json.getString("sourceUrl");
         String type = "dinner";
 
@@ -669,21 +670,21 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
 
     @Override
-    public MealPlan getMealPlan(int id){
+    public MealPlan getMealPlan(int userID){
         // Breakfast
-        String breakfast_api = Breakfast(id);
+        String breakfast_api = Breakfast(userID);
         List<Ingredient> ingredientsbreak = CreateIngredients(breakfast_api);
-        Recipe breakfast = CreateRecipeBreakfast(ingredientsbreak, breakfast_api);
+        Recipe breakfast = CreateRecipeBreakfast(ingredientsbreak, breakfast_api, userID);
         //Lunch
-        String lunch_api = Lunch(id);
+        String lunch_api = Lunch(userID);
         List<Ingredient> ingredientslunch = CreateIngredients(lunch_api);
-        Recipe lunch = CreateRecipeLunch(ingredientslunch, lunch_api);
+        Recipe lunch = CreateRecipeLunch(ingredientslunch, lunch_api, userID);
         // Dinner
-        String dinner_api = Dinner(id);
+        String dinner_api = Dinner(userID);
         List<Ingredient> ingredientsdinner = CreateIngredients(dinner_api);
-        Recipe dinner = CreateRecipeDinner(ingredientsdinner, dinner_api);
+        Recipe dinner = CreateRecipeDinner(ingredientsdinner, dinner_api, userID);
         MealPlan mealplan = new CommonMealPlan(breakfast, lunch, dinner);
-        mealplanaccounts.put(id, mealplan);
+        mealplanaccounts.put(userID, mealplan);
 
         return mealplan;
 
@@ -849,7 +850,10 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         return dict;
     }
 
-    public HashMap<String, Double> getRecipeNutritionalInfo(String recipeID) {
+    public HashMap<String, Double> getRecipeNutritionalInfo(String recipeID, int userID) {
+        // fetch the user's tracked nutrients
+        ArrayList<String> trackedNutrients = getUserTrackedNutrientsData(userID);
+
         // format the API request
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spoonacular.com/recipes/"+ recipeID +"/information?includeNutrition=true"))
@@ -882,8 +886,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
             String nutrientName = nutrientArray.getString("name");
             double nutrientValue = nutrientArray.getDouble("amount");
 
-            // place into the hashmap
-            recipeNutritionalInfo.put(nutrientName, nutrientValue);
+            // only place into the return hashmap if the user would like to track that nutrient
+            if (trackedNutrients.contains(nutrientName)) {
+                // place into the hashmap
+                recipeNutritionalInfo.put(nutrientName, nutrientValue);
+            }
         }
         return recipeNutritionalInfo;
     }

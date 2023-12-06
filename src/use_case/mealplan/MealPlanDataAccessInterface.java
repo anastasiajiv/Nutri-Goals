@@ -13,15 +13,15 @@ public interface MealPlanDataAccessInterface {
 
     List<Ingredient> CreateIngredients(String identifier);
 
-    Recipe CreateRecipeBreakfast(List<Ingredient> ingredients, String recipe);
+    Recipe CreateRecipeBreakfast(List<Ingredient> ingredients, String recipe, int userID);
 
     String Lunch(int identifier);
 
-    Recipe CreateRecipeLunch(List<Ingredient> ingredients, String recipe);
+    Recipe CreateRecipeLunch(List<Ingredient> ingredients, String recipe, int userID);
 
     String Dinner(int identifier);
 
-    Recipe CreateRecipeDinner(List<Ingredient> ingredients, String recipe);
+    Recipe CreateRecipeDinner(List<Ingredient> ingredients, String recipe, int userID);
 
     MealPlan getMealPlan(int id);
 

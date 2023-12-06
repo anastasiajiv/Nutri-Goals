@@ -1,5 +1,6 @@
 package tests.use_case.trackedNutrients;
 
+import org.junit.jupiter.api.BeforeEach;
 import src.data_access.FileUserDataAccessObject;
 import src.data_access.InMemoryTrackedNutrientsDataAccessObject;
 import src.entity.User;
@@ -25,14 +26,14 @@ public class TrackedNutrientsInteractorTest {
 
     private final UserFactory userFactory = new CommonUserFactory();
 
-    @Test
+    @BeforeEach
     void setUp() {
         // create a new fileUserDAO
         this.fileUserDAO = new FileUserDataAccessObject(this.csvFilePath, this.csvMealPlanFilePath);
     }
 
     @Test
-    void saveUserData() throws IOException {
+    void saveUserData() {
         setUp();
         int userID = 101;
         String username = "TestUser";

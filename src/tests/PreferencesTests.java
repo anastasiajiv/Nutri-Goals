@@ -18,7 +18,7 @@ public class PreferencesTests {
 
     @BeforeEach
     void setUp() {
-        this.userDataAccessObject = new FileUserDataAccessObject(testCsvFilePath, testMealPlanFilePath, userFactory);
+        this.userDataAccessObject = new FileUserDataAccessObject(testCsvFilePath, testMealPlanFilePath);
     }
 
     @Test
