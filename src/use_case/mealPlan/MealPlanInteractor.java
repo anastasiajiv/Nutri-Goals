@@ -1,4 +1,4 @@
-package src.use_case.mealplan;
+package src.use_case.mealPlan;
 
 import src.entity.MealPlan;
 

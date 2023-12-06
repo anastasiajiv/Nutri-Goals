@@ -47,7 +47,7 @@ public class Main_Testing {
 
         FileUserDataAccessObject userDataAccessObject;
 
-        userDataAccessObject = new FileUserDataAccessObject("./users.csv", "mealplan.csv", new CommonUserFactory());
+        userDataAccessObject = new FileUserDataAccessObject("./users.csv", "mealplan.csv");
 
 
         WelcomePageView trial = new WelcomePageView(cardLayout, views);
