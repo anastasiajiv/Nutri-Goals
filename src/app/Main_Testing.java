@@ -47,7 +47,6 @@ public class Main_Testing {
 
         FileUserDataAccessObject userDataAccessObject;
 
-
         userDataAccessObject = new FileUserDataAccessObject("./users.csv", "mealplan.csv");
 
 

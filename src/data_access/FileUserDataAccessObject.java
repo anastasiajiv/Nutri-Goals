@@ -2,7 +2,6 @@ package src.data_access;
 
 import java.io.*;
 
-import java.lang.reflect.Array;
 import java.net.URI;
 
 import java.net.http.HttpClient;
@@ -457,9 +456,6 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         String type = "breakfast";
 
         return new CommonRecipe(RecipeID, name, ingredients, instructions, type, nutritionalInfo, link);
-
-
-
     }
 
 

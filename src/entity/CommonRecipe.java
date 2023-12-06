@@ -68,12 +68,6 @@ public class CommonRecipe implements Recipe {
         //String str2 = str1.replaceAll(, )
 
         return str1;
-
-
-
-
-
-
     }
 
     @Override
@@ -101,6 +95,10 @@ public class CommonRecipe implements Recipe {
 
         StringBuilder sb = new StringBuilder();
         for (Ingredient ingredient : this.recipeIngredients) {
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
             String ingredientstring = ingredient.getName() + "amount : " + ingredient.getAmount() + ", ";
             sb.append(ingredientstring);
         }
