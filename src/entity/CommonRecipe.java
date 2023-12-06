@@ -74,7 +74,7 @@ public class CommonRecipe implements Recipe {
 
         String sb1 = sb.toString();
 
-        String str1 = sb1.replaceAll("[<\b>]", "");
+        String str1 = sb1.replaceAll("<\b>", "");
 
         //String str2 = str1.replaceAll(, )
 

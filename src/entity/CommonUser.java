@@ -104,7 +104,7 @@ public class CommonUser implements User {
             }
         }
         return "User did not input Gender";
-    }
+    } // TODO: Delete
 
     // returns true if the user identified that they are male
     public String isMale() {
@@ -226,9 +226,9 @@ public class CommonUser implements User {
 
     public Double getCalciumValue(){
         //String value = this.getConditions().get("Calcium");
-        String value = this.conditions.get("Calcium");
+        String value = conditions.get("Calcium");
 
-        int age = this.getUserAge();
+        int age = getUserAge();
 
         // initialize a double to store the recommended daily average intake depending on the user's information
         double daily_value;
