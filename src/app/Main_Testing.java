@@ -24,6 +24,7 @@ import java.io.IOException;
 public class Main_Testing {
     public static void main(String[] args){
         JFrame application = new JFrame("Login Example");
+        application.setExtendedState(JFrame.MAXIMIZED_BOTH);
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         CardLayout cardLayout = new CardLayout();
@@ -54,7 +55,7 @@ public class Main_Testing {
         views.add(trial, trial.viewName);
 
         SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel,
-                userDataAccessObject);
+                userDataAccessObject, cardLayout, views);
         views.add(signupView, signupView.viewName);
 
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel,
