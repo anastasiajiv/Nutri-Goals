@@ -236,7 +236,7 @@ public class CommonUser implements User {
         // specifies the daily calcium intake based on sex and age
         if ((isMale().equals("true") && age > 18 && age < 71) || (isFemale().equals("true") && age > 18 && age < 51)){
             // calculates the daily intake based on what intake type the user specified (low, average, high)
-            if (value.equals("low")){
+            if (value.equals("low")) {
                 daily_value = 1000 - 0.20 * 1000;
             } else if (value.equals("average")) {
                 daily_value = 1000;

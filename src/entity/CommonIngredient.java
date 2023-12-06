@@ -1,27 +1,27 @@
 package src.entity;
 
-public class CommonIngredient implements Ingredient{
-    private final int id;
-
+public class CommonIngredient implements Ingredient {
+    private final int ingredientID;
     private final String name;
 
     private final String amount;
 
-    public CommonIngredient(int id, String name, String amount){
-        this.id = id;
+
+    public CommonIngredient(int ingredientID, String name, String amount){
+        this.ingredientID = ingredientID;
         this.name = name;
         this.amount = amount;
     }
 
-    public int getId() {
-        return id;
+    public int getIngredientID() {
+        return this.ingredientID;
     }
 
     public String getAmount() {
-        return amount;
+        return this.amount;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 }

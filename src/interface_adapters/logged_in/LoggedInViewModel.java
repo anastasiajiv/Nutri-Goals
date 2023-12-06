@@ -17,6 +17,10 @@ public class LoggedInViewModel extends ViewModel{
     //Add weight goals button to logged in view
     public static final String weightGOAL_BUTTONS_LABEL = "Weight Goals";
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
     public static final String LOGOUT_BUTTON_LABEL = "Log out";
 
     public static final String MEALPLAN_BUTTON_LABEL = "Get Meal Plan";

@@ -1,4 +1,4 @@
-package src.interface_adapters.mealplan;
+package src.interface_adapters.mealPlan;
 
 public class MealPlanState {
 

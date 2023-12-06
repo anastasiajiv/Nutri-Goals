@@ -24,11 +24,10 @@ public class Main {
         String csvmealplanpath = "mealplan.csv";
 
         UserFactory userFactory = new CommonUserFactory();
-        UserFactory userFactory1 = new CommonUserFactory();
 
-        FileUserDataAccessObject userDAO = new FileUserDataAccessObject("help.csv", "mealPlan.csv", userFactory);
+        FileUserDataAccessObject userDAO = new FileUserDataAccessObject("plzwork.csv", "mealPlan.csv");
 
-        FileUserDataAccessObject fileUserDataAccessObject = new FileUserDataAccessObject("example.csv", "mealPlan.csv", new CommonUserFactory());
+        FileUserDataAccessObject fileUserDataAccessObject = new FileUserDataAccessObject("example.csv", "mealPlan.csv");
 
 
 

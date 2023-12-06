@@ -1,14 +1,11 @@
 package src.entity;
 
-import org.w3c.dom.ls.LSOutput;
-
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CommonRecipe implements Recipe {
 
-    private final int recipeId;
+    private final int recipeID;
 
     private final String recipeName;
 
@@ -18,32 +15,26 @@ public class CommonRecipe implements Recipe {
 
     private final String recipeType;
 
-    private final HashMap<String, Float> nutritionalinfo;
+    private final HashMap<String, Double> nutritionalInfo;
 
-    private final String recipelink;
-
-
-    public CommonRecipe(int recipeId, String recipeName, List<Ingredient> recipeIngredients,
-                        String recipeInstructions, String recipeType, HashMap<String, Float> nutritionalinfo, String recipelink) {
+    private final String recipeLink;
 
 
-
-
-        this.recipeId = recipeId;
+    public CommonRecipe(int recipeID, String recipeName, List<Ingredient> recipeIngredients,
+                        String recipeInstructions, String recipeType, HashMap<String, Double> nutritionalInfo,
+                        String recipeLink) {
+        this.recipeID = recipeID;
         this.recipeName = recipeName;
         this.recipeIngredients = recipeIngredients;
         this.recipeInstructions = recipeInstructions;
         this.recipeType = recipeType;
-
-
-        this.nutritionalinfo = nutritionalinfo;
-        this.recipelink = recipelink;
-
+        this.nutritionalInfo = nutritionalInfo;
+        this.recipeLink = recipeLink;
     }
 
     @Override
-    public int getRecipeId() {
-        return recipeId;
+    public int getRecipeID() {
+        return recipeID;
     }
 
     @Override
@@ -56,15 +47,13 @@ public class CommonRecipe implements Recipe {
         return recipeIngredients;
     }
 
-
-
     @Override
     public String getRecipeInstructions() {
         return recipeInstructions;
     }
 
     @Override
-    public String getRecipeInstuctionsdisplay(){
+    public String getRecipeInstructionsDisplay(){
         String[] strArray = recipeInstructions.split("\\.");
         StringBuilder sb = new StringBuilder();
 
@@ -88,48 +77,35 @@ public class CommonRecipe implements Recipe {
     }
 
     @Override
-    public String getrecipeType() {
+    public String getRecipeType() {
         return recipeType;
     }
 
     @Override
-    public HashMap<String, Float> getnutritionalinfo() {
-        return nutritionalinfo;
-    }
-
-
-
-
-    @Override
-    public String getnutritionalinfostring(){return nutritionalinfo.toString();}
-
-
-
-    @Override
-    public String getrecipelink() {
-        return recipelink;
+    public HashMap<String, Double> getNutritionalInfo() {
+        return nutritionalInfo;
     }
 
     @Override
-    public String getrecipeIngredientstring() {
+    public String getRecipeLink() {
+        return recipeLink;
+    }
+
+    @Override
+    public String getNutritionalInfoString() {
+        return nutritionalInfo.toString();
+    }
+
+    @Override
+    public String getRecipeIngredientString() {
 
         StringBuilder sb = new StringBuilder();
-        for (int i =0; i < this.recipeIngredients.size(); i ++ ){
-
-            Ingredient ingredient = recipeIngredients.get(i);
-            String ingredientstring = ingredient.getName() + " amount : " + ingredient.getAmount() + ", ";
+        for (Ingredient ingredient : this.recipeIngredients) {
+            String ingredientstring = ingredient.getName() + "amount : " + ingredient.getAmount() + ", ";
             sb.append(ingredientstring);
-
         }
         return sb.toString();
     }
-
-    @Override
-    public HashMap<String, Float> getNutritionalInfo() {
-        return this.nutritionalinfo;
-    }
-
-
 //    @Override
 //    public HashMap<Integer, HashMap<String, ArrayList<String>>> savedRecipes() {
 //        return savedRecipes;

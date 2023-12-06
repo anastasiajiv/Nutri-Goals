@@ -1,4 +1,4 @@
-package src.use_case.mealplan;
+package src.use_case.mealPlan;
 
 import org.json.JSONArray;
 import src.entity.Ingredient;
@@ -15,29 +15,15 @@ public interface MealPlanDataAccessInterface {
 
     Recipe CreateRecipeBreakfast(List<Ingredient> ingredients, String recipe);
 
-
-
-
-
-
-
     String Lunch(int identifier);
-
-
 
     Recipe CreateRecipeLunch(List<Ingredient> ingredients, String recipe);
 
-
     String Dinner(int identifier);
-
-
-
 
     Recipe CreateRecipeDinner(List<Ingredient> ingredients, String recipe);
 
-
     MealPlan getMealPlan(int id);
-
 
     Boolean existByUserID(int userID);
 
