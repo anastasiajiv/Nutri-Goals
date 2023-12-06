@@ -101,14 +101,8 @@ public class WeightGoalsView extends JPanel implements ActionListener, PropertyC
 
 
         // Textfields for user inputs
-        //JLabel subtitle5 = new JLabel(WeightGoalViewModel.HEIGHT_LABEL);
-        //subtitle5.setAlignmentX(Component.CENTER_ALIGNMENT);
         LabelTextPanel heightInfo = new LabelTextPanel(new JLabel(WeightGoalViewModel.HEIGHT_LABEL), heightInputField);
-        //JLabel subtitle6  = new JLabel(WeightGoalViewModel.WEIGHT_LABEL);
-        //subtitle6.setAlignmentX(Component.CENTER_ALIGNMENT);
         LabelTextPanel weightInfo = new LabelTextPanel(new JLabel(WeightGoalViewModel.WEIGHT_LABEL), weightInputField);
-        //JLabel subtitle7 = new JLabel(WeightGoalViewModel.AGE_LABEL);
-        //subtitle7.setAlignmentX(Component.CENTER_ALIGNMENT);
         LabelTextPanel ageInfo = new LabelTextPanel(new JLabel(WeightGoalViewModel.AGE_LABEL), ageInputField);
 
         // Drop down options for Exercise level and Pace Type
@@ -224,10 +218,6 @@ public class WeightGoalsView extends JPanel implements ActionListener, PropertyC
                             String paceTypeSave = (String) paceType.getSelectedItem();
                             currentState.setPaceType(paceTypeSave);
 
-                            /*int userAge = currentState.getAge();
-                            double userHeight = currentState.getHeight();
-                            double userWeight = currentState.getWeight();*/
-
                             weightGoalController.execute(currentState.getUserId(),
                                     currentState.getGender(),
                                     currentState.getHeight(),
@@ -244,7 +234,8 @@ public class WeightGoalsView extends JPanel implements ActionListener, PropertyC
         );
 
         // text input fields
-
+        Color color = new Color(173, 216, 230);
+        this.setBackground(color);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(subtitle1);// Gender selection
@@ -255,15 +246,9 @@ public class WeightGoalsView extends JPanel implements ActionListener, PropertyC
         this.add(dropbox);
         this.add(subtitle4);// Pace Type
         this.add(dropbox2);
-        //this.add(subtitle5);
         this.add(heightInfo);
-       // this.add(heightErrorField);
-        //this.add(subtitle6);
         this.add(weightInfo);
-        //this.add(subtitle7);
-        //this.add(weightErrorField);
         this.add(ageInfo);
-        //this.add(ageErrorField);
         this.add(confirm);
     }
 

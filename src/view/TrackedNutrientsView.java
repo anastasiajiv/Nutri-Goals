@@ -108,6 +108,8 @@ public class TrackedNutrientsView extends JPanel implements ActionListener, Prop
                 }
         );
         // add the titles, subtitles, buttons; set up view
+        Color color = new Color(173, 216, 230);
+        this.setBackground(color);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(macro_subtitle);

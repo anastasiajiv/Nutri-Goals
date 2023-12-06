@@ -4,31 +4,30 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeListener;
-import src.view.SignupView;
-import src.interface_adapters.signup.SignupController;
-import src.interface_adapters.signup.SignupState;
-import src.interface_adapters.signup.SignupViewModel;
 public class WelcomePageView extends JPanel {
     public final String viewName = "Welcome Page";
+    private final JLabel title;
+    private final JLabel subtitle;
     private final JButton createAccount;
     private final JButton logIn;
 
-
     public WelcomePageView(final CardLayout cardLayout, final JPanel views){
-        JLabel title = new JLabel("Nutri-GOALS");
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title = new JLabel("NUTRI-GOALS");
+        title.setHorizontalAlignment(title.CENTER);
+        title.setVerticalAlignment(title.CENTER);
+        title.setFont(new Font("Serif", Font.PLAIN, 100));
+        subtitle = new JLabel("<html>Achieving your nutrient <br> goals has never seemed easier <br> with NUTRI-GOALS' <br> delicious" +
+                "recipes and goal <br> tracking system.<html>");
+        subtitle.setHorizontalAlignment(subtitle.CENTER);
+        subtitle.setVerticalAlignment(subtitle.CENTER);
+        subtitle.setFont(new Font("Serif", Font.PLAIN, 40));
 
-        JLabel subtitle = new JLabel("Nutri-GOALS is an application that allows you to get delicious personalized " +
-                "recipes based on your needs and preferences.");
         JPanel buttons = new JPanel();
         createAccount = new JButton("Create Account");
+        createAccount.setPreferredSize(new Dimension(200, 50));
         buttons.add(createAccount);
         logIn = new JButton("Log In");
+        logIn.setPreferredSize(new Dimension(200, 50));
         buttons.add(logIn);
 
         createAccount.addActionListener(
@@ -53,17 +52,40 @@ public class WelcomePageView extends JPanel {
                     }
                 }
         );
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setPreferredSize(screenSize);
+        Color color = new Color(173, 216, 230);
+        this.setBackground(color);
+        //this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        //gridBagConstraints.anchor = GridBagConstraints.NORTH;
         this.add(title);
+
         this.add(subtitle);
+
         this.add(createAccount);
+
         this.add(logIn);
 
 
 
     }
 
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        title.setBounds(getWidth()/ 2 - title.getWidth() / 2 - 330, getHeight() / 2 - title.getHeight()/ 2 - 200,
+                title.getWidth(), title.getHeight());
+        subtitle.setBounds(getWidth()/ 2 - title.getWidth() / 2 - 250,
+                getHeight() / 2 - subtitle.getHeight()/ 2  - 10,
+                subtitle.getWidth(), subtitle.getHeight());
 
+        createAccount.setBounds(getWidth()/ 2 - createAccount.getWidth() / 2 - 500,
+                getHeight() / 2 - createAccount.getHeight()/ 2 + 170,
+                createAccount.getWidth(), createAccount.getHeight());
+        logIn.setBounds(getWidth()/ 2 - logIn.getWidth() / 2 - 100, getHeight() / 2 - logIn.getHeight()/ 2 + 170,
+                createAccount.getWidth(), logIn.getHeight());
+    }
 
 
 

@@ -13,8 +13,8 @@ import src.interface_adapters.signup.SignupState;
 import src.interface_adapters.signup.SignupViewModel;
 public class SignupView extends JPanel implements ActionListener, PropertyChangeListener{
 
-    //private final CardLayout cardLayout;
-    //private final JPanel views;
+    private final CardLayout cardLayout;
+    private final JPanel views;
     public final String viewName = "sign up";
 
     public final SignupViewModel signupViewModel;
@@ -29,11 +29,11 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
     private final SignupController signupController;
 
-    public SignupView(SignupController controller, SignupViewModel signupViewModel){
+    public SignupView(SignupController controller, SignupViewModel signupViewModel, CardLayout cardLayout, JPanel views){
         this.signupController = controller;
         this.signupViewModel = signupViewModel;
-        //this.cardLayout = cardLayout;
-        //this.views = views;
+        this.cardLayout = cardLayout;
+        this.views = views;
         signupViewModel.addPropertyChangeListener(this);
         JLabel title = new JLabel(SignupViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -62,20 +62,19 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                                     currentState.getPassword(),
                                     currentState.getPassword()
                             );
-                            //cardLayout.show(views, "log in");
                         }
                     }
                 }
                 );
 
-        cancel.addActionListener(this
-                /*new ActionListener(){
+        cancel.addActionListener(
+                new ActionListener(){
                     public void actionPerformed(ActionEvent evt){
                         if (evt.getSource().equals(cancel)){
                             cardLayout.show(views, "Welcome Page");
                         }
                     }
-                }*/
+                }
         );
 
         usernameInputField.addKeyListener(
@@ -140,11 +139,12 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         );
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-    this.add(title);
-    this.add(usernameInfo);
-    this.add(passwordInfo);
-    this.add(repeatPasswordInfo);
-    this.add(buttons);
+
+        this.add(title);
+        this.add(usernameInfo);
+        this.add(passwordInfo);
+        this.add(repeatPasswordInfo);
+        this.add(buttons);
 
     }
 
@@ -158,9 +158,6 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         if (state.getUsernameError() != null) {
             JOptionPane.showMessageDialog(this, state.getUsernameError());
         }
-    }
-    public void ClearDisplay(String message){
-        JOptionPane.showMessageDialog(this,message);
     }
 
 }
