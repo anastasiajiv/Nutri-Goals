@@ -294,11 +294,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     @Override
-    public void saveTrackedNutrientsData(ArrayList<String> trackedNutrients, int userID) {
+    public Boolean saveTrackedNutrientsData(ArrayList<String> trackedNutrients, int userID) {
         User currentUser = getAccountByUserID(userID);
         currentUser.setTrackedNutrients(trackedNutrients);
         accounts.put(userID, currentUser);
-        csvBuilder.buildCsv(currentUser, 1);
+        return csvBuilder.buildCsv(currentUser, 1);
     }
 
 

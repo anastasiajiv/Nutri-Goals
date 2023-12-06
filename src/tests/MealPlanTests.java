@@ -1,9 +1,7 @@
-package tests.use_case.mealPlan;
+package src.tests;
 
 import src.data_access.FileUserDataAccessObject;
-import src.data_access.InMemoryMealPlanAccessObject;
 import src.entity.CommonUserFactory;
-import src.entity.Recipe;
 import src.entity.User;
 import src.entity.UserFactory;
 
@@ -14,9 +12,8 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
-public class mealPlanInteractorTest {
+public class MealPlanTests {
     private FileUserDataAccessObject fileUserDAO;
     private final String csvFilePath = "./users.csv";
     private final String csvMealPlanFilePath = "./mealplan.csv";  // might be wrong
