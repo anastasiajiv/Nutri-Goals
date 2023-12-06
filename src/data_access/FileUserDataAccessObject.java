@@ -726,7 +726,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
         String breakfastname = breakfast.getRecipeName();
         String brekfastingredients = breakfast.getRecipeIngredientString();
-        String breakfastinstruct = breakfast.getRecipeInstructions();
+        String breakfastinstruct = breakfast.getRecipeInstructionsDisplay();
         String breakfastlink = breakfast.getRecipeLink();
         String breakfastnutrients = breakfast.getNutritionalInfoString();
 
@@ -736,20 +736,20 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
         String lunchname = lunch.getRecipeName();
         String lunchingredients = lunch.getRecipeIngredientString();
-        String lunchinstruct = lunch.getRecipeInstructions();
+        String lunchinstruct = lunch.getRecipeInstructionsDisplay();
         String lunchlink = lunch.getRecipeLink();
         String lunchnutrients = lunch.getNutritionalInfoString();
-        String lunchtotal  = "Lunch: " + lunchname + "\n" + "Ingredients : " + lunchingredients + "\n" + "Summary : " + lunchinstruct +
+        String lunchtotal  = "LUNCH: " + lunchname + "\n" + "Ingredients : " + lunchingredients + "\n" + "Summary : " + lunchinstruct +
                 "\n" + lunchlink + "\n" + "Nutritional Info: " + lunchnutrients;
 
 
 
         String dinnername = dinner.getRecipeName();
         String dinneringredients = dinner.getRecipeIngredientString();
-        String dinnerinstruct = dinner.getRecipeInstructions();
+        String dinnerinstruct = dinner.getRecipeInstructionsDisplay();
         String dinnerlink = dinner.getRecipeLink();
         String dinnernutrients = dinner.getNutritionalInfoString();
-        String dinnertotal  = "Dinner: "+ dinnername + "\n" + "Ingredients : " + dinneringredients + "\n" + "Summary : " + dinnerinstruct +
+        String dinnertotal  = "DINNER: "+ dinnername + "\n" + "Ingredients : " + dinneringredients + "\n" + "Summary : " + dinnerinstruct +
                 "\n" + dinnerlink+ "\n" + "Nutritional Info: " + dinnernutrients;
 
 
