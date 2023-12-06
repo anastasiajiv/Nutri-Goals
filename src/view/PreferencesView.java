@@ -216,7 +216,8 @@ public class PreferencesView extends JPanel implements ActionListener, PropertyC
                     }
                 }
         );
-
+        Color color = new Color(173, 216, 230);
+        this.setBackground(color);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(subtitle1);

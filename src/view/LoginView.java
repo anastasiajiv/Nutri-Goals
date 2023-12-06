@@ -103,6 +103,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                     }
                 });
 
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(usernameInfo);
@@ -127,6 +128,6 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
     private void setFields(LoginState state) {
         usernameInputField.setText(state.getUsername());
-        //userIDInputField.setText(Integer.toString(state.getUserID()));
+
     }
 }
