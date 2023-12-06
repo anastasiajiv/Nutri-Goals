@@ -14,17 +14,16 @@ public class PreferencesInteractor implements PreferencesInputBoundary{
 
     @Override
     public void execute(PreferencesInputData preferencesInputData){
-        int userId = preferencesInputData.getUserId();
+        int userID = preferencesInputData.getUserId();
         HashMap<String, Boolean> dietary = preferencesInputData.getDietary();
         HashMap<String, String> conditions = preferencesInputData.getConditions();
         HashMap<String, Boolean> allergies = preferencesInputData.getAllergies();
-        int userID = preferencesInputData.getUserId();
         if (!userDataAccessObject.existByUserID(userID)){
             preferencesPresenter.prepareFailView("Unable to add preferences as user does not exist.Please try again.");
         } else {
-            userDataAccessObject.savePreferences(userId, dietary, allergies, conditions);
+            userDataAccessObject.savePreferences(userID, dietary, allergies, conditions);
 
-            PreferencesOutputData preferencesOutputData = new PreferencesOutputData(userId);
+            PreferencesOutputData preferencesOutputData = new PreferencesOutputData(userID);
             preferencesPresenter.prepareSuccessView(preferencesOutputData);
 
         }

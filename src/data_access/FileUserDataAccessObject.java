@@ -399,6 +399,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                 }
 
                 String recipeinfo = response1.body();
+
+
                 return recipeinfo;
 
 
@@ -679,6 +681,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         String dinner_api = Dinner(userID);
         List<Ingredient> ingredientsdinner = CreateIngredients(dinner_api);
         Recipe dinner = CreateRecipeDinner(ingredientsdinner, dinner_api, userID);
+
         MealPlan mealplan = new CommonMealPlan(breakfast, lunch, dinner);
         mealplanaccounts.put(userID, mealplan);
 
@@ -789,6 +792,12 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                     HashMap<String, Boolean> dietary = convertToDict(col[10]);
                     HashMap<String, Boolean> allergies = convertToDict(col[11]);
                     HashMap<String, String> conditions = convertToDict1(col[12]);
+                    // boolean maintainTypeValue = Boolean.parseBoolean(col[13]);
+                    // boolean loseTypeValue = Boolean.parseBoolean(col[14]);
+                    // boolean gainTypeValue = Boolean.parseBoolean(col[15]);
+                    String paceType = col[16];
+                    double requiredCalories = Double.parseDouble(col[17]);
+                    ArrayList<String> trackedNutrients = convertToArrayList(col[18]);
                     // TODO: Parse other attributes
                     UserFactory userFactory = new CommonUserFactory();
                     User user = userFactory.createdDefaultUser(userId, username);
@@ -802,6 +811,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                     user.setDietary(dietary);
                     user.setAllergies(allergies);
                     user.setConditions(conditions);
+                    user.setPaceType(paceType);
+                    user.setRequiredCalories(requiredCalories);
+                    user.setTrackedNutrients(trackedNutrients);
                     //TODO:  Add the rest
 
 
@@ -844,6 +856,19 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
             }
         }
         return dict;
+    }
+
+    public ArrayList<String> convertToArrayList(String string) {
+        String[] items = string.split(" ");
+        ArrayList<String> list = new ArrayList<>();
+        for (String item : items) {
+            if (item.equals("{}")) {
+                return list;
+            } else {
+                list.add(item);
+            }
+        }
+        return list;
     }
 
     public HashMap<String, Double> getRecipeNutritionalInfo(String recipeID, int userID) {
