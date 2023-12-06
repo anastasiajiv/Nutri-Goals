@@ -69,6 +69,35 @@ public class UserEntityTest {
 
         assertEquals(testWeightGoal, weightGoal);
 
+        HashMap<String, Boolean> dietary = new HashMap<>();
+        dietary.put("Vegetarian", Boolean.FALSE);
+        dietary.put("Vegan", Boolean.FALSE);
+        dietary.put("Pescatarian", Boolean.FALSE);
+        dietary.put("none1", Boolean.TRUE);
+
+        user.setDietary(dietary);
+        HashMap<String, Boolean> allergies = new HashMap<>();
+        allergies.put("Eggs", Boolean.FALSE);
+        allergies.put("Sesame", Boolean.FALSE);
+        allergies.put("Shellfish", Boolean.FALSE);
+        allergies.put("Wheat", Boolean.FALSE);
+        allergies.put("Peanut", Boolean.FALSE);
+        allergies.put("Seafood", Boolean.TRUE);
+        allergies.put("none", Boolean.TRUE);
+        allergies.put("Wheat", Boolean.FALSE);
+        allergies.put("TreeNut", Boolean.FALSE);
+        user.setAllergies(allergies);
+        HashMap<String, String> condition = new HashMap<>();
+        condition.put("Magnesium", "low");
+        condition.put("Iron", "average");
+        condition.put("Calcium", "high");
+        condition.put("VitaminD", "high");
+        condition.put("VitaminC", "average");
+        condition.put("Sugar", "low");
+        condition.put("Potassium", "average");
+
+        user.setConditions(condition);
+
 
 
         // Add more assertions for other setters
@@ -83,20 +112,21 @@ public class UserEntityTest {
 
     @Test
     public void testUserSpecifiedDietary() {
-        // Test the userSpecifiedDietary method
-        // Ensure it returns the expected value for different scenarios
+        user.userSpecifiedDietary();
     }
 
     @Test
     public void testUserSpecifiedAllergies() {
         // Test the userSpecifiedAllergies method
         // Ensure it returns the expected value for different scenarios
+        user.userSpecifiedAllergies();
     }
 
     @Test
     public void testUserSpecifiedConditions() {
         // Test the userSpecifiedConditions method
         // Ensure it returns the expected value for different scenarios
+        user.userSpecifiedConditions();
     }
 
     // Add more tests for other methods
@@ -104,12 +134,6 @@ public class UserEntityTest {
     @Test
     public void testRequiredCaloriesCalculation() {
         // Test the getRequiredCalories method
-        // Ensure it returns the expected value for different scenarios
-    }
-
-    @Test
-    public void testGenderType() {
-        // Test the getGenderType method
         // Ensure it returns the expected value for different scenarios
     }
 
