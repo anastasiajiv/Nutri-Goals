@@ -792,10 +792,13 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                     HashMap<String, Boolean> dietary = convertToDict(col[10]);
                     HashMap<String, Boolean> allergies = convertToDict(col[11]);
                     HashMap<String, String> conditions = convertToDict1(col[12]);
-                    // no set methods?
-                    // boolean maintainTypeValue = Boolean.parseBoolean(col[13]);
-                    // boolean loseTypeValue = Boolean.parseBoolean(col[14]);
-                    // boolean gainTypeValue = Boolean.parseBoolean(col[15]);
+                    HashMap<String, Boolean> weightGoals = new HashMap<>();
+                    boolean maintainTypeValue = Boolean.parseBoolean(col[13]);
+                    boolean loseTypeValue = Boolean.parseBoolean(col[14]);
+                    boolean gainTypeValue = Boolean.parseBoolean(col[15]);
+                    weightGoals.put("maintainWeight", maintainTypeValue);
+                    weightGoals.put("loseWeight", loseTypeValue);
+                    weightGoals.put("gainWeight", gainTypeValue);
                     String paceType = col[16];
                     double requiredCalories = Double.parseDouble(col[17]);
                     ArrayList<String> trackedNutrients = convertToArrayList(col[18]);
@@ -812,6 +815,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                     user.setDietary(dietary);
                     user.setAllergies(allergies);
                     user.setConditions(conditions);
+                    user.setWeightGoalType(weightGoals);
                     user.setPaceType(paceType);
                     user.setRequiredCalories(requiredCalories);
                     user.setTrackedNutrients(trackedNutrients);

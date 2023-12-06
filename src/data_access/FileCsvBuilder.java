@@ -174,6 +174,11 @@ public class FileCsvBuilder {
     }
 
     private String getStringRep(HashMap<String, ?> map) {
+        // if it is empty, place a placeholder
+        if (map.isEmpty()) {
+            return "{}";
+        }
+
         // create strings for the HashMap values
         StringBuilder items = new StringBuilder();
         // iterate for each key
@@ -195,6 +200,11 @@ public class FileCsvBuilder {
 
     // overload the helper method to take arraylists as well
     private String getStringRep(ArrayList<String> list) {
+        // if it is empty, place a placeholder
+        if (list.isEmpty()) {
+            return "[]";
+        }
+
         // create strings for the HashMap values
         StringBuilder items = new StringBuilder();
         // iterate for each key
