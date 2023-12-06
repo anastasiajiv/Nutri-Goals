@@ -778,35 +778,35 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
         String breakfastname = breakfast.getRecipeName();
         String brekfastingredients = breakfast.getrecipeIngredientstring();
-        String breakfastinstruct = breakfast.getRecipeInstructions();
+        String breakfastinstruct = breakfast.getRecipeInstuctionsdisplay();
         String breakfastlink = breakfast.getrecipelink();
         String breakfastnutrients = breakfast.getnutritionalinfostring();
 
-        String breakfasttotal  = "Breakfast: " + breakfastname + "\n" + "Ingredients :  " + brekfastingredients + "\n" + "Summary : " + breakfastinstruct +
-                "\n" + breakfastlink + "\n" + "Nutritional Info: " + breakfastnutrients;
+        String breakfasttotal  = "🍳 BREAKFAST: " + breakfastname + "\n" + "Ingredients :  " + brekfastingredients + "\n" + "Summary : " + breakfastinstruct +
+                  breakfastlink + "\n" + "Nutritional Info: " + breakfastnutrients;
 
 
         String lunchname = lunch.getRecipeName();
         String lunchingredients = lunch.getrecipeIngredientstring();
-        String lunchinstruct = lunch.getRecipeInstructions();
+        String lunchinstruct = lunch.getRecipeInstuctionsdisplay();
         String lunchlink = lunch.getrecipelink();
         String lunchnutrients = lunch.getnutritionalinfostring();
-        String lunchtotal  = "Lunch: " + lunchname + "\n" + "Ingredients : " + lunchingredients + "\n" + "Summary : " + lunchinstruct +
-                "\n" + lunchlink + "\n" + "Nutritional Info: " + lunchnutrients;
+        String lunchtotal  = "🥙 LUNCH: " + lunchname + "\n" + "Ingredients : " + lunchingredients + "\n" + "Summary : " + lunchinstruct +
+                  lunchlink + "\n" + "Nutritional Info: " + lunchnutrients;
 
 
 
         String dinnername = dinner.getRecipeName();
         String dinneringredients = dinner.getrecipeIngredientstring();
-        String dinnerinstruct = dinner.getRecipeInstructions();
+        String dinnerinstruct = dinner.getRecipeInstuctionsdisplay();
         String dinnerlink = dinner.getrecipelink();
         String dinnernutrients = dinner.getnutritionalinfostring();
-        String dinnertotal  = "Dinner: "+ dinnername + "\n" + "Ingredients : " + dinneringredients + "\n" + "Summary : " + dinnerinstruct +
-                "\n" + dinnerlink+ "\n" + "Nutritional Info: " + dinnernutrients;
+        String dinnertotal  = "🥘 DINNER: "+ dinnername + "\n" + "Ingredients : " + dinneringredients + "\n" + "Summary : " + dinnerinstruct +
+                  dinnerlink+ "\n" + "Nutritional Info: " + dinnernutrients;
 
 
 
-        return breakfasttotal + "\n" + lunchtotal  + "\n"  + dinnertotal;
+        return breakfasttotal + "\n" + "\n" + lunchtotal  + "\n" + "\n" + dinnertotal;
 
 
     }

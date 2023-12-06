@@ -14,6 +14,8 @@ public interface Recipe {
 
     String getRecipeInstructions();
 
+    String getRecipeInstuctionsdisplay();
+
     String getrecipeType();
 
     HashMap<String, Float> getnutritionalinfo();

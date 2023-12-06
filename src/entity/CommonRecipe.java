@@ -64,6 +64,30 @@ public class CommonRecipe implements Recipe {
     }
 
     @Override
+    public String getRecipeInstuctionsdisplay(){
+        String[] strArray = recipeInstructions.split("\\.");
+        StringBuilder sb = new StringBuilder();
+
+        for(String s: strArray){
+            sb.append(s + "\n");
+        }
+
+        String sb1 = sb.toString();
+
+        String str1 = sb1.replaceAll("[<\b>]", "");
+
+        //String str2 = str1.replaceAll(, )
+
+        return str1;
+
+
+
+
+
+
+    }
+
+    @Override
     public String getrecipeType() {
         return recipeType;
     }
@@ -74,8 +98,12 @@ public class CommonRecipe implements Recipe {
     }
 
 
+
+
     @Override
     public String getnutritionalinfostring(){return nutritionalinfo.toString();}
+
+
 
     @Override
     public String getrecipelink() {
@@ -89,7 +117,7 @@ public class CommonRecipe implements Recipe {
         for (int i =0; i < this.recipeIngredients.size(); i ++ ){
 
             Ingredient ingredient = recipeIngredients.get(i);
-            String ingredientstring = ingredient.getName() + "amount : " + ingredient.getAmount() + ", ";
+            String ingredientstring = ingredient.getName() + " amount : " + ingredient.getAmount() + ", ";
             sb.append(ingredientstring);
 
         }
