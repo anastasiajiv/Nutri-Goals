@@ -7,6 +7,13 @@ import src.entity.CommonUserFactory;
 import src.entity.UserFactory;
 import java.util.HashMap;
 import src.entity.User;
+import src.interface_adapters.ViewManagerModel;
+import src.interface_adapters.logged_in.LoggedInViewModel;
+import src.interface_adapters.preferences.PreferencesPresenter;
+import src.interface_adapters.preferences.PreferencesViewModel;
+import src.use_case.preferences.PreferencesInputData;
+import src.use_case.preferences.PreferencesInteractor;
+
 import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 public class PreferencesTests {
@@ -17,9 +24,17 @@ public class PreferencesTests {
 
     private final UserFactory userFactory = new CommonUserFactory();
 
+    HashMap<String, Boolean> testDietaryInput;
+
+    HashMap<String, Boolean> testAllergiesInput;
+
+    HashMap<String, String> testConditionsInput;
+
     @BeforeEach
     void setUp() {
+
         this.userDataAccessObject = new FileUserDataAccessObject(testCsvFilePath, testMealPlanFilePath);
+        this.userDataAccessObject.loadUserDataFromCsv();
     }
 
     @Test
@@ -77,6 +92,59 @@ public class PreferencesTests {
         assertEquals(testUser.getAllergies(), allergiesTest);
         // testing that the right preference is set in terms of conditions
         assertEquals(testUser.getConditions(), conditionsTest);
+
+    }
+
+    @Test
+    void PreferencesInteractor(){
+        setUp();
+        int userID = 4;
+        assertTrue(this.userDataAccessObject.existByUserID(userID));
+
+        PreferencesViewModel preferencesViewModel = new PreferencesViewModel();
+
+        LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
+
+        ViewManagerModel viewManagerModel = new ViewManagerModel();
+
+        testDietaryInput.put("Vegan", Boolean.FALSE);
+        testDietaryInput.put("Vegetarian", Boolean.TRUE);
+        testDietaryInput.put("Pescetarian", Boolean.FALSE);
+        testDietaryInput.put("none1", Boolean.FALSE);
+
+        testAllergiesInput.put("Egg", Boolean.FALSE);
+        testAllergiesInput.put("Peanut", Boolean.TRUE);
+        testAllergiesInput.put("Seafood", Boolean.FALSE);
+        testAllergiesInput.put("Soy", Boolean.FALSE);
+        testAllergiesInput.put("Tree Nut", Boolean.TRUE);
+        testAllergiesInput.put("Wheat", Boolean.FALSE);
+        testAllergiesInput.put("none", Boolean.FALSE);
+
+        testConditionsInput.put("Calcium", "high");
+        testConditionsInput.put("Potassium", "average");
+        testConditionsInput.put("Vitamin C", "average");
+        testConditionsInput.put("Vitamin D", "low");
+        testConditionsInput.put("Iron", "average");
+        testConditionsInput.put("Magnesium", "low");
+        testConditionsInput.put("Sugar", "low");
+
+        PreferencesInputData preferencesInputData = new PreferencesInputData(userID, testDietaryInput,
+                testConditionsInput, testAllergiesInput);
+
+        PreferencesPresenter successPresenter = new PreferencesPresenter(viewManagerModel, preferencesViewModel, loggedInViewModel);
+
+        PreferencesInteractor interactor = new PreferencesInteractor(this.userDataAccessObject, successPresenter);
+
+        interactor.execute(preferencesInputData);
+
+        assertTrue(this.userDataAccessObject.existByUserID(userID));
+
+
+
+
+
+
+
 
     }
 }
