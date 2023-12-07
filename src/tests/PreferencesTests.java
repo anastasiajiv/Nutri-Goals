@@ -7,6 +7,16 @@ import src.entity.CommonUserFactory;
 import src.entity.UserFactory;
 import java.util.HashMap;
 import src.entity.User;
+import src.interface_adapters.ViewManagerModel;
+import src.interface_adapters.logged_in.LoggedInViewModel;
+import src.interface_adapters.preferences.PreferencesPresenter;
+import src.interface_adapters.preferences.PreferencesViewModel;
+import src.use_case.preferences.PreferencesInputData;
+import src.use_case.preferences.PreferencesInteractor;
+import src.use_case.preferences.PreferencesOutputBoundary;
+import src.use_case.preferences.PreferencesOutputData;
+
+import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 public class PreferencesTests {
     private FileUserDataAccessObject userDataAccessObject;
@@ -16,9 +26,32 @@ public class PreferencesTests {
 
     private final UserFactory userFactory = new CommonUserFactory();
 
+    HashMap<String, Boolean> testDietaryInput;
+
+    HashMap<String, Boolean> testAllergiesInput;
+
+    HashMap<String, String> testConditionsInput;
+
     @BeforeEach
     void setUp() {
+
         this.userDataAccessObject = new FileUserDataAccessObject(testCsvFilePath, testMealPlanFilePath);
+        this.userDataAccessObject.loadUserDataFromCsv();
+    }
+
+    @Test
+    void SaveUserData_saveUserAndCsv(){
+        int userID = 4;
+        String username = "TestingUserName";
+        String password = "TestingPassword";
+        LocalDateTime creationTime = LocalDateTime.now();
+
+        userDataAccessObject.saveUserSignUpData(userID, username, password, creationTime);
+
+        assertTrue(userDataAccessObject.existByUserID(userID));
+        assertTrue(userDataAccessObject.existByName(username));
+        assertNotNull(userDataAccessObject.getAccountByUserID(userID));
+
     }
 
     @Test
@@ -57,11 +90,61 @@ public class PreferencesTests {
         assertNotNull(userDataAccessObject.getAccountByUserID(userID));
         // testing that the right preferences is set in terms of dietary
         User testUser = userDataAccessObject.getAccountByUserID(userID);
-        assert(testUser.getDietary().equals(dietaryTest));
+        assertEquals(testUser.getDietary(), dietaryTest);
         // testing that the right preference is set in terms of allergies
-        assert(testUser.getAllergies().equals(allergiesTest));
+        assertEquals(testUser.getAllergies(), allergiesTest);
         // testing that the right preference is set in terms of conditions
-        assert(testUser.getConditions().equals(conditionsTest));
+        assertEquals(testUser.getConditions(), conditionsTest);
+
+    }
+
+    @Test
+    void PreferencesInteractor(){
+        setUp();
+        int userID = 4;
+        testDietaryInput.put("Vegan", Boolean.FALSE);
+        testDietaryInput.put("Vegetarian", Boolean.TRUE);
+        testDietaryInput.put("Pescetarian", Boolean.FALSE);
+        testDietaryInput.put("none1", Boolean.FALSE);
+
+        testAllergiesInput.put("Egg", Boolean.FALSE);
+        testAllergiesInput.put("Peanut", Boolean.TRUE);
+        testAllergiesInput.put("Seafood", Boolean.FALSE);
+        testAllergiesInput.put("Soy", Boolean.FALSE);
+        testAllergiesInput.put("Tree Nut", Boolean.TRUE);
+        testAllergiesInput.put("Wheat", Boolean.FALSE);
+        testAllergiesInput.put("none", Boolean.FALSE);
+
+        testConditionsInput.put("Calcium", "high");
+        testConditionsInput.put("Potassium", "average");
+        testConditionsInput.put("Vitamin C", "average");
+        testConditionsInput.put("Vitamin D", "low");
+        testConditionsInput.put("Iron", "average");
+        testConditionsInput.put("Magnesium", "low");
+        testConditionsInput.put("Sugar", "low");
+
+        PreferencesInputData preferencesInputData = new PreferencesInputData(userID, testDietaryInput,
+                testConditionsInput, testAllergiesInput);
+
+        PreferencesOutputBoundary successPresenter = new PreferencesOutputBoundary() {
+            @Override
+            public void prepareSuccessView(PreferencesOutputData user) {
+
+                user.getID();
+
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                fail("Use case failure is unexpected.");
+
+            }
+        };
+
+        PreferencesInteractor interactor = new PreferencesInteractor(this.userDataAccessObject, successPresenter);
+
+        interactor.execute(preferencesInputData);
+
 
     }
 }

@@ -130,11 +130,24 @@ public class Main {
         //System.out.println(lunch_cals);
        // System.out.println(breakfast_cals);
         //System.out.println(lunch_cals + lunch_cals + breakfast_cals);*/
-        System.out.println(userDAO.getAccountByUserID(4).getConditions());
-        System.out.println(userDAO.Dinner(tesst_user.getUserId()));
+        //System.out.println(userDAO.accounts);
+        //System.out.println(userDAO.getAccountByUserID(5).userSpecifiedConditions());
+        //System.out.println(userDAO.Dinner(tesst_user.getUserId()));
+        System.out.println(userDAO.convertToDict1("Calcium=low Iron=low Magnesium=high Potassium=high VitaminD=average VitaminC=average Sugar=low"));
+        System.out.println((userDAO.getAccountByUserID(5).isMale().equals("true")
+                && userDAO.getAccountByUserID(5).getUserAge() > 18 && userDAO.getAccountByUserID(5).getUserAge() < 71)
+                ||( userDAO.getAccountByUserID(5).isMale().equals("true")
+                &&( userDAO.getAccountByUserID(5).getUserAge() > 18
+                && userDAO.getAccountByUserID(5).getUserAge() < 51)));
+        System.out.println((userDAO.getAccountByUserID(5).isMale().equals("true")
+                && (userDAO.getAccountByUserID(5).getUserAge() > 18 && userDAO.getAccountByUserID(5).getUserAge() < 71)));
+        System.out.println(( userDAO.getAccountByUserID(5).isMale().equals("true")
+                &&((userDAO.getAccountByUserID(5).getUserAge() > 18
+                && userDAO.getAccountByUserID(5).getUserAge() < 51))));
 
 
 
+        //((isMale().equals("true") && (age > 18 && age < 71))
     }
 
 

@@ -13,10 +13,21 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     private final Map<Integer, User> users = new HashMap<>();
 
 
-    @Override
+    /*@Override
     public Boolean existByUserID(int userId) {
         return null;
+    }*/
+    @Override
+    public boolean existByName(String username) {
+        for (Integer userID: users.keySet()){
+            if (users.get(userID).getName().equals(username)){
+                return true;
+            }
+        }
+        return false;
     }
+    @Override
+    public Boolean existByUserID(int userId) {return users.containsKey(userId);}
 
     @Override
     public Boolean saveUserSignUpData(int userId, String username, String password, LocalDateTime creationTime) {

@@ -71,10 +71,12 @@ public class WeightGoalsView extends JPanel implements ActionListener, PropertyC
         JPanel radioButtons1 = new JPanel();
         //Add male button for gender selection
         male = new JRadioButton(WeightGoalViewModel.MALE_LABEL);
+        male.setBackground(new Color(173, 216, 230));
         buttonGroup1.add(male);
         radioButtons1.add(male);
         //Add female button for gender selection
         female = new JRadioButton(WeightGoalViewModel.FEMALE_LABEL);
+        female.setBackground(new Color(173, 216, 230));
         buttonGroup1.add(female);
         radioButtons1.add(female);
 
@@ -88,27 +90,24 @@ public class WeightGoalsView extends JPanel implements ActionListener, PropertyC
         //Add buttons to select weight goal
         //Add maintainWeight
         maintainWeight = new JRadioButton(WeightGoalViewModel.MAINTAINWEIGHT_LABEL);
+        maintainWeight.setBackground(new Color(173, 216, 230));
         buttonGroup2.add(maintainWeight);
         radioButtons2.add(maintainWeight);
         //Add loseWeight
         loseWeight = new JRadioButton(WeightGoalViewModel.LOSEWEIGHT_LABEL);
+        loseWeight.setBackground(new Color(173, 216, 230));
         buttonGroup2.add(loseWeight);
         radioButtons2.add(loseWeight);
         //Add gainWeight
         gainWeight = new JRadioButton(WeightGoalViewModel.GAINWEIGHT_LABEL);
+        gainWeight.setBackground(new Color(173, 216, 230));
         buttonGroup2.add(gainWeight);
         radioButtons2.add(gainWeight);
 
 
         // Textfields for user inputs
-        //JLabel subtitle5 = new JLabel(WeightGoalViewModel.HEIGHT_LABEL);
-        //subtitle5.setAlignmentX(Component.CENTER_ALIGNMENT);
         LabelTextPanel heightInfo = new LabelTextPanel(new JLabel(WeightGoalViewModel.HEIGHT_LABEL), heightInputField);
-        //JLabel subtitle6  = new JLabel(WeightGoalViewModel.WEIGHT_LABEL);
-        //subtitle6.setAlignmentX(Component.CENTER_ALIGNMENT);
         LabelTextPanel weightInfo = new LabelTextPanel(new JLabel(WeightGoalViewModel.WEIGHT_LABEL), weightInputField);
-        //JLabel subtitle7 = new JLabel(WeightGoalViewModel.AGE_LABEL);
-        //subtitle7.setAlignmentX(Component.CENTER_ALIGNMENT);
         LabelTextPanel ageInfo = new LabelTextPanel(new JLabel(WeightGoalViewModel.AGE_LABEL), ageInputField);
 
         // Drop down options for Exercise level and Pace Type
@@ -224,10 +223,6 @@ public class WeightGoalsView extends JPanel implements ActionListener, PropertyC
                             String paceTypeSave = (String) paceType.getSelectedItem();
                             currentState.setPaceType(paceTypeSave);
 
-                            /*int userAge = currentState.getAge();
-                            double userHeight = currentState.getHeight();
-                            double userWeight = currentState.getWeight();*/
-
                             weightGoalController.execute(currentState.getUserId(),
                                     currentState.getGender(),
                                     currentState.getHeight(),
@@ -244,26 +239,28 @@ public class WeightGoalsView extends JPanel implements ActionListener, PropertyC
         );
 
         // text input fields
-
+        Color color = new Color(173, 216, 230);
+        this.setBackground(color);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(subtitle1);// Gender selection
         this.add(radioButtons1);
+        radioButtons1.setBackground(color);
         this.add(subtitle2);//Weight goal selection
         this.add(radioButtons2);
+        radioButtons2.setBackground(color);
         this.add(subtitile3); //Activity level
         this.add(dropbox);
+        dropbox.setBackground(color);
         this.add(subtitle4);// Pace Type
         this.add(dropbox2);
-        //this.add(subtitle5);
+        dropbox2.setBackground(color);
         this.add(heightInfo);
-       // this.add(heightErrorField);
-        //this.add(subtitle6);
+        heightInfo.setBackground(color);
         this.add(weightInfo);
-        //this.add(subtitle7);
-        //this.add(weightErrorField);
+        weightInfo.setBackground(color);
         this.add(ageInfo);
-        //this.add(ageErrorField);
+        ageInfo.setBackground(color);
         this.add(confirm);
     }
 

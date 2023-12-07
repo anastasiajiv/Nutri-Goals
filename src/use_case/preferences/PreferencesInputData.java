@@ -26,5 +26,5 @@ public class PreferencesInputData {
         return this.allergies;
     }
 
-    int getUserId(){ return this.userId; }
+    public int getUserId(){ return this.userId; }
 }

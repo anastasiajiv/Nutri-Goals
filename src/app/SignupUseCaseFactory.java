@@ -21,11 +21,11 @@ public class SignupUseCaseFactory {
 
     public static SignupView create(
             ViewManagerModel viewManagerModel, LoginViewModel loginViewModel, SignupViewModel signupViewModel,
-            SignupUserDataAccessInterface userDataAccessObject) {
+            SignupUserDataAccessInterface userDataAccessObject, CardLayout cardLayout, JPanel views) {
 
         try {
             SignupController signupController = createUserSignupUseCase(viewManagerModel, signupViewModel, loginViewModel, userDataAccessObject);
-            return new SignupView(signupController, signupViewModel);
+            return new SignupView(signupController, signupViewModel, cardLayout, views);
 
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");

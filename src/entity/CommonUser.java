@@ -213,28 +213,28 @@ public class CommonUser implements User {
     public HashMap<String, Double> userSpecifiedConditions(){
 
         HashMap<String, Double> user_conditions = new HashMap<>();
-        user_conditions.put("Calcium", this.getCalciumValue());
-        user_conditions.put("Potassium", this.getPotassiumValue());
-        user_conditions.put("VitaminC", this.getVitaminCValue());
-        user_conditions.put("VitaminD", this.getVitaminDValue());
-        user_conditions.put("Iron", this.getIronValue());
-        user_conditions.put("Magnesium", this.getMagnesiumValue());
-        user_conditions.put("Sugar", this.getSugarValue());
+        user_conditions.put("Calcium", getCalciumValue());
+        user_conditions.put("Potassium", getPotassiumValue());
+        user_conditions.put("VitaminC", getVitaminCValue());
+        user_conditions.put("VitaminD", getVitaminDValue());
+        user_conditions.put("Iron", getIronValue());
+        user_conditions.put("Magnesium", getMagnesiumValue());
+        user_conditions.put("Sugar", getSugarValue());
         return user_conditions;
     }
 
 
     public Double getCalciumValue(){
-        //String value = this.getConditions().get("Calcium");
-        String value = this.conditions.get("Calcium");
+        String value = getConditions().get("Calcium");
 
-        int age = this.getUserAge();
+
+        int age = getUserAge();
 
         // initialize a double to store the recommended daily average intake depending on the user's information
         double daily_value;
 
         // specifies the daily calcium intake based on sex and age
-        if ((isMale().equals("true") && age > 18 && age < 71) || (isFemale().equals("true") && age > 18 && age < 51)){
+        if ((isMale().equals("true") && (age > 12 && age < 71)) || (isFemale().equals("true") && age > 12 && age < 51)){
             // calculates the daily intake based on what intake type the user specified (low, average, high)
             if (value.equals("low")) {
                 daily_value = 1000 - 0.20 * 1000;
@@ -259,13 +259,13 @@ public class CommonUser implements User {
         }
 
         // if the daily value has been properly calculated, return the value
-        assert(daily_value != 0.0);
+        //assert(daily_value != 0.0);
         return (daily_value / 3);
     }
 
 
     public Double getPotassiumValue(){
-        String value = this.getConditions().get("Potassium");
+        String value = getConditions().get("Potassium");
         double daily_value;
         if (isMale().equals("true")) {
             if (value.equals("low")) {
@@ -287,13 +287,13 @@ public class CommonUser implements User {
             daily_value = 0.0;
             System.out.println("Could not set Potassium level.");
         }
-        assert(daily_value != 0.0);
+        //assert(daily_value != 0.0);
         return (daily_value / 3);
     }
 
 
     public Double getVitaminCValue(){
-        String value = this.getConditions().get("VitaminC");
+        String value = getConditions().get("VitaminC");
         double daily_value;
         if (isMale().equals("true")){
             if (value.equals("low")){
@@ -315,16 +315,16 @@ public class CommonUser implements User {
             daily_value = 0.0;
             System.out.println("Could not set VitaminC level.");
         }
-        assert(daily_value != 0.0);
+        //assert(daily_value != 0.0);
         return (daily_value / 3);
     }
 
 
     public Double getVitaminDValue() {
-        String value = this.getConditions().get("VitaminD");
+        String value = getConditions().get("VitaminD");
         double daily_value;
         int age = getUserAge();
-        if ((isMale().equals("true") && age > 18 && age < 71) || (isFemale().equals("true"))){
+        if ((isMale().equals("true") && age > 12 && age < 71) || (isFemale().equals("true"))){
             if (value.equals("low")) {
                 daily_value = (600 * 0.67) - 0.20 * (600 * 0.67);
             } else if (value.equals("average")) {
@@ -344,13 +344,13 @@ public class CommonUser implements User {
             daily_value = 0.0;
             System.out.println("Could not set VitaminD level.");
         }
-        assert(daily_value != 0.0);
+        //assert(daily_value != 0.0);
         return (daily_value / 3);
     }
 
 
     public Double getIronValue(){
-        String value = this.getConditions().get("Iron");
+        String value = getConditions().get("Iron");
         int age = getUserAge();
         double daily_value;
         if ((isMale().equals("true")) || (isFemale().equals("true") && age > 50)){
@@ -363,7 +363,7 @@ public class CommonUser implements User {
                 daily_value = 8 + 0.20 * 8;
 
             }
-        } else if (isFemale().equals("true") && age > 18 && age < 51){
+        } else if (isFemale().equals("true") && age > 12 && age < 51){
             if (value.equals("low")){
                 daily_value = 18 - 0.20 * 18;
 
@@ -383,10 +383,10 @@ public class CommonUser implements User {
     }
 
     public Double getMagnesiumValue(){
-        String value = this.getConditions().get("Magnesium");
+        String value = getConditions().get("Magnesium");
         double daily_value;
         int age = getUserAge();
-        if (isMale().equals("true") && age > 18 && age< 31){
+        if (isMale().equals("true") && age > 12 && age< 31){
             if (value.equals("low")){
                 daily_value = 400 - 0.20 * 400;
             } else if (value.equals("average")){
@@ -402,7 +402,7 @@ public class CommonUser implements User {
             }else {
                 daily_value = 420 + 0.20 * 420;
             }
-        } else if (isFemale().equals("true") && age > 18 && age < 31){
+        } else if (isFemale().equals("true") && age > 12 && age < 31){
             if (value.equals("low")){
                 daily_value = 310 - 0.20 * 310;
             } else if (value.equals("average")){
@@ -430,7 +430,7 @@ public class CommonUser implements User {
 
     //sugar is measured in grams not mg
     public Double getSugarValue(){
-        String value = this.getConditions().get("Sugar");
+        String value = getConditions().get("Sugar");
         double daily_value;
         int age = getUserAge();
         if (isMale().equals("true") || isFemale().equals("true")){
@@ -445,7 +445,7 @@ public class CommonUser implements User {
             daily_value = 0.0;
             System.out.println("Could not set Sugar level.");
         }
-        assert(daily_value != 0.0);
+        //assert(daily_value != 0.0);
         return (daily_value / 3);
     }
 

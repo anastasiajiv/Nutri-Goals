@@ -4,6 +4,9 @@ import src.entity.User;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 public interface SignupUserDataAccessInterface {
+
+    boolean existByName(String identifier);
+
     Boolean existByUserID(int userID);
     Boolean saveUserSignUpData(int userId,
                                String username,

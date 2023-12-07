@@ -60,7 +60,7 @@ public class MealPlanView extends JPanel implements ActionListener, PropertyChan
                     }
                 }
         );
-
+        this.setBackground(new Color(173, 216, 230));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(getmealplan);
