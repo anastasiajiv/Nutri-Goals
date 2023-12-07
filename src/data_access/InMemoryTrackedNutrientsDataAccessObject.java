@@ -9,6 +9,8 @@ import java.util.Map;
 
 public class InMemoryTrackedNutrientsDataAccessObject implements TrackedNutrientsUserDataAccessInterface {
 
+    private final Map<String, User> users = new HashMap<>();
+
     @Override
     public Boolean saveTrackedNutrientsData(ArrayList<String> trackedNutrients, int userID) {
         return true;
