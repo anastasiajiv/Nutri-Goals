@@ -85,7 +85,7 @@ public class TrackedNutrientsTests {
     }
 
     @Test
-    void successTest() throws IOException {
+    void successTest() {
         saveUserData();
         TrackedNutrientsOutputBoundary successPresenter = new TrackedNutrientsOutputBoundary() {
             @Override
@@ -113,6 +113,41 @@ public class TrackedNutrientsTests {
         int userID = 101;
 
         TrackedNutrientsInputData inputData = new TrackedNutrientsInputData(userID, trackedNutrients);
+        TrackedNutrientsInteractor interactor = new TrackedNutrientsInteractor(fileUserDAO, successPresenter);
+
+        interactor.execute(inputData);
+    }
+
+    @Test
+    void failureTest() {
+        saveUserData();
+        TrackedNutrientsOutputBoundary successPresenter = new TrackedNutrientsOutputBoundary() {
+            @Override
+            public void prepareSuccessView(TrackedNutrientsOutputData trackedNutrients) {
+                ArrayList<String> tn = new ArrayList<>();
+                tn.add("Protein");
+                tn.add("Carbohydrates");
+                tn.add("Fats");
+                int userID = 101;
+
+                // assertEquals(userID, trackedNutrients.getUserID());
+                assertEquals(tn, fileUserDAO.getUserTrackedNutrientsData(userID));
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                assertEquals("UserID cannot be found.", error);
+            }
+        };
+
+        ArrayList<String> trackedNutrients = new ArrayList<>();
+        trackedNutrients.add("Protein");
+        trackedNutrients.add("Carbohydrates");
+        trackedNutrients.add("Fats");
+        int userID = 101;
+
+        // add wrong ID
+        TrackedNutrientsInputData inputData = new TrackedNutrientsInputData(100, trackedNutrients);
         TrackedNutrientsInteractor interactor = new TrackedNutrientsInteractor(fileUserDAO, successPresenter);
 
         interactor.execute(inputData);
