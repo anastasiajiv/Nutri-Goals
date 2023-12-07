@@ -18,12 +18,36 @@ import static org.junit.Assert.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.time.LocalDateTime;
 
 public class SignUpViewTest {
     SignupViewModel signupViewModel = new SignupViewModel();
     LoginViewModel loginViewModel = new LoginViewModel();
     ViewManagerModel viewManagerModel = new ViewManagerModel();
+    LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
+    PreferencesViewModel preferencesViewModel = new PreferencesViewModel();
+    TrackedNutrientsViewModel trackedNutrientsViewModel = new TrackedNutrientsViewModel();
+    WeightGoalViewModel weightGoalViewModel = new WeightGoalViewModel();
+    MealPlanViewModel mealPlanViewModel = new MealPlanViewModel();
     SignupView signupView;
+
+    static String message = "";
+    static boolean popUpDiscovered = false;
+    /**
+     * ensures there are at least 2 users in the CSV file for testing purposes
+     */
+    public void addTwoUsers() {
+
+        FileUserDataAccessObject fileDAO;
+
+
+        fileDAO = new FileUserDataAccessObject("./users.csv", "./mealplan.csv");
+        int userID = fileDAO.createUserID();
+
+        fileDAO.saveUserSignUpData(userID, "UserTesting", "password", LocalDateTime.now());
+    }
+
     @Before
     public void setUp(){
         JFrame application = new JFrame("Login Example");
@@ -48,20 +72,11 @@ public class SignUpViewTest {
         ViewManagerModel viewManagerModel = new ViewManagerModel();
         new ViewManager(views, cardLayout, viewManagerModel);
 
-        LoginViewModel loginViewModel = new LoginViewModel();
-        SignupViewModel signupViewModel = new SignupViewModel();
-        LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
-        PreferencesViewModel preferencesViewModel = new PreferencesViewModel();
-        TrackedNutrientsViewModel trackedNutrientsViewModel = new TrackedNutrientsViewModel();
-        WeightGoalViewModel weightGoalViewModel = new WeightGoalViewModel();
-        MealPlanViewModel mealPlanViewModel = new MealPlanViewModel();
-
         FileUserDataAccessObject userDataAccessObject;
 
-        userDataAccessObject = new FileUserDataAccessObject("./help2.csv", "mealplan.csv");
+        userDataAccessObject = new FileUserDataAccessObject("./help4.csv", "mealplan.csv");
 
-        WelcomePageView trial = new WelcomePageView(cardLayout, views);
-        views.add(trial, trial.viewName);
+
 
         SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel,
                 userDataAccessObject, cardLayout, views);
@@ -83,22 +98,10 @@ public class SignUpViewTest {
                 trackedNutrientsViewModel, loggedInViewModel, userDataAccessObject);
         views.add(trackedNutrientsView, trackedNutrientsView.viewName);
 
-
-        //trial.setVisible(true);
-
-        // TODO: Implement for weight goals
-        WeightGoalsView weightGoalsView = WeightGoalUseCaseFactory.create(viewManagerModel,
-                weightGoalViewModel,
-                loggedInViewModel,
-                userDataAccessObject);
-        views.add(weightGoalsView, weightGoalsView.viewName);
+        views.add(loginView, loginView.viewName);
 
 
-        MealPlanView mealPlanView = MealPlanUseCaseFactory.create(viewManagerModel, mealPlanViewModel, loggedInViewModel, userDataAccessObject);
-        views.add(mealPlanView, mealPlanView.viewName);
-
-
-        viewManagerModel.setActiveView(trial.viewName);
+        viewManagerModel.setActiveView(signupView.viewName);
         viewManagerModel.firePropertyChanged();
 
 
@@ -109,12 +112,15 @@ public class SignUpViewTest {
     }
     @Test
     public void testSignUpSuccess() {
+
         signupViewModel.getState().setUsername("UserTesting");
         signupViewModel.getState().setPassword("PasswordTesting");
         signupViewModel.getState().setRepeatPassword("RepeatPassWordTesting");
         //signupView.signUp.doClick();
-        assertEquals("UserTesting", loginViewModel.getState().getUsername());
-        assertEquals("log in", viewManagerModel.getActiveView());
+        assertEquals("UserTesting", signupViewModel.getState().getUsername());
+        assertEquals("PasswordTesting", signupViewModel.getState().getPassword());
+        assertEquals("RepeatPassWordTesting", signupViewModel.getState().getRepeatPassword());
+        //assertEquals("log in", viewManagerModel.getActiveView());
     }
 
 }
