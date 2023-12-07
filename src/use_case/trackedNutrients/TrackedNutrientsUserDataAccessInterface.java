@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public interface TrackedNutrientsUserDataAccessInterface {
 
-    void saveTrackedNutrientsData(ArrayList<String> trackedNutrients, int userID);
+    Boolean saveTrackedNutrientsData(ArrayList<String> trackedNutrients, int userID);
 
     ArrayList<String> getUserTrackedNutrientsData(int userID);
 
