@@ -54,7 +54,7 @@ public class Main_Testing {
         views.add(trial, trial.viewName);
 
         SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel,
-                userDataAccessObject);
+                userDataAccessObject, cardLayout, views);
         views.add(signupView, signupView.viewName);
 
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel,

@@ -9,6 +9,10 @@ import src.use_case.login.LoginInputData;
 import src.use_case.login.LoginInteractor;
 import src.use_case.login.LoginOutputBoundary;
 import src.use_case.login.LoginOutputData;
+import src.use_case.preferences.PreferencesInputData;
+import src.use_case.preferences.PreferencesInteractor;
+import src.use_case.preferences.PreferencesOutputBoundary;
+import src.use_case.preferences.PreferencesOutputData;
 import src.use_case.signup.SignupInputData;
 import src.use_case.signup.SignupInteractor;
 import src.use_case.signup.SignupOutputBoundary;
@@ -179,6 +183,58 @@ public class SignUpUserTests {
         User currUser = userDataAccessObject.getAccountByUserID(13);
         System.out.println(currUser.getGender());
         System.out.println(userDataAccessObject.computedRequiredCalories(13));
+    }
+
+
+    @Test
+    void preferencesTest() {
+
+        HashMap<String, Boolean> dietaryTest = new HashMap<>();
+        dietaryTest.put("Vegan", Boolean.FALSE);
+        dietaryTest.put("Vegetarian", Boolean.TRUE);
+        dietaryTest.put("Pescatarian", Boolean.FALSE);
+        dietaryTest.put("none1", Boolean.FALSE);
+
+
+        HashMap<String, Boolean> allergiesTest = new HashMap<>();
+        allergiesTest.put("Egg", Boolean.FALSE);
+        allergiesTest.put("Peanut", Boolean.TRUE);
+        allergiesTest.put("Seafood", Boolean.FALSE);
+        allergiesTest.put("Soy", Boolean.FALSE);
+        allergiesTest.put("Tree Nut", Boolean.TRUE);
+        allergiesTest.put("Wheat", Boolean.FALSE);
+        allergiesTest.put("none", Boolean.FALSE);
+
+
+        HashMap<String, String> conditionsTest = new HashMap<>();
+        conditionsTest.put("Calcium", "high");
+        conditionsTest.put("Potassium", "average");
+        conditionsTest.put("Vitamin C", "average");
+        conditionsTest.put("Vitamin D", "low");
+        conditionsTest.put("Iron", "average");
+        conditionsTest.put("Magnesium", "low");
+        conditionsTest.put("Sugar", "low");
+
+        PreferencesInputData preferencesInputData = new PreferencesInputData(12,
+                dietaryTest,
+                conditionsTest,
+                allergiesTest);
+
+        PreferencesOutputBoundary successPresenter = new PreferencesOutputBoundary() {
+            @Override
+            public void prepareSuccessView(PreferencesOutputData user) {
+                int userId = 12;
+
+                user.getID();
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                fail("Use case failure is unexpected.");
+            }
+        };
+        PreferencesInteractor interactor = new PreferencesInteractor(userDataAccessObject, successPresenter);
+        interactor.execute(preferencesInputData);
     }
 
 }

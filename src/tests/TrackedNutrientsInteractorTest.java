@@ -21,7 +21,7 @@ public class TrackedNutrientsInteractorTest {
     // sets the user's trackedNutrients attribute to the given array list
 
     private FileUserDataAccessObject fileUserDAO;
-    private final String csvFilePath = "./test_users.csv";
+    private final String csvFilePath = "./test_signUpUsers.csv";
     private final String csvMealPlanFilePath = "./test_mealplan.csv";  // might be wrong name
 
     private final UserFactory userFactory = new CommonUserFactory();

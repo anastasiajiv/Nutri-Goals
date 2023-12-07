@@ -1,6 +1,7 @@
 package src.data_access;
 
 import src.entity.User;
+import src.use_case.mealPlan.MealPlanDataAccessInterface;
 
 import java.io.*;
 import java.util.ArrayList;

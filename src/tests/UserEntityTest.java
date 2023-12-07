@@ -174,4 +174,31 @@ public class UserEntityTest {
         // Test the whole entity by creating a user with specific parameters
         // and asserting that the getters return the expected values
     }
+
+    @Test
+    void testCalciumLow() {
+        HashMap<String, String> condition = new HashMap<>();
+        condition.put("Magnesium", "low");
+        condition.put("Iron", "average");
+        condition.put("Calcium", "low");
+        condition.put("VitaminD", "high");
+        condition.put("VitaminC", "average");
+        condition.put("Sugar", "low");
+        condition.put("Potassium", "average");
+        user.setConditions(condition);
+        user.userSpecifiedConditions();
+    }
+
+    @Test
+    void testCalciumAverage() {
+        HashMap<String, String> condition = new HashMap<>();
+        condition.put("Magnesium", "low");
+        condition.put("Iron", "average");
+        condition.put("Calcium", "average");
+        condition.put("VitaminD", "high");
+        condition.put("VitaminC", "average");
+        condition.put("Sugar", "low");
+        condition.put("Potassium", "average");
+        testUserSpecifiedConditions();
+    }
 }
