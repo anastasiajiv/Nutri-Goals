@@ -63,8 +63,11 @@ public class PreferencesView extends JPanel implements ActionListener, PropertyC
         JLabel title = new JLabel("Here you can indicate any dietary needs or if you have any allergies or nutrients" +
                 "you want considered.");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setFont(new Font("Serif", Font.PLAIN, 23));
 
         JLabel subtitle1 = new JLabel("Dietary Restrictions: ");
+        subtitle1.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subtitle1.setFont(new Font("Serif", Font.PLAIN, 20));
 
         ButtonGroup buttonGroup = new ButtonGroup();
         JPanel radioButtons = new JPanel();
@@ -83,6 +86,8 @@ public class PreferencesView extends JPanel implements ActionListener, PropertyC
 
         JPanel checkBox = new JPanel();
         JLabel subtitle2 = new JLabel("Select Any Allergies: ");
+        subtitle2.setFont(new Font("Serif", Font.PLAIN, 20));
+        subtitle2.setAlignmentX(Component.CENTER_ALIGNMENT);
         egg = new JCheckBox(PreferencesViewModel.EGG_LABEL);
         checkBox.add(egg);
         peanut = new JCheckBox(PreferencesViewModel.PEANUT_LABEL);
@@ -102,6 +107,8 @@ public class PreferencesView extends JPanel implements ActionListener, PropertyC
         none = new JCheckBox(PreferencesViewModel.NONE_LABEL);
         checkBox.add(none);
         JLabel subtitle3 = new JLabel("Indicate the Daily Intake you Want for Certain Nutrients: ");
+        subtitle3.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subtitle3.setFont(new Font("Serif", Font.PLAIN, 20));
         String[] levels = {"low", "average", "high"};
 
         JPanel dropBox = new JPanel();
@@ -142,6 +149,7 @@ public class PreferencesView extends JPanel implements ActionListener, PropertyC
 
         JPanel buttons = new JPanel();
         confirm = new JButton("Confirm");
+        confirm.setPreferredSize(new Dimension(200, 50));
         buttons.add(confirm);
         none.addItemListener(new ItemListener(){
             public void itemStateChanged(ItemEvent evt) {
