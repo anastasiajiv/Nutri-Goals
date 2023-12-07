@@ -23,7 +23,7 @@ import java.io.IOException;
 
 public class Main_Testing {
     public static void main(String[] args){
-        JFrame application = new JFrame("Login Example");
+        JFrame application = new JFrame("Nutri-Goals");
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
