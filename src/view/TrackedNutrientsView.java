@@ -88,15 +88,15 @@ public class TrackedNutrientsView extends JPanel implements ActionListener, Prop
                             // initialize the arrayList of nutrients to be tracked
                             ArrayList<String> trackedNutrients = new ArrayList<>();
                             // call the helper variable on each macro/micronutrient
-                            nutrientSelected(trackedNutrients, "calories", calories);
-                            nutrientSelected(trackedNutrients, "carbohydrates", carbohydrates);
-                            nutrientSelected(trackedNutrients, "protein", protein);
-                            nutrientSelected(trackedNutrients, "fat", fat);
-                            nutrientSelected(trackedNutrients, "vitaminC", vitaminC);
-                            nutrientSelected(trackedNutrients, "vitaminD", vitaminD);
-                            nutrientSelected(trackedNutrients, "iron", iron);
-                            nutrientSelected(trackedNutrients, "magnesium", magnesium);
-                            nutrientSelected(trackedNutrients, "sugar", sugar);
+                            nutrientSelected(trackedNutrients, "Calories", calories);
+                            nutrientSelected(trackedNutrients, "Carbohydrates", carbohydrates);
+                            nutrientSelected(trackedNutrients, "Protein", protein);
+                            nutrientSelected(trackedNutrients, "Fat", fat);
+                            nutrientSelected(trackedNutrients, "Vitamin C", vitaminC);
+                            nutrientSelected(trackedNutrients, "Vitamin D", vitaminD);
+                            nutrientSelected(trackedNutrients, "Iron", iron);
+                            nutrientSelected(trackedNutrients, "Magnesium", magnesium);
+                            nutrientSelected(trackedNutrients, "Sugar", sugar);
                             // set the tracked nutrients to the current state's attribute
                             currentState.setTrackedNutrients(trackedNutrients);
 
