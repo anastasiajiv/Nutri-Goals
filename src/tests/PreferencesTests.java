@@ -13,6 +13,8 @@ import src.interface_adapters.preferences.PreferencesPresenter;
 import src.interface_adapters.preferences.PreferencesViewModel;
 import src.use_case.preferences.PreferencesInputData;
 import src.use_case.preferences.PreferencesInteractor;
+import src.use_case.preferences.PreferencesOutputBoundary;
+import src.use_case.preferences.PreferencesOutputData;
 
 import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,6 +51,7 @@ public class PreferencesTests {
         assertTrue(userDataAccessObject.existByUserID(userID));
         assertTrue(userDataAccessObject.existByName(username));
         assertNotNull(userDataAccessObject.getAccountByUserID(userID));
+
     }
 
     @Test
@@ -99,14 +102,6 @@ public class PreferencesTests {
     void PreferencesInteractor(){
         setUp();
         int userID = 4;
-        assertTrue(this.userDataAccessObject.existByUserID(userID));
-
-        PreferencesViewModel preferencesViewModel = new PreferencesViewModel();
-
-        LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
-
-        ViewManagerModel viewManagerModel = new ViewManagerModel();
-
         testDietaryInput.put("Vegan", Boolean.FALSE);
         testDietaryInput.put("Vegetarian", Boolean.TRUE);
         testDietaryInput.put("Pescetarian", Boolean.FALSE);
@@ -131,19 +126,24 @@ public class PreferencesTests {
         PreferencesInputData preferencesInputData = new PreferencesInputData(userID, testDietaryInput,
                 testConditionsInput, testAllergiesInput);
 
-        PreferencesPresenter successPresenter = new PreferencesPresenter(viewManagerModel, preferencesViewModel, loggedInViewModel);
+        PreferencesOutputBoundary successPresenter = new PreferencesOutputBoundary() {
+            @Override
+            public void prepareSuccessView(PreferencesOutputData user) {
+
+                user.getID();
+
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                fail("Use case failure is unexpected.");
+
+            }
+        };
 
         PreferencesInteractor interactor = new PreferencesInteractor(this.userDataAccessObject, successPresenter);
 
         interactor.execute(preferencesInputData);
-
-        assertTrue(this.userDataAccessObject.existByUserID(userID));
-
-
-
-
-
-
 
 
     }
