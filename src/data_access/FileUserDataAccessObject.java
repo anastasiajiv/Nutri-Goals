@@ -217,6 +217,10 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         return accounts.containsKey(userID);
     }
 
+    public Boolean existByUserIDMealPlan(int userID){return mealplanaccounts.containsKey(userID);}
+
+   public MealPlan mealplanuserid(int userID){return mealplanaccounts.get(userID); }
+
     public double getBMR ( int userID){
         // Men: BMR = 88.63 + (13.397 * weight in kg) + (4.799 * height in cm) - (5.677 * age in years)
         // Miffin - St Jeor Equation -> BMR = 10 * weight + 6.25 * height - 5 * age + 5
@@ -395,17 +399,13 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
                 //calories depending on what weight goal
 
-                String calorietype = "max";
-                    if (user.getWeightGoalType().equals("gainWeight")) {
-                        calorietype = "min";}
 
 
 
 
         // diet and calories and allergies and conditions filtering through API call
                     HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=breakfast&number=1&" +
-                                calorietype + "Calories=" + breakfast_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergiesaccum))
+                        .uri(URI.create("https://api.spoonacular.com/recipes/complexSearch?&type=breakfast&number=1&maxCalories=" + breakfast_cals +"&diet="+ dietary + "&" + conditionsaccum + "intolerances="+ allergiesaccum))
                         .header("X-API-Host", "https://api.spoonacular.com")
                         .header("X-API-Key", "0702028f1e12446ca891a3eb2f36fd0e")
                         .method("GET", HttpRequest.BodyPublishers.noBody())
