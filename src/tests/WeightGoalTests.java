@@ -3,6 +3,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import src.data_access.FileUserDataAccessObject;
 import src.entity.CommonUserFactory;
+import src.entity.User;
 import src.entity.UserFactory;
 
 import java.time.LocalDateTime;
@@ -21,9 +22,11 @@ public class WeightGoalTests { // TODO : Create a mock database to hold the acco
 
     private final UserFactory userFactory = new CommonUserFactory();
 
+    private HashMap<Integer, User> accounts = new HashMap<>();
+
     @BeforeEach
     void setUp() {
-        this.userDataAccessObject = new FileUserDataAccessObject(testCsvFilePath, testMealPlanFilePath, userFactory);
+        userDataAccessObject = new FileUserDataAccessObject(testCsvFilePath, testMealPlanFilePath, userFactory);
     }
 
     @Test
@@ -59,11 +62,49 @@ public class WeightGoalTests { // TODO : Create a mock database to hold the acco
         weightGoal.put("gainWeight", Boolean.FALSE);
 
 
+
+
         userDataAccessObject.saveWeightGoalData(userId, gender, height, weight, age, exerciseLvl, paceType, weightGoal);
 
         // Assert statemnets
         assertTrue(userDataAccessObject.existByUserID(userId));
         assertNotNull(userDataAccessObject.getAccountByUserID(userId));
+        User account = userDataAccessObject.getAccountByUserID(userId);
+        //assertEquals(100, userDataAccessObject.getAccountByUserID(userId).getRequiredCalories());
+
+    }
+    @Test
+    void testComputeCalories() {
+        int userId = 2;
+        HashMap<String, Boolean> gender = new HashMap<>();
+        gender.put("male", Boolean.TRUE);
+        gender.put("female", Boolean.FALSE);
+        double height = 170.0;
+        double weight = 70.0;
+        int age = 25;
+        int exerciseLvl = 3;
+        String paceType = "normal";
+        HashMap<String, Boolean> weightGoal = new HashMap<>();
+        weightGoal.put("maintainWeight", Boolean.FALSE);
+        weightGoal.put("loseWeight", Boolean.TRUE);
+        weightGoal.put("gainWeight", Boolean.FALSE);
+
+        User testCals = new CommonUserFactory().createdDefaultUser(4, "testCals");
+        testCals.setGender(gender);
+        testCals.setUserHeight(height);
+        testCals.setUserWeight(weight);
+        testCals.setUserAge(age);
+        testCals.setUserExerciseLvl(exerciseLvl);
+        testCals.setPaceType(paceType);
+        testCals.setWeightGoalType(weightGoal);
+
+        accounts.put(testCals.getUserId(), testCals);
+        System.out.println(userDataAccessObject.existByUserID(1));
+//        double reqCal = userDataAccessObject.computedRequiredCalories(1);
+//        testCals.setRequiredCalories(reqCal);
+//        System.out.println(accounts.get(1).getRequiredCalories());
+
+
 
     }
 

@@ -148,7 +148,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
         // This save method saves the input data to the accounts map and then calls Builder to save the updated user
         // information into the csv file
-
+        loadUserDataFromCsv(); // ensure accounts map is updated
         //First get the current userId
         User curr_user = getAccountByUserID(userID); //change to update from setter
         curr_user.setGender(gender);
@@ -264,6 +264,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     public Boolean savePreferences(int userID, HashMap<String, Boolean> dietary,
                                HashMap<String, Boolean> allergies,
                                HashMap<String, String> conditions){
+        loadUserDataFromCsv();
         User current_user = getAccountByUserID(userID);
         current_user.setDietary(dietary);
         current_user.setAllergies(allergies);
@@ -299,6 +300,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     public Boolean saveTrackedNutrientsData(ArrayList<String> trackedNutrients, int userID) {
+        loadUserDataFromCsv();
         User currentUser = getAccountByUserID(userID);
         currentUser.setTrackedNutrients(trackedNutrients);
         accounts.put(userID, currentUser);

@@ -96,15 +96,6 @@ public class CommonUser implements User {
         return this.gender;
     }
 
-    // retrieves the user's gender type
-    public String getGenderType() {
-        for (Map.Entry<String, Boolean> entry: gender.entrySet()) {
-            if (entry.getValue() == Boolean.TRUE) {
-                return entry.getKey();
-            }
-        }
-        return "User did not input Gender";
-    } // TODO: Delete
 
     // returns true if the user identified that they are male
     public String isMale() {
@@ -459,7 +450,7 @@ public class CommonUser implements User {
     @Override
     public String getWeightGoalType() {
         for (Map.Entry<String, Boolean> entry: weightGoalType.entrySet()) {
-            if (entry.getValue() == Boolean.TRUE){
+            if (entry.getValue() == Boolean.TRUE) {
                 return entry.getKey();
             }
         }
