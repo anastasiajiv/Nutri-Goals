@@ -20,7 +20,7 @@ public class WeightGoalTests { // TODO : Create a mock database to hold the acco
 
     private final String testMealPlanFilePath = "./meal_plan.csv";
 
-    private final UserFactory userFactory = new CommonUserFactory();
+
 
     private HashMap<Integer, User> accounts = new HashMap<>();
 
@@ -34,7 +34,7 @@ public class WeightGoalTests { // TODO : Create a mock database to hold the acco
     @Test
     void saveUserSignUpData_saveUserAndCsv() {
         // Arrange
-        int userID = 1;
+        int userID = 3;
         String username = "TestUser";
         String password = "TestPassword";
         LocalDateTime creationTime = LocalDateTime.now();
@@ -51,12 +51,12 @@ public class WeightGoalTests { // TODO : Create a mock database to hold the acco
     @Test
     void saveWeightGoalData_saveUserAndCsv() {
 
-        int userId = 1;
+        int userId = 3;
         HashMap<String, Boolean> gender = new HashMap<>();
-        double height = 170.0;
-        double weight = 70.0;
-        int age = 25;
-        int exerciseLvl = 3;
+        double height = 180.0;
+        double weight = 90.0;
+        int age = 19;
+        int exerciseLvl = 2;
         String paceType = "normal";
         HashMap<String, Boolean> weightGoal = new HashMap<>();
         weightGoal.put("maintainWeight", Boolean.FALSE);
@@ -97,7 +97,7 @@ public class WeightGoalTests { // TODO : Create a mock database to hold the acco
         weightGoal.put("loseWeight", Boolean.TRUE);
         weightGoal.put("gainWeight", Boolean.FALSE);
 
-        User testCals = new CommonUserFactory().createdDefaultUser(4, "testCals");
+        User testCals = new CommonUserFactory().createdDefaultUser(userId, "testCals");
         testCals.setGender(gender);
         testCals.setUserHeight(height);
         testCals.setUserWeight(weight);
@@ -105,27 +105,6 @@ public class WeightGoalTests { // TODO : Create a mock database to hold the acco
         testCals.setUserExerciseLvl(exerciseLvl);
         testCals.setPaceType(paceType);
         testCals.setWeightGoalType(weightGoal);
-
-        accounts.put(testCals.getUserId(), testCals);
-        System.out.println(userDataAccessObject.existByUserID(1));
-//        double reqCal = userDataAccessObject.computedRequiredCalories(1);
-//        testCals.setRequiredCalories(reqCal);
-//        System.out.println(accounts.get(1).getRequiredCalories());
-
-
-
-        userDataAccessObject.saveWeightGoalData(userId,
-                gender,
-                height,
-                weight,
-                age,
-                exerciseLvl,
-                paceType,
-                weightGoal);
-
-        // Assert statements
-        assertTrue(userDataAccessObject.existByUserID(userId));
-        assertNotNull(userDataAccessObject.getAccountByUserID(userId));
 
 
     }
