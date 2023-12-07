@@ -23,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class MealPlanTests {
-    public class mealPlanInteractorTest {
         private FileUserDataAccessObject fileUserDAO;
         private final String csvFilePath = "./helptestmealplan.csv";
         private final String csvMealPlanFilePath = "./mealplan.csv";  // might be wrong
@@ -78,12 +77,6 @@ public class MealPlanTests {
             assertEquals(this.fileUserDAO.displayMealPlan(mealplan), this.fileUserDAO.displayMealPlan(mealplan1));
 
 
-
-
-
-
-
-            //test the specific attributes of meal plan by extracting from accounts and comparing with known attributes
 
 
         }
@@ -198,4 +191,4 @@ public class MealPlanTests {
 //    }
 
 
-}}
+}
