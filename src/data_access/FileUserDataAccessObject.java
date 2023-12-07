@@ -319,14 +319,15 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
 
 
-    private HashMap<String, Float> getRecipeNutritionalInfo(String recipeID) {
+    public HashMap<String, Double> getRecipeNutritionalInfo(String recipeID, int userID) {
+        // fetch the user's tracked nutrients
+        ArrayList<String> trackedNutrients = getUserTrackedNutrientsData(userID);
 
         // format the API request
-
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spoonacular.com/recipes/"+ recipeID +"/information?includeNutrition=true"))
-                .header("X-RapidAPI-Host", "https://api.spoonacular.com")
-                .header("X-RapidAPI-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                .header("x-api-host", "https://api.spoonacular.com")
+                .header("x-api-key", "7fbb8c718e724bb491e1e9a89c746713 ")
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
 
@@ -342,21 +343,23 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
         // find the nutritional info
         JSONObject json = new JSONObject(recipe);
-        JSONArray recipeArray = json.getJSONArray("nutrients");  // get an array of nutrients
+        JSONObject recipeOuter = json.getJSONObject("nutrition");  // get an array of nutrients
+        JSONArray recipeArray = recipeOuter.getJSONArray("nutrients");
 
         // initialize a storage hashmap for the nutrients
-        HashMap<String, Float> recipeNutritionalInfo = new HashMap<>();
+        HashMap<String, Double> recipeNutritionalInfo = new HashMap<>();
 
         for (int i = 0; i < recipeArray.length(); i++) {
             // each nutrient is in its own array
-            JSONArray nutrientArray = recipeArray.getJSONArray(i);
-            String nutrientName = nutrientArray.getString(1);
-            double nutrient = nutrientArray.getDouble(2);
+            JSONObject nutrientArray = recipeArray.getJSONObject(i);
+            String nutrientName = nutrientArray.getString("name");
+            double nutrientValue = nutrientArray.getDouble("amount");
 
-            Float nutrientValue = BigDecimal.valueOf(nutrient).floatValue();
-
-            // place into the hashmap
-            recipeNutritionalInfo.put(nutrientName, nutrientValue);
+            // only place into the return hashmap if the user would like to track that nutrient
+            if (trackedNutrients.contains(nutrientName)) {
+                // place into the hashmap
+                recipeNutritionalInfo.put(nutrientName, nutrientValue);
+            }
         }
         return recipeNutritionalInfo;
     }
@@ -503,7 +506,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         Integer id = json.getInt("id");
         String name = json.getString("title");
         String instructions = json.getString("summary");
-        HashMap<String, Float> nutritionalinfo = new HashMap<>();
+        HashMap<String, Double> nutritionalinfo = new HashMap<>();
         String link = json.getString("sourceUrl");
         String type = "breakfast";
 
@@ -606,7 +609,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         Integer id = json.getInt("id");
         String name = json.getString("title");
         String instructions = json.getString("summary");
-        HashMap<String, Float> nutritionalinfo = new HashMap<>();
+        HashMap<String, Double> nutritionalinfo = new HashMap<>();
         String link = json.getString("sourceUrl");
         String type = "lunch";
 
@@ -711,7 +714,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         Integer id = json.getInt("id");
         String name = json.getString("title");
         String instructions = json.getString("summary");
-        HashMap<String, Float> nutritionalinfo = new HashMap<>();
+        HashMap<String, Double> nutritionalinfo = new HashMap<>();
         String link = json.getString("sourceUrl");
         String type = "dinner";
 
