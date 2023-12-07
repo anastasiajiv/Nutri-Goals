@@ -7,8 +7,6 @@ public class CommonMealPlan implements MealPlan {
     public Recipe lunch;
     public Recipe dinner;
 
-    public HashMap<String, Double> cumulativeNutritionalInfo;
-
     public CommonMealPlan(Recipe breakfast, Recipe lunch, Recipe dinner){
         this.breakfast = breakfast;
         this.lunch = lunch;
