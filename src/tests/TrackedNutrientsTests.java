@@ -82,6 +82,7 @@ public class TrackedNutrientsTests {
 
         // assert that the tracked nutrients is empty
         assertEquals(1,user.getTrackedNutrients().size());
+
     }
 
 //    @Test

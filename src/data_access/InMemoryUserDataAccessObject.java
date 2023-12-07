@@ -27,7 +27,13 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
      * @return
      */
     @Override
-    public Boolean saveWeightGoalData(int userId, HashMap<String, Boolean> gender, double height, double weight, int age, int exerciseLvl, String paceType, HashMap<String, Boolean> weightGoal) {
+    public Boolean saveWeightGoalData(int userId,
+                                      HashMap<String, Boolean> gender,
+                                      double height, double weight,
+                                      int age,
+                                      int exerciseLvl,
+                                      String paceType,
+                                      HashMap<String, Boolean> weightGoal) {
         return null;
     }
 
@@ -46,13 +52,13 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
      */
     @Override
     public boolean existByName(String identifier) {
-        return false;
+        return users.containsKey(identifier);
     }
 
     //SignUp InMemory
     @Override
     public Boolean existByUserID(int userId) {
-        return null;
+        return users.containsKey(userId);
     }
 
     /**
@@ -61,11 +67,23 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
      */
     @Override
     public User get(String username) {
-        return null;
+        User user = null;
+        for (Integer key: users.keySet()) {
+            User value = users.get(key);
+            String name = value.getName();
+            if (name.equals(username)){
+                user = value;
+            }
+        }
+        assert (user != null);
+        return user;
     }
 
     @Override
-    public Boolean saveUserSignUpData(int userId, String username, String password, LocalDateTime creationTime) {
+    public Boolean saveUserSignUpData(int userId,
+                                      String username,
+                                      String password,
+                                      LocalDateTime creationTime) {
         return Boolean.TRUE;
     }
 
@@ -75,13 +93,9 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
 
     @Override
     public User getAccountByUserID(int userId) {
-        return null;
+        return users.get(userId);
     }
 
-    public User getAccountByUserId ( int userId) {
-        User User = null;
-        return User; // fill to stop red highlights
-    }
 
 
 }

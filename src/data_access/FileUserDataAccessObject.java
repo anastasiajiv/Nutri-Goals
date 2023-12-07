@@ -212,6 +212,15 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         return accounts.containsKey(userID);
     }
 
+
+    public Boolean existByUserIDMealPlan(int userID){return mealplanaccounts.containsKey(userID);}
+
+    public MealPlan mealplanuserid(int userID){return mealplanaccounts.get(userID); }
+
+
+
+
+
     public double getBMR ( int userID){
         // Men: BMR = 88.63 + (13.397 * weight in kg) + (4.799 * height in cm) - (5.677 * age in years)
         // Miffin - St Jeor Equation -> BMR = 10 * weight + 6.25 * height - 5 * age + 5
