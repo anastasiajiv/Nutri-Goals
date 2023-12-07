@@ -204,13 +204,13 @@ public class CommonUser implements User {
     public HashMap<String, Double> userSpecifiedConditions(){
 
         HashMap<String, Double> user_conditions = new HashMap<>();
-        user_conditions.put("Calcium", this.getCalciumValue());
-        user_conditions.put("Potassium", this.getPotassiumValue());
-        user_conditions.put("VitaminC", this.getVitaminCValue());
-        user_conditions.put("VitaminD", this.getVitaminDValue());
-        user_conditions.put("Iron", this.getIronValue());
-        user_conditions.put("Magnesium", this.getMagnesiumValue());
-        user_conditions.put("Sugar", this.getSugarValue());
+        user_conditions.put("Calcium", getCalciumValue());
+        user_conditions.put("Potassium", getPotassiumValue());
+        user_conditions.put("VitaminC", getVitaminCValue());
+        user_conditions.put("VitaminD", getVitaminDValue());
+        user_conditions.put("Iron", getIronValue());
+        user_conditions.put("Magnesium", getMagnesiumValue());
+        user_conditions.put("Sugar", getSugarValue());
         return user_conditions;
     }
 

@@ -7,7 +7,9 @@ import src.data_access.FileUserDataAccessObject;
 import src.interface_adapters.ViewManagerModel;
 import src.interface_adapters.logged_in.LoggedInViewModel;
 import src.interface_adapters.login.LoginViewModel;
+
 import src.interface_adapters.mealplan.MealPlanViewModel;
+
 import src.interface_adapters.preferences.PreferencesViewModel;
 import src.interface_adapters.signup.SignupViewModel;
 import src.interface_adapters.trackedNutrients.TrackedNutrientsViewModel;
@@ -69,13 +71,13 @@ public class SignUpViewTest {
 
         // This keeps track of and manages which view is currently showing.
 
-        ViewManagerModel viewManagerModel = new ViewManagerModel();
+
+
         new ViewManager(views, cardLayout, viewManagerModel);
 
         FileUserDataAccessObject userDataAccessObject;
 
         userDataAccessObject = new FileUserDataAccessObject("./help4.csv", "mealplan.csv");
-
 
 
         SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel,
@@ -116,7 +118,9 @@ public class SignUpViewTest {
         signupViewModel.getState().setUsername("UserTesting");
         signupViewModel.getState().setPassword("PasswordTesting");
         signupViewModel.getState().setRepeatPassword("RepeatPassWordTesting");
+
         //signupView.signUp.doClick();
+
         assertEquals("UserTesting", signupViewModel.getState().getUsername());
         assertEquals("PasswordTesting", signupViewModel.getState().getPassword());
         assertEquals("RepeatPassWordTesting", signupViewModel.getState().getRepeatPassword());
@@ -124,6 +128,7 @@ public class SignUpViewTest {
     }
 
 }
+
 
 
 //package src.tests;
@@ -246,3 +251,4 @@ public class SignUpViewTest {
 //    }
 //
 //}
+

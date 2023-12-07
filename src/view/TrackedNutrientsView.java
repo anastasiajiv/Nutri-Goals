@@ -49,10 +49,15 @@ public class TrackedNutrientsView extends JPanel implements ActionListener, Prop
         JLabel macro_subtitle = new JLabel("Macronutrients");
         // create the panel and associated buttons
         JPanel macro_checkBox = new JPanel();
+        macro_checkBox.setBackground(new Color(173, 216, 230));
         this.calories = new JCheckBox(TrackedNutrientsViewModel.CALORIES_LABEL);
+        this.calories.setBackground(new Color(173, 216, 230));
         this.carbohydrates = new JCheckBox(TrackedNutrientsViewModel.CARBOHYDRATES_LABEL);
+        this.carbohydrates.setBackground(new Color(173, 216, 230));
         this.protein = new JCheckBox(TrackedNutrientsViewModel.PROTEIN_LABEL);
+        this.protein.setBackground(new Color(173, 216, 230));
         this.fat = new JCheckBox(TrackedNutrientsViewModel.FAT_LABEL);
+        this.fat.setBackground(new Color(173, 216, 230));
         macro_checkBox.add(this.calories);
         macro_checkBox.add(this.carbohydrates);
         macro_checkBox.add(this.protein);
@@ -62,11 +67,17 @@ public class TrackedNutrientsView extends JPanel implements ActionListener, Prop
         JLabel micro_subtitle = new JLabel("Select Micronutrients");
         // create the panel and associated buttons
         JPanel micro_checkBox = new JPanel();
+        micro_checkBox.setBackground(new Color(173, 216, 230));
         this.vitaminC = new JCheckBox(TrackedNutrientsViewModel.VITAMIN_C_LABEL);
+        this.vitaminC.setBackground(new Color(173, 216, 230));
         this.vitaminD = new JCheckBox(TrackedNutrientsViewModel.VITAMIN_D_LABEL);
+        this.vitaminD.setBackground(new Color(173, 216, 230));
         this.iron = new JCheckBox(TrackedNutrientsViewModel.IRON_LABEL);
+        this.iron.setBackground(new Color(173, 216, 230));
         this.magnesium = new JCheckBox(TrackedNutrientsViewModel.MAGNESIUM_LABEL);
+        this.magnesium.setBackground(new Color(173, 216, 230));
         this.sugar = new JCheckBox(TrackedNutrientsViewModel.SUGAR_LABEL);
+        this.sugar.setBackground(new Color(173, 216, 230));
         micro_checkBox.add(this.vitaminC);
         micro_checkBox.add(this.vitaminD);
         micro_checkBox.add(this.iron);
@@ -108,6 +119,8 @@ public class TrackedNutrientsView extends JPanel implements ActionListener, Prop
                 }
         );
         // add the titles, subtitles, buttons; set up view
+        Color color = new Color(173, 216, 230);
+        this.setBackground(color);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(macro_subtitle);

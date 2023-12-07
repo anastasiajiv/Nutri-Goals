@@ -208,7 +208,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     @Override
-    public Boolean existByUserID ( int userID){
+    public Boolean existByUserID (int userID){
         return accounts.containsKey(userID);
     }
 
@@ -321,6 +321,51 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     public ArrayList<String> getUserTrackedNutrientsData(int userID) {
         return accounts.get(userID).getTrackedNutrients();
     }
+
+
+
+    /*private HashMap<String, Float> getRecipeNutritionalInfo(String recipeID) {
+
+        // format the API request
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spoonacular.com/recipes/"+ recipeID +"/information?includeNutrition=true"))
+                .header("X-RapidAPI-Host", "https://api.spoonacular.com")
+                .header("X-RapidAPI-Key", "0702028f1e12446ca891a3eb2f36fd0e")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        // attempt to fetch from the API
+        HttpResponse<String> response = null;
+        try {
+            response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        assert response != null;  // ensure that the recipe was fetched correctly
+        String recipe = response.body();
+
+        // find the nutritional info
+        JSONObject json = new JSONObject(recipe);
+        JSONArray recipeArray = json.getJSONArray("nutrients");  // get an array of nutrients
+
+        // initialize a storage hashmap for the nutrients
+        HashMap<String, Float> recipeNutritionalInfo = new HashMap<>();
+
+        for (int i = 0; i < recipeArray.length(); i++) {
+            // each nutrient is in its own array
+            JSONArray nutrientArray = recipeArray.getJSONArray(i);
+            String nutrientName = nutrientArray.getString(1);
+            double nutrient = nutrientArray.getDouble(2);
+
+            Float nutrientValue = BigDecimal.valueOf(nutrient).floatValue();
+
+            // place into the hashmap
+            recipeNutritionalInfo.put(nutrientName, nutrientValue);
+        }
+        return recipeNutritionalInfo;
+    }*/
+
 
     @Override
     public String Breakfast(int identifier) {
@@ -442,12 +487,6 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
             String unit = ingredient.getString("unit");
 
             Ingredient finalingredient = new CommonIngredient(id, name, amount + unit);
-
-
-
-
-
-
 
 
             list.add(finalingredient);
@@ -662,8 +701,6 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
     }
 
-
-
     @Override
     public Recipe CreateRecipeDinner(List<Ingredient> ingredients, String recipe, int userID) {
         String jsonString ="" + recipe;
@@ -710,24 +747,13 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         mealplancsvBuilder.mealplanbuildCsv(userid, currentmealplan);
 
 
-
-
-
-
-
-
     }
 
     public MealPlan getmealplanAccountsbyid(int id ){
         return mealplanaccounts.get(id);
 
 
-
-
     }
-
-
-
 
     @Override
     public String displayMealPlan(MealPlan mealplan){
@@ -817,7 +843,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                     double requiredCalories = Double.parseDouble(col[17]);
                     ArrayList<String> trackedNutrients = convertToArrayList(col[18]);
 
-                    // TODO: Parse other attributes
+
                     UserFactory userFactory = new CommonUserFactory();
                     User user = userFactory.createdDefaultUser(userId, username);
                     user.setCreationTime(creationTime);
@@ -834,9 +860,6 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                     user.setPaceType(paceType);
                     user.setRequiredCalories(requiredCalories);
                     user.setTrackedNutrients(trackedNutrients);
-
-                    //TODO:  Add the rest
-
 
                     // Add the user to the accounts map
                     accounts.put(userId, user);
