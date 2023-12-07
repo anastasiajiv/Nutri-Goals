@@ -24,7 +24,14 @@ import java.io.IOException;
 public class Main_Testing {
     public static void main(String[] args){
         JFrame application = new JFrame("Login Example");
-        application.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        int width = (int) (screenSize.width * 0.9);
+        int height = (int) (screenSize.height * 0.9);
+        Dimension screenSize1 = new Dimension(width, height);
+        application.setPreferredSize(screenSize1);
+        // application.setExtendedState(JFrame.MAXIMIZED_BOTH);
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         CardLayout cardLayout = new CardLayout();
@@ -48,7 +55,7 @@ public class Main_Testing {
 
         FileUserDataAccessObject userDataAccessObject;
 
-        userDataAccessObject = new FileUserDataAccessObject("./users.csv", "mealplan.csv");
+        userDataAccessObject = new FileUserDataAccessObject("./help2.csv", "mealplan.csv");
 
 
         WelcomePageView trial = new WelcomePageView(cardLayout, views);
