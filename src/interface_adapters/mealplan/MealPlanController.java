@@ -1,7 +1,7 @@
 package src.interface_adapters.mealplan;
 
-import src.use_case.mealplan.MealPlanInputBoundary;
-import src.use_case.mealplan.MealPlanInputData;
+import src.use_case.mealPlan.MealPlanInputBoundary;
+import src.use_case.mealPlan.MealPlanInputData;
 
 public class MealPlanController {
     final MealPlanInputBoundary mealplaninteractor;

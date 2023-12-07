@@ -7,16 +7,12 @@ import src.interface_adapters.mealplan.MealPlanState;
 import src.interface_adapters.mealplan.MealPlanViewModel;
 import src.interface_adapters.preferences.PreferencesState;
 import src.interface_adapters.preferences.PreferencesViewModel;
-import src.interface_adapters.signup.SignupState;
 import src.interface_adapters.trackedNutrients.TrackedNutrientsState;
 import src.interface_adapters.trackedNutrients.TrackedNutrientsViewModel;
 import src.interface_adapters.weightgoal.WeightGoalState;
 import src.interface_adapters.weightgoal.WeightGoalViewModel;
 import src.use_case.login.LoginOutputBoundary;
 import src.use_case.login.LoginOutputData;
-import src.use_case.signup.SignupOutputBoundary;
-import src.use_case.signup.SignupOutputData;
-import src.view.TrackedNutrientsView;
 
 public class LoginPresenter implements LoginOutputBoundary{
     private final LoginViewModel loginViewModel;

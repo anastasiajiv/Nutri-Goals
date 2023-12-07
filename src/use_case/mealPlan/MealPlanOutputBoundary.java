@@ -1,6 +1,6 @@
-package src.use_case.mealplan;
+package src.use_case.mealPlan;
 
-import src.use_case.mealplan.MealPlanOutputData;
+import src.use_case.mealPlan.MealPlanOutputData;
 
 public interface MealPlanOutputBoundary {
    void prepareSuccessView(MealPlanOutputData mealplan);
