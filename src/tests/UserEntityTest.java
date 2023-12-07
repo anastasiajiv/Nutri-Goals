@@ -7,6 +7,7 @@ import src.entity.User;
 import src.entity.UserFactory;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,6 +42,7 @@ public class UserEntityTest {
         weightGoal.put("loseWeight", Boolean.TRUE);
         weightGoal.put("gainWeight", Boolean.FALSE);
         user.setWeightGoalType(weightGoal);
+        assertEquals(user.getWeightGoalType(), "loseWeight");
 
 
 
@@ -84,7 +86,6 @@ public class UserEntityTest {
         allergies.put("Peanut", Boolean.FALSE);
         allergies.put("Seafood", Boolean.TRUE);
         allergies.put("none", Boolean.TRUE);
-        allergies.put("Wheat", Boolean.FALSE);
         allergies.put("TreeNut", Boolean.FALSE);
         user.setAllergies(allergies);
         HashMap<String, String> condition = new HashMap<>();
@@ -98,6 +99,20 @@ public class UserEntityTest {
 
         user.setConditions(condition);
 
+        ArrayList<String> trackedNutrients = new ArrayList<>();
+        trackedNutrients.add("Protien");
+        trackedNutrients.add("Carbohydrates");
+        trackedNutrients.add("Calories");
+        trackedNutrients.add("Fat");
+        trackedNutrients.add("VitaminC");
+        trackedNutrients.add("VitaminD");
+        trackedNutrients.add("Iron");
+        trackedNutrients.add("Magnesium");
+        trackedNutrients.add("Sugar");
+
+        user.setTrackedNutrients(trackedNutrients);
+
+
 
 
         // Add more assertions for other setters
@@ -107,7 +122,22 @@ public class UserEntityTest {
     public void testGetters() {
         assertEquals(1, user.getUserId());
         assertEquals("Aarya", user.getName());
+        assertEquals(new ArrayList<String>(), user.getTrackedNutrients());
         // Add more assertions for other getters
+    }
+    @Test
+    public void testNullGenderTypes() {
+        User userTestNull = new CommonUserFactory().createdDefaultUser(2, "Aarya");
+        userTestNull.setGender(new HashMap<>());
+        assertEquals(Boolean.valueOf(userTestNull.isFemale()), Boolean.FALSE);
+        assertEquals(Boolean.valueOf(userTestNull.isMale()), Boolean.FALSE);
+    }
+
+    @Test
+    public void testNullWeightGoalTypes () {
+        User userWeightTypeNull = new CommonUserFactory().createdDefaultUser(3, "RA");
+        userWeightTypeNull.setGender(new HashMap<>());
+        assertEquals(userWeightTypeNull.getWeightGoalType(), "WeightGoalType not established");
     }
 
     @Test
