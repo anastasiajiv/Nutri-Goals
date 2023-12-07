@@ -28,6 +28,9 @@ public class InMemoryUserDataAccessObject_Test implements
     private final HashMap<Integer, User> accounts  = new HashMap<>();
 
 
+    public InMemoryUserDataAccessObject_Test() {}
+
+
     @Override
     public boolean existByName(String username) {
         for (Integer key: accounts.keySet()) {
