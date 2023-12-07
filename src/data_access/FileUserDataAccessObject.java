@@ -213,7 +213,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     @Override
-    public Boolean existByUserID ( int userID){
+    public Boolean existByUserID (int userID){
         return accounts.containsKey(userID);
     }
 
@@ -854,6 +854,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                     HashMap<String, Boolean> dietary = convertToDict(col[10]);
                     HashMap<String, Boolean> allergies = convertToDict(col[11]);
                     HashMap<String, String> conditions = convertToDict1(col[12]);
+
+
 
                     UserFactory userFactory = new CommonUserFactory();
                     User user = userFactory.createdDefaultUser(userId, username);
