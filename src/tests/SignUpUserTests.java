@@ -14,6 +14,9 @@ import src.use_case.signup.SignupInteractor;
 import src.use_case.signup.SignupOutputBoundary;
 import src.use_case.signup.SignupOutputData;
 import src.use_case.weightgoal.WeightGoalInputData;
+import src.use_case.weightgoal.WeightGoalInteractor;
+import src.use_case.weightgoal.WeightGoalOutputBoundry;
+import src.use_case.weightgoal.WeightGoalOutputData;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -115,8 +118,58 @@ public class SignUpUserTests {
     @Test
     void weightGoalTests () {
 
+        HashMap<String, Boolean> gender = new HashMap<>();
+        gender.put("male", Boolean.TRUE);
+        gender.put("male", Boolean.FALSE);
 
-        //WeightGoalInputData weightGoalInputData = new WeightGoalInputData()
+        double height = 175.5;
+        double weight = 65.5;
+        int age = 19;
+        int exerciseLvl = 3;
+        String paceType = "normal";
+
+        HashMap<String, Boolean> weightGoal = new HashMap<>();
+        weightGoal.put("maintainWeight", Boolean.FALSE);
+        weightGoal.put("loseWeight", Boolean.TRUE);
+        weightGoal.put("gainWeight", Boolean.FALSE);
+
+        WeightGoalInputData weightGoalInputData = new WeightGoalInputData(13,
+                gender,
+                height,
+                weight,
+                age,
+                exerciseLvl,
+                paceType,
+                weightGoal);
+
+        WeightGoalOutputBoundry successPresenter = new WeightGoalOutputBoundry() {
+            @Override
+            public void prepareSuccessView(WeightGoalOutputData weightGoal) {
+                int userId = 13;
+                HashMap<String, Boolean> gender = new HashMap<>();
+                gender.put("male", Boolean.TRUE);
+                gender.put("female", Boolean.FALSE);
+                double height = 175.5;
+                double weight = 65.5;
+                int age = 19;
+                int exerciseLvl = 3;
+                String paceType = "normal";
+
+                HashMap<String, Boolean> weightGoaltest = new HashMap<>();
+                weightGoaltest.put("maintainWeight", Boolean.FALSE);
+                weightGoaltest.put("loseWeight", Boolean.TRUE);
+                weightGoaltest.put("gainWeight", Boolean.FALSE);
+
+                weightGoal.getUserID();
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                fail("Use case failure is unexpected.");
+            }
+        };
+        WeightGoalInteractor interactor = new WeightGoalInteractor(userDataAccessObject, successPresenter);
+        interactor.execute(weightGoalInputData);
 
     }
 

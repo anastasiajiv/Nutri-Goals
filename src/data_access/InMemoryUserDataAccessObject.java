@@ -5,6 +5,10 @@ import src.use_case.login.LoginUserDataAccessInterface;
 import src.use_case.signup.SignupUserDataAccessInterface;
 import src.use_case.weightgoal.WeightGoalUserDataInterface;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +17,8 @@ import java.time.LocalDateTime;
 public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface, WeightGoalUserDataInterface {
 
     private Map<Integer, User> users = new HashMap<>();
+
+
 
 
     /**
@@ -87,9 +93,40 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         return Boolean.TRUE;
     }
 
-    public int createUserID(){
-        return 1;
+    @Override
+    public int createUserID() {
+        return 0;
     }
+
+//    public int createUserID(){
+//        int lastUserID = findLastUserID();
+//        int newID = lastUserID + 1;
+//        return newID;
+//    }
+
+//    private int findLastUserID() {
+//        int lastUserID = 0;
+//
+//        File csvFilePath;
+//        try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
+//            File csvFile = new File(csvFilePath);
+//            if (csvFile.exists()) {
+//                reader.readLine();
+//                String line;
+//                while ((line = reader.readLine()) != null) {
+//                    // Assuming the first column contains the user ID
+//                    String[] columns = line.split(",");
+//                    if (columns.length > 0) {
+//                        lastUserID = Math.max(lastUserID, Integer.parseInt(columns[0]));
+//                    }
+//                }
+//            }
+//        } catch (IOException | NumberFormatException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return lastUserID;
+//    }
 
     @Override
     public User getAccountByUserID(int userId) {
