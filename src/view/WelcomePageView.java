@@ -15,12 +15,12 @@ public class WelcomePageView extends JPanel {
         title = new JLabel("NUTRI-GOALS");
         title.setHorizontalAlignment(title.CENTER);
         title.setVerticalAlignment(title.CENTER);
-        title.setFont(new Font("Serif", Font.PLAIN, 100));
+        title.setFont(new Font("Euphemia", Font.PLAIN, 100));
         subtitle = new JLabel("<html>Achieving your nutrient <br> goals has never seemed easier <br> with NUTRI-GOALS' <br> delicious" +
                 "recipes and goal <br> tracking system.<html>");
         subtitle.setHorizontalAlignment(subtitle.CENTER);
         subtitle.setVerticalAlignment(subtitle.CENTER);
-        subtitle.setFont(new Font("Serif", Font.PLAIN, 40));
+        subtitle.setFont(new Font("Cheri", Font.PLAIN, 40));
 
         JPanel buttons = new JPanel();
         createAccount = new JButton("Create Account");
@@ -53,8 +53,9 @@ public class WelcomePageView extends JPanel {
                 }
         );
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setPreferredSize(screenSize);
+        //Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        //Dimension screenSize = new Dimension(400, 300);
+        //this.setPreferredSize(screenSize);
         Color color = new Color(173, 216, 230);
         this.setBackground(color);
         //this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -74,9 +75,9 @@ public class WelcomePageView extends JPanel {
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        title.setBounds(getWidth()/ 2 - title.getWidth() / 2 - 330, getHeight() / 2 - title.getHeight()/ 2 - 200,
+        title.setBounds(getWidth()/ 2 - title.getWidth() / 2 - 290, getHeight() / 2 - title.getHeight()/ 2 - 200,
                 title.getWidth(), title.getHeight());
-        subtitle.setBounds(getWidth()/ 2 - title.getWidth() / 2 - 250,
+        subtitle.setBounds(getWidth()/ 2 - title.getWidth() / 2 - 210,
                 getHeight() / 2 - subtitle.getHeight()/ 2  - 10,
                 subtitle.getWidth(), subtitle.getHeight());
 

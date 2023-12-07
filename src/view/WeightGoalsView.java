@@ -71,10 +71,12 @@ public class WeightGoalsView extends JPanel implements ActionListener, PropertyC
         JPanel radioButtons1 = new JPanel();
         //Add male button for gender selection
         male = new JRadioButton(WeightGoalViewModel.MALE_LABEL);
+        male.setBackground(new Color(173, 216, 230));
         buttonGroup1.add(male);
         radioButtons1.add(male);
         //Add female button for gender selection
         female = new JRadioButton(WeightGoalViewModel.FEMALE_LABEL);
+        female.setBackground(new Color(173, 216, 230));
         buttonGroup1.add(female);
         radioButtons1.add(female);
 
@@ -88,14 +90,17 @@ public class WeightGoalsView extends JPanel implements ActionListener, PropertyC
         //Add buttons to select weight goal
         //Add maintainWeight
         maintainWeight = new JRadioButton(WeightGoalViewModel.MAINTAINWEIGHT_LABEL);
+        maintainWeight.setBackground(new Color(173, 216, 230));
         buttonGroup2.add(maintainWeight);
         radioButtons2.add(maintainWeight);
         //Add loseWeight
         loseWeight = new JRadioButton(WeightGoalViewModel.LOSEWEIGHT_LABEL);
+        loseWeight.setBackground(new Color(173, 216, 230));
         buttonGroup2.add(loseWeight);
         radioButtons2.add(loseWeight);
         //Add gainWeight
         gainWeight = new JRadioButton(WeightGoalViewModel.GAINWEIGHT_LABEL);
+        gainWeight.setBackground(new Color(173, 216, 230));
         buttonGroup2.add(gainWeight);
         radioButtons2.add(gainWeight);
 
@@ -240,15 +245,22 @@ public class WeightGoalsView extends JPanel implements ActionListener, PropertyC
         this.add(title);
         this.add(subtitle1);// Gender selection
         this.add(radioButtons1);
+        radioButtons1.setBackground(color);
         this.add(subtitle2);//Weight goal selection
         this.add(radioButtons2);
+        radioButtons2.setBackground(color);
         this.add(subtitile3); //Activity level
         this.add(dropbox);
+        dropbox.setBackground(color);
         this.add(subtitle4);// Pace Type
         this.add(dropbox2);
+        dropbox2.setBackground(color);
         this.add(heightInfo);
+        heightInfo.setBackground(color);
         this.add(weightInfo);
+        weightInfo.setBackground(color);
         this.add(ageInfo);
+        ageInfo.setBackground(color);
         this.add(confirm);
     }
 

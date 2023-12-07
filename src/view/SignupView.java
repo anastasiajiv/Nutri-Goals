@@ -60,7 +60,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                             signupController.execute(
                                     currentState.getUsername(),
                                     currentState.getPassword(),
-                                    currentState.getPassword()
+                                    currentState.getRepeatPassword()
                             );
                         }
                     }
@@ -139,7 +139,8 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         );
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-
+        Color color = new Color(173, 216, 230);
+        this.setBackground(color);
         this.add(title);
         this.add(usernameInfo);
         this.add(passwordInfo);

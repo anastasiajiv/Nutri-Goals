@@ -41,14 +41,19 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
         LabelTextPanel usernameInfo = new LabelTextPanel(
                 new JLabel("Username"), usernameInputField);
+        usernameInfo.setBackground(new Color(173, 216, 230));
+        usernameInfo.setFont(new Font("Serif", Font.PLAIN, 23));
         LabelTextPanel passwordInfo = new LabelTextPanel(
                 new JLabel("Password"), passwordInputField);
+        passwordInfo.setBackground(new Color(173, 216, 230));
+        passwordInfo.setFont(new Font("Serif", Font.PLAIN, 23));
 
         JPanel buttons = new JPanel();
         logIn = new JButton(loginViewModel.LOGIN_BUTTON_LABEL);
         buttons.add(logIn);
         cancel = new JButton(loginViewModel.CANCEL_BUTTON_LABEL);
         buttons.add(cancel);
+        buttons.setBackground(new Color(173, 216, 230));
 
         logIn.addActionListener(            // This creates an anonymous subclass of ActionListener and instantiates it.
                 new ActionListener() {
@@ -64,8 +69,8 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                     }
                 }
         );
-
-        cancel.addActionListener(this);
+        //dont forget to implement this
+        //cancel.addActionListener(this);
 
         usernameInputField.addKeyListener(new KeyListener() {
             @Override
@@ -105,6 +110,8 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        Color color = new Color(173, 216, 230);
+        this.setBackground(color);
         this.add(title);
         this.add(usernameInfo);
         this.add(usernameErrorField);
