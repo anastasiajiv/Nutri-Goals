@@ -1,128 +1,144 @@
-package src.tests;
-
-import org.junit.jupiter.api.BeforeEach;
-import src.data_access.FileUserDataAccessObject;
-import src.data_access.InMemoryTrackedNutrientsDataAccessObject;
-import src.entity.User;
-import src.entity.CommonUserFactory;
-import src.entity.UserFactory;
-import org.junit.jupiter.api.Test;
-import src.use_case.trackedNutrients.*;
-
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-public class TrackedNutrientsInteractorTest {
-    // TrackedNutrients use case takes an ArrayList<String> of nutrients the user would like to track
-    // sets the user's trackedNutrients attribute to the given array list
-
-    private FileUserDataAccessObject fileUserDAO;
-    private final String csvFilePath = "./test_signUpUsers.csv";
-    private final String csvMealPlanFilePath = "./test_mealplan.csv";  // might be wrong name
-
-    private final UserFactory userFactory = new CommonUserFactory();
-
-    @BeforeEach
-    void setUp() {
-        // create a new fileUserDAO
-        this.fileUserDAO = new FileUserDataAccessObject(this.csvFilePath, this.csvMealPlanFilePath);
-    }
-
-    @Test
-    void saveUserData() {
-        setUp();
-        int userID = 101;
-        String username = "TestUser";
-        String password = "TestPassword";
-        LocalDateTime creationTime = LocalDateTime.now();
-
-        // create a new user; calls builder
-        fileUserDAO.saveUserSignUpData(userID, username, password, creationTime);
-
-        // asserts that the user was successfully saved
-        assertTrue(this.fileUserDAO.existByUserID(userID));
-        assertNotNull(this.fileUserDAO.getAccountByUserID(userID));
-        // calls the success test (integration test) after proper set up)
-        //successTest();
-    }
-
-    @Test
-    void saveUserTrackedNutrientsData_empty() {
-        setUp();
-        int userID = 101;
-        ArrayList<String> trackedNutrients = new ArrayList<>();
-
-        // save the tracked nutrients to the account associated with userID
-        this.fileUserDAO.saveTrackedNutrientsData(trackedNutrients, userID);
-
-        // assert that the user exists
-        assertTrue(this.fileUserDAO.existByUserID(userID));
-
-        // fetch the account and assert its not null
-        User user = this.fileUserDAO.getAccountByUserID(userID);
-        assertNotNull(user);
-
-        // assert that the tracked nutrients is empty
-        assertEquals(0,user.getTrackedNutrients().size());
-    }
-
-    @Test
-    void saveUserTrackedNutrientsData_nonEmpty() {
-        setUp();
-        int userID = 101;
-        ArrayList<String> trackedNutrients = new ArrayList<>();
-        trackedNutrients.add("Calories");
-
-        // save the tracked nutrients to the account associated with userID
-        this.fileUserDAO.saveTrackedNutrientsData(trackedNutrients, userID);
-
-        // assert that the user exists
-        assertTrue(this.fileUserDAO.existByUserID(userID));
-
-        // fetch the account and assert its not null
-        User user = this.fileUserDAO.getAccountByUserID(userID);
-        assertNotNull(user);
-
-        // assert that the tracked nutrients is empty
-        assertEquals(1,user.getTrackedNutrients().size());
-    }
-
-
-    @Test
-    void successTest() throws IOException {
-        TrackedNutrientsUserDataAccessInterface userRepository = new InMemoryTrackedNutrientsDataAccessObject();
-        TrackedNutrientsOutputBoundary successPresenter = new TrackedNutrientsOutputBoundary() {
-            @Override
-            public void prepareSuccessView(TrackedNutrientsOutputData trackedNutrients) {
-                ArrayList<String> tn = new ArrayList<>();
-                tn.add("Protein");
-                tn.add("Carbohydrates");
-                tn.add("Fats");
-                int userID = 101;
-
-                // assertEquals(userID, trackedNutrients.getUserID());
-                assertEquals(tn, userRepository.getUserTrackedNutrientsData(userID));
-            }
-
-            @Override
-            public void prepareFailView(String error) {
-                fail("Use case failure is unexpected.");
-            }
-        };
-
-        ArrayList<String> trackedNutrients = new ArrayList<>();
-        trackedNutrients.add("Protein");
-        trackedNutrients.add("Carbohydrates");
-        trackedNutrients.add("Fats");
-        int userID = 101;
-
-        TrackedNutrientsInputData inputData = new TrackedNutrientsInputData(userID, trackedNutrients);
-        TrackedNutrientsInteractor interactor = new TrackedNutrientsInteractor(userRepository, successPresenter);
-
-        interactor.execute(inputData);
-    }
-}
+//package src.tests;
+//
+//import org.junit.After;
+//import org.junit.Before;
+//import org.junit.Test;
+//import src.app.*;
+//import src.data_access.FileUserDataAccessObject;
+//import src.interface_adapters.ViewManagerModel;
+//import src.interface_adapters.logged_in.LoggedInViewModel;
+//import src.interface_adapters.login.LoginViewModel;
+//import src.interface_adapters.mealPlan.MealPlanViewModel;
+//import src.interface_adapters.preferences.PreferencesViewModel;
+//import src.interface_adapters.signup.SignupController;
+//import src.interface_adapters.signup.SignupViewModel;
+//import src.interface_adapters.trackedNutrients.TrackedNutrientsViewModel;
+//import src.interface_adapters.weightgoal.WeightGoalViewModel;
+//import src.view.*;
+//import src.interface_adapters.ViewManagerModel;
+//import static org.junit.Assert.*;
+//
+//import javax.swing.*;
+//import java.awt.*;
+//import java.io.*;
+//import java.nio.file.Files;
+//import java.time.LocalDateTime;
+//import java.io.IOException;
+//import java.nio.file.Files;
+//import java.nio.file.Path;
+//import java.nio.file.StandardCopyOption;
+//
+//public class SignUpViewTest {
+//    SignupViewModel signupViewModel = new SignupViewModel();
+//    LoginViewModel loginViewModel = new LoginViewModel();
+//    ViewManagerModel viewManagerModel = new ViewManagerModel();
+//    LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
+//    PreferencesViewModel preferencesViewModel = new PreferencesViewModel();
+//    TrackedNutrientsViewModel trackedNutrientsViewModel = new TrackedNutrientsViewModel();
+//    WeightGoalViewModel weightGoalViewModel = new WeightGoalViewModel();
+//    MealPlanViewModel mealPlanViewModel = new MealPlanViewModel();
+//    SignupView signupView;
+//    private final String userDataFilePath = "./help4.csv";
+//    private final String userMealDataFilePath = "mealplan.csv";
+//    private String originalUserData;
+//    private String originalMealPlanData;
+//
+//
+//    @Before
+//    public void setUp() throws IOException{
+//
+//        JFrame application = new JFrame("Login Example");
+//
+//        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//
+//        int width = (int) (screenSize.width * 0.9);
+//        int height = (int) (screenSize.height * 0.9);
+//        Dimension screenSize1 = new Dimension(width, height);
+//        application.setPreferredSize(screenSize1);
+//        application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//
+//        CardLayout cardLayout = new CardLayout();
+//
+//
+//        // The various View objects. Only one view is visible at a time.
+//        JPanel views = new JPanel(cardLayout);
+//        application.add(views);
+//
+//        // This keeps track of and manages which view is currently showing.
+//
+//
+//        new ViewManager(views, cardLayout, viewManagerModel);
+//
+//        FileUserDataAccessObject userDataAccessObject;
+//
+//        userDataAccessObject = new FileUserDataAccessObject(userDataFilePath, userMealDataFilePath);
+//
+//
+//        signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel,
+//                userDataAccessObject, cardLayout, views);
+//        views.add(signupView, signupView.viewName);
+//
+//        /*LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel,
+//                preferencesViewModel, weightGoalViewModel, trackedNutrientsViewModel, mealPlanViewModel, userDataAccessObject);
+//
+//        views.add(loginView, loginView.viewName);
+//
+//        LoggedInView loggedInView = new LoggedInView(loggedInViewModel, cardLayout, views);
+//        views.add(loggedInView, loggedInView.viewName);
+//
+//        PreferencesView preferencesView = PreferencesUseCaseFactory.create(viewManagerModel, preferencesViewModel,
+//                loggedInViewModel, userDataAccessObject);
+//        views.add(preferencesView, preferencesView.viewName);
+//
+//        TrackedNutrientsView trackedNutrientsView = TrackedNutrientsUseCaseFactory.create(viewManagerModel,
+//                trackedNutrientsViewModel, loggedInViewModel, userDataAccessObject);
+//        views.add(trackedNutrientsView, trackedNutrientsView.viewName);
+//
+//        views.add(loginView, loginView.viewName);*/
+//
+//
+//        viewManagerModel.setActiveView(signupView.viewName);
+//        viewManagerModel.firePropertyChanged();
+//
+//
+//        application.pack();
+//        application.setVisible(true);
+//
+//
+//    }
+//    @Test
+//    public void testSignUpSuccess() {
+//
+//        signupViewModel.getState().setUsername("UserTesting4");
+//        signupViewModel.getState().setPassword("PasswordTesting");
+//        signupViewModel.getState().setRepeatPassword("PasswordTesting");
+//        signupView.signUp.doClick();
+//        assertEquals("UserTesting4", signupViewModel.getState().getUsername());
+//        assertEquals("PasswordTesting", signupViewModel.getState().getPassword());
+//        assertEquals("PasswordTesting", signupViewModel.getState().getRepeatPassword());
+//        assertEquals("log in", viewManagerModel.getActiveView());
+//        assertEquals("UserTesting4", loginViewModel.getState().getUsername());
+//    }
+//
+//    /*@After
+//    public void restoreOriginal() throws IOException{
+//        String line = "";
+//        int lineNumber = 0;
+//        try (BufferedReader br = new BufferedReader(new FileReader(userDataFilePath))){
+//            FileWriter writer = new FileWriter(userDataFilePath);
+//            while ((line = br.readLine()) != null){
+//                if (lineNumber == 0){
+//                    writer.write(line+ "\n");
+//                } else {
+//                    writer.write("");
+//                    writer.close();
+//                }
+//                lineNumber++;
+//            }
+//
+//        } catch (IOException e){
+//            e.printStackTrace();
+//        }
+//    }*/
+//
+//}

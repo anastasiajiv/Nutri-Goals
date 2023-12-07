@@ -20,7 +20,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
     public final SignupViewModel signupViewModel;
 
-    private final JButton signUp;
+    public final JButton signUp;
 
     private final JButton cancel;
 

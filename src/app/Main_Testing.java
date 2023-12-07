@@ -1,12 +1,12 @@
 package src.app;
-import src.interface_adapters.mealplan.MealPlanViewModel;
+import src.interface_adapters.mealPlan.MealPlanViewModel;
 import src.interface_adapters.preferences.PreferencesViewModel;
 import src.interface_adapters.trackedNutrients.TrackedNutrientsViewModel;
 import src.interface_adapters.weightgoal.WeightGoalViewModel;
 import src.view.*;
 
 import src.data_access.FileUserDataAccessObject;
-import src.data_access.InMemoryUserDataAccessObject;
+//import src.data_access.InMemoryUserDataAccessObject;
 import src.entity.CommonUserFactory;
 import src.interface_adapters.login.LoginViewModel;
 import src.interface_adapters.logged_in.LoggedInViewModel;

@@ -14,8 +14,8 @@ import java.util.Map;
 
 import src.entity.User;
 import src.interface_adapters.logged_in.LoggedInViewModel;
-import src.interface_adapters.mealplan.MealPlanPresenter;
-import src.interface_adapters.mealplan.MealPlanViewModel;
+import src.interface_adapters.mealPlan.MealPlanPresenter;
+import src.interface_adapters.mealPlan.MealPlanViewModel;
 
 import src.use_case.mealPlan.*;
 

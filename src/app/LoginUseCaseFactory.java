@@ -7,7 +7,7 @@ import src.interface_adapters.logged_in.LoggedInViewModel;
 import src.interface_adapters.login.LoginController;
 import src.interface_adapters.login.LoginPresenter;
 import src.interface_adapters.login.LoginViewModel;
-import src.interface_adapters.mealplan.MealPlanViewModel;
+import src.interface_adapters.mealPlan.MealPlanViewModel;
 import src.interface_adapters.preferences.PreferencesViewModel;
 import src.interface_adapters.trackedNutrients.TrackedNutrientsViewModel;
 import src.interface_adapters.weightgoal.WeightGoalViewModel;

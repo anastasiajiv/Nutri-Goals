@@ -1,9 +1,10 @@
-package src.interface_adapters.mealplan;
+package src.interface_adapters.mealPlan;
 
 import src.use_case.mealPlan.ViewManagerModel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+
 
 public class MealPlanViewModel extends ViewManagerModel {
 

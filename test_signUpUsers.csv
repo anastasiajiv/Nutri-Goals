@@ -1,5 +1,5 @@
 userId,username,password,creationTime,male,female,height,weight,age,exerciseLvl,dietaryRestriction1,allergiesRestriction1,conditionsRestrictions1,maintainWeight,loseWeight,gainWeight,weightPaceType,requiredCalories,trackedNutrients
-3,TestUser,TestPassword,2023-12-07T00:11:53.044959,false,false,0.0,0.0,0,0,{},{},{},false,false,false,,0.0,[]
+3,TestUser,TestPassword,2023-12-07T00:11:53.044959,true,false,175.5,65.5,19,3,Pescatarian=false Vegetarian=true none1=false Vegan=false,Peanut=true Egg=false Seafood=false none=false Nut=true Soy=false Wheat=false,C=average Calcium=high D=low Iron=average Magnesium=low Potassium=average Sugar=low,false,true,false,normal,2225.90625,[]
 4,TestUser,TestPassword,2023-12-07T00:42:46.317442,false,false,0.0,0.0,0,0,Pescatarian=false Vegetarian=true none1=false Vegan=false,Peanut=true Egg=false Seafood=false Tree Nut=true none=false Soy=false Wheat=false,Calcium=high Vitamin D=low Vitamin C=average Iron=average Magnesium=low Potassium=average Sugar=low,false,false,false,,0.0,[]
 5,TestUser,TestPassword,2023-12-07T00:42:57.771058,false,false,0.0,0.0,0,0,{},{},{},false,false,false,,0.0,[]
 6,TestUser,TestPassword,2023-12-07T00:43:24.882136,false,false,0.0,0.0,0,0,{},{},{},false,false,false,,0.0,[]

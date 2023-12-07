@@ -1,4 +1,4 @@
-package src.interface_adapters.mealplan;
+package src.interface_adapters.mealPlan;
 
 import src.interface_adapters.logged_in.LoggedInViewModel;
 import src.use_case.mealPlan.MealPlanOutputBoundary;

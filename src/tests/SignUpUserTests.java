@@ -17,12 +17,17 @@ import src.use_case.signup.SignupInputData;
 import src.use_case.signup.SignupInteractor;
 import src.use_case.signup.SignupOutputBoundary;
 import src.use_case.signup.SignupOutputData;
+import src.use_case.trackedNutrients.TrackedNutrientsInputData;
+import src.use_case.trackedNutrients.TrackedNutrientsInteractor;
+import src.use_case.trackedNutrients.TrackedNutrientsOutputBoundary;
+import src.use_case.trackedNutrients.TrackedNutrientsOutputData;
 import src.use_case.weightgoal.WeightGoalInputData;
 import src.use_case.weightgoal.WeightGoalInteractor;
 import src.use_case.weightgoal.WeightGoalOutputBoundry;
 import src.use_case.weightgoal.WeightGoalOutputData;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +36,7 @@ public class SignUpUserTests {
 
     //private FileUserDataAccessObject userDataAccessObject;
 
-    private final String testCsvFilePath = "./test_signUpUsers.csv";
+    private final String testCsvFilePath = "./test_users.csv";
 
     private final String testMealPlanFilePath = "./meal_plan.csv";
 
@@ -47,7 +52,7 @@ public class SignUpUserTests {
     @Test
     void saveUserSignUpData_saveUserAndCsv() {
         // Arrange
-        int userID = 3;
+        int userID = 1;
         String username = "TestUser";
         String password = "TestPassword";
         LocalDateTime creationTime = LocalDateTime.now();
@@ -129,7 +134,7 @@ public class SignUpUserTests {
         double height = 175.5;
         double weight = 65.5;
         int age = 19;
-        int exerciseLvl = 3;
+        int exerciseLvl = 1;
         String paceType = "normal";
 
         HashMap<String, Boolean> weightGoal = new HashMap<>();
@@ -137,7 +142,7 @@ public class SignUpUserTests {
         weightGoal.put("loseWeight", Boolean.TRUE);
         weightGoal.put("gainWeight", Boolean.FALSE);
 
-        WeightGoalInputData weightGoalInputData = new WeightGoalInputData(13,
+        WeightGoalInputData weightGoalInputData = new WeightGoalInputData(1,
                 gender,
                 height,
                 weight,
@@ -149,14 +154,14 @@ public class SignUpUserTests {
         WeightGoalOutputBoundry successPresenter = new WeightGoalOutputBoundry() {
             @Override
             public void prepareSuccessView(WeightGoalOutputData weightGoal) {
-                int userId = 13;
+                int userId = 1;
                 HashMap<String, Boolean> gender = new HashMap<>();
                 gender.put("male", Boolean.TRUE);
                 gender.put("female", Boolean.FALSE);
                 double height = 175.5;
                 double weight = 65.5;
                 int age = 19;
-                int exerciseLvl = 3;
+                int exerciseLvl = 1;
                 String paceType = "normal";
 
                 HashMap<String, Boolean> weightGoaltest = new HashMap<>();
@@ -180,9 +185,9 @@ public class SignUpUserTests {
 
     @Test
     void computeCals () {
-        User currUser = userDataAccessObject.getAccountByUserID(13);
+        User currUser = userDataAccessObject.getAccountByUserID(1);
         System.out.println(currUser.getGender());
-        System.out.println(userDataAccessObject.computedRequiredCalories(13));
+        System.out.println(userDataAccessObject.computedRequiredCalories(1));
     }
 
 
@@ -215,7 +220,7 @@ public class SignUpUserTests {
         conditionsTest.put("Magnesium", "low");
         conditionsTest.put("Sugar", "low");
 
-        PreferencesInputData preferencesInputData = new PreferencesInputData(12,
+        PreferencesInputData preferencesInputData = new PreferencesInputData(1,
                 dietaryTest,
                 conditionsTest,
                 allergiesTest);
@@ -223,7 +228,7 @@ public class SignUpUserTests {
         PreferencesOutputBoundary successPresenter = new PreferencesOutputBoundary() {
             @Override
             public void prepareSuccessView(PreferencesOutputData user) {
-                int userId = 12;
+                int userId = 1;
 
                 user.getID();
             }
@@ -235,6 +240,31 @@ public class SignUpUserTests {
         };
         PreferencesInteractor interactor = new PreferencesInteractor(userDataAccessObject, successPresenter);
         interactor.execute(preferencesInputData);
+    }
+
+    @Test
+    void TrackedNutrientsTest() {
+        ArrayList<String> tn = new ArrayList<>();
+        tn.add("Protein");
+        tn.add("Carbohydrates");
+        tn.add("Fats");
+
+        TrackedNutrientsInputData trackedNutrientsInputData = new TrackedNutrientsInputData(1, tn);
+
+        TrackedNutrientsOutputBoundary successPresenter = new TrackedNutrientsOutputBoundary() {
+            @Override
+            public void prepareSuccessView(TrackedNutrientsOutputData trackedNutrients) {
+
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                fail("Use case failure is unexpected.");
+            }
+        };
+
+        TrackedNutrientsInteractor interactor = new TrackedNutrientsInteractor(userDataAccessObject, successPresenter);
+        interactor.execute(trackedNutrientsInputData);
     }
 
 }

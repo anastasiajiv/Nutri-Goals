@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class InMemoryTrackedNutrientsDataAccessObject implements TrackedNutrientsUserDataAccessInterface {
 
-    HashMap<Integer, User> users = new HashMap<>();
+   public HashMap<Integer, User> users = new HashMap<>();
 
     @Override
     public Boolean saveTrackedNutrientsData(ArrayList<String> trackedNutrients, int userID) {
