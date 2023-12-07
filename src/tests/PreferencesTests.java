@@ -7,6 +7,7 @@ import src.entity.CommonUserFactory;
 import src.entity.UserFactory;
 import java.util.HashMap;
 import src.entity.User;
+import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 public class PreferencesTests {
     private FileUserDataAccessObject userDataAccessObject;
@@ -19,6 +20,20 @@ public class PreferencesTests {
     @BeforeEach
     void setUp() {
         this.userDataAccessObject = new FileUserDataAccessObject(testCsvFilePath, testMealPlanFilePath, userFactory);
+    }
+
+    @Test
+    void SaveUserData_saveUserAndCsv(){
+        int userID = 4;
+        String username = "TestingUserName";
+        String password = "TestingPassword";
+        LocalDateTime creationTime = LocalDateTime.now();
+
+        userDataAccessObject.saveUserSignUpData(userID, username, password, creationTime);
+
+        assertTrue(userDataAccessObject.existByUserID(userID));
+        assertTrue(userDataAccessObject.existByName(username));
+        assertNotNull(userDataAccessObject.getAccountByUserID(userID));
     }
 
     @Test
@@ -57,11 +72,11 @@ public class PreferencesTests {
         assertNotNull(userDataAccessObject.getAccountByUserID(userID));
         // testing that the right preferences is set in terms of dietary
         User testUser = userDataAccessObject.getAccountByUserID(userID);
-        assert(testUser.getDietary().equals(dietaryTest));
+        assertEquals(testUser.getDietary(), dietaryTest);
         // testing that the right preference is set in terms of allergies
-        assert(testUser.getAllergies().equals(allergiesTest));
+        assertEquals(testUser.getAllergies(), allergiesTest);
         // testing that the right preference is set in terms of conditions
-        assert(testUser.getConditions().equals(conditionsTest));
+        assertEquals(testUser.getConditions(), conditionsTest);
 
     }
 }
