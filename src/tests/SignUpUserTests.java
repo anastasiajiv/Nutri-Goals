@@ -120,7 +120,7 @@ public class SignUpUserTests {
 
         HashMap<String, Boolean> gender = new HashMap<>();
         gender.put("male", Boolean.TRUE);
-        gender.put("male", Boolean.FALSE);
+        gender.put("female", Boolean.FALSE);
 
         double height = 175.5;
         double weight = 65.5;
@@ -174,7 +174,11 @@ public class SignUpUserTests {
     }
 
 
-
-
+    @Test
+    void computeCals () {
+        User currUser = userDataAccessObject.getAccountByUserID(13);
+        System.out.println(currUser.getGender());
+        System.out.println(userDataAccessObject.computedRequiredCalories(13));
+    }
 
 }
