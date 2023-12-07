@@ -25,8 +25,8 @@ public class SignupInteractor implements SignupInputBoundary{
     public void execute(SignupInputData signupInputData) {
         int createdUserID = userDataAccessObject.createUserID();
         LocalDateTime creationTime = LocalDateTime.now();
-        //if (userDataAccessObject.existByUserID(createdUserID)) { // TODO: implement createUserID methods in file userDAO and then change this method call
-        if (userDataAccessObject.existByName(signupInputData.getUsername())) {
+        if (userDataAccessObject.existByUserID(createdUserID)) { // TODO: implement createUserID methods in file userDAO and then change this method call
+        //if (userDataAccessObject.existByName(signupInputData.getUsername())) {
             // check in case user already exists in accounts map.
             userPresenter.prepareFailView("This user already exits");// should be impossible
         }else if (!signupInputData.getPassword().equals(signupInputData.getRepeatPassword())) {

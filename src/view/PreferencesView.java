@@ -60,7 +60,7 @@ public class PreferencesView extends JPanel implements ActionListener, PropertyC
     private final JComboBox<String> magnesium;
     private final JComboBox<String> sugar;
 
-    private final JButton confirm;
+    public final JButton confirm;
 
     public PreferencesView(PreferencesController controller, PreferencesViewModel preferencesViewModel) {
         this.preferencesController = controller;

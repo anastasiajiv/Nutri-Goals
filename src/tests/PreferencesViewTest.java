@@ -55,7 +55,7 @@ public class PreferencesViewTest {
         LoggedInView loggedInView = new LoggedInView(loggedInViewModel, cardLayout, views);
         views.add(loggedInView, loggedInView.viewName);
 
-        PreferencesView preferencesView = PreferencesUseCaseFactory.create(viewManagerModel, preferencesViewModel,
+        preferencesView = PreferencesUseCaseFactory.create(viewManagerModel, preferencesViewModel,
                 loggedInViewModel, userDataAccessObject);
         views.add(preferencesView, preferencesView.viewName);
 
@@ -72,7 +72,7 @@ public class PreferencesViewTest {
     @Test
     public void testSignUpSuccess() {
 
-        preferencesViewModel.getState().setUserID(4);
+        preferencesViewModel.getState().setUserID(3);
         HashMap<String, Boolean> testDietaryInput = new HashMap<>();
         testDietaryInput.put("Vegan", Boolean.FALSE);
         testDietaryInput.put("Vegetarian", Boolean.TRUE);
@@ -96,15 +96,16 @@ public class PreferencesViewTest {
         testConditionsInput.put("Iron", "average");
         testConditionsInput.put("Magnesium", "low");
         testConditionsInput.put("Sugar", "low");
+
         preferencesViewModel.getState().setDietaryMap(testDietaryInput);
         preferencesViewModel.getState().setAllergiesMap(testAllergiesInput);
         preferencesViewModel.getState().setConditionsMap(testConditionsInput);
 
-        assertEquals(4, preferencesViewModel.getState().getUserID());
+        // test that the preferences are being set correctly and userID
+        assertEquals(3, preferencesViewModel.getState().getUserID());
         assertEquals(testDietaryInput, preferencesViewModel.getState().getDietaryMap());
         assertEquals(testAllergiesInput, preferencesViewModel.getState().getAllergiesMap());
         assertEquals(testConditionsInput, preferencesViewModel.getState().getConditionsMap());
-        //assertEquals("log in", viewManagerModel.getActiveView());
     }
 
 }
