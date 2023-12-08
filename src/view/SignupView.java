@@ -15,11 +15,12 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
     private final CardLayout cardLayout;
     private final JPanel views;
+
     public final String viewName = "sign up";
 
     public final SignupViewModel signupViewModel;
 
-    private final JButton signUp;
+    public final JButton signUp;
 
     private final JButton cancel;
 

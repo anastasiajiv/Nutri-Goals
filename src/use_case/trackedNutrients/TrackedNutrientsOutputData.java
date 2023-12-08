@@ -8,8 +8,8 @@ public class TrackedNutrientsOutputData {
         this.userID = userID;
     }
 
-    public int getUserID() {
-        return this.userID;
-    }
+//    public int getUserID() {
+//        return this.userID;
+//    }
 
 }

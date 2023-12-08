@@ -143,7 +143,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
         // This save method saves the input data to the accounts map and then calls Builder to save the updated user
         // information into the csv file
-
+        loadUserDataFromCsv(); // ensure accounts map is updated
         //First get the current userId
         User curr_user = getAccountByUserID(userID); //change to update from setter
         curr_user.setGender(gender);
@@ -212,6 +212,15 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         return accounts.containsKey(userID);
     }
 
+
+    public Boolean existByUserIDMealPlan(int userID){return mealplanaccounts.containsKey(userID);}
+
+    public MealPlan mealplanuserid(int userID){return mealplanaccounts.get(userID); }
+
+
+
+
+
     public double getBMR ( int userID){
         // Men: BMR = 88.63 + (13.397 * weight in kg) + (4.799 * height in cm) - (5.677 * age in years)
         // Miffin - St Jeor Equation -> BMR = 10 * weight + 6.25 * height - 5 * age + 5
@@ -257,8 +266,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
     @Override
     public Boolean savePreferences(int userID, HashMap<String, Boolean> dietary,
-                                   HashMap<String, Boolean> allergies,
-                                   HashMap<String, String> conditions){
+
+                               HashMap<String, Boolean> allergies,
+                               HashMap<String, String> conditions){
+        loadUserDataFromCsv();
+
         User current_user = getAccountByUserID(userID);
         current_user.setDietary(dietary);
         current_user.setAllergies(allergies);
@@ -295,6 +307,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
     @Override
     public Boolean saveTrackedNutrientsData(ArrayList<String> trackedNutrients, int userID) {
+        loadUserDataFromCsv();
         User currentUser = getAccountByUserID(userID);
         currentUser.setTrackedNutrients(trackedNutrients);
         accounts.put(userID, currentUser);
@@ -818,6 +831,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                     HashMap<String, Boolean> dietary = convertToDict(col[10]);
                     HashMap<String, Boolean> allergies = convertToDict(col[11]);
                     HashMap<String, String> conditions = convertToDict1(col[12]);
+
                     HashMap<String, Boolean> weightGoals = new HashMap<>();
                     boolean maintainTypeValue = Boolean.parseBoolean(col[13]);
                     boolean loseTypeValue = Boolean.parseBoolean(col[14]);
@@ -828,6 +842,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                     String paceType = col[16];
                     double requiredCalories = Double.parseDouble(col[17]);
                     ArrayList<String> trackedNutrients = convertToArrayList(col[18]);
+
 
                     UserFactory userFactory = new CommonUserFactory();
                     User user = userFactory.createdDefaultUser(userId, username);

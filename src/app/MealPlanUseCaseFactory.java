@@ -8,6 +8,11 @@ import src.interface_adapters.mealPlan.MealPlanViewModel;
 import src.interface_adapters.weightgoal.WeightGoalController;
 import src.interface_adapters.weightgoal.WeightGoalPresenter;
 import src.interface_adapters.weightgoal.WeightGoalViewModel;
+
+import src.use_case.mealPlan.MealPlanDataAccessInterface;
+import src.use_case.mealPlan.MealPlanInputBoundary;
+import src.use_case.mealPlan.MealPlanInteractor;
+import src.use_case.mealPlan.MealPlanOutputBoundary;
 import src.use_case.mealPlan.MealPlanDataAccessInterface;
 import src.use_case.mealPlan.MealPlanInputBoundary;
 import src.use_case.mealPlan.MealPlanInteractor;
@@ -49,7 +54,7 @@ public class MealPlanUseCaseFactory {
     private static MealPlanController createMealPlanUseCase(ViewManagerModel viewManagerModel, LoggedInViewModel
             loggedInViewModel, MealPlanViewModel mealPlanViewModel, MealPlanDataAccessInterface mealPlanDataAccessInterface)
         throws IOException{
-        MealPlanOutputBoundary  mealPlanOutputBoundary = new MealPlanPresenter(mealPlanViewModel,viewManagerModel, loggedInViewModel);
+        MealPlanOutputBoundary mealPlanOutputBoundary = new MealPlanPresenter(mealPlanViewModel,viewManagerModel, loggedInViewModel);
 
         MealPlanInputBoundary mealplaninteractor = new MealPlanInteractor(mealPlanDataAccessInterface, mealPlanOutputBoundary);
 

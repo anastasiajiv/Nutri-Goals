@@ -5,6 +5,7 @@ import src.use_case.mealPlan.ViewManagerModel;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+
 public class MealPlanViewModel extends ViewManagerModel {
 
     public final String MEALPLAN_BUTTON_LABEL = "Get Meal Plan";

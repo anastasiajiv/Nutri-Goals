@@ -96,15 +96,6 @@ public class CommonUser implements User {
         return this.gender;
     }
 
-    // retrieves the user's gender type
-    public String getGenderType() {
-        for (Map.Entry<String, Boolean> entry: gender.entrySet()) {
-            if (entry.getValue() == Boolean.TRUE) {
-                return entry.getKey();
-            }
-        }
-        return "User did not input Gender";
-    }
 
     // returns true if the user identified that they are male
     public String isMale() {
@@ -292,6 +283,7 @@ public class CommonUser implements User {
     }
 
 
+
     public Double getVitaminCValue(){
         String value = getConditions().get("VitaminC");
         double daily_value;
@@ -427,7 +419,6 @@ public class CommonUser implements User {
 
     }
 
-
     //sugar is measured in grams not mg
     public Double getSugarValue(){
         String value = getConditions().get("Sugar");
@@ -459,7 +450,7 @@ public class CommonUser implements User {
     @Override
     public String getWeightGoalType() {
         for (Map.Entry<String, Boolean> entry: weightGoalType.entrySet()) {
-            if (entry.getValue() == Boolean.TRUE){
+            if (entry.getValue() == Boolean.TRUE) {
                 return entry.getKey();
             }
         }

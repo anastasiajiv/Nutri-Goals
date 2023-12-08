@@ -16,7 +16,7 @@ public class WelcomePageView extends JPanel {
         title.setHorizontalAlignment(title.CENTER);
         title.setVerticalAlignment(title.CENTER);
         title.setFont(new Font("Euphemia", Font.PLAIN, 100));
-        subtitle = new JLabel("<html>Achieving your nutrient <br> goals has never seemed easier <br> with NUTRI-GOALS' <br> delicious" +
+        subtitle = new JLabel("<html>Achieving your nutrient <br> goals has never seemed easier <br> with NUTRI-GOALS' <br> delicious " +
                 "recipes and goal <br> tracking system.<html>");
         subtitle.setHorizontalAlignment(subtitle.CENTER);
         subtitle.setVerticalAlignment(subtitle.CENTER);

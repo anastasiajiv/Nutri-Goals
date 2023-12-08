@@ -3,6 +3,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import src.data_access.FileUserDataAccessObject;
 import src.entity.CommonUserFactory;
+import src.entity.User;
 import src.entity.UserFactory;
 
 import java.time.LocalDateTime;
@@ -19,17 +20,21 @@ public class WeightGoalTests { // TODO : Create a mock database to hold the acco
 
     private final String testMealPlanFilePath = "./meal_plan.csv";
 
-    private final UserFactory userFactory = new CommonUserFactory();
+
+
+    private HashMap<Integer, User> accounts = new HashMap<>();
 
     @BeforeEach
     void setUp() {
+
         this.userDataAccessObject = new FileUserDataAccessObject(testCsvFilePath, testMealPlanFilePath);
+
     }
 
     @Test
     void saveUserSignUpData_saveUserAndCsv() {
         // Arrange
-        int userID = 1;
+        int userID = 3;
         String username = "TestUser";
         String password = "TestPassword";
         LocalDateTime creationTime = LocalDateTime.now();
@@ -46,8 +51,42 @@ public class WeightGoalTests { // TODO : Create a mock database to hold the acco
     @Test
     void saveWeightGoalData_saveUserAndCsv() {
 
-        int userID = 1;
+        int userId = 3;
         HashMap<String, Boolean> gender = new HashMap<>();
+        double height = 180.0;
+        double weight = 90.0;
+        int age = 19;
+        int exerciseLvl = 2;
+        String paceType = "normal";
+        HashMap<String, Boolean> weightGoal = new HashMap<>();
+        weightGoal.put("maintainWeight", Boolean.FALSE);
+        weightGoal.put("loseWeight", Boolean.TRUE);
+        weightGoal.put("gainWeight", Boolean.FALSE);
+
+
+
+        userDataAccessObject.saveWeightGoalData(userId,
+                gender,
+                height,
+                weight,
+                age,
+                exerciseLvl,
+                paceType,
+                weightGoal);
+
+        // Assert statemnets
+        assertTrue(userDataAccessObject.existByUserID(userId));
+        assertNotNull(userDataAccessObject.getAccountByUserID(userId));
+        User account = userDataAccessObject.getAccountByUserID(userId);
+        //assertEquals(100, userDataAccessObject.getAccountByUserID(userId).getRequiredCalories());
+
+    }
+    @Test
+    void testComputeCalories() {
+        int userId = 2;
+        HashMap<String, Boolean> gender = new HashMap<>();
+        gender.put("male", Boolean.TRUE);
+        gender.put("female", Boolean.FALSE);
         double height = 170.0;
         double weight = 70.0;
         int age = 25;
@@ -58,12 +97,15 @@ public class WeightGoalTests { // TODO : Create a mock database to hold the acco
         weightGoal.put("loseWeight", Boolean.TRUE);
         weightGoal.put("gainWeight", Boolean.FALSE);
 
+        User testCals = new CommonUserFactory().createdDefaultUser(userId, "testCals");
+        testCals.setGender(gender);
+        testCals.setUserHeight(height);
+        testCals.setUserWeight(weight);
+        testCals.setUserAge(age);
+        testCals.setUserExerciseLvl(exerciseLvl);
+        testCals.setPaceType(paceType);
+        testCals.setWeightGoalType(weightGoal);
 
-        userDataAccessObject.saveWeightGoalData(userID, gender, height, weight, age, exerciseLvl, paceType, weightGoal);
-
-        // Assert statements
-        assertTrue(userDataAccessObject.existByUserID(userID));
-        assertNotNull(userDataAccessObject.getAccountByUserID(userID));
 
     }
 

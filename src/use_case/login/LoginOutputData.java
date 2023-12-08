@@ -16,7 +16,7 @@ public class LoginOutputData {
         this.useCaseFailed = useCaseFailed;
     }
 
-    public int getUserID(){return userID;}
+    public int getUserID() {return userID;}
 
     public String getUsername() {
         return username;

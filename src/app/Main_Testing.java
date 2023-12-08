@@ -6,7 +6,7 @@ import src.interface_adapters.weightgoal.WeightGoalViewModel;
 import src.view.*;
 
 import src.data_access.FileUserDataAccessObject;
-import src.data_access.InMemoryUserDataAccessObject;
+//import src.data_access.InMemoryUserDataAccessObject;
 import src.entity.CommonUserFactory;
 import src.interface_adapters.login.LoginViewModel;
 import src.interface_adapters.logged_in.LoggedInViewModel;
@@ -23,7 +23,7 @@ import java.io.IOException;
 
 public class Main_Testing {
     public static void main(String[] args){
-        JFrame application = new JFrame("Login Example");
+        JFrame application = new JFrame("Nutri-Goals");
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
